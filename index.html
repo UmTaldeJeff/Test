@@ -451,14 +451,18 @@
 
           <!-- Medidores Circulares & Gráficos -->
           <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-slate-400 uppercase block">Arcos, Medidores Cyberpunk & Gráficos:</span>
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">Arcos, Multi-Arcos (2/3 Linhas) & Gráficos:</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
               <button onclick="createNewWidget('tachometer', 'blocks')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#ff3b00]">+ Tacômetro Ticks</button>
               <button onclick="createNewWidget('tachometer', 'blades')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#fcee0a]/40 text-left text-[#fcee0a]">+ Arco Cyber Blades</button>
               <button onclick="createNewWidget('tachometer', 'reactor')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-cyan-500/40 text-left text-cyan-300">+ Arco Reator Pinos</button>
+              <button onclick="createNewWidget('tachometer', 'dual_track')" class="p-2 rounded bg-[#161326] hover:bg-[#221c3a] border border-purple-500/50 text-left text-purple-300">+ Tacômetro Duplo (2x)</button>
+              <button onclick="createNewWidget('tachometer', 'triple_matrix')" class="p-2 rounded bg-[#142016] hover:bg-[#1c2e20] border border-[#b8ff01]/50 text-left text-[#b8ff01]">+ Tacômetro Triplo (3x)</button>
               <button onclick="createNewWidget('radial', 'solid')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#00f0ff]">+ Arco Contínuo</button>
               <button onclick="createNewWidget('radial', 'cyber_rail')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#fcee0a]/40 text-left text-[#fcee0a]">+ Arco Cyber Rail</button>
-              <button onclick="createNewWidget('radial', 'triple_hud')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-purple-500/40 text-left text-purple-300">+ Arco Triplo HUD</button>
+              <button onclick="createNewWidget('radial', 'triple_hud')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-purple-500/40 text-left text-purple-300">+ Arco Triplo HUD (3x)</button>
+              <button onclick="createNewWidget('radial', 'multi_dual')" class="p-2 rounded bg-[#0d1b22] hover:bg-[#132833] border border-cyan-400/50 text-left text-cyan-300">+ Arco Duplo CPU+GPU</button>
+              <button onclick="createNewWidget('radial', 'cyber_telemetry')" class="p-2 rounded bg-[#1f1608] hover:bg-[#2c200b] border border-[#fcee0a]/50 text-left text-[#fcee0a]">+ Arco Cyber Multi-HUD</button>
               <button onclick="createNewWidget('chart')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-emerald-300">+ Gráfico Tempo Real</button>
               <button onclick="createNewWidget('spectrum')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-pink-500/40 text-left text-pink-400">+ Espectro Áudio PC</button>
               <button onclick="createNewWidget('clock')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-white">+ Relógio Digital</button>
@@ -466,9 +470,9 @@
             </div>
           </div>
 
-          <!-- 8 Tipos de Barras Lineares & Cyberpunk -->
+          <!-- 12 Tipos de Barras Lineares, Cyberpunk & Multi-Linhas -->
           <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">8 Estilos de Barras (Táticas & Cyberpunk):</span>
+            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">12 Estilos de Barras (Simples & Multi-Linhas):</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
               <button onclick="createNewWidget('seg_bar', 'cells')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#b8ff01]">+ 01. Células LED</button>
               <button onclick="createNewWidget('seg_bar', 'gradient')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-cyan-300">+ 02. Laser Gradiente</button>
@@ -478,6 +482,31 @@
               <button onclick="createNewWidget('seg_bar', 'cyber_chamfer')" class="p-2 rounded bg-[#191608] hover:bg-[#26210c] border border-[#fcee0a]/50 text-left text-[#fcee0a]">+ 06. Cyber Chanfrada</button>
               <button onclick="createNewWidget('seg_bar', 'cyber_glitch')" class="p-2 rounded bg-[#190d18] hover:bg-[#281326] border border-pink-500/50 text-left text-pink-400">+ 07. Cyber Glitch</button>
               <button onclick="createNewWidget('seg_bar', 'equalizer')" class="p-2 rounded bg-[#0d191c] hover:bg-[#13262b] border border-cyan-400/50 text-left text-cyan-300">+ 08. Barra Equalizer</button>
+              <button onclick="createNewWidget('seg_bar', 'multi_dual_bar')" class="p-2 rounded bg-[#101e18] hover:bg-[#162b22] border border-[#b8ff01]/50 text-left text-[#b8ff01]">+ 09. Barra Dupla (A+B)</button>
+              <button onclick="createNewWidget('seg_bar', 'multi_triple_bar')" class="p-2 rounded bg-[#161326] hover:bg-[#211c38] border border-purple-400/50 text-left text-purple-300">+ 10. Barra Tripla (3x)</button>
+              <button onclick="createNewWidget('seg_bar', 'dual_cells_matrix')" class="p-2 rounded bg-[#1b140c] hover:bg-[#291e12] border border-amber-400/50 text-left text-amber-300">+ 11. Células Duplas 2x</button>
+              <button onclick="createNewWidget('seg_bar', 'cyber_hud_dual')" class="p-2 rounded bg-[#1f1808] hover:bg-[#2d230b] border border-[#fcee0a]/60 text-left text-[#fcee0a]">+ 12. Cyber HUD Dupla</button>
+            </div>
+          </div>
+
+          <!-- Formas Básicas de Design Totalmente Editáveis -->
+          <div class="p-3 rounded-lg bg-[#0e1722] border border-cyan-500/40 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-cyan-300 uppercase">◆ FORMAS BÁSICAS DE DESIGN (VETORIAIS)</span>
+              <span class="text-[9px] font-mono bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">EDITÁVEIS</span>
+            </div>
+            <p class="text-[10px] text-slate-400">Adicione painéis, molduras, linhas e polígonos com borda, preenchimento e neon customizáveis:</p>
+            <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
+              <button onclick="createNewWidget('shape', 'rect')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-cyan-200">▭ Retângulo / Painel</button>
+              <button onclick="createNewWidget('shape', 'circle')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-cyan-200">◯ Círculo / Anel</button>
+              <button onclick="createNewWidget('shape', 'cyber_panel')" class="p-1.5 rounded bg-[#1c1a0d] hover:bg-[#292612] border border-[#fcee0a]/40 text-left text-[#fcee0a]">▱ Placa Cyber 2077</button>
+              <button onclick="createNewWidget('shape', 'hud_brackets')" class="p-1.5 rounded bg-[#1c1a0d] hover:bg-[#292612] border border-[#fcee0a]/40 text-left text-[#fcee0a]">⟦⟧ Colchetes HUD</button>
+              <button onclick="createNewWidget('shape', 'hexagon')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-emerald-300">⬢ Hexágono Tático</button>
+              <button onclick="createNewWidget('shape', 'octagon')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-purple-300">⯃ Octógono Core</button>
+              <button onclick="createNewWidget('shape', 'triangle')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-orange-300">△ Triângulo / Seta</button>
+              <button onclick="createNewWidget('shape', 'diamond')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-pink-300">◇ Losango / Rhombus</button>
+              <button onclick="createNewWidget('shape', 'cross')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-slate-200">✚ Cruz Técnica</button>
+              <button onclick="createNewWidget('shape', 'line')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-slate-200">━ Linha / Divisor</button>
             </div>
           </div>
 
@@ -563,20 +592,60 @@
 
           <!-- Sliders de Ajuste do Fundo -->
           <div class="p-3 rounded-lg bg-[#111118] border border-[#222232] space-y-3">
+            <div class="flex items-center justify-between border-b border-[#1e1e2d] pb-1.5">
+              <span class="text-[10px] font-mono font-bold text-[#00f0ff]">ENCAIXE E POSIÇÃO NO VISOR</span>
+              <button onclick="resetBgTransform()" class="text-[9px] font-mono px-2 py-0.5 rounded bg-[#1b1b28] hover:bg-[#252538] text-slate-300">Centralizar</button>
+            </div>
+
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-400">OPACIDADE DO FUNDO</span>
-                <span id="lbl-bg-opacity" class="text-white">50%</span>
-              </div>
-              <input type="range" min="0" max="100" value="50" oninput="updateBgParam('opacity', Number(this.value))" class="w-full">
+              <label class="block text-[9px] font-mono text-slate-400 mb-1">MODO DE AJUSTE (EVITAR CORTE AUTOMÁTICO)</label>
+              <select id="sel-bg-fit" onchange="updateBgParam('fitMode', this.value)" class="w-full bg-[#151522] border border-[#2a2a3d] rounded px-2 py-1.5 font-mono text-[10px] text-white">
+                <option value="contain">Conter Inteiro (Sem Cortar Bordas)</option>
+                <option value="cover">Preencher Visor (Cobrir 640×640)</option>
+                <option value="fill">Esticar Livremente (100% × 100%)</option>
+                <option value="none">Tamanho Original (Sem Escala Auto)</option>
+              </select>
             </div>
 
             <div>
               <div class="flex justify-between text-[10px] font-mono mb-1">
                 <span class="text-slate-400">ZOOM DO FUNDO</span>
-                <span id="lbl-bg-scale" class="text-white">100%</span>
+                <span id="lbl-bg-scale" class="text-[#00f0ff] font-bold">100%</span>
               </div>
-              <input type="range" min="50" max="220" value="100" oninput="updateBgParam('scale', Number(this.value))" class="w-full">
+              <input id="rng-bg-scale" type="range" min="25" max="300" value="100" oninput="updateBgParam('scale', Number(this.value))" class="w-full">
+            </div>
+
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <div class="flex justify-between text-[10px] font-mono mb-1">
+                  <span class="text-slate-400">POSIÇÃO X</span>
+                  <span id="lbl-bg-posx" class="text-white">0px</span>
+                </div>
+                <input id="rng-bg-posx" type="range" min="-320" max="320" value="0" oninput="updateBgParam('posX', Number(this.value))" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] font-mono mb-1">
+                  <span class="text-slate-400">POSIÇÃO Y</span>
+                  <span id="lbl-bg-posy" class="text-white">0px</span>
+                </div>
+                <input id="rng-bg-posy" type="range" min="-320" max="320" value="0" oninput="updateBgParam('posY', Number(this.value))" class="w-full">
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[10px] font-mono mb-1">
+                <span class="text-slate-400">ROTAÇÃO DA MÍDIA</span>
+                <span id="lbl-bg-rot" class="text-amber-300">0°</span>
+              </div>
+              <input id="rng-bg-rot" type="range" min="-180" max="180" value="0" oninput="updateBgParam('rotation', Number(this.value))" class="w-full">
+            </div>
+
+            <div>
+              <div class="flex justify-between text-[10px] font-mono mb-1">
+                <span class="text-slate-400">OPACIDADE DO FUNDO</span>
+                <span id="lbl-bg-opacity" class="text-white">50%</span>
+              </div>
+              <input id="rng-bg-opacity" type="range" min="0" max="100" value="50" oninput="updateBgParam('opacity', Number(this.value))" class="w-full">
             </div>
 
             <div>
@@ -584,7 +653,7 @@
                 <span class="text-slate-400">DESFOQUE (BLUR)</span>
                 <span id="lbl-bg-blur" class="text-white">0px</span>
               </div>
-              <input type="range" min="0" max="20" value="0" oninput="updateBgParam('blur', Number(this.value))" class="w-full">
+              <input id="rng-bg-blur" type="range" min="0" max="20" value="0" oninput="updateBgParam('blur', Number(this.value))" class="w-full">
             </div>
 
             <div>
@@ -592,7 +661,7 @@
                 <span class="text-slate-400">VINHETA CIRCULAR OLED</span>
                 <span id="lbl-bg-vignette" class="text-white">60%</span>
               </div>
-              <input type="range" min="0" max="100" value="60" oninput="updateBgParam('vignette', Number(this.value))" class="w-full">
+              <input id="rng-bg-vignette" type="range" min="0" max="100" value="60" oninput="updateBgParam('vignette', Number(this.value))" class="w-full">
             </div>
           </div>
         </div>
@@ -1375,9 +1444,10 @@
       roundMask: true
     };
 
-    const MAX_HISTORY = 50;
+    // Pilha de Histórico Undo / Redo (até 50 estados)
     let undoStack = [];
     let redoStack = [];
+    const MAX_HISTORY = 50;
 
     function createSnapshot(actionLabel = 'Edição') {
       return {
@@ -1386,7 +1456,7 @@
       };
     }
 
-    function recordHistory(actionLabel = 'Edição') {
+    function recordHistory(actionLabel = 'Alteração') {
       const snap = createSnapshot(actionLabel);
       if (undoStack.length > 0 && undoStack[undoStack.length - 1].data === snap.data) {
         return;
@@ -1408,10 +1478,11 @@
       const prev = undoStack[undoStack.length - 1];
       project = JSON.parse(prev.data);
       updateUndoRedoUI();
-      persistAndSyncProject();
+      syncGlobalScaleControlsUI();
       applyStageBackground();
       renderStageWidgets();
       renderInspector();
+      persistAndSyncProject();
       showToast(`↶ DESFEITO: ${current.label.toUpperCase()}`);
     }
 
@@ -1424,10 +1495,11 @@
       undoStack.push(next);
       project = JSON.parse(next.data);
       updateUndoRedoUI();
-      persistAndSyncProject();
+      syncGlobalScaleControlsUI();
       applyStageBackground();
       renderStageWidgets();
       renderInspector();
+      persistAndSyncProject();
       showToast(`↷ REFEITO: ${next.label.toUpperCase()}`);
     }
 
@@ -1439,109 +1511,120 @@
     }
 
     /*************************************************************************
-     * 5. SINCRONIZAÇÃO BROADCASTCHANNEL + LOCALSTORAGE + URL EMBED (#k64=)
+     * 5. SINCRONIZAÇÃO EM TEMPO REAL E GERADOR DE LINK NZXT CAM
      *************************************************************************/
     const broadcastBus = ('BroadcastChannel' in window) ? new BroadcastChannel('kraken_os_v5_channel') : null;
-
-    function persistAndSyncProject() {
-      try {
-        localStorage.setItem('kraken_os_project_v5', JSON.stringify(project));
-        if (broadcastBus) broadcastBus.postMessage({ type: 'SYNC_PROJECT', project });
-        updateCamIntegrationUrlBox();
-      } catch (e) {}
-    }
-
-    function updateCamIntegrationUrlBox() {
-      const camBox = document.getElementById('kraken-cam-url-box');
-      if (!camBox) return;
-      try {
-        const baseUrl = window.location.origin + window.location.pathname;
-        const clone = JSON.parse(JSON.stringify(project));
-        clone.widgets.forEach(w => {
-          if (w.embeddedDataUrl && w.embeddedDataUrl.length > 35000) {
-            delete w.embeddedDataUrl;
-          }
-        });
-        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(clone))));
-        camBox.value = `${baseUrl}?kraken=1#k64=${encoded}`;
-      } catch (e) {
-        const baseUrl = window.location.origin + window.location.pathname;
-        camBox.value = `${baseUrl}?kraken=1`;
-      }
-    }
-
     if (broadcastBus) {
       broadcastBus.onmessage = async (ev) => {
-        if (!ev.data) return;
-        if (ev.data.type === 'SYNC_PROJECT' && ev.data.project) {
-          project = ev.data.project;
+        if (ev.data && ev.data.type === 'SYNC_PROJECT') {
+          project = ev.data.payload;
           await preloadStickerAssets();
-          await applyStageBackground();
-          renderStageWidgets(true);
-        } else if (ev.data.type === 'SYNC_MEDIA') {
+          syncGlobalScaleControlsUI();
+          applyStageBackground();
+          renderStageWidgets();
+        } else if (ev.data && ev.data.type === 'SYNC_MEDIA') {
           await preloadStickerAssets();
-          await applyStageBackground();
-          renderStageWidgets(true);
-        } else if (ev.data.type === 'SYNC_AUDIO_BINS' && Array.isArray(ev.data.bins)) {
+          applyStageBackground();
+          renderStageWidgets();
+        } else if (ev.data && ev.data.type === 'SYNC_AUDIO_BINS') {
           liveAudioEngine.remoteBins = ev.data.bins;
           liveAudioEngine.remoteTimestamp = Date.now();
         }
       };
     }
 
+    function persistAndSyncProject() {
+      try {
+        localStorage.setItem('kraken_os_project_v5', JSON.stringify(project));
+      } catch (e) {}
+      if (broadcastBus) {
+        broadcastBus.postMessage({ type: 'SYNC_PROJECT', payload: project });
+      }
+      updateCamIntegrationUrlBox();
+    }
+
+    function updateCamIntegrationUrlBox() {
+      const box = document.getElementById('kraken-cam-url-box');
+      if (!box) return;
+      const base = window.location.href.split('?')[0].split('#')[0];
+      try {
+        const lightProject = JSON.parse(JSON.stringify(project));
+        lightProject.widgets.forEach(w => {
+          if (w.embeddedDataUrl && w.embeddedDataUrl.length > 4000) {
+            delete w.embeddedDataUrl;
+          }
+        });
+        const encoded = btoa(unescape(encodeURIComponent(JSON.stringify(lightProject))));
+        box.value = `${base}?kraken=1#k64=${encoded}`;
+      } catch (e) {
+        box.value = `${base}?kraken=1`;
+      }
+    }
+
+    /*************************************************************************
+     * 5.1 ZOOM GLOBAL DO PRESET E ESCALA GLOBAL DE FONTES
+     *************************************************************************/
     function setGlobalPresetZoom(val) {
       project.globalZoom = Number(val) || 100;
-      const topR = document.getElementById('top-rng-zoom');
-      const topL = document.getElementById('top-lbl-zoom');
-      const tabR = document.getElementById('tab-rng-zoom');
-      const tabL = document.getElementById('tab-lbl-zoom');
-      if (topR) topR.value = project.globalZoom;
-      if (topL) topL.textContent = `${project.globalZoom}%`;
-      if (tabR) tabR.value = project.globalZoom;
-      if (tabL) tabL.textContent = `${project.globalZoom}%`;
+      syncGlobalScaleControlsUI();
       renderStageWidgets(true);
       persistAndSyncProject();
     }
 
     function setGlobalFontBoost(val) {
-      project.globalFontScale = Number(val) || 105;
-      const topR = document.getElementById('top-rng-font');
-      const topL = document.getElementById('top-lbl-font');
-      const tabR = document.getElementById('tab-rng-font');
-      const tabL = document.getElementById('tab-lbl-font');
-      if (topR) topR.value = project.globalFontScale;
-      if (topL) topL.textContent = `${project.globalFontScale}%`;
-      if (tabR) tabR.value = project.globalFontScale;
-      if (tabL) tabL.textContent = `${project.globalFontScale}%`;
+      project.globalFontScale = Number(val) || 100;
+      syncGlobalScaleControlsUI();
       renderStageWidgets(true);
       persistAndSyncProject();
     }
 
     function resetGlobalScales() {
-      setGlobalPresetZoom(100);
-      setGlobalFontBoost(105);
+      project.globalZoom = 100;
+      project.globalFontScale = 100;
+      syncGlobalScaleControlsUI();
+      renderStageWidgets(true);
       recordHistory('Resetar Zoom e Fontes');
-      showToast('ESCALAS RESETADAS (100%)');
+      showToast('ESCALAS RESETADAS PARA 100%');
+    }
+
+    function syncGlobalScaleControlsUI() {
+      const z = project.globalZoom || 100;
+      const f = project.globalFontScale || 100;
+      const ids = [
+        ['top-rng-zoom', z], ['top- rng-font', f], ['top-rng-font', f],
+        ['tab-rng-zoom', z], ['tab-rng-font', f]
+      ];
+      ids.forEach(([id, v]) => {
+        const el = document.getElementById(id);
+        if (el) el.value = v;
+      });
+      const lbls = [
+        ['top-lbl-zoom', `${z}%`], ['top-lbl-font', `${f}%`],
+        ['tab-lbl-zoom', `${z}%`], ['tab-lbl-font', `${f}%`]
+      ];
+      lbls.forEach(([id, txt]) => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = txt;
+      });
     }
 
     /*************************************************************************
-     * 6. FUNÇÕES GEOMÉTRICAS E RENDERIZADOR DO PALCO 640x640 (SEM FLICKER)
+     * 6. RENDERIZADOR ZERO-FLICKER DO PALCO 640x640
      *************************************************************************/
-    function polarToCartesian(cx, cy, r, angleInDegrees) {
-      const rad = (angleInDegrees - 90) * Math.PI / 180.0;
+    function polarToCartesian(cx, cy, r, angleDeg) {
+      const rad = (angleDeg * Math.PI) / 180;
       return {
-        x: cx + (r * Math.cos(rad)),
-        y: cy + (r * Math.sin(rad))
+        x: cx + r * Math.cos(rad),
+        y: cy + r * Math.sin(rad)
       };
     }
 
     function polarArcPath(cx, cy, r, startAngle, sweepAngle) {
       const clampedSweep = Math.min(Math.max(sweepAngle, 0.5), 359.9);
-      const endAngle = startAngle + clampedSweep;
-      const start = polarToCartesian(cx, cy, r, endAngle);
-      const end = polarToCartesian(cx, cy, r, startAngle);
-      const largeArcFlag = clampedSweep <= 180 ? '0' : '1';
-      return ['M', start.x.toFixed(2), start.y.toFixed(2), 'A', r, r, 0, largeArcFlag, 0, end.x.toFixed(2), end.y.toFixed(2)].join(' ');
+      const start = polarToCartesian(cx, cy, r, startAngle);
+      const end = polarToCartesian(cx, cy, r, startAngle + clampedSweep);
+      const largeArc = clampedSweep > 180 ? 1 : 0;
+      return `M ${start.x.toFixed(2)} ${start.y.toFixed(2)} A ${r} ${r} 0 ${largeArc} 1 ${end.x.toFixed(2)} ${end.y.toFixed(2)}`;
     }
 
     function renderStageWidgets(skipLayerTreeUpdate = false) {
@@ -1549,17 +1632,17 @@
       if (!container) return;
 
       const gZoom = (project.globalZoom || 100) / 100;
-      const gFont = (project.globalFontScale || 105) / 100;
+      const gFont = (project.globalFontScale || 100) / 100;
       container.style.transform = `scale(${gZoom})`;
 
-      const activeIds = new Set(project.widgets.filter(w => !w.hidden).map(w => w.id));
+      const validIds = new Set(project.widgets.filter(w => !w.hidden).map(w => w.id));
       Array.from(container.children).forEach(child => {
-        if (!activeIds.has(child.dataset.id)) {
+        if (!validIds.has(child.dataset.id)) {
           child.remove();
         }
       });
 
-      project.widgets.forEach((w, zIndex) => {
+      project.widgets.forEach((w, idx) => {
         if (w.hidden) return;
 
         let el = container.querySelector(`.stage-widget[data-id="${w.id}"]`);
@@ -1577,7 +1660,7 @@
         el.className = `stage-widget ${isSelected ? 'selected-widget' : ''} ${w.locked ? 'locked-widget' : ''}`;
         el.style.left = `${w.x}px`;
         el.style.top = `${w.y}px`;
-        el.style.zIndex = zIndex + 10;
+        el.style.zIndex = idx + 10;
         el.style.opacity = (w.opacity ?? 100) / 100;
         el.style.mixBlendMode = w.blendMode || 'normal';
         el.style.transform = `translate(-50%, -50%) rotate(${w.rotation || 0}deg) scale(${wScale * flipX}, ${wScale})`;
@@ -1585,14 +1668,15 @@
         const coordBadge = `<div class="widget-coord-tag">X:${w.x} Y:${w.y} · ${Math.round(wScale * 100)}%</div>`;
         const scaleHandle = `<div class="widget-scale-handle" onmousedown="startScalingWidget(event, '${w.id}')" title="Arraste para redimensionar"></div>`;
 
-        // 1. BLOCO DE TELEMETRIA INDUSTRIAL (TELEMETRY_CARD)
+        // 1. BLOCO DE TELEMETRIA INDUSTRIAL (TELEMETRY CARD)
         if (w.type === 'telemetry_card') {
           const meta = SENSORS_CATALOG[w.sensor] || { unit: '°C', short: 'TEMP' };
           const val = formatReading(w.sensor);
           const mainPx = Math.round((w.fontSize || 64) * gFont);
-          const lblPx = Math.round((w.labelSize || 16) * gFont);
-          const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 64) * 0.42)) * gFont);
+          const lblPx = Math.round((w.labelSize || Math.max(12, Math.round((w.fontSize || 64) * 0.24))) * gFont);
+          const unitPx = Math.round((w.unitSize || Math.max(14, Math.round((w.fontSize || 64) * 0.42))) * gFont);
           const weight = w.fontWeight || 800;
+          const glow = w.glow ? `text-shadow: 0 0 ${w.glow}px ${w.accentColor || w.color};` : '';
 
           el.style.width = 'auto';
           el.style.height = 'auto';
@@ -1600,11 +1684,11 @@
             ${coordBadge}${scaleHandle}
             <div class="flex flex-col items-center leading-none pointer-events-none">
               <div class="flex items-center space-x-1.5 mb-1">
-                <span style="width:${Math.max(6, Math.round(lblPx * 0.45))}px;height:${Math.max(6, Math.round(lblPx * 0.45))}px;border-radius:99px;background:${w.accentColor || '#ff3b00'};box-shadow:0 0 8px ${w.accentColor || '#ff3b00'};"></span>
-                <span style="font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;letter-spacing:0.12em;color:${w.accentColor || '#ff3b00'};">${w.title || meta.short}</span>
+                <span class="w-2 h-2 rounded-full" style="background:${w.accentColor || '#ff3b00'};box-shadow:0 0 8px ${w.accentColor || '#ff3b00'}"></span>
+                <span style="font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;letter-spacing:0.14em;color:#cbd5e1;text-transform:uppercase;">${w.title || meta.short}</span>
               </div>
-              <div class="flex items-start" style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;font-weight:${weight};color:${w.color || '#fff'};text-shadow:${w.glow ? `0 0 ${w.glow}px ${w.accentColor || w.color}` : 'none'};">
-                <span style="font-size:${mainPx}px;line-height:0.92;">${val}</span>
+              <div class="flex items-start" style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;font-weight:${weight};color:${w.color || '#fff'};${glow}">
+                <span style="font-size:${mainPx}px;line-height:0.92;letter-spacing:-0.03em;">${val}</span>
                 <span style="font-size:${unitPx}px;color:${w.accentColor || '#ff3b00'};margin-left:3px;margin-top:2px;font-weight:800;">${meta.unit}</span>
               </div>
             </div>
@@ -1612,52 +1696,88 @@
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 2. PÍLULA DUPLA (FREQ + LOAD / WATTS)
+        // 2. PÍLULA DUPLA DE SUB-MÉTRICAS (CLOCK / WATTS / CARGA)
         else if (w.type === 'dual_pill') {
-          const mA = SENSORS_CATALOG[w.sensorA] || { unit: '' };
-          const mB = SENSORS_CATALOG[w.sensorB] || { unit: '%' };
-          const vA = formatReading(w.sensorA);
-          const vB = formatReading(w.sensorB);
-          const mainPx = Math.round((w.fontSize || 19) * gFont);
-          const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 19) * 0.72)) * gFont);
+          const mA = SENSORS_CATALOG[w.sensorA || 'cpu_freq'] || { unit: '' };
+          const mB = SENSORS_CATALOG[w.sensorB || 'cpu_load'] || { unit: '' };
+          const vA = formatReading(w.sensorA || 'cpu_freq');
+          const vB = formatReading(w.sensorB || 'cpu_load');
+          const mainPx = Math.round((w.fontSize || 18) * gFont);
+          const unitPx = Math.round((w.unitSize || Math.max(11, Math.round((w.fontSize || 18) * 0.75))) * gFont);
           const weight = w.fontWeight || 800;
 
           el.style.width = 'auto';
           el.style.height = 'auto';
           const html = `
             ${coordBadge}${scaleHandle}
-            <div class="pointer-events-none flex items-center space-x-2.5 px-3.5 py-1.5 rounded-md border"
-                 style="background:${w.bgColor || '#12121c'}e6;border-color:${w.color || '#00f0ff'}55;font-family:'JetBrains Mono',monospace;font-size:${mainPx}px;font-weight:${weight};">
-              <span class="text-white">${vA}<small style="color:${w.color};font-size:${unitPx}px;margin-left:2px;">${mA.unit}</small></span>
-              <span class="text-slate-600">|</span>
-              <span style="color:${w.color || '#00f0ff'};">${vB}<small style="font-size:${unitPx}px;margin-left:1px;">${mB.unit}</small></span>
+            <div class="px-3.5 py-1.5 rounded-full border flex items-center space-x-2.5 whitespace-nowrap pointer-events-none"
+                 style="background:${w.bgColor || '#12121c'};border-color:rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:${mainPx}px;font-weight:${weight};">
+              <span class="text-white">${vA}<small style="color:${w.color || '#00f0ff'};margin-left:2px;font-size:${unitPx}px;">${mA.unit}</small></span>
+              <span class="text-slate-600">//</span>
+              <span style="color:${w.color || '#00f0ff'}">${vB}<small style="font-size:${unitPx}px;margin-left:1px;">${mB.unit}</small></span>
             </div>
           `;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 3. TACÔMETRO RADIAL SEGMENTADO (COM ESTILOS CYBERPUNK)
+        // 3. TACÔMETRO RADIAL SEGMENTADO (COM ESTILOS CYBERPUNK & MULTI-LINHAS 2X/3X)
         else if (w.type === 'tachometer') {
           const r = w.radius || 240;
           const thick = w.thickness || 16;
-          const size = (r + thick + 28) * 2;
+          const size = (r + thick + 42) * 2;
           const cx = size / 2;
           const cy = size / 2;
           const segs = Math.max(4, w.segments || 22);
           const sAngle = w.startAngle ?? 135;
           const sweep = w.sweepAngle ?? 270;
           const tachStyle = w.tachStyle || 'blocks';
-          const prog = getNormalizedSensor(w.sensor);
-          const activeCount = Math.round(prog * segs);
+          const progA = getNormalizedSensor(w.sensor || 'cpu_load');
+          const progB = getNormalizedSensor(w.sensorB || 'gpu_load');
+          const progC = getNormalizedSensor(w.sensorC || 'liquid_temp');
+          const activeCount = Math.round(progA * segs);
+          const activeCountB = Math.round(progB * segs);
+          const activeCountC = Math.round(progC * segs);
           const priColor = w.color || '#ff3b00';
-          const secColor = w.secondaryColor || '#fcee0a';
+          const secColor = w.secondaryColor || '#00f0ff';
+          const terColor = w.tertiaryColor || '#b8ff01';
           const trkColor = w.trackColor || '#181822';
           const glowFilter = w.glow > 0 ? `style="filter:drop-shadow(0 0 ${w.glow}px ${priColor});"` : '';
+          const lineCount = Number(w.multiLineCount) || (tachStyle === 'triple_matrix' ? 3 : tachStyle === 'dual_track' ? 2 : 1);
 
           let pathsHtml = '';
+          const gapDeg = 2.4;
+          const segSweep = Math.max(1, (sweep - gapDeg * (segs - 1)) / segs);
 
-          if (tachStyle === 'blades') {
-            // Lâminas Cyberpunk inclinadas
+          // Função auxiliar para desenhar um anel de blocos em qualquer raio
+          const buildBlockRing = (ringRadius, ringThick, countActive, ringCol) => {
+            let out = '';
+            for (let i = 0; i < segs; i++) {
+              const aStart = sAngle + i * (segSweep + gapDeg);
+              const d = polarArcPath(cx, cy, ringRadius, aStart, segSweep);
+              const isLit = i < countActive;
+              out += `<path d="${d}" fill="none" stroke="${isLit ? ringCol : trkColor}" stroke-width="${ringThick}" stroke-linecap="butt" ${isLit ? glowFilter : ''}/>`;
+            }
+            return out;
+          };
+
+          if (tachStyle === 'dual_track' || (lineCount === 2 && tachStyle === 'blocks')) {
+            // 2 Linhas Concêntricas de Tacômetro Independentes (Sensor A externo + Sensor B interno)
+            const rOuter = r + thick * 0.42;
+            const rInner = Math.max(24, r - thick * 0.55);
+            const tSub = Math.max(4, thick * 0.58);
+            pathsHtml += buildBlockRing(rOuter, tSub, activeCount, priColor);
+            pathsHtml += buildBlockRing(rInner, tSub, activeCountB, secColor);
+          } else if (tachStyle === 'triple_matrix' || lineCount === 3) {
+            // 3 Linhas Concêntricas de Tacômetro (Sensor A + Sensor B + Sensor C)
+            const r1 = r + thick * 0.68;
+            const r2 = r;
+            const r3 = Math.max(22, r - thick * 0.68);
+            const tSub = Math.max(3, thick * 0.46);
+            pathsHtml += buildBlockRing(r1, tSub, activeCount, priColor);
+            pathsHtml += buildBlockRing(r2, tSub, activeCountB, secColor);
+            pathsHtml += buildBlockRing(r3, tSub, activeCountC, terColor);
+          } else if (tachStyle === 'blades') {
+            // Lâminas Cyberpunk inclinadas (suporta 2 linhas se multiLineCount >= 2)
             const stepDeg = sweep / segs;
             const skewDeg = stepDeg * 0.42;
             for (let i = 0; i < segs; i++) {
@@ -1673,6 +1793,9 @@
               const isPeak = i >= segs * 0.8;
               const fillCol = isLit ? (isPeak ? secColor : priColor) : trkColor;
               pathsHtml += `<polygon points="${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)} ${p3.x.toFixed(1)},${p3.y.toFixed(1)} ${p4.x.toFixed(1)},${p4.y.toFixed(1)}" fill="${fillCol}" ${isLit ? glowFilter : ''}/>`;
+            }
+            if (lineCount >= 2) {
+              pathsHtml += buildBlockRing(Math.max(24, r - thick * 1.05), Math.max(4, thick * 0.45), activeCountB, secColor);
             }
           } else if (tachStyle === 'reactor') {
             // Pinos de Reator (alternando comprimentos com anel guia)
@@ -1690,6 +1813,10 @@
               const col = isLit ? (isMajor ? secColor : priColor) : trkColor;
               pathsHtml += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${col}" stroke-width="${isMajor ? 4.5 : 2.8}" stroke-linecap="round" ${isLit ? glowFilter : ''}/>`;
             }
+            if (lineCount >= 2) {
+              const innerValD = polarArcPath(cx, cy, Math.max(24, r - thick * 1.15), sAngle, Math.max(1, sweep * progB));
+              pathsHtml += `<path d="${innerValD}" fill="none" stroke="${secColor}" stroke-width="4" stroke-dasharray="8 4"/>`;
+            }
           } else if (tachStyle === 'equalizer_arc') {
             // Barras radiais progressivas crescentes
             for (let i = 0; i < segs; i++) {
@@ -1704,14 +1831,18 @@
             }
           } else {
             // Clássico blocos de arco (blocks)
-            const gapDeg = 2.4;
-            const segSweep = Math.max(1, (sweep - gapDeg * (segs - 1)) / segs);
-            for (let i = 0; i < segs; i++) {
-              const aStart = sAngle + i * (segSweep + gapDeg);
-              const d = polarArcPath(cx, cy, r, aStart, segSweep);
-              const isLit = i < activeCount;
-              pathsHtml += `<path d="${d}" fill="none" stroke="${isLit ? priColor : trkColor}" stroke-width="${thick}" stroke-linecap="butt" ${isLit ? glowFilter : ''}/>`;
-            }
+            pathsHtml += buildBlockRing(r, thick, activeCount, priColor);
+          }
+
+          // Legenda opcional de sensores múltiplos no centro ou topo do arco
+          if (w.showArcLegend) {
+            const mA = SENSORS_CATALOG[w.sensor || 'cpu_load'] || { short: 'A', unit: '%' };
+            const mB = SENSORS_CATALOG[w.sensorB || 'gpu_load'] || { short: 'B', unit: '%' };
+            const vA = `${formatReading(w.sensor || 'cpu_load')}${mA.unit}`;
+            const vB = `${formatReading(w.sensorB || 'gpu_load')}${mB.unit}`;
+            pathsHtml += `
+              <text x="${cx}" y="${cy - r + thick + 18}" text-anchor="middle" fill="${priColor}" font-family="JetBrains Mono" font-size="11" font-weight="800">${mA.short}: ${vA}${lineCount >= 2 ? `  |  ${mB.short}: ${vB}` : ''}</text>
+            `;
           }
 
           el.style.width = `${size}px`;
@@ -1720,57 +1851,108 @@
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 4. ARCO CONTÍNUO / RADIAL GAUGE (COM ESTILOS CYBERPUNK)
+        // 4. ARCO CONTÍNUO / RADIAL GAUGE (COM ESTILOS CYBERPUNK & MULTI-SENSORES A/B/C)
         else if (w.type === 'radial') {
           const r = w.radius || 220;
           const thick = w.thickness || 12;
-          const size = (r + thick + 28) * 2;
+          const size = (r + thick + 42) * 2;
           const cx = size / 2;
           const cy = size / 2;
           const sAngle = w.startAngle ?? 135;
           const sweep = w.sweepAngle ?? 270;
           const radialStyle = w.radialStyle || (w.dashed ? 'dashed' : 'solid');
-          const prog = getNormalizedSensor(w.sensor);
-          const activeSweep = Math.max(0.8, sweep * prog);
+          const progA = getNormalizedSensor(w.sensor || 'gpu_load');
+          const progB = getNormalizedSensor(w.sensorB || 'cpu_load');
+          const progC = getNormalizedSensor(w.sensorC || 'liquid_temp');
+          const activeSweepA = Math.max(0.8, sweep * progA);
+          const activeSweepB = Math.max(0.8, sweep * progB);
+          const activeSweepC = Math.max(0.8, sweep * progC);
           const priColor = w.color || '#00f0ff';
           const secColor = w.secondaryColor || '#fcee0a';
+          const terColor = w.tertiaryColor || '#ff0055';
           const trkColor = w.trackColor || '#14141f';
           const glowFilter = w.glow > 0 ? `style="filter:drop-shadow(0 0 ${w.glow}px ${priColor});"` : '';
+          const lineCount = Number(w.multiLineCount) || (radialStyle === 'triple_hud' ? 3 : (radialStyle === 'multi_dual' || radialStyle === 'cyber_telemetry') ? 2 : 1);
 
           let svgInner = '';
 
-          if (radialStyle === 'cyber_rail') {
+          if (radialStyle === 'multi_dual' || (lineCount === 2 && radialStyle === 'solid')) {
+            // 2 Trilhos Radiais Independentes (Sensor A Externo + Sensor B Interno)
+            const gapR = Math.max(10, thick + 5);
+            const rA = r + gapR * 0.45;
+            const rB = Math.max(24, r - gapR * 0.55);
+            const trkA = polarArcPath(cx, cy, rA, sAngle, sweep);
+            const trkB = polarArcPath(cx, cy, rB, sAngle, sweep);
+            const valA = polarArcPath(cx, cy, rA, sAngle, activeSweepA);
+            const valB = polarArcPath(cx, cy, rB, sAngle, activeSweepB);
+            const tipA = polarToCartesian(cx, cy, rA, sAngle + activeSweepA);
+            const tipB = polarToCartesian(cx, cy, rB, sAngle + activeSweepB);
+            svgInner = `
+              <path d="${trkA}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round"/>
+              <path d="${trkB}" fill="none" stroke="${trkColor}" stroke-width="${Math.max(4, thick * 0.78)}" stroke-linecap="round"/>
+              <path d="${valA}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="round" ${glowFilter}/>
+              <path d="${valB}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.78)}" stroke-linecap="round"/>
+              <circle cx="${tipA.x.toFixed(1)}" cy="${tipA.y.toFixed(1)}" r="${thick * 0.45}" fill="#ffffff"/>
+              <circle cx="${tipB.x.toFixed(1)}" cy="${tipB.y.toFixed(1)}" r="${thick * 0.38}" fill="#ffffff"/>
+            `;
+          } else if (radialStyle === 'cyber_telemetry') {
+            // Arco Cyberpunk Multi-Telemetria: trilho externo chanfrado + barra interna tracejada + marcadores de grau
+            const rOuter = r + thick * 0.5;
+            const rInner = Math.max(24, r - thick * 0.85);
+            const trkOuter = polarArcPath(cx, cy, rOuter, sAngle, sweep);
+            const trkInner = polarArcPath(cx, cy, rInner, sAngle, sweep);
+            const valOuter = polarArcPath(cx, cy, rOuter, sAngle, activeSweepA);
+            const valInner = polarArcPath(cx, cy, rInner, sAngle, activeSweepB);
+            svgInner += `
+              <path d="${trkOuter}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="butt"/>
+              <path d="${trkInner}" fill="none" stroke="${trkColor}" stroke-width="${Math.max(4, thick * 0.55)}" stroke-dasharray="6 4"/>
+              <path d="${valOuter}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="butt" ${glowFilter}/>
+              <path d="${valInner}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.55)}" stroke-dasharray="6 4"/>
+            `;
+            for (let i = 0; i <= 10; i++) {
+              const deg = sAngle + (i / 10) * sweep;
+              const p1 = polarToCartesian(cx, cy, rOuter + thick * 0.65, deg);
+              const p2 = polarToCartesian(cx, cy, rOuter + thick * 1.15, deg);
+              svgInner += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${i <= progA * 10 ? secColor : trkColor}" stroke-width="2"/>`;
+            }
+          } else if (radialStyle === 'cyber_rail') {
             // Arco principal + trilho interno pontilhado + cursor laser na ponta
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const innerTrackD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, sweep);
-            const valD = polarArcPath(cx, cy, r, sAngle, activeSweep);
-            const innerValD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, activeSweep);
-            const tipPos = polarToCartesian(cx, cy, r, sAngle + activeSweep);
+            const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
+            const innerValD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, lineCount >= 2 ? activeSweepB : activeSweepA);
+            const tipPos = polarToCartesian(cx, cy, r, sAngle + activeSweepA);
             svgInner = `
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="butt"/>
               <path d="${innerTrackD}" fill="none" stroke="${trkColor}" stroke-width="3" stroke-dasharray="4 6"/>
               <path d="${valD}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="butt" ${glowFilter}/>
-              <path d="${innerValD}" fill="none" stroke="${secColor}" stroke-width="3" stroke-dasharray="8 4"/>
+              <path d="${innerValD}" fill="none" stroke="${secColor}" stroke-width="3.5" stroke-dasharray="8 4"/>
               <circle cx="${tipPos.x.toFixed(1)}" cy="${tipPos.y.toFixed(1)}" r="${thick * 0.65}" fill="#ffffff" stroke="${secColor}" stroke-width="3" ${glowFilter}/>
             `;
-          } else if (radialStyle === 'triple_hud') {
-            // 3 anéis concêntricos sci-fi sincronizados
-            const rOuter = r + thick * 0.7;
+          } else if (radialStyle === 'triple_hud' || lineCount === 3) {
+            // 3 Anéis Concêntricos Sci-Fi Independentes (Sensores A, B e C)
+            const stepR = Math.max(9, thick * 0.85);
+            const rOuter = r + stepR;
             const rMid = r;
-            const rInner = r - thick * 0.7;
+            const rInner = Math.max(20, r - stepR);
+            const trkOuter = polarArcPath(cx, cy, rOuter, sAngle, sweep);
             const trkMid = polarArcPath(cx, cy, rMid, sAngle, sweep);
-            const valOuter = polarArcPath(cx, cy, rOuter, sAngle, activeSweep);
-            const valMid = polarArcPath(cx, cy, rMid, sAngle, activeSweep);
-            const valInner = polarArcPath(cx, cy, rInner, sAngle, activeSweep * 0.85);
+            const trkInner = polarArcPath(cx, cy, rInner, sAngle, sweep);
+            const valOuter = polarArcPath(cx, cy, rOuter, sAngle, activeSweepA);
+            const valMid = polarArcPath(cx, cy, rMid, sAngle, activeSweepB);
+            const valInner = polarArcPath(cx, cy, rInner, sAngle, activeSweepC);
+            const subT = Math.max(4, thick * 0.55);
             svgInner = `
-              <path d="${trkMid}" fill="none" stroke="${trkColor}" stroke-width="${thick * 1.6}" stroke-linecap="butt" opacity="0.5"/>
-              <path d="${valOuter}" fill="none" stroke="${secColor}" stroke-width="3" stroke-dasharray="10 5"/>
-              <path d="${valMid}" fill="none" stroke="${priColor}" stroke-width="${Math.max(4, thick * 0.65)}" stroke-linecap="round" ${glowFilter}/>
-              <path d="${valInner}" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.85"/>
+              <path d="${trkOuter}" fill="none" stroke="${trkColor}" stroke-width="${subT}" stroke-linecap="round"/>
+              <path d="${trkMid}" fill="none" stroke="${trkColor}" stroke-width="${subT}" stroke-linecap="round"/>
+              <path d="${trkInner}" fill="none" stroke="${trkColor}" stroke-width="${subT}" stroke-linecap="round"/>
+              <path d="${valOuter}" fill="none" stroke="${priColor}" stroke-width="${subT}" stroke-linecap="round" ${glowFilter}/>
+              <path d="${valMid}" fill="none" stroke="${secColor}" stroke-width="${subT}" stroke-linecap="round"/>
+              <path d="${valInner}" fill="none" stroke="${terColor}" stroke-width="${subT}" stroke-linecap="round"/>
             `;
           } else {
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
-            const valD = polarArcPath(cx, cy, r, sAngle, activeSweep);
+            const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
             const dashAttr = (radialStyle === 'dashed' || w.dashed) ? `stroke-dasharray="10 6"` : '';
             svgInner = `
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr}/>
@@ -1784,30 +1966,106 @@
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 5. BARRA MULTIMODO EM SVG PURO (GARANTE ALTURA EXATA E 8 ESTILOS)
+        // 5. BARRA MULTIMODO EM SVG PURO (12 ESTILOS + MULTI-LINHAS COM SENSORES A, B e C)
         else if (w.type === 'seg_bar') {
           const width = Math.max(60, Number(w.width) || 260);
           const height = Math.max(12, Number(w.height) || 22);
           const segs = Math.max(4, Number(w.segments) || 18);
           const style = w.barStyle || 'cells';
-          const prog = getNormalizedSensor(w.sensor || 'ram_percent');
+          const sKeyA = w.sensor || 'ram_percent';
+          const sKeyB = w.sensorB || 'gpu_load';
+          const sKeyC = w.sensorC || 'liquid_temp';
+          const prog = getNormalizedSensor(sKeyA);
+          const progB = getNormalizedSensor(sKeyB);
+          const progC = getNormalizedSensor(sKeyC);
           const pct = Math.round(prog * 100);
           const priColor = w.color || '#b8ff01';
           const secColor = w.secondaryColor || '#00f0ff';
+          const terColor = w.tertiaryColor || '#ff0055';
           const trkColor = w.trackColor || '#181826';
-          const meta = SENSORS_CATALOG[w.sensor || 'ram_percent'] || { short: 'SENSOR', unit: '%' };
-          const valStr = `${formatReading(w.sensor || 'ram_percent')}${meta.unit}`;
+          const meta = SENSORS_CATALOG[sKeyA] || { short: 'SENSOR', unit: '%' };
+          const metaB = SENSORS_CATALOG[sKeyB] || { short: 'GPU', unit: '%' };
+          const metaC = SENSORS_CATALOG[sKeyC] || { short: 'LIQ', unit: '°C' };
+          const valStr = `${formatReading(sKeyA)}${meta.unit}`;
+          const valStrB = `${formatReading(sKeyB)}${metaB.unit}`;
+          const valStrC = `${formatReading(sKeyC)}${metaC.unit}`;
 
           const lblPx = Math.round((w.labelSize || 12) * gFont);
           const headerHeight = w.showHeader ? (lblPx + 6) : 0;
           const barSvgH = Math.max(10, height - headerHeight);
           const gradId = `bargrad_${w.id}`;
-          const glowId = `barglow_${w.id}`;
 
           let svgBarContent = '';
           const litCount = Math.round(prog * segs);
+          const litCountB = Math.round(progB * segs);
 
-          if (style === 'gradient') {
+          if (style === 'multi_dual_bar') {
+            // 09. Barra Dupla Independente (Sensor A no Trilho Superior + Sensor B no Trilho Inferior)
+            const railH = Math.max(4, (barSvgH - 8) / 2);
+            const fillA = Math.max(3, (width - 6) * prog);
+            const fillB = Math.max(3, (width - 6) * progB);
+            svgBarContent = `
+              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(5,5,12,0.82)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+              <rect x="3" y="2.5" width="${width - 6}" height="${railH}" rx="2" fill="${trkColor}"/>
+              <rect x="3" y="2.5" width="${fillA}" height="${railH}" rx="2" fill="${priColor}"/>
+              <rect x="3" y="${barSvgH - railH - 2.5}" width="${width - 6}" height="${railH}" rx="2" fill="${trkColor}"/>
+              <rect x="3" y="${barSvgH - railH - 2.5}" width="${fillB}" height="${railH}" rx="2" fill="${secColor}"/>
+            `;
+          } else if (style === 'multi_triple_bar') {
+            // 10. Barra Tripla Multi-Sensor (Sensores A, B e C em 3 linhas paralelas)
+            const gapY = 2.5;
+            const railH = Math.max(3, (barSvgH - gapY * 4) / 3);
+            const fillA = Math.max(3, (width - 6) * prog);
+            const fillB = Math.max(3, (width - 6) * progB);
+            const fillC = Math.max(3, (width - 6) * progC);
+            const y1 = gapY;
+            const y2 = gapY * 2 + railH;
+            const y3 = gapY * 3 + railH * 2;
+            svgBarContent = `
+              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(5,5,12,0.85)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <rect x="3" y="${y1.toFixed(1)}" width="${width - 6}" height="${railH.toFixed(1)}" rx="1.5" fill="${trkColor}"/>
+              <rect x="3" y="${y1.toFixed(1)}" width="${fillA.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${priColor}"/>
+              <rect x="3" y="${y2.toFixed(1)}" width="${width - 6}" height="${railH.toFixed(1)}" rx="1.5" fill="${trkColor}"/>
+              <rect x="3" y="${y2.toFixed(1)}" width="${fillB.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${secColor}"/>
+              <rect x="3" y="${y3.toFixed(1)}" width="${width - 6}" height="${railH.toFixed(1)}" rx="1.5" fill="${trkColor}"/>
+              <rect x="3" y="${y3.toFixed(1)}" width="${fillC.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${terColor}"/>
+            `;
+          } else if (style === 'dual_cells_matrix') {
+            // 11. Matriz de Células LED Dupla (2 fileiras de células independentes: Sensor A em cima, Sensor B embaixo)
+            const gap = 2.5;
+            const cellW = Math.max(3, (width - 6 - gap * (segs - 1)) / segs);
+            const rowH = Math.max(3, (barSvgH - 7) / 2);
+            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.75)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>`;
+            for (let i = 0; i < segs; i++) {
+              const x = 3 + i * (cellW + gap);
+              const colA = i < litCount ? priColor : trkColor;
+              const colB = i < litCountB ? secColor : trkColor;
+              svgBarContent += `
+                <rect x="${x.toFixed(1)}" y="2.5" width="${cellW.toFixed(1)}" height="${rowH.toFixed(1)}" rx="1" fill="${colA}"/>
+                <rect x="${x.toFixed(1)}" y="${(3.5 + rowH).toFixed(1)}" width="${cellW.toFixed(1)}" height="${rowH.toFixed(1)}" rx="1" fill="${colB}"/>
+              `;
+            }
+          } else if (style === 'cyber_hud_dual') {
+            // 12. Cyber Telemetria HUD Dupla (Moldura chanfrada com barra superior segmentada + barra inferior laser)
+            const cut = Math.min(8, barSvgH * 0.35);
+            const framePts = `0,${cut} ${cut},0 ${width},0 ${width},${barSvgH - cut} ${width - cut},${barSvgH} 0,${barSvgH}`;
+            svgBarContent += `<polygon points="${framePts}" fill="rgba(8,8,14,0.9)" stroke="${priColor}" stroke-width="1.5"/>`;
+            const topH = Math.max(4, (barSvgH - 9) * 0.58);
+            const botH = Math.max(3, (barSvgH - 9) * 0.36);
+            const gap = 2.5;
+            const innerW = width - 8;
+            const cellW = Math.max(3, (innerW - gap * (segs - 1)) / segs);
+            for (let i = 0; i < segs; i++) {
+              const x = 4 + i * (cellW + gap);
+              const col = i < litCount ? priColor : trkColor;
+              svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${topH.toFixed(1)}" fill="${col}"/>`;
+            }
+            const fillB = Math.max(2, innerW * progB);
+            svgBarContent += `
+              <rect x="4" y="${(barSvgH - botH - 3).toFixed(1)}" width="${innerW}" height="${botH.toFixed(1)}" fill="${trkColor}"/>
+              <rect x="4" y="${(barSvgH - botH - 3).toFixed(1)}" width="${fillB.toFixed(1)}" height="${botH.toFixed(1)}" fill="${secColor}"/>
+            `;
+          } else if (style === 'gradient') {
             // 02. Laser Gradiente Contínuo
             const fillW = Math.max(4, (width - 4) * prog);
             svgBarContent = `
@@ -1833,15 +2091,16 @@
               svgBarContent += `<polygon points="${p1} ${p2} ${p3} ${p4}" fill="${col}"/>`;
             }
           } else if (style === 'dual_rail') {
-            // 04. Plasma Dual-Rail
+            // 04. Plasma Dual-Rail (Agora suporta Sensor B no segundo trilho se configurado)
             const railH = Math.max(3, (barSvgH - 6) / 2);
             const fillW = Math.max(2, (width - 4) * prog);
+            const fillWB = w.sensorB ? Math.max(2, (width - 4) * progB) : fillW;
             svgBarContent = `
               <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="3" fill="rgba(0,0,0,0.65)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
               <rect x="2" y="2" width="${width - 4}" height="${railH}" rx="1.5" fill="${trkColor}"/>
               <rect x="2" y="2" width="${fillW}" height="${railH}" rx="1.5" fill="${priColor}"/>
               <rect x="2" y="${barSvgH - railH - 2}" width="${width - 4}" height="${railH}" rx="1.5" fill="${trkColor}"/>
-              <rect x="2" y="${barSvgH - railH - 2}" width="${fillW}" height="${railH}" rx="1.5" fill="${secColor}"/>
+              <rect x="2" y="${barSvgH - railH - 2}" width="${fillWB}" height="${railH}" rx="1.5" fill="${secColor}"/>
             `;
           } else if (style === 'ruler') {
             // 05. Régua Tática Milimétrica
@@ -1881,7 +2140,6 @@
               <rect x="2" y="2" width="${Math.min(width - 4, fillW * 1.04)}" height="3" fill="${secColor}"/>
               <rect x="${Math.max(2, fillW - 14)}" y="${barSvgH - 4}" width="16" height="3" fill="#ffffff"/>
             `;
-            // Recortes glitch verticais
             for (let i = 1; i < segs; i++) {
               const gx = (i / segs) * width;
               svgBarContent += `<line x1="${gx.toFixed(1)}" y1="0" x2="${gx.toFixed(1)}" y2="${barSvgH}" stroke="#050508" stroke-width="${i % 3 === 0 ? 3 : 1.5}"/>`;
@@ -1913,8 +2171,15 @@
             }
           }
 
+          const isMultiStyle = ['multi_dual_bar', 'multi_triple_bar', 'dual_cells_matrix', 'cyber_hud_dual'].includes(style);
+          const rightHeaderText = style === 'multi_triple_bar'
+            ? `<span style="color:${priColor};">${valStr}</span> <span class="text-slate-500">/</span> <span style="color:${secColor};">${valStrB}</span> <span class="text-slate-500">/</span> <span style="color:${terColor};">${valStrC}</span>`
+            : isMultiStyle
+            ? `<span style="color:${priColor};">${meta.short}:${valStr}</span> <span class="text-slate-500">|</span> <span style="color:${secColor};">${metaB.short}:${valStrB}</span>`
+            : `<span style="color:${priColor};">${valStr} (${pct}%)</span>`;
+
           const headerCaption = w.showHeader
-            ? `<div style="width:${width}px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;color:#e2e8f0;margin-bottom:3px;line-height:1;"><span>${w.title || meta.short}</span><span style="color:${priColor};">${valStr} (${pct}%)</span></div>`
+            ? `<div style="width:${width}px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;color:#e2e8f0;margin-bottom:3px;line-height:1;"><span>${w.title || meta.short}</span><span>${rightHeaderText}</span></div>`
             : '';
 
           el.style.width = `${width}px`;
@@ -1936,6 +2201,90 @@
               </svg>
             </div>
           `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 5.5 FORMAS BÁSICAS DE DESIGN TOTALMENTE EDITÁVEIS (VETORIAIS)
+        else if (w.type === 'shape') {
+          const width = Math.max(20, Number(w.width) || 180);
+          const height = Math.max(8, Number(w.height) || 120);
+          const shapeType = w.shapeType || 'rect';
+          const strokeCol = w.color || '#00f0ff';
+          const fillCol = w.fillColor || '#0d1522';
+          const fillOp = (w.fillOpacity ?? 45) / 100;
+          const strokeW = w.strokeWidth ?? 2;
+          const cornerR = w.cornerRadius ?? 12;
+          const dashAttr = w.dashed ? `stroke-dasharray="${w.dashPattern || '8 5'}"` : '';
+          const glowStyle = w.glow > 0 ? `filter:drop-shadow(0 0 ${w.glow}px ${strokeCol});` : '';
+          const pad = Math.max(4, strokeW);
+          const iw = Math.max(4, width - pad * 2);
+          const ih = Math.max(4, height - pad * 2);
+
+          let shapeSvg = '';
+          if (shapeType === 'circle') {
+            shapeSvg = `<ellipse cx="${width / 2}" cy="${height / 2}" rx="${iw / 2}" ry="${ih / 2}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+          } else if (shapeType === 'cyber_panel') {
+            const cut = Math.min(iw, ih) * 0.22;
+            const pts = `${pad + cut},${pad} ${pad + iw},${pad} ${pad + iw},${pad + ih - cut} ${pad + iw - cut},${pad + ih} ${pad},${pad + ih} ${pad},${pad + cut}`;
+            shapeSvg = `
+              <polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>
+              <line x1="${pad}" y1="${pad + cut}" x2="${pad + cut}" y2="${pad}" stroke="#ffffff" stroke-width="${Math.max(2, strokeW + 1)}"/>
+              <line x1="${pad + iw - cut}" y1="${pad + ih}" x2="${pad + iw}" y2="${pad + ih - cut}" stroke="${w.secondaryColor || '#fcee0a'}" stroke-width="${Math.max(2, strokeW + 1)}"/>
+            `;
+          } else if (shapeType === 'hud_brackets') {
+            const bl = Math.min(iw, ih) * 0.28;
+            const x0 = pad, y0 = pad, x1 = pad + iw, y1 = pad + ih;
+            shapeSvg = `
+              <rect x="${x0}" y="${y0}" width="${iw}" height="${ih}" fill="${fillCol}" fill-opacity="${fillOp}"/>
+              <path d="M ${x0},${y0 + bl} L ${x0},${y0} L ${x0 + bl},${y0}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
+              <path d="M ${x1 - bl},${y0} L ${x1},${y0} L ${x1},${y0 + bl}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
+              <path d="M ${x0},${y1 - bl} L ${x0},${y1} L ${x0 + bl},${y1}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
+              <path d="M ${x1 - bl},${y1} L ${x1},${y1} L ${x1},${y1 - bl}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
+            `;
+          } else if (shapeType === 'hexagon') {
+            const cx = width / 2, cy = height / 2;
+            const rx = iw / 2, ry = ih / 2;
+            const pts = [
+              `${cx - rx * 0.5},${cy - ry}`,
+              `${cx + rx * 0.5},${cy - ry}`,
+              `${cx + rx},${cy}`,
+              `${cx + rx * 0.5},${cy + ry}`,
+              `${cx - rx * 0.5},${cy + ry}`,
+              `${cx - rx},${cy}`
+            ].join(' ');
+            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+          } else if (shapeType === 'octagon') {
+            const c = Math.min(iw, ih) * 0.28;
+            const x0 = pad, y0 = pad, x1 = pad + iw, y1 = pad + ih;
+            const pts = `${x0 + c},${y0} ${x1 - c},${y0} ${x1},${y0 + c} ${x1},${y1 - c} ${x1 - c},${y1} ${x0 + c},${y1} ${x0},${y1 - c} ${x0},${y0 + c}`;
+            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+          } else if (shapeType === 'triangle') {
+            const pts = `${width / 2},${pad} ${pad + iw},${pad + ih} ${pad},${pad + ih}`;
+            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+          } else if (shapeType === 'diamond') {
+            const pts = `${width / 2},${pad} ${pad + iw},${height / 2} ${width / 2},${pad + ih} ${pad},${height / 2}`;
+            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+          } else if (shapeType === 'cross') {
+            const cx = width / 2, cy = height / 2;
+            shapeSvg = `
+              <line x1="${pad}" y1="${cy}" x2="${width - pad}" y2="${cy}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>
+              <line x1="${cx}" y1="${pad}" x2="${cx}" y2="${height - pad}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>
+              <circle cx="${cx}" cy="${cy}" r="${Math.max(3, strokeW * 1.6)}" fill="none" stroke="${w.secondaryColor || '#fcee0a'}" stroke-width="1.5"/>
+            `;
+          } else if (shapeType === 'line') {
+            const cy = height / 2;
+            shapeSvg = `
+              <line x1="${pad}" y1="${cy}" x2="${width - pad}" y2="${cy}" stroke="${strokeCol}" stroke-width="${strokeW}" stroke-linecap="round" ${dashAttr}/>
+              <circle cx="${pad}" cy="${cy}" r="${Math.max(2.5, strokeW)}" fill="${w.secondaryColor || strokeCol}"/>
+              <circle cx="${width - pad}" cy="${cy}" r="${Math.max(2.5, strokeW)}" fill="${w.secondaryColor || strokeCol}"/>
+            `;
+          } else {
+            shapeSvg = `<rect x="${pad}" y="${pad}" width="${iw}" height="${ih}" rx="${cornerR}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+          }
+
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="overflow:visible;${glowStyle}">${shapeSvg}</svg>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
@@ -2107,19 +2456,19 @@
               </svg>
             `;
           } else {
-            const isMirror = style === 'mirror';
-            let bars = '';
+            let barsHtml = '';
             for (let i = 0; i < count; i++) {
-              const h = Math.max(4, Math.round(bins[i] * height));
-              const grad = `linear-gradient(to top, ${priColor}, ${secColor})`;
-              const shd = w.glow > 0 ? `box-shadow: 0 0 ${w.glow}px ${priColor};` : '';
-              bars += `<div style="flex:1;height:${h}px;background:${grad};border-radius:1.5px;${shd}"></div>`;
+              const bh = Math.max(10, Math.round(bins[i] * 100));
+              const isHigh = bins[i] > 0.72;
+              const barCol = isHigh ? secColor : priColor;
+              barsHtml += `<div style="flex:1;height:${bh}%;background:${barCol};border-radius:999px;box-shadow:${w.glow ? `0 0 ${w.glow}px ${barCol}` : 'none'};"></div>`;
             }
-            el.innerHTML = `${coordBadge}${scaleHandle}<div class="pointer-events-none" style="width:100%;height:100%;display:flex;align-items:${isMirror ? 'center' : 'flex-end'};gap:3px;">${bars}</div>`;
+            const alignClass = style === 'mirror' ? 'items-center' : 'items-end';
+            el.innerHTML = `${coordBadge}${scaleHandle}<div class="w-full h-full flex ${alignClass} space-x-1 pointer-events-none">${barsHtml}</div>`;
           }
         }
 
-        // 12. MINI GIF / STICKER ANIMADO FLUTUANTE (NUNCA PISCA NO TICK)
+        // 12. MINI GIF / STICKER ANIMADO FLUTUANTE (COM CONTROLE DE ZOOM, PAN X/Y E MODO SEM CORTE)
         else if (w.type === 'sticker') {
           const width = w.width || 140;
           const height = w.height || 140;
@@ -2139,25 +2488,37 @@
             ? 'mask-shape-rounded'
             : '';
 
+          const customClip = w.maskShape === 'diamond'
+            ? 'clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);'
+            : w.maskShape === 'octagon'
+            ? 'clip-path:polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);'
+            : '';
+
+          const fitMode = w.mediaFit || 'cover';
+          const mediaZoom = (w.mediaZoom || 100) / 100;
+          const panX = w.mediaPanX || 0;
+          const panY = w.mediaPanY || 0;
+
           const borderStyle = w.showBorder
             ? `border: 2px solid ${w.color || '#00f0ff'};`
             : '';
           const glowStyle = w.glow > 0
             ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color || '#00f0ff'});`
             : '';
+          const innerTransform = `object-fit:${fitMode};transform:translate(${panX}px, ${panY}px) scale(${mediaZoom});transform-origin:center center;`;
 
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
 
-          const stickerSig = `stk_${mediaSrc.length}_${mediaSrc.slice(0, 48)}_${width}_${height}_${shapeClass}_${borderStyle}_${glowStyle}_${isSelected}`;
+          const stickerSig = `stk_${mediaSrc.length}_${mediaSrc.slice(0, 48)}_${width}_${height}_${shapeClass}_${customClip}_${fitMode}_${mediaZoom}_${panX}_${panY}_${borderStyle}_${glowStyle}_${isSelected}`;
           if (el.dataset.sig !== stickerSig) {
             el.dataset.sig = stickerSig;
             const fallbackAttr = `onerror="this.onerror=null;this.src='${BUILTIN_ANIMATED_STICKERS.reactor}';"`;
             const mediaTag = isVideo
-              ? `<video src="${mediaSrc}" autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none ${shapeClass}" style="${borderStyle}${glowStyle}"></video>`
-              : `<img src="${mediaSrc}" ${fallbackAttr} class="w-full h-full object-cover pointer-events-none ${shapeClass}" style="${borderStyle}${glowStyle}">`;
+              ? `<video src="${mediaSrc}" autoplay loop muted playsinline class="w-full h-full pointer-events-none" style="${innerTransform}"></video>`
+              : `<img src="${mediaSrc}" ${fallbackAttr} class="w-full h-full pointer-events-none" style="${innerTransform}">`;
 
-            el.innerHTML = `${coordBadge}${scaleHandle}${mediaTag}`;
+            el.innerHTML = `${coordBadge}${scaleHandle}<div class="w-full h-full overflow-hidden pointer-events-none ${shapeClass}" style="${borderStyle}${glowStyle}${customClip}">${mediaTag}</div>`;
           } else {
             const tagEl = el.querySelector('.widget-coord-tag');
             if (tagEl) {
@@ -2381,6 +2742,10 @@
         `<option value="${k}" ${w.sensorB === k ? 'selected' : ''}>${m.label} (${m.unit})</option>`
       ).join('');
 
+      const sensorCOptions = Object.entries(SENSORS_CATALOG).map(([k, m]) =>
+        `<option value="${k}" ${w.sensorC === k ? 'selected' : ''}>${m.label} (${m.unit})</option>`
+      ).join('');
+
       const hasFontSettings = ['telemetry_card', 'dual_pill', 'sensor', 'label', 'clock', 'chart'].includes(w.type);
 
       box.innerHTML = `
@@ -2421,10 +2786,34 @@
 
           ${w.sensor !== undefined ? `
             <div class="pt-2 border-t border-[#1e1e2a]">
-              <label class="block text-[10px] font-mono text-[#b8ff01] mb-1">FONTE DE DADOS (NZXT CAM)</label>
+              <label class="block text-[10px] font-mono text-[#b8ff01] mb-1">FONTE DE DADOS PRINCIPAL (SENSOR A)</label>
               <select onchange="mutateWidget('sensor', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-xs text-white">
                 ${sensorOptionsHtml}
               </select>
+            </div>
+          ` : ''}
+
+          ${(w.type === 'tachometer' || w.type === 'radial' || w.type === 'seg_bar') ? `
+            <div class="pt-2 border-t border-[#1e1e2a] space-y-2 bg-[#10131d] p-2.5 rounded-lg">
+              <span class="block text-[10px] font-mono font-bold text-cyan-300 uppercase">// MULTI-FUNÇÕES (SENSORES EXTRAS B & C)</span>
+              ${(w.type === 'tachometer' || w.type === 'radial') ? `
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">QUANTIDADE DE LINHAS CONCÊNTRICAS</label>
+                  <select onchange="mutateWidget('multiLineCount', Number(this.value), true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[11px] text-white">
+                    <option value="1" ${(w.multiLineCount == 1 || !w.multiLineCount) ? 'selected' : ''}>1 Linha Simples (Sensor A)</option>
+                    <option value="2" ${w.multiLineCount == 2 ? 'selected' : ''}>2 Linhas Duplas (Sensores A + B)</option>
+                    <option value="3" ${w.multiLineCount == 3 ? 'selected' : ''}>3 Linhas Triplas (Sensores A + B + C)</option>
+                  </select>
+                </div>
+              ` : ''}
+              <div>
+                <label class="block text-[9px] font-mono text-[#00f0ff] mb-1">SENSOR SECUNDÁRIO (LINHA B)</label>
+                <select onchange="mutateWidget('sensorB', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[11px] text-white">${sensorBOptions}</select>
+              </div>
+              <div>
+                <label class="block text-[9px] font-mono text-purple-300 mb-1">SENSOR TERCIÁRIO (LINHA C - MODO TRIPLO)</label>
+                <select onchange="mutateWidget('sensorC', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[11px] text-white">${sensorCOptions}</select>
+              </div>
             </div>
           ` : ''}
 
@@ -2530,7 +2919,7 @@
 
           ${w.type === 'sticker' ? `
             <div class="pt-2 border-t border-[#1e1e2a] space-y-2.5">
-              <span class="text-[10px] font-mono text-purple-300 uppercase font-bold block">// CONFIGURAÇÃO DO MINI GIF / STICKER</span>
+              <span class="text-[10px] font-mono text-purple-300 uppercase font-bold block">// CONFIGURAÇÃO E ENCAIXE DO MINI GIF</span>
               <div>
                 <label class="block text-[9px] font-mono text-slate-400 mb-1">URL DO GIF / STICKER</label>
                 <input type="text" value="${w.url || ''}" onchange="mutateWidget('url', this.value, true)" placeholder="https://..." class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[10px] text-white">
@@ -2539,24 +2928,52 @@
                 <span>📁 TROCAR POR ARQUIVO DO PC</span>
                 <input type="file" accept="image/gif,image/png,image/webp,video/mp4,video/webm" class="hidden" onchange="replaceCurrentStickerFile(event)">
               </label>
+
+              <div>
+                <label class="block text-[9px] font-mono text-[#00f0ff] mb-1">AJUSTE DA IMAGEM (EVITAR CORTE)</label>
+                <select onchange="mutateWidget('mediaFit', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[10px] text-white">
+                  <option value="contain" ${w.mediaFit === 'contain' ? 'selected' : ''}>Conter Inteiro (Sem Cortar)</option>
+                  <option value="cover" ${(w.mediaFit === 'cover' || !w.mediaFit) ? 'selected' : ''}>Preencher Caixa (Cover)</option>
+                  <option value="fill" ${w.mediaFit === 'fill' ? 'selected' : ''}>Esticar 100% (Fill)</option>
+                  <option value="none" ${w.mediaFit === 'none' ? 'selected' : ''}>Tamanho Original</option>
+                </select>
+              </div>
+
+              <div class="grid grid-cols-3 gap-1.5">
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ZOOM (${w.mediaZoom || 100}%)</label>
+                  <input type="range" min="30" max="260" value="${w.mediaZoom || 100}" oninput="mutateWidget('mediaZoom', Number(this.value), false)" onchange="recordHistory('Zoom interno GIF');renderInspector();" class="w-full">
+                </div>
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">PAN X (${w.mediaPanX || 0})</label>
+                  <input type="range" min="-150" max="150" value="${w.mediaPanX || 0}" oninput="mutateWidget('mediaPanX', Number(this.value), false)" onchange="recordHistory('Pan X GIF');renderInspector();" class="w-full">
+                </div>
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">PAN Y (${w.mediaPanY || 0})</label>
+                  <input type="range" min="-150" max="150" value="${w.mediaPanY || 0}" oninput="mutateWidget('mediaPanY', Number(this.value), false)" onchange="recordHistory('Pan Y GIF');renderInspector();" class="w-full">
+                </div>
+              </div>
+
               <div class="grid grid-cols-2 gap-2">
                 <div>
                   <label class="block text-[9px] font-mono text-slate-400 mb-1">LARGURA (${w.width || 140}PX)</label>
-                  <input type="range" min="40" max="480" value="${w.width || 140}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura GIF');renderInspector();" class="w-full">
+                  <input type="range" min="40" max="540" value="${w.width || 140}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura GIF');renderInspector();" class="w-full">
                 </div>
                 <div>
                   <label class="block text-[9px] font-mono text-slate-400 mb-1">ALTURA (${w.height || 140}PX)</label>
-                  <input type="range" min="40" max="480" value="${w.height || 140}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura GIF');renderInspector();" class="w-full">
+                  <input type="range" min="40" max="540" value="${w.height || 140}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura GIF');renderInspector();" class="w-full">
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <div>
                   <label class="block text-[9px] font-mono text-slate-400 mb-1">RECORTE / MÁSCARA</label>
                   <select onchange="mutateWidget('maskShape', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[10px] text-white">
-                    <option value="none" ${w.maskShape === 'none' ? 'selected' : ''}>Retangular Puro</option>
+                    <option value="none" ${w.maskShape === 'none' ? 'selected' : ''}>Retangular Puro (Sem Recorte)</option>
                     <option value="rounded" ${w.maskShape === 'rounded' ? 'selected' : ''}>Cantos Arredondados</option>
                     <option value="circle" ${w.maskShape === 'circle' ? 'selected' : ''}>Círculo Perfeito</option>
                     <option value="hexagon" ${w.maskShape === 'hexagon' ? 'selected' : ''}>Hexágono Tático</option>
+                    <option value="octagon" ${w.maskShape === 'octagon' ? 'selected' : ''}>Octógono</option>
+                    <option value="diamond" ${w.maskShape === 'diamond' ? 'selected' : ''}>Diamante / Losango</option>
                   </select>
                 </div>
                 <div>
@@ -2580,6 +2997,63 @@
             </div>
           ` : ''}
 
+          ${w.type === 'shape' ? `
+            <div class="pt-2 border-t border-[#1e1e2a] space-y-2.5">
+              <span class="text-[10px] font-mono text-cyan-300 uppercase font-bold block">// GEOMETRIA E ESTILO DA FORMA</span>
+              <div>
+                <label class="block text-[9px] font-mono text-slate-400 mb-1">FORMATO GEOMÉTRICO</label>
+                <select onchange="mutateWidget('shapeType', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
+                  <option value="rect" ${w.shapeType === 'rect' ? 'selected' : ''}>▭ Retângulo / Card</option>
+                  <option value="circle" ${w.shapeType === 'circle' ? 'selected' : ''}>◯ Círculo / Elipse</option>
+                  <option value="cyber_panel" ${w.shapeType === 'cyber_panel' ? 'selected' : ''}>▱ Placa Cyberpunk Chanfrada</option>
+                  <option value="hud_brackets" ${w.shapeType === 'hud_brackets' ? 'selected' : ''}>⟦⟧ Colchetes Táticos HUD</option>
+                  <option value="hexagon" ${w.shapeType === 'hexagon' ? 'selected' : ''}>⬢ Hexágono Tático</option>
+                  <option value="octagon" ${w.shapeType === 'octagon' ? 'selected' : ''}>⯃ Octógono Core</option>
+                  <option value="triangle" ${w.shapeType === 'triangle' ? 'selected' : ''}>△ Triângulo</option>
+                  <option value="diamond" ${w.shapeType === 'diamond' ? 'selected' : ''}>◇ Losango / Diamante</option>
+                  <option value="cross" ${w.shapeType === 'cross' ? 'selected' : ''}>✚ Cruz Sci-Fi</option>
+                  <option value="line" ${w.shapeType === 'line' ? 'selected' : ''}>━ Linha / Divisor</option>
+                </select>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">LARGURA (${w.width || 180}PX)</label>
+                  <input type="range" min="20" max="600" value="${w.width || 180}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura Forma');renderInspector();" class="w-full">
+                </div>
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ALTURA (${w.height || 120}PX)</label>
+                  <input type="range" min="8" max="600" value="${w.height || 120}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura Forma');renderInspector();" class="w-full">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">BORDA (${w.strokeWidth ?? 2}PX)</label>
+                  <input type="range" min="0" max="24" value="${w.strokeWidth ?? 2}" oninput="mutateWidget('strokeWidth', Number(this.value), false)" onchange="recordHistory('Espessura Borda');renderInspector();" class="w-full">
+                </div>
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">CANTO (${w.cornerRadius ?? 12}PX)</label>
+                  <input type="range" min="0" max="120" value="${w.cornerRadius ?? 12}" oninput="mutateWidget('cornerRadius', Number(this.value), false)" onchange="recordHistory('Canto Forma');renderInspector();" class="w-full">
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR PREENCHIMENTO</label>
+                  <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded p-1">
+                    <input type="color" value="${w.fillColor || '#0d1522'}" oninput="mutateWidget('fillColor', this.value, false)" onchange="recordHistory('Cor fundo forma')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
+                    <span class="font-mono text-[10px] text-slate-300">${w.fillColor || '#0d1522'}</span>
+                  </div>
+                </div>
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">OPACIDADE FUNDO (${w.fillOpacity ?? 45}%)</label>
+                  <input type="range" min="0" max="100" value="${w.fillOpacity ?? 45}" oninput="mutateWidget('fillOpacity', Number(this.value), false)" onchange="recordHistory('Opacidade fundo forma');renderInspector();" class="w-full mt-2">
+                </div>
+              </div>
+              <button onclick="mutateWidget('dashed', !${!!w.dashed}, true);renderInspector();" class="w-full py-1.5 rounded bg-[#14141f] border border-[#262638] font-mono text-[10px] ${w.dashed ? 'text-[#fcee0a]' : 'text-slate-400'}">
+                Contorno Tracejado: ${w.dashed ? 'ATIVO' : 'CONTÍNUO'}
+              </button>
+            </div>
+          ` : ''}
+
           ${(w.type === 'tachometer' || w.type === 'radial' || w.type === 'reticle') ? `
             <div class="pt-2 border-t border-[#1e1e2a] space-y-2">
               ${w.type === 'tachometer' ? `
@@ -2590,6 +3064,8 @@
                     <option value="blades" ${w.tachStyle === 'blades' ? 'selected' : ''}>02. Lâminas Cyberpunk Inclinadas</option>
                     <option value="reactor" ${w.tachStyle === 'reactor' ? 'selected' : ''}>03. Pinos de Reator Tático</option>
                     <option value="equalizer_arc" ${w.tachStyle === 'equalizer_arc' ? 'selected' : ''}>04. Equalizador Radial</option>
+                    <option value="dual_track" ${w.tachStyle === 'dual_track' ? 'selected' : ''}>05. Tacômetro Duplo (2 Linhas A+B)</option>
+                    <option value="triple_matrix" ${w.tachStyle === 'triple_matrix' ? 'selected' : ''}>06. Tacômetro Triplo (3 Linhas A+B+C)</option>
                   </select>
                 </div>
               ` : ''}
@@ -2601,7 +3077,9 @@
                     <option value="solid" ${(w.radialStyle === 'solid' || !w.radialStyle) ? 'selected' : ''}>01. Arco Neon Contínuo</option>
                     <option value="dashed" ${w.radialStyle === 'dashed' ? 'selected' : ''}>02. Arco Tracejado Técnico</option>
                     <option value="cyber_rail" ${w.radialStyle === 'cyber_rail' ? 'selected' : ''}>03. Cyber Rail + Cursor Laser</option>
-                    <option value="triple_hud" ${w.radialStyle === 'triple_hud' ? 'selected' : ''}>04. Triplo Anel Sci-Fi HUD</option>
+                    <option value="triple_hud" ${w.radialStyle === 'triple_hud' ? 'selected' : ''}>04. Triplo Anel Sci-Fi HUD (3 Sensores)</option>
+                    <option value="multi_dual" ${w.radialStyle === 'multi_dual' ? 'selected' : ''}>05. Arco Duplo Paralelo (Sensores A+B)</option>
+                    <option value="cyber_telemetry" ${w.radialStyle === 'cyber_telemetry' ? 'selected' : ''}>06. Cyber Telemetria Multi-HUD</option>
                   </select>
                 </div>
               ` : ''}
@@ -2673,7 +3151,7 @@
               ${w.type === 'seg_bar' ? `
                 <div class="space-y-2 pt-1 border-t border-[#1e1e2a]">
                   <div>
-                    <label class="block text-[9px] font-mono text-[#fcee0a] mb-1">ESTILO VISUAL DA BARRA (8 MODOS)</label>
+                    <label class="block text-[9px] font-mono text-[#fcee0a] mb-1">ESTILO VISUAL DA BARRA (12 MODOS)</label>
                     <select onchange="mutateWidget('barStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
                       <option value="cells" ${(w.barStyle === 'cells' || !w.barStyle) ? 'selected' : ''}>01. Células LED Digitais</option>
                       <option value="gradient" ${w.barStyle === 'gradient' ? 'selected' : ''}>02. Gradiente Contínuo + Laser</option>
@@ -2683,6 +3161,10 @@
                       <option value="cyber_chamfer" ${w.barStyle === 'cyber_chamfer' ? 'selected' : ''}>06. Cyberpunk Chanfrada 2077</option>
                       <option value="cyber_glitch" ${w.barStyle === 'cyber_glitch' ? 'selected' : ''}>07. Cyberpunk Glitch Scanline</option>
                       <option value="equalizer" ${w.barStyle === 'equalizer' ? 'selected' : ''}>08. Equalizer Peak Caps</option>
+                      <option value="multi_dual_bar" ${w.barStyle === 'multi_dual_bar' ? 'selected' : ''}>09. Barra Dupla (Sensores A + B)</option>
+                      <option value="multi_triple_bar" ${w.barStyle === 'multi_triple_bar' ? 'selected' : ''}>10. Barra Tripla (Sensores A + B + C)</option>
+                      <option value="dual_cells_matrix" ${w.barStyle === 'dual_cells_matrix' ? 'selected' : ''}>11. Matriz Células Dupla (2 Fileiras)</option>
+                      <option value="cyber_hud_dual" ${w.barStyle === 'cyber_hud_dual' ? 'selected' : ''}>12. Cyber Telemetria HUD Dupla</option>
                     </select>
                   </div>
                   <div class="grid grid-cols-2 gap-2">
@@ -2739,21 +3221,21 @@
                   <span class="font-mono text-[10px] text-slate-300">${w.color || '#00f0ff'}</span>
                 </div>
               </div>
-              ${w.accentColor !== undefined ? `
+              ${(w.type === 'seg_bar' || w.type === 'tachometer' || w.type === 'radial' || w.type === 'spectrum' || w.type === 'shape') ? `
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR DESTAQUE</label>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR SECUNDÁRIA (LINHA B)</label>
                   <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded p-1">
-                    <input type="color" value="${w.accentColor || '#ff3b00'}" oninput="mutateWidget('accentColor', this.value, false)" onchange="recordHistory('Cor destaque')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
-                    <span class="font-mono text-[10px] text-slate-300">${w.accentColor}</span>
+                    <input type="color" value="${w.secondaryColor || '#00f0ff'}" oninput="mutateWidget('secondaryColor', this.value, false)" onchange="recordHistory('Cor secundária')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
+                    <span class="font-mono text-[10px] text-slate-300">${w.secondaryColor || '#00f0ff'}</span>
                   </div>
                 </div>
               ` : ''}
-              ${(w.type === 'seg_bar' || w.type === 'tachometer' || w.type === 'radial' || w.type === 'spectrum') ? `
+              ${(w.type === 'seg_bar' || w.type === 'tachometer' || w.type === 'radial') ? `
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR SECUNDÁRIA / PICO</label>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR TERCIÁRIA (LINHA C)</label>
                   <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded p-1">
-                    <input type="color" value="${w.secondaryColor || '#ff0055'}" oninput="mutateWidget('secondaryColor', this.value, false)" onchange="recordHistory('Cor secundária')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
-                    <span class="font-mono text-[10px] text-slate-300">${w.secondaryColor || '#ff0055'}</span>
+                    <input type="color" value="${w.tertiaryColor || '#b8ff01'}" oninput="mutateWidget('tertiaryColor', this.value, false)" onchange="recordHistory('Cor terciária')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
+                    <span class="font-mono text-[10px] text-slate-300">${w.tertiaryColor || '#b8ff01'}</span>
                   </div>
                 </div>
               ` : ''}
@@ -2956,14 +3438,21 @@
         }
       } else if (type === 'tachometer') {
         const tStyle = customSensor || 'blocks';
-        w = { ...w, name: `Arco (${tStyle})`, sensor: 'cpu_load', radius: 225, thickness: 16, segments: 22, tachStyle: tStyle, startAngle: 135, sweepAngle: 270, color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#181824' };
+        const multiCnt = tStyle === 'triple_matrix' ? 3 : tStyle === 'dual_track' ? 2 : 1;
+        w = { ...w, name: `Arco (${tStyle})`, sensor: 'cpu_load', sensorB: 'gpu_load', sensorC: 'liquid_temp', multiLineCount: multiCnt, radius: 225, thickness: 18, segments: 22, tachStyle: tStyle, startAngle: 135, sweepAngle: 270, color: '#fcee0a', secondaryColor: '#00f0ff', tertiaryColor: '#ff0055', trackColor: '#181824' };
       } else if (type === 'radial') {
         const rStyle = customSensor || 'solid';
-        w = { ...w, name: `Radial (${rStyle})`, sensor: 'gpu_load', radius: 205, thickness: 12, radialStyle: rStyle, startAngle: 135, sweepAngle: 270, color: '#00f0ff', secondaryColor: '#fcee0a', trackColor: '#161622' };
+        const multiCnt = rStyle === 'triple_hud' ? 3 : (rStyle === 'multi_dual' || rStyle === 'cyber_telemetry') ? 2 : 1;
+        w = { ...w, name: `Radial (${rStyle})`, sensor: 'cpu_load', sensorB: 'gpu_load', sensorC: 'liquid_temp', multiLineCount: multiCnt, radius: 205, thickness: 14, radialStyle: rStyle, startAngle: 135, sweepAngle: 270, color: '#00f0ff', secondaryColor: '#fcee0a', tertiaryColor: '#ff0055', trackColor: '#161622' };
       } else if (type === 'seg_bar') {
         const style = customSensor || 'cells';
-        const isWithHeader = ['cyber_glitch', 'cells', 'equalizer'].includes(style);
-        w = { ...w, name: `Barra (${style})`, sensor: 'ram_percent', width: 260, height: isWithHeader ? 36 : 22, segments: 18, barStyle: style, showHeader: isWithHeader, title: 'MEM RAM', labelSize: 12, color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#181826' };
+        const isMulti = ['multi_dual_bar', 'multi_triple_bar', 'dual_cells_matrix', 'cyber_hud_dual'].includes(style);
+        const isWithHeader = isMulti || ['cyber_glitch', 'cells', 'equalizer'].includes(style);
+        w = { ...w, name: `Barra (${style})`, sensor: 'cpu_load', sensorB: 'gpu_load', sensorC: 'ram_percent', width: 280, height: isMulti ? 44 : (isWithHeader ? 36 : 22), segments: 18, barStyle: style, showHeader: isWithHeader, title: isMulti ? 'CPU // GPU TELEMETRY' : 'MEM RAM', labelSize: 12, color: '#b8ff01', secondaryColor: '#00f0ff', tertiaryColor: '#ff0055', trackColor: '#181826' };
+      } else if (type === 'shape') {
+        const sType = customSensor || 'rect';
+        const isLine = sType === 'line';
+        w = { ...w, name: `Forma (${sType})`, shapeType: sType, width: isLine ? 260 : 190, height: isLine ? 18 : 130, strokeWidth: 2, cornerRadius: 12, color: '#00f0ff', secondaryColor: '#fcee0a', fillColor: '#0c1322', fillOpacity: isLine ? 0 : 45, dashed: false, glow: 6 };
       } else if (type === 'reticle') {
         w = { ...w, name: 'Anel Escala HUD', radius: 280, style: 'ticks', color: '#2e2e42' };
       } else if (type === 'chart') {
@@ -3155,8 +3644,11 @@
 
       const mediaEl = layer.firstElementChild;
       if (mediaEl) {
+        const fitMode = bg.fitMode || 'cover';
+        mediaEl.style.objectFit = fitMode;
         mediaEl.style.opacity = (bg.opacity ?? 50) / 100;
-        mediaEl.style.transform = `translate(${bg.posX || 0}px, ${bg.posY || 0}px) scale(${(bg.scale || 100) / 100})`;
+        mediaEl.style.transform = `translate(${bg.posX || 0}px, ${bg.posY || 0}px) rotate(${bg.rotation || 0}deg) scale(${(bg.scale || 100) / 100})`;
+        mediaEl.style.transformOrigin = 'center center';
         mediaEl.style.filter = `blur(${bg.blur || 0}px) brightness(${bg.brightness ?? 100}%)`;
         layer.style.mixBlendMode = bg.blendMode || 'normal';
       }
@@ -3165,10 +3657,30 @@
       vig.style.background = `radial-gradient(circle, rgba(0,0,0,0) 42%, rgba(0,0,0,${vigStrength}) 100%)`;
 
       const setTxt = (id, t) => { const e = document.getElementById(id); if (e) e.textContent = t; };
+      const setVal = (id, v) => { const e = document.getElementById(id); if (e) e.value = v; };
       setTxt('lbl-bg-opacity', `${bg.opacity ?? 50}%`);
       setTxt('lbl-bg-scale', `${bg.scale ?? 100}%`);
+      setTxt('lbl-bg-posx', `${bg.posX || 0}px`);
+      setTxt('lbl-bg-posy', `${bg.posY || 0}px`);
+      setTxt('lbl-bg-rot', `${bg.rotation || 0}°`);
       setTxt('lbl-bg-blur', `${bg.blur ?? 0}px`);
       setTxt('lbl-bg-vignette', `${bg.vignette ?? 55}%`);
+      setVal('sel-bg-fit', bg.fitMode || 'cover');
+      setVal('rng-bg-scale', bg.scale ?? 100);
+      setVal('rng-bg-posx', bg.posX || 0);
+      setVal('rng-bg-posy', bg.posY || 0);
+      setVal('rng-bg-rot', bg.rotation || 0);
+    }
+
+    function resetBgTransform() {
+      project.background.scale = 100;
+      project.background.posX = 0;
+      project.background.posY = 0;
+      project.background.rotation = 0;
+      project.background.fitMode = 'contain';
+      applyStageBackground();
+      recordHistory('Centralizar mídia de fundo');
+      showToast('MÍDIA DE FUNDO AJUSTADA SEM CORTE');
     }
 
     function updateBgParam(key, val) {
