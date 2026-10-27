@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KRAKEN // OS v4.2 — High-Legibility Telemetry & GIF Studio (640x640)</title>
+  <title>KRAKEN // OS v4.5 — Real-Time Audio, Power (Watts) & Layer Studio (640x640)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -274,6 +274,24 @@
       transform: scale(1.18);
       background: #fff;
     }
+
+    /* Drag & Drop de Camadas na Guia 03 */
+    .layer-item-row {
+      transition: transform 0.12s ease, background-color 0.12s ease, border-color 0.12s ease;
+    }
+    .layer-item-row.dragging-layer {
+      opacity: 0.4;
+      border-style: dashed !important;
+      border-color: #00f0ff !important;
+    }
+    .layer-item-row.drag-over-top {
+      border-top: 2px solid #b8ff01 !important;
+      transform: translateY(2px);
+    }
+    .layer-item-row.drag-over-bottom {
+      border-bottom: 2px solid #b8ff01 !important;
+      transform: translateY(-2px);
+    }
   </style>
 </head>
 <body class="h-screen w-screen flex flex-col select-none">
@@ -291,7 +309,7 @@
       <div>
         <div class="flex items-center space-x-2">
           <span class="font-bold tracking-widest text-xs text-white font-mono">KRAKEN // OS</span>
-          <span class="text-[10px] font-mono bg-[#181822] text-[#b8ff01] border border-[#b8ff01]/40 px-1.5 py-0.2 rounded">v4.2 ULTRA-LEGIBLE</span>
+          <span class="text-[10px] font-mono bg-[#181822] text-[#b8ff01] border border-[#b8ff01]/40 px-1.5 py-0.2 rounded">v4.5 WATTS + AUDIO</span>
         </div>
         <div class="text-[10px] font-mono text-slate-500">NZXT KRAKEN ELITE 640×640 TELEMETRY & GIF ARCHITECT</div>
       </div>
@@ -352,6 +370,12 @@
 
     <!-- Direita: Status CAM + Preview Puro + Exportar -->
     <div class="flex items-center space-x-2">
+      <!-- Botão de Captura de Áudio do Sistema / Microfone -->
+      <button id="btn-top-audio" onclick="toggleLiveAudioEngine()" class="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#111118] hover:bg-[#1a1a26] border border-[#222230] text-[10px] font-mono text-slate-300 transition" title="Sincronizar Espectro com Áudio do PC / Microfone">
+        <span id="audio-led" class="w-2 h-2 rounded-full bg-slate-500"></span>
+        <span id="audio-label">ÁUDIO: SIM</span>
+      </button>
+
       <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded bg-[#111118] border border-[#222230] text-[10px] font-mono">
         <span id="cam-led" class="w-2 h-2 rounded-full bg-[#b8ff01] animate-pulse"></span>
         <span id="cam-label" class="text-slate-300">SIMULADOR FÍSICO</span>
@@ -498,10 +522,10 @@
             <!-- Preset 5 -->
             <button onclick="applyPresetTemplate('overclock_telemetry')" class="w-full p-3 rounded-lg bg-[#111118] hover:bg-[#171722] border border-[#222230] hover:border-purple-400 text-left transition group">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-xs text-white group-hover:text-purple-400">05 // OVERCLOCK BENCHMARK</span>
-                <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300">SPARKLINES</span>
+                <span class="font-mono font-bold text-xs text-white group-hover:text-purple-400">05 // OVERCLOCK & WATTS</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-purple-500/15 text-purple-300">WATTS + SPARKS</span>
               </div>
-              <p class="text-[11px] text-slate-400 mt-1">Painel de diagnóstico com 2 gráficos de histórico em tempo real, barras de células LED e leitura completa de sensores.</p>
+              <p class="text-[11px] text-slate-400 mt-1">Painel de diagnóstico com leitura de consumo em Watts (CPU/GPU/Total), barras táticas e gráficos de onda.</p>
             </button>
           </div>
         </div>
@@ -573,7 +597,7 @@
 
           <!-- Categoria: Medidores Circulares & Tacômetros -->
           <div class="space-y-2">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Medidores Radiais & Barras LED</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Medidores Radiais & Múltiplas Barras</span>
             <div class="grid grid-cols-2 gap-2">
               <button onclick="createNewWidget('radial')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#ff3b00] text-left transition">
                 <div class="text-xs font-mono font-bold text-[#ff3b00]">ARCO CONTÍNUO</div>
@@ -583,28 +607,66 @@
                 <div class="text-xs font-mono font-bold text-[#ff3b00]">TACÔMETRO TICKS</div>
                 <div class="text-[10px] text-slate-400 mt-0.5">Arco industrial segmentado</div>
               </button>
-              <button onclick="createNewWidget('seg_bar')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#ff3b00] text-left transition">
-                <div class="text-xs font-mono font-bold text-emerald-400">BARRA LED CÉLULAS</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Medidor linear em blocos</div>
+              <button onclick="createNewWidget('seg_bar', 'cells')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-emerald-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-emerald-400">BARRA CÉLULAS LED</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Blocos digitais clássicos</div>
               </button>
-              <button onclick="createNewWidget('chart')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#ff3b00] text-left transition">
+              <button onclick="createNewWidget('seg_bar', 'gradient')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-cyan-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-cyan-400">BARRA GRADIENTE</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Fluida com marcador laser</div>
+              </button>
+              <button onclick="createNewWidget('seg_bar', 'chevron')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-amber-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-amber-400">BARRA CHEVRON ///</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Segmentos angulares 45°</div>
+              </button>
+              <button onclick="createNewWidget('seg_bar', 'dual_rail')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-pink-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-pink-400">BARRA PLASMA RAIL</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Trilho duplo de alta carga</div>
+              </button>
+              <button onclick="createNewWidget('seg_bar', 'ruler')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-sky-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-sky-400">BARRA RÉGUA TÁTICA</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Escala milimétrica HUD</div>
+              </button>
+              <button onclick="createNewWidget('chart')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-purple-400 text-left transition">
                 <div class="text-xs font-mono font-bold text-purple-400">GRÁFICO ONDA</div>
                 <div class="text-[10px] text-slate-400 mt-0.5">Histórico 40s com legenda</div>
               </button>
             </div>
           </div>
 
+          <!-- Categoria: Carga Elétrica (Watts) & Espectro de Áudio Real -->
+          <div class="space-y-2">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-amber-400 block">⚡ Potência (Watts) & Áudio Real do PC</span>
+            <div class="grid grid-cols-2 gap-2">
+              <button onclick="createPowerWattsWidget('cpu_power')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-amber-500/30 hover:border-amber-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-amber-400">⚡ CPU WATTS (W)</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Consumo elétrico da CPU</div>
+              </button>
+              <button onclick="createPowerWattsWidget('gpu_power')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-amber-500/30 hover:border-amber-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-amber-400">⚡ GPU WATTS (W)</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Consumo elétrico da GPU</div>
+              </button>
+              <button onclick="createPowerWattsWidget('dual_power')" class="col-span-2 p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-amber-500/30 hover:border-amber-400 text-left transition flex items-center justify-between">
+                <div>
+                  <div class="text-xs font-mono font-bold text-[#b8ff01]">⚡ PÍLULA DUPLA DE POTÊNCIA (CPU W // GPU W)</div>
+                  <div class="text-[10px] text-slate-400 mt-0.5">Monitoramento combinado de carga em Watts em tempo real</div>
+                </div>
+                <span class="text-[10px] font-mono bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded">NOVO</span>
+              </button>
+            </div>
+          </div>
+
           <!-- Categoria: Vetores HUD e Espectro -->
           <div class="space-y-2">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Elementos Visuais & Texto</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Elementos Visuais & Espectro de Áudio</span>
             <div class="grid grid-cols-2 gap-2">
               <button onclick="createNewWidget('reticle')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-sky-400">ANEL / MIRA HUD</div>
                 <div class="text-[10px] text-slate-400 mt-0.5">Aro técnico decorativo</div>
               </button>
-              <button onclick="createNewWidget('spectrum')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
-                <div class="text-xs font-mono font-bold text-pink-400">ESPECTRO ÁUDIO</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Barras de frequência</div>
+              <button onclick="createNewWidget('spectrum')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-pink-500/40 hover:border-pink-400 text-left transition">
+                <div class="text-xs font-mono font-bold text-pink-400">🎵 ESPECTRO ÁUDIO PC</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Reage ao som real do PC</div>
               </button>
               <button onclick="createNewWidget('label')" class="col-span-2 p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-slate-200">RÓTULO / TEXTO LIVRE</div>
@@ -615,15 +677,19 @@
         </div>
 
         <!-- =============================================================== -->
-        <!-- GUIA [03]: ÁRVORE DE CAMADAS COM VISIBILIDADE E BLOQUEIO        -->
+        <!-- GUIA [03]: ÁRVORE DE CAMADAS COM ARRASTE (DRAG & DROP)          -->
         <!-- =============================================================== -->
         <div id="tab-pane-layers" class="flex-1 flex flex-col overflow-hidden p-4 hidden">
-          <div class="border-b border-[#1e1e2a] pb-2 mb-3 flex items-center justify-between">
+          <div class="border-b border-[#1e1e2a] pb-2 mb-2 flex items-center justify-between">
             <div>
               <span class="text-[10px] font-mono text-[#b8ff01] uppercase tracking-widest">// GUIA 03</span>
               <h2 class="text-sm font-bold text-white tracking-wide">GERENCIADOR DE CAMADAS</h2>
             </div>
             <button onclick="clearAllStageWidgets()" class="text-[10px] font-mono text-rose-400 hover:underline">LIMPAR TUDO</button>
+          </div>
+          <div class="mb-2.5 px-2.5 py-1.5 rounded bg-[#12121c] border border-[#252538] text-[10px] font-mono text-slate-300 flex items-center space-x-2">
+            <span class="text-[#00f0ff] font-bold">⇅ DICA:</span>
+            <span>Arraste qualquer camada com o mouse para mudar a ordem de sobreposição (topo = frente).</span>
           </div>
           <div id="layers-tree-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1"></div>
         </div>
@@ -866,25 +932,25 @@
         <!-- Painel de Diagnóstico de Sensores em Tempo Real -->
         <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2 font-mono text-[11px]">
           <div class="text-[10px] text-slate-400 uppercase flex justify-between">
-            <span>TELEMETRIA ATIVA</span>
+            <span>TELEMETRIA ATIVA (TEMP / CLOCK / WATTS)</span>
             <span class="text-[#00f0ff]">60 FPS</span>
           </div>
           <div class="grid grid-cols-2 gap-1.5 text-[11px]">
             <div class="bg-[#09090d] p-2 rounded border border-[#1a1a24]">
-              <span class="text-slate-500 text-[9px] block">CPU CORE</span>
-              <span id="diag-cpu" class="text-white font-bold">54°C // 4.8GHz</span>
+              <span class="text-slate-500 text-[9px] block">CPU CORE & POWER</span>
+              <span id="diag-cpu" class="text-white font-bold">54°C // 88W</span>
             </div>
             <div class="bg-[#09090d] p-2 rounded border border-[#1a1a24]">
-              <span class="text-slate-500 text-[9px] block">GPU CORE</span>
-              <span id="diag-gpu" class="text-white font-bold">49°C // 2560MHz</span>
+              <span class="text-slate-500 text-[9px] block">GPU CORE & POWER</span>
+              <span id="diag-gpu" class="text-white font-bold">49°C // 195W</span>
             </div>
             <div class="bg-[#09090d] p-2 rounded border border-[#1a1a24]">
               <span class="text-slate-500 text-[9px] block">LIQUID / PUMP</span>
               <span id="diag-liq" class="text-[#00f0ff] font-bold">32.4°C // 2680</span>
             </div>
             <div class="bg-[#09090d] p-2 rounded border border-[#1a1a24]">
-              <span class="text-slate-500 text-[9px] block">SYSTEM RAM</span>
-              <span id="diag-ram" class="text-[#b8ff01] font-bold">16.3GB (51%)</span>
+              <span class="text-slate-500 text-[9px] block">RAM & SYS WATTS</span>
+              <span id="diag-ram" class="text-[#b8ff01] font-bold">16.3GB // 325W</span>
             </div>
           </div>
         </div>
@@ -902,17 +968,19 @@
   <!-- ===================================================================== -->
   <script>
     /*************************************************************************
-     * 1. ARMAZENAMENTO INDEXEDDB PARA GIFS E VÍDEOS LOCAIS
+     * 1. BANCO INDEXEDDB LOCAL PARA GIFS, STICKERS E VÍDEOS SEM LIMITE DE MB
      *************************************************************************/
-    const IDB_NAME = 'KrakenOS_MediaDB_v3';
-    const IDB_STORE = 'assets';
+    const DB_NAME = 'KrakenOS_MediaDB_v4';
+    const STORE_NAME = 'media_assets';
 
     function openMediaDB() {
       return new Promise((resolve, reject) => {
-        const req = indexedDB.open(IDB_NAME, 1);
+        const req = indexedDB.open(DB_NAME, 1);
         req.onupgradeneeded = (e) => {
           const db = e.target.result;
-          if (!db.objectStoreNames.contains(IDB_STORE)) db.createObjectStore(IDB_STORE);
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
         };
         req.onsuccess = () => resolve(req.result);
         req.onerror = () => reject(req.error);
@@ -922,49 +990,60 @@
     async function saveMediaAsset(key, dataUrl, mimeType) {
       try {
         const db = await openMediaDB();
-        return new Promise((resolve) => {
-          const tx = db.transaction(IDB_STORE, 'readwrite');
-          tx.objectStore(IDB_STORE).put({ dataUrl, mimeType }, key);
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).put({ dataUrl, mimeType, updatedAt: Date.now() }, key);
           tx.oncomplete = () => resolve(true);
+          tx.onerror = () => reject(tx.error);
         });
-      } catch (e) { return false; }
+      } catch (e) {
+        return false;
+      }
     }
 
     async function getMediaAsset(key) {
       try {
         const db = await openMediaDB();
         return new Promise((resolve) => {
-          const tx = db.transaction(IDB_STORE, 'readonly');
-          const req = tx.objectStore(IDB_STORE).get(key);
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const req = tx.objectStore(STORE_NAME).get(key);
           req.onsuccess = () => resolve(req.result || null);
           req.onerror = () => resolve(null);
         });
-      } catch (e) { return null; }
+      } catch (e) {
+        return null;
+      }
     }
 
     /*************************************************************************
-     * 2. CATÁLOGO DE SENSORES & TELEMETRIA EM TEMPO REAL
+     * 2. CATÁLOGO DE SENSORES & TELEMETRIA EM TEMPO REAL (COM WATTS)
      *************************************************************************/
     const SENSORS_CATALOG = {
-      cpu_temp:    { label: 'CPU Temperatura (°C)', short: 'CPU TEMP', unit: '°C', min: 20, max: 100 },
-      cpu_load:    { label: 'CPU Uso (%)',          short: 'CPU LOAD', unit: '%',  min: 0,  max: 100 },
-      cpu_freq:    { label: 'CPU Clock (GHz)',      short: 'CPU CLOCK',unit: 'GHz',min: 0,  max: 6.5 },
-      gpu_temp:    { label: 'GPU Temperatura (°C)', short: 'GPU TEMP', unit: '°C', min: 20, max: 100 },
-      gpu_load:    { label: 'GPU Uso (%)',          short: 'GPU LOAD', unit: '%',  min: 0,  max: 100 },
-      gpu_freq:    { label: 'GPU Clock (MHz)',      short: 'GPU CLOCK',unit: 'MHz',min: 0,  max: 3200 },
-      liquid_temp: { label: 'Líquido Watercooler (°C)', short: 'COOLANT', unit: '°C', min: 20, max: 55 },
-      ram_percent: { label: 'Memória RAM (%)',      short: 'RAM LOAD', unit: '%',  min: 0,  max: 100 },
-      ram_used:    { label: 'Memória RAM Usada (GB)',short: 'RAM GB',  unit: 'GB', min: 0,  max: 64 },
-      pump_rpm:    { label: 'Bomba Kraken (RPM)',   short: 'PUMP RPM', unit: 'RPM',min: 0,  max: 3200 }
+      cpu_temp:    { label: 'CPU Temperatura (°C)',      short: 'CPU TEMP',  unit: '°C',  min: 20, max: 100 },
+      cpu_load:    { label: 'CPU Uso (%)',               short: 'CPU LOAD',  unit: '%',   min: 0,  max: 100 },
+      cpu_freq:    { label: 'CPU Clock (GHz)',           short: 'CPU CLOCK', unit: 'GHz', min: 0,  max: 6.5 },
+      cpu_power:   { label: '⚡ CPU Potência / Carga (W)',short: 'CPU POWER', unit: 'W',   min: 10, max: 250 },
+      gpu_temp:    { label: 'GPU Temperatura (°C)',      short: 'GPU TEMP',  unit: '°C',  min: 20, max: 100 },
+      gpu_load:    { label: 'GPU Uso (%)',               short: 'GPU LOAD',  unit: '%',   min: 0,  max: 100 },
+      gpu_freq:    { label: 'GPU Clock (MHz)',           short: 'GPU CLOCK', unit: 'MHz', min: 0,  max: 3200 },
+      gpu_power:   { label: '⚡ GPU Potência / Carga (W)',short: 'GPU POWER', unit: 'W',   min: 15, max: 450 },
+      sys_power:   { label: '⚡ Sistema Total (Watts)',  short: 'SYS POWER', unit: 'W',   min: 50, max: 850 },
+      liquid_temp: { label: 'Líquido Watercooler (°C)',  short: 'COOLANT',   unit: '°C',  min: 20, max: 55 },
+      ram_percent: { label: 'Memória RAM (%)',           short: 'RAM LOAD',  unit: '%',   min: 0,  max: 100 },
+      ram_used:    { label: 'Memória RAM Usada (GB)',    short: 'RAM GB',    unit: 'GB',  min: 0,  max: 64 },
+      pump_rpm:    { label: 'Bomba Kraken (RPM)',        short: 'PUMP RPM',  unit: 'RPM', min: 0,  max: 3200 }
     };
 
     const telemetry = {
       cpu_temp: 54,
       cpu_load: 38,
       cpu_freq: 4.85,
+      cpu_power: 86,
       gpu_temp: 48,
       gpu_load: 52,
       gpu_freq: 2580,
+      gpu_power: 185,
+      sys_power: 315,
       liquid_temp: 32.4,
       ram_percent: 51,
       ram_used: 16.4,
@@ -976,11 +1055,147 @@
     const telemetryHistory = {
       cpu_temp: Array(40).fill(52),
       cpu_load: Array(40).fill(38),
+      cpu_power: Array(40).fill(86),
       gpu_temp: Array(40).fill(48),
       gpu_load: Array(40).fill(50),
+      gpu_power: Array(40).fill(185),
+      sys_power: Array(40).fill(315),
       liquid_temp: Array(40).fill(32),
       ram_percent: Array(40).fill(51)
     };
+
+    /*************************************************************************
+     * 2.1 MOTOR DE ÁUDIO EM TEMPO REAL (WEB AUDIO API FFT SPECTRUM)
+     *************************************************************************/
+    const liveAudioEngine = {
+      active: false,
+      mode: 'sim', // 'sim' | 'mic' | 'system'
+      audioCtx: null,
+      analyser: null,
+      dataArray: null,
+      stream: null,
+      sensitivity: 1.4,
+      bins: new Array(32).fill(10)
+    };
+
+    async function startLiveAudioCapture(sourceType = 'mic') {
+      try {
+        stopLiveAudioCapture();
+        let stream = null;
+        if (sourceType === 'system' && navigator.mediaDevices?.getDisplayMedia) {
+          stream = await navigator.mediaDevices.getDisplayMedia({
+            video: true,
+            audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+          });
+          // Verifica se o usuário marcou "Compartilhar áudio do sistema/aba"
+          if (stream.getAudioTracks().length === 0) {
+            stream.getTracks().forEach(t => t.stop());
+            showToast('⚠ MARQUE "COMPARTILHAR ÁUDIO DO SISTEMA" NA JANELA!');
+            return false;
+          }
+        } else {
+          stream = await navigator.mediaDevices.getUserMedia({
+            audio: { echoCancellation: false, noiseSuppression: false, autoGainControl: false }
+          });
+        }
+
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioCtx();
+        const src = ctx.createMediaStreamSource(stream);
+        const analyser = ctx.createAnalyser();
+        analyser.fftSize = 128;
+        analyser.smoothingTimeConstant = 0.78;
+        src.connect(analyser);
+
+        liveAudioEngine.audioCtx = ctx;
+        liveAudioEngine.analyser = analyser;
+        liveAudioEngine.dataArray = new Uint8Array(analyser.frequencyBinCount);
+        liveAudioEngine.stream = stream;
+        liveAudioEngine.active = true;
+        liveAudioEngine.mode = sourceType;
+
+        updateAudioStatusUI();
+        showToast(sourceType === 'system' ? '🎵 ÁUDIO DO PC CONECTADO EM TEMPO REAL!' : '🎙 ÁUDIO DO MICROFONE / LOOPBACK ATIVO!');
+        return true;
+      } catch (err) {
+        liveAudioEngine.active = false;
+        liveAudioEngine.mode = 'sim';
+        updateAudioStatusUI();
+        showToast('USANDO SIMULADOR DE ESPECTRO (PERMISSÃO NEGADA OU CANCELADA)');
+        return false;
+      }
+    }
+
+    function stopLiveAudioCapture() {
+      if (liveAudioEngine.stream) {
+        liveAudioEngine.stream.getTracks().forEach(t => t.stop());
+      }
+      if (liveAudioEngine.audioCtx) {
+        try { liveAudioEngine.audioCtx.close(); } catch (e) {}
+      }
+      liveAudioEngine.active = false;
+      liveAudioEngine.mode = 'sim';
+      liveAudioEngine.analyser = null;
+      liveAudioEngine.stream = null;
+      updateAudioStatusUI();
+    }
+
+    async function toggleLiveAudioEngine() {
+      if (liveAudioEngine.active) {
+        stopLiveAudioCapture();
+        showToast('ÁUDIO EM MODO SIMULAÇÃO PROCEDURAL');
+      } else {
+        await startLiveAudioCapture('mic');
+      }
+    }
+
+    function updateAudioStatusUI() {
+      const led = document.getElementById('audio-led');
+      const lbl = document.getElementById('audio-label');
+      if (!led || !lbl) return;
+      if (liveAudioEngine.active) {
+        led.className = 'w-2 h-2 rounded-full bg-pink-500 animate-ping';
+        lbl.textContent = liveAudioEngine.mode === 'system' ? 'ÁUDIO: PC LIVE' : 'ÁUDIO: MIC/MIX';
+        lbl.className = 'text-pink-400 font-bold';
+      } else {
+        led.className = 'w-2 h-2 rounded-full bg-slate-500';
+        lbl.textContent = 'ÁUDIO: SIM';
+        lbl.className = 'text-slate-300';
+      }
+    }
+
+    function sampleAudioSpectrumBins(count = 20, sensitivity = 1.35) {
+      if (liveAudioEngine.active && liveAudioEngine.analyser && liveAudioEngine.dataArray) {
+        liveAudioEngine.analyser.getByteFrequencyData(liveAudioEngine.dataArray);
+        const out = [];
+        const usableBins = Math.floor(liveAudioEngine.dataArray.length * 0.78);
+        for (let i = 0; i < count; i++) {
+          const idx = Math.min(usableBins - 1, Math.floor((i / count) * usableBins));
+          const raw = liveAudioEngine.dataArray[idx] / 255;
+          const boosted = Math.min(1, Math.pow(raw * sensitivity, 1.15));
+          out.push(boosted);
+        }
+        if (broadcastBus) {
+          broadcastBus.postMessage({ type: 'SYNC_AUDIO_BINS', bins: out });
+        }
+        return out;
+      }
+
+      // Se recebeu bins via BroadcastChannel do estúdio para o hardware
+      if (liveAudioEngine.remoteBins && liveAudioEngine.remoteBins.length === count && (Date.now() - liveAudioEngine.remoteTimestamp < 600)) {
+        return liveAudioEngine.remoteBins;
+      }
+
+      // Fallback procedural rítmico realista sincronizado com carga de CPU/GPU
+      const now = Date.now() / 130;
+      const energy = 0.35 + (telemetry.cpu_load / 100) * 0.45;
+      const out = [];
+      for (let i = 0; i < count; i++) {
+        const wave = Math.abs(Math.sin(now + i * 0.42)) * 0.65 + Math.abs(Math.cos(now * 1.3 - i * 0.25)) * 0.35;
+        out.push(Math.min(1, Math.max(0.08, wave * energy)));
+      }
+      return out;
+    }
 
     function formatReading(sensorKey) {
       const val = telemetry[sensorKey] ?? 0;
@@ -1132,6 +1347,9 @@
           await preloadStickerAssets();
           await applyStageBackground();
           renderStageWidgets();
+        } else if (e.data?.type === 'SYNC_AUDIO_BINS') {
+          liveAudioEngine.remoteBins = e.data.bins;
+          liveAudioEngine.remoteTimestamp = Date.now();
         }
       };
     }
@@ -1183,10 +1401,10 @@
           // Leitura Central do Líquido
           { id: 'tp_liq_lbl', type: 'label', name: 'Tag Coolant', text: 'LIQUID', x: 320, y: 274, fontSize: 16, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#cbd5e1', glow: 0, widgetScale: 100 },
           { id: 'tp_liq_val', type: 'sensor', name: 'Temp Líquido', sensor: 'liquid_temp', prefix: '', showUnit: true, x: 320, y: 318, fontSize: 40, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#b8ff01', glow: 8, widgetScale: 100 },
-          { id: 'tp_pump', type: 'sensor', name: 'RPM Bomba', sensor: 'pump_rpm', prefix: '', showUnit: true, x: 320, y: 362, fontSize: 16, unitSize: 12, fontWeight: 700, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0, widgetScale: 100 },
+          { id: 'tp_watts', type: 'dual_pill', name: 'Potência CPU/GPU (W)', sensorA: 'cpu_power', sensorB: 'gpu_power', x: 320, y: 418, fontSize: 18, unitSize: 14, fontWeight: 800, color: '#f59e0b', bgColor: '#0e0e14', widgetScale: 100 },
 
           // Barra Segmentada de RAM na Base + Cronômetro no Topo
-          { id: 'tp_ram_bar', type: 'seg_bar', name: 'Barra LED RAM', sensor: 'ram_percent', x: 320, y: 478, width: 250, height: 16, segments: 18, color: '#b8ff01', trackColor: '#161622', widgetScale: 100 },
+          { id: 'tp_ram_bar', type: 'seg_bar', barStyle: 'cells', name: 'Barra LED RAM', sensor: 'ram_percent', x: 320, y: 478, width: 250, height: 16, segments: 18, color: '#b8ff01', trackColor: '#161622', widgetScale: 100 },
           { id: 'tp_ram_txt', type: 'dual_pill', name: 'Pílula RAM', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 526, fontSize: 20, unitSize: 15, fontWeight: 800, color: '#b8ff01', bgColor: '#0e0e14', widgetScale: 100 },
           { id: 'tp_clock', type: 'clock', name: 'Cronômetro Topo', format: 'HH:MM:SS', x: 320, y: 108, fontSize: 24, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 0, widgetScale: 100 }
         ]
@@ -1254,17 +1472,17 @@
           { id: 'oc_ret', type: 'reticle', name: 'Grade Técnica', x: 320, y: 320, radius: 292, color: '#222230', style: 'ticks', widgetScale: 100 },
           { id: 'oc_ch1', type: 'chart', name: 'Gráfico CPU', sensor: 'cpu_temp', x: 192, y: 236, width: 185, height: 64, labelSize: 13, showLabel: true, color: '#00f0ff', widgetScale: 100 },
           { id: 'oc_c1', type: 'telemetry_card', name: 'CPU Temp', sensor: 'cpu_temp', title: 'CPU CORE', x: 192, y: 150, fontSize: 50, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#00f0ff', accentColor: '#00f0ff', labelColor: '#e2e8f0', glow: 6, widgetScale: 100 },
-          { id: 'oc_p1', type: 'dual_pill', name: 'CPU Freq/Load', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 192, y: 300, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#0d0d14', widgetScale: 100 },
+          { id: 'oc_p1', type: 'dual_pill', name: 'CPU Freq/Watts', sensorA: 'cpu_freq', sensorB: 'cpu_power', x: 192, y: 300, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#0d0d14', widgetScale: 100 },
 
           { id: 'oc_ch2', type: 'chart', name: 'Gráfico GPU', sensor: 'gpu_temp', x: 448, y: 236, width: 185, height: 64, labelSize: 13, showLabel: true, color: '#ff3b00', widgetScale: 100 },
           { id: 'oc_c2', type: 'telemetry_card', name: 'GPU Temp', sensor: 'gpu_temp', title: 'GPU CORE', x: 448, y: 150, fontSize: 50, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ff3b00', accentColor: '#ff3b00', labelColor: '#e2e8f0', glow: 6, widgetScale: 100 },
-          { id: 'oc_p2', type: 'dual_pill', name: 'GPU Freq/Load', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 448, y: 300, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#ff3b00', bgColor: '#0d0d14', widgetScale: 100 },
+          { id: 'oc_p2', type: 'dual_pill', name: 'GPU Freq/Watts', sensorA: 'gpu_freq', sensorB: 'gpu_power', x: 448, y: 300, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#ff3b00', bgColor: '#0d0d14', widgetScale: 100 },
 
-          { id: 'oc_b1', type: 'seg_bar', name: 'Barra Líquido', sensor: 'liquid_temp', x: 320, y: 392, width: 310, height: 15, segments: 22, color: '#00ffc8', trackColor: '#141420', widgetScale: 100 },
+          { id: 'oc_b1', type: 'seg_bar', barStyle: 'chevron', name: 'Barra Chevron Líquido', sensor: 'liquid_temp', x: 320, y: 392, width: 310, height: 16, segments: 22, color: '#00ffc8', secondaryColor: '#00f0ff', trackColor: '#141420', widgetScale: 100 },
           { id: 'oc_l1', type: 'sensor', name: 'Líquido Temp', sensor: 'liquid_temp', prefix: 'COOLANT: ', showUnit: true, x: 320, y: 356, fontSize: 28, unitSize: 18, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#00ffc8', glow: 6, widgetScale: 100 },
 
-          { id: 'oc_b2', type: 'seg_bar', name: 'Barra RAM', sensor: 'ram_percent', x: 320, y: 478, width: 260, height: 14, segments: 18, color: '#a855f7', trackColor: '#141420', widgetScale: 100 },
-          { id: 'oc_r1', type: 'dual_pill', name: 'RAM GB/%', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 440, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#c084fc', bgColor: '#0d0d14', widgetScale: 100 },
+          { id: 'oc_b2', type: 'seg_bar', barStyle: 'gradient', name: 'Barra Gradiente Carga W', sensor: 'sys_power', x: 320, y: 478, width: 260, height: 14, segments: 18, color: '#f59e0b', secondaryColor: '#ff3b00', trackColor: '#141420', widgetScale: 100 },
+          { id: 'oc_r1', type: 'dual_pill', name: 'RAM & Sys Watts', sensorA: 'ram_used', sensorB: 'sys_power', x: 320, y: 440, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#f59e0b', bgColor: '#0d0d14', widgetScale: 100 },
           { id: 'oc_clk', type: 'clock', name: 'Relógio Base', format: 'HH:MM:SS', x: 320, y: 534, fontSize: 22, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0, widgetScale: 100 }
         ]
       }
@@ -1438,82 +1656,131 @@
           const cx = size / 2;
           const cy = size / 2;
           const segs = w.segments || 24;
-          const startA = w.startAngle ?? 135;
-          const sweepA = w.sweepAngle ?? 270;
-          const prog = getNormalizedSensor(w.sensor || 'cpu_load');
-          const activeSegs = Math.round(prog * segs);
+          const sAngle = w.startAngle ?? 135;
+          const sweep = w.sweepAngle ?? 270;
+          const prog = getNormalizedSensor(w.sensor);
+          const activeCount = Math.round(prog * segs);
+          const gapDeg = 2.4;
+          const segSweep = Math.max(1, (sweep - gapDeg * (segs - 1)) / segs);
+          const glowFilter = w.glow > 0 ? `style="filter:drop-shadow(0 0 ${w.glow}px ${w.color});"` : '';
 
-          let ticksSvg = '';
+          let pathsHtml = '';
           for (let i = 0; i < segs; i++) {
-            const ratio = i / Math.max(segs - 1, 1);
-            const deg = startA + ratio * sweepA;
-            const rad = (deg - 90) * Math.PI / 180;
-            const rInner = r - thick / 2;
-            const rOuter = r + thick / 2;
-            const x1 = cx + rInner * Math.cos(rad);
-            const y1 = cy + rInner * Math.sin(rad);
-            const x2 = cx + rOuter * Math.cos(rad);
-            const y2 = cy + rOuter * Math.sin(rad);
-            const isLit = i < activeSegs;
-            const strokeClr = isLit ? (w.color || '#ff3b00') : (w.trackColor || '#1a1a24');
-            ticksSvg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${strokeClr}" stroke-width="${w.tickWidth || 4}" stroke-linecap="butt"/>`;
+            const aStart = sAngle + i * (segSweep + gapDeg);
+            const d = polarArcPath(cx, cy, r, aStart, segSweep);
+            const isLit = i < activeCount;
+            pathsHtml += `<path d="${d}" fill="none" stroke="${isLit ? (w.color || '#ff3b00') : (w.trackColor || '#181822')}" stroke-width="${thick}" stroke-linecap="butt" ${isLit ? glowFilter : ''}/>`;
           }
 
-          const glowFilter = w.glow > 0 ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color});` : '';
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
-          el.innerHTML = `
-            ${coordBadge}${scaleHandle}
-            <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="${glowFilter}" class="overflow-visible">
-              ${ticksSvg}
-            </svg>
-          `;
+          el.innerHTML = `${coordBadge}${scaleHandle}<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${pathsHtml}</svg>`;
         }
 
-        // 4. ARCO RADIAL CONTÍNUO
+        // 4. ARCO CONTÍNUO / RADIAL GAUGE
         else if (w.type === 'radial') {
           const r = w.radius || 220;
           const thick = w.thickness || 12;
-          const size = (r + thick + 18) * 2;
+          const size = (r + thick + 20) * 2;
           const cx = size / 2;
           const cy = size / 2;
-          const startA = w.startAngle ?? 135;
-          const sweepA = w.sweepAngle ?? 270;
-          const prog = getNormalizedSensor(w.sensor || 'cpu_load');
-          const trackD = polarArcPath(cx, cy, r, startA, sweepA);
-          const valD = polarArcPath(cx, cy, r, startA, Math.max(sweepA * prog, 1));
-          const dash = w.dashed ? `stroke-dasharray="8 6"` : '';
-          const glowFilter = w.glow > 0 ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color});` : '';
+          const sAngle = w.startAngle ?? 135;
+          const sweep = w.sweepAngle ?? 270;
+          const prog = getNormalizedSensor(w.sensor);
+          const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
+          const valD = polarArcPath(cx, cy, r, sAngle, Math.max(0.5, sweep * prog));
+          const dashAttr = w.dashed ? `stroke-dasharray="8 6"` : '';
+          const glowFilter = w.glow > 0 ? `style="filter:drop-shadow(0 0 ${w.glow}px ${w.color});"` : '';
 
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
           el.innerHTML = `
             ${coordBadge}${scaleHandle}
-            <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="overflow-visible">
-              <path d="${trackD}" fill="none" stroke="${w.trackColor || '#161622'}" stroke-width="${thick}" stroke-linecap="round" ${dash}/>
-              <path d="${valD}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="${thick}" stroke-linecap="round" style="${glowFilter}" ${dash}/>
+            <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+              <path d="${trackD}" fill="none" stroke="${w.trackColor || '#14141f'}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr}/>
+              <path d="${valD}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr} ${glowFilter}/>
             </svg>
           `;
         }
 
-        // 5. BARRA LED EM CÉLULAS SEGMENTADAS (Com opção de rótulo embutido)
+        // 5. BARRA MULTIMODO (5 ESTILOS: CÉLULAS LED, GRADIENTE CONTÍNUO, CHEVRON TÁTICO, PLASMA DUAL-RAIL, RÉGUA TÁTICA)
         else if (w.type === 'seg_bar') {
           const width = w.width || 240;
           const height = w.height || 16;
           const segs = w.segments || 16;
+          const style = w.barStyle || 'cells';
           const prog = getNormalizedSensor(w.sensor || 'ram_percent');
-          const litCount = Math.round(prog * segs);
+          const pct = Math.round(prog * 100);
+          const priColor = w.color || '#b8ff01';
+          const secColor = w.secondaryColor || '#00f0ff';
+          const trkColor = w.trackColor || '#181824';
+          const meta = SENSORS_CATALOG[w.sensor || 'ram_percent'] || { short: 'SENSOR', unit: '%' };
+          const valStr = `${formatReading(w.sensor || 'ram_percent')}${meta.unit}`;
 
-          let cellsHtml = '';
-          for (let i = 0; i < segs; i++) {
-            const active = i < litCount;
-            const bg = active ? (w.color || '#b8ff01') : (w.trackColor || '#181824');
-            const shd = active ? `box-shadow: 0 0 8px ${w.color || '#b8ff01'};` : '';
-            cellsHtml += `<div style="flex:1;height:100%;background:${bg};border-radius:1.5px;${shd}"></div>`;
-          }
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-          el.innerHTML = `${coordBadge}${scaleHandle}<div style="width:100%;height:100%;display:flex;gap:3px;padding:2px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.14);border-radius:4px;">${cellsHtml}</div>`;
+
+          let barInnerHtml = '';
+
+          if (style === 'gradient') {
+            barInnerHtml = `
+              <div style="width:100%;height:100%;background:${trkColor};border-radius:999px;padding:2px;border:1px solid rgba(255,255,255,0.16);position:relative;overflow:hidden;">
+                <div style="width:${pct}%;height:100%;border-radius:999px;background:linear-gradient(90deg, ${secColor}, ${priColor});box-shadow:0 0 12px ${priColor};position:relative;">
+                  <div style="position:absolute;right:0;top:-2px;bottom:-2px;width:3px;background:#ffffff;box-shadow:0 0 8px #fff;"></div>
+                </div>
+              </div>
+            `;
+          } else if (style === 'chevron') {
+            const litCount = Math.round(prog * segs);
+            let chevrons = '';
+            for (let i = 0; i < segs; i++) {
+              const active = i < litCount;
+              const bg = active ? priColor : trkColor;
+              const shd = active ? `box-shadow: 0 0 8px ${priColor};` : '';
+              chevrons += `<div style="flex:1;height:100%;background:${bg};transform:skewX(-28deg);border-radius:1px;${shd}"></div>`;
+            }
+            barInnerHtml = `<div style="width:100%;height:100%;display:flex;gap:3px;padding:2px 6px;background:rgba(0,0,0,0.65);border:1px solid rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;">${chevrons}</div>`;
+          } else if (style === 'dual_rail') {
+            barInnerHtml = `
+              <div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:space-between;padding:2px;background:rgba(0,0,0,0.7);border:1px solid rgba(255,255,255,0.14);border-radius:4px;">
+                <div style="width:100%;height:38%;background:${trkColor};border-radius:2px;overflow:hidden;">
+                  <div style="width:${pct}%;height:100%;background:${priColor};box-shadow:0 0 8px ${priColor};"></div>
+                </div>
+                <div style="width:100%;height:38%;background:${trkColor};border-radius:2px;overflow:hidden;">
+                  <div style="width:${pct}%;height:100%;background:${secColor};box-shadow:0 0 8px ${secColor};"></div>
+                </div>
+              </div>
+            `;
+          } else if (style === 'ruler') {
+            const litCount = Math.round(prog * segs);
+            let ticks = '';
+            for (let i = 0; i < segs; i++) {
+              const active = i < litCount;
+              const isMajor = i % 4 === 0;
+              const hPct = isMajor ? '100%' : '58%';
+              const bg = active ? (isMajor ? '#ffffff' : priColor) : trkColor;
+              const shd = active ? `box-shadow: 0 0 6px ${priColor};` : '';
+              ticks += `<div style="flex:1;height:${hPct};background:${bg};border-radius:1px;${shd}"></div>`;
+            }
+            barInnerHtml = `<div style="width:100%;height:100%;display:flex;align-items:flex-end;gap:2px;padding:2px 4px;background:rgba(0,0,0,0.6);border-bottom:2px solid ${priColor};">${ticks}</div>`;
+          } else {
+            // 'cells' (Padrão Clássico em Células LED)
+            const litCount = Math.round(prog * segs);
+            let cellsHtml = '';
+            for (let i = 0; i < segs; i++) {
+              const active = i < litCount;
+              const bg = active ? priColor : trkColor;
+              const shd = active ? `box-shadow: 0 0 8px ${priColor};` : '';
+              cellsHtml += `<div style="flex:1;height:100%;background:${bg};border-radius:1.5px;${shd}"></div>`;
+            }
+            barInnerHtml = `<div style="width:100%;height:100%;display:flex;gap:3px;padding:2px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.14);border-radius:4px;">${cellsHtml}</div>`;
+          }
+
+          const headerCaption = w.showHeader
+            ? `<div style="display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:${Math.round((w.labelSize || 12) * gFont)}px;font-weight:800;color:#e2e8f0;margin-bottom:3px;line-height:1;"><span>${w.title || meta.short}</span><span style="color:${priColor};">${valStr}</span></div>`
+            : '';
+
+          el.innerHTML = `${coordBadge}${scaleHandle}<div style="width:100%;height:100%;display:flex;flex-direction:column;justify-content:center;">${headerCaption}<div style="flex:1;min-height:6px;">${barInnerHtml}</div></div>`;
         }
 
         // 6. ANEL / MIRA DECORATIVA HUD (RETICLE)
@@ -1625,19 +1892,45 @@
           el.innerHTML = `${coordBadge}${scaleHandle}<span>${w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`}</span>`;
         }
 
-        // 11. ESPECTRO DE ÁUDIO
+        // 11. ESPECTRO DE ÁUDIO REAL (WEB AUDIO API + MODOS BARRAS, ESPELHADO, ONDA NEON)
         else if (w.type === 'spectrum') {
           const width = w.width || 240;
           const height = w.height || 64;
-          const count = 20;
-          let bars = '';
-          for (let i = 0; i < count; i++) {
-            const h = Math.max(6, Math.round((Math.abs(Math.sin(Date.now() / 170 + i * 0.45)) * 0.75 + Math.random() * 0.25) * height));
-            bars += `<div style="flex:1;height:${h}px;background:${w.color || '#ff3b00'};border-radius:1px;"></div>`;
-          }
+          const count = w.barCount || 22;
+          const sens = (w.sensitivity || 135) / 100;
+          const style = w.spectrumStyle || 'bars';
+          const priColor = w.color || '#ff3b00';
+          const secColor = w.secondaryColor || '#00f0ff';
+          const bins = sampleAudioSpectrumBins(count, sens);
+
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-          el.innerHTML = `${coordBadge}${scaleHandle}<div style="width:100%;height:100%;display:flex;align-items:flex-end;gap:3px;">${bars}</div>`;
+
+          if (style === 'wave') {
+            const pts = bins.map((v, i) => {
+              const px = (i / Math.max(count - 1, 1)) * width;
+              const py = height - Math.max(4, v * (height - 8)) - 4;
+              return `${px.toFixed(1)},${py.toFixed(1)}`;
+            }).join(' ');
+            const poly = `0,${height} ${pts} ${width},${height}`;
+            el.innerHTML = `
+              ${coordBadge}${scaleHandle}
+              <svg width="${width}" height="${height}" class="overflow-visible">
+                <polygon points="${poly}" fill="${priColor}" fill-opacity="0.22"/>
+                <polyline points="${pts}" fill="none" stroke="${priColor}" stroke-width="2.5" style="filter:drop-shadow(0 0 6px ${priColor});"/>
+              </svg>
+            `;
+          } else {
+            const isMirror = style === 'mirror';
+            let bars = '';
+            for (let i = 0; i < count; i++) {
+              const h = Math.max(4, Math.round(bins[i] * height));
+              const grad = `linear-gradient(to top, ${priColor}, ${secColor})`;
+              const shd = w.glow > 0 ? `box-shadow: 0 0 ${w.glow}px ${priColor};` : '';
+              bars += `<div style="flex:1;height:${h}px;background:${grad};border-radius:1.5px;${shd}"></div>`;
+            }
+            el.innerHTML = `${coordBadge}${scaleHandle}<div style="width:100%;height:100%;display:flex;align-items:${isMirror ? 'center' : 'flex-end'};gap:3px;">${bars}</div>`;
+          }
         }
 
         // 12. MINI GIF / STICKER ANIMADO FLUTUANTE (Suporta IndexedDB local + URL + Máscara + Borda Neon)
@@ -2047,35 +2340,22 @@
                   <select onchange="commitWidgetProp('fontWeight', Number(this.value))" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1.5 text-white font-mono text-[11px]">${wOpts}</select>
                 </div>
               </div>
-
-              <!-- 1. Tamanho do Valor / Número Principal -->
               <div>
-                <div class="flex justify-between font-mono text-[10px] mb-1">
-                  <span class="text-white font-bold">1. TAMANHO FONTE PRINCIPAL</span>
-                  <span class="text-[#00f0ff] font-bold">${w.fontSize || 36}px</span>
-                </div>
+                <div class="flex justify-between font-mono text-[10px] mb-1"><span>1. TAMANHO FONTE PRINCIPAL</span><span class="text-[#b8ff01] font-bold">${w.fontSize || 36}px</span></div>
                 <input type="range" min="10" max="150" value="${w.fontSize || 36}" oninput="previewWidgetProp('fontSize', Number(this.value))" onchange="commitWidgetProp('fontSize', Number(this.value))" class="w-full">
               </div>
             ` : ''}
 
-            <!-- 2. Tamanho do Rótulo / Título / Prefixo -->
             ${['telemetry_card', 'sensor', 'chart'].includes(w.type) ? `
               <div>
-                <div class="flex justify-between font-mono text-[10px] mb-1">
-                  <span class="text-slate-200 font-bold">2. TAMANHO DO RÓTULO / TÍTULO</span>
-                  <span class="text-[#b8ff01] font-bold">${w.labelSize || 16}px</span>
-                </div>
+                <div class="flex justify-between font-mono text-[10px] mb-1"><span>2. TAMANHO DO RÓTULO / TÍTULO</span><span class="text-[#00f0ff] font-bold">${w.labelSize || 16}px</span></div>
                 <input type="range" min="8" max="72" value="${w.labelSize || 16}" oninput="previewWidgetProp('labelSize', Number(this.value))" onchange="commitWidgetProp('labelSize', Number(this.value))" class="w-full">
               </div>
             ` : ''}
 
-            <!-- 3. Tamanho da Unidade (°C, GHz, MHz, %) -->
             ${['telemetry_card', 'dual_pill', 'sensor'].includes(w.type) ? `
               <div>
-                <div class="flex justify-between font-mono text-[10px] mb-1">
-                  <span class="text-slate-200 font-bold">3. TAMANHO DA UNIDADE (°C, GHz, %)</span>
-                  <span class="text-[#ff3b00] font-bold">${w.unitSize || 20}px</span>
-                </div>
+                <div class="flex justify-between font-mono text-[10px] mb-1"><span>3. TAMANHO DA UNIDADE (°C, %, W, GHz)</span><span class="text-[#ff3b00] font-bold">${w.unitSize || 20}px</span></div>
                 <input type="range" min="8" max="80" value="${w.unitSize || 20}" oninput="previewWidgetProp('unitSize', Number(this.value))" onchange="commitWidgetProp('unitSize', Number(this.value))" class="w-full">
               </div>
             ` : ''}
@@ -2090,54 +2370,125 @@
         `;
       }
 
-      // Seção 4: Geometria de Tacômetros e Arcos Radiais
+      // Seção 4: Geometria de Arcos & Tacômetros
       if (['radial', 'tachometer', 'reticle'].includes(w.type)) {
         html += `
-          <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-3">
-            <span class="block text-[10px] font-mono font-bold text-slate-300 uppercase">GEOMETRIA RADIAL</span>
+          <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
+            <span class="block text-[10px] font-mono font-bold text-[#ff3b00] uppercase">GEOMETRIA RADIAL</span>
             <div>
-              <div class="flex justify-between font-mono text-[10px] mb-1"><span>RAIO CIRCULAR</span><span class="text-[#00f0ff]">${w.radius}px</span></div>
-              <input type="range" min="30" max="308" value="${w.radius}" oninput="previewWidgetProp('radius', Number(this.value))" onchange="commitWidgetProp('radius', Number(this.value))" class="w-full">
+              <div class="flex justify-between font-mono text-[10px] mb-1"><span>RAIO DO ARCO</span><span class="text-[#00f0ff]">${w.radius || 240}px</span></div>
+              <input type="range" min="30" max="310" value="${w.radius || 240}" oninput="previewWidgetProp('radius', Number(this.value))" onchange="commitWidgetProp('radius', Number(this.value))" class="w-full">
             </div>
             ${w.type !== 'reticle' ? `
               <div>
-                <div class="flex justify-between font-mono text-[10px] mb-1"><span>ESPESSURA</span><span class="text-[#00f0ff]">${w.thickness}px</span></div>
-                <input type="range" min="2" max="36" value="${w.thickness}" oninput="previewWidgetProp('thickness', Number(this.value))" onchange="commitWidgetProp('thickness', Number(this.value))" class="w-full">
+                <div class="flex justify-between font-mono text-[10px] mb-1"><span>ESPESSURA</span><span class="text-[#00f0ff]">${w.thickness || 14}px</span></div>
+                <input type="range" min="2" max="45" value="${w.thickness || 14}" oninput="previewWidgetProp('thickness', Number(this.value))" onchange="commitWidgetProp('thickness', Number(this.value))" class="w-full">
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">INÍCIO (°)</label>
-                  <input type="number" value="${w.startAngle}" onchange="commitWidgetProp('startAngle', Number(this.value))" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
+                  <div class="flex justify-between font-mono text-[10px] mb-1"><span>INÍCIO°</span><span>${w.startAngle ?? 135}°</span></div>
+                  <input type="range" min="0" max="360" value="${w.startAngle ?? 135}" oninput="previewWidgetProp('startAngle', Number(this.value))" onchange="commitWidgetProp('startAngle', Number(this.value))" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ABERTURA (°)</label>
-                  <input type="number" value="${w.sweepAngle}" onchange="commitWidgetProp('sweepAngle', Number(this.value))" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
+                  <div class="flex justify-between font-mono text-[10px] mb-1"><span>EXTENSÃO°</span><span>${w.sweepAngle ?? 270}°</span></div>
+                  <input type="range" min="20" max="360" value="${w.sweepAngle ?? 270}" oninput="previewWidgetProp('sweepAngle', Number(this.value))" onchange="commitWidgetProp('sweepAngle', Number(this.value))" class="w-full">
                 </div>
-              </div>
-            ` : ''}
-            ${w.type === 'tachometer' ? `
-              <div>
-                <div class="flex justify-between font-mono text-[10px] mb-1"><span>DIVISÕES (TICKS)</span><span class="text-[#ff3b00]">${w.segments || 24}</span></div>
-                <input type="range" min="8" max="60" value="${w.segments || 24}" oninput="previewWidgetProp('segments', Number(this.value))" onchange="commitWidgetProp('segments', Number(this.value))" class="w-full">
               </div>
             ` : ''}
           </div>
         `;
       }
 
-      // Seção 5: Controles Específicos para GIF / Sticker Flutuante e Barras
+      // Seção 5: Controles Específicos para GIF / Sticker Flutuante, Múltiplas Barras e Espectro Real
       if (['seg_bar', 'chart', 'spectrum', 'sticker'].includes(w.type)) {
         html += `
           <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
-            <span class="block text-[10px] font-mono font-bold text-pink-400 uppercase">${w.type === 'sticker' ? 'CONFIGURAÇÃO DO MINI GIF / STICKER' : 'DIMENSÕES DO MÓDULO'}</span>
+            <span class="block text-[10px] font-mono font-bold text-pink-400 uppercase">${
+              w.type === 'sticker' ? 'CONFIGURAÇÃO DO MINI GIF / STICKER' :
+              w.type === 'seg_bar' ? 'ESTILO & GEOMETRIA DA BARRA' :
+              w.type === 'spectrum' ? '🎵 ESPECTRO DE ÁUDIO DO PC' : 'DIMENSÕES DO MÓDULO'
+            }</span>
             <div>
               <div class="flex justify-between font-mono text-[10px] mb-1"><span>LARGURA</span><span class="text-[#00f0ff]">${w.width || 140}px</span></div>
               <input type="range" min="30" max="560" value="${w.width || 140}" oninput="previewWidgetProp('width', Number(this.value))" onchange="commitWidgetProp('width', Number(this.value))" class="w-full">
             </div>
             <div>
               <div class="flex justify-between font-mono text-[10px] mb-1"><span>ALTURA</span><span class="text-[#00f0ff]">${w.height || 140}px</span></div>
-              <input type="range" min="8" max="560" value="${w.height || 140}" oninput="previewWidgetProp('height', Number(this.value))" onchange="commitWidgetProp('height', Number(this.value))" class="w-full">
+              <input type="range" min="6" max="560" value="${w.height || 140}" oninput="previewWidgetProp('height', Number(this.value))" onchange="commitWidgetProp('height', Number(this.value))" class="w-full">
             </div>
+
+            ${w.type === 'seg_bar' ? `
+              <div class="pt-1 space-y-2.5 border-t border-[#1e1e2a]">
+                <div>
+                  <label class="block text-[9px] font-mono text-emerald-400 uppercase mb-1">MODELO VISUAL DA BARRA</label>
+                  <select onchange="commitWidgetProp('barStyle', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1.5 font-mono text-white text-[11px]">
+                    <option value="cells" ${(!w.barStyle || w.barStyle === 'cells') ? 'selected' : ''}>01. Células LED Digitais</option>
+                    <option value="gradient" ${w.barStyle === 'gradient' ? 'selected' : ''}>02. Gradiente Contínuo + Laser</option>
+                    <option value="chevron" ${w.barStyle === 'chevron' ? 'selected' : ''}>03. Chevron Tático Angular (///)</option>
+                    <option value="dual_rail" ${w.barStyle === 'dual_rail' ? 'selected' : ''}>04. Plasma Dual-Rail Paralelo</option>
+                    <option value="ruler" ${w.barStyle === 'ruler' ? 'selected' : ''}>05. Régua Milimétrica HUD</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-mono text-[10px] mb-1"><span>QUANTIDADE DE CÉLULAS / TICKS</span><span class="text-[#b8ff01]">${w.segments || 16}</span></div>
+                  <input type="range" min="6" max="44" value="${w.segments || 16}" oninput="previewWidgetProp('segments', Number(this.value))" onchange="commitWidgetProp('segments', Number(this.value))" class="w-full">
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <span class="font-mono text-[10px] text-slate-400">Cor Secundária / Gradiente</span>
+                  <input type="color" value="${w.secondaryColor || '#00f0ff'}" oninput="previewWidgetProp('secondaryColor', this.value)" onchange="commitWidgetProp('secondaryColor', this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent">
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                  <label class="flex items-center space-x-2 cursor-pointer">
+                    <input type="checkbox" ${w.showHeader ? 'checked' : ''} onchange="commitWidgetProp('showHeader', this.checked)">
+                    <span class="font-mono text-[10px] text-slate-300">Mostrar Rótulo + Valor Acima</span>
+                  </label>
+                </div>
+              </div>
+            ` : ''}
+
+            ${w.type === 'spectrum' ? `
+              <div class="pt-2 space-y-2.5 border-t border-[#1e1e2a]">
+                <div class="p-2 rounded bg-[#161224] border border-pink-500/30 space-y-1.5">
+                  <span class="block text-[9px] font-mono font-bold text-pink-400 uppercase">CAPTURA DE ÁUDIO DO COMPUTADOR</span>
+                  <div class="grid grid-cols-2 gap-1.5">
+                    <button onclick="startLiveAudioCapture('mic')" class="py-1.5 px-2 rounded bg-pink-500 hover:bg-pink-400 text-black font-mono font-bold text-[10px] transition">
+                      🎙 MIC / STEREO MIX
+                    </button>
+                    <button onclick="startLiveAudioCapture('system')" class="py-1.5 px-2 rounded bg-[#00f0ff] hover:bg-cyan-300 text-black font-mono font-bold text-[10px] transition">
+                      🔊 SOM DO SISTEMA
+                    </button>
+                  </div>
+                  <p class="text-[9px] text-slate-400 leading-tight">Para capturar o som do Windows sem microfone, clique em <strong>Som do Sistema</strong> e marque <em>"Compartilhar áudio do sistema"</em>.</p>
+                </div>
+
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ESTILO DO ANALISADOR</label>
+                  <select onchange="commitWidgetProp('spectrumStyle', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white text-[11px]">
+                    <option value="bars" ${(!w.spectrumStyle || w.spectrumStyle === 'bars') ? 'selected' : ''}>Barras Verticais Clássicas</option>
+                    <option value="mirror" ${w.spectrumStyle === 'mirror' ? 'selected' : ''}>Onda Simétrica Central (Mirror)</option>
+                    <option value="wave" ${w.spectrumStyle === 'wave' ? 'selected' : ''}>Linha de Frequência Neon</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-mono text-[10px] mb-1"><span>NÚMERO DE BANDAS</span><span class="text-[#00f0ff]">${w.barCount || 22}</span></div>
+                  <input type="range" min="8" max="48" value="${w.barCount || 22}" oninput="previewWidgetProp('barCount', Number(this.value))" onchange="commitWidgetProp('barCount', Number(this.value))" class="w-full">
+                </div>
+
+                <div>
+                  <div class="flex justify-between font-mono text-[10px] mb-1"><span>SENSIBILIDADE DE GANHO</span><span class="text-pink-400">${w.sensitivity || 135}%</span></div>
+                  <input type="range" min="50" max="280" value="${w.sensitivity || 135}" oninput="previewWidgetProp('sensitivity', Number(this.value))" onchange="commitWidgetProp('sensitivity', Number(this.value))" class="w-full">
+                </div>
+
+                <div class="flex items-center justify-between">
+                  <span class="font-mono text-[10px] text-slate-400">Cor de Pico (Topo da Barra)</span>
+                  <input type="color" value="${w.secondaryColor || '#00f0ff'}" oninput="previewWidgetProp('secondaryColor', this.value)" onchange="commitWidgetProp('secondaryColor', this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent">
+                </div>
+              </div>
+            ` : ''}
 
             ${w.type === 'sticker' ? `
               <div class="pt-1 space-y-2 border-t border-[#1e1e2a]">
@@ -2243,27 +2594,78 @@
     }
 
     /*************************************************************************
-     * 10. ÁRVORE DE CAMADAS & CRIAÇÃO / REMOÇÃO DE ELEMENTOS
+     * 10. ÁRVORE DE CAMADAS COM DRAG & DROP (ARRASTAR COM O MOUSE)
      *************************************************************************/
+    let draggedLayerWidgetId = null;
+
     function renderLayerTree() {
       const list = document.getElementById('layers-tree-list');
       if (!list) return;
       list.innerHTML = '';
 
-      [...project.widgets].reverse().forEach((w) => {
+      // A lista exibe o topo da pilha (último do array project.widgets) primeiro
+      const reversedWidgets = [...project.widgets].reverse();
+
+      reversedWidgets.forEach((w) => {
         const isSel = w.id === selectedWidgetId;
         const item = document.createElement('div');
-        item.className = `flex items-center justify-between px-2.5 py-2 rounded font-mono text-[11px] cursor-pointer border transition ${
+        item.draggable = true;
+        item.dataset.layerId = w.id;
+        item.className = `layer-item-row flex items-center justify-between px-2.5 py-2 rounded font-mono text-[11px] cursor-grab active:cursor-grabbing border ${
           isSel ? 'bg-[#191926] border-[#00f0ff] text-white' : 'bg-[#111118] border-[#1e1e2a] text-slate-300 hover:bg-[#151520]'
         }`;
+
         item.onclick = () => selectWidget(w.id);
 
+        // Eventos HTML5 Drag & Drop para reordenar camadas com o mouse
+        item.addEventListener('dragstart', (e) => {
+          draggedLayerWidgetId = w.id;
+          item.classList.add('dragging-layer');
+          e.dataTransfer.effectAllowed = 'move';
+          e.dataTransfer.setData('text/plain', w.id);
+        });
+
+        item.addEventListener('dragend', () => {
+          draggedLayerWidgetId = null;
+          item.classList.remove('dragging-layer');
+          document.querySelectorAll('.layer-item-row').forEach(el => {
+            el.classList.remove('drag-over-top', 'drag-over-bottom');
+          });
+        });
+
+        item.addEventListener('dragover', (e) => {
+          e.preventDefault();
+          if (!draggedLayerWidgetId || draggedLayerWidgetId === w.id) return;
+          const rect = item.getBoundingClientRect();
+          const isTopHalf = (e.clientY - rect.top) < rect.height / 2;
+          item.classList.toggle('drag-over-top', isTopHalf);
+          item.classList.toggle('drag-over-bottom', !isTopHalf);
+        });
+
+        item.addEventListener('dragleave', () => {
+          item.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+
+        item.addEventListener('drop', (e) => {
+          e.preventDefault();
+          item.classList.remove('drag-over-top', 'drag-over-bottom');
+          const sourceId = draggedLayerWidgetId || e.dataTransfer.getData('text/plain');
+          if (!sourceId || sourceId === w.id) return;
+
+          const rect = item.getBoundingClientRect();
+          const dropAboveInVisualList = (e.clientY - rect.top) < rect.height / 2;
+          reorderWidgetLayersByDrag(sourceId, w.id, dropAboveInVisualList);
+        });
+
         item.innerHTML = `
-          <div class="flex items-center space-x-2 truncate">
+          <div class="flex items-center space-x-2 truncate pointer-events-none">
+            <span class="text-slate-500 hover:text-white text-xs leading-none select-none" title="Arraste para mover a camada">⋮⋮</span>
             <span class="w-2 h-2 rounded-full shrink-0" style="background:${w.color || '#00f0ff'}"></span>
             <span class="truncate ${w.hidden ? 'line-through opacity-40' : ''}">${w.name || w.type}</span>
           </div>
           <div class="flex items-center space-x-1 shrink-0">
+            <button onclick="event.stopPropagation();stepLayerZOrder('${w.id}', 1)" class="px-1 rounded hover:bg-black/40 text-slate-400 hover:text-white" title="Subir 1 Nível">↑</button>
+            <button onclick="event.stopPropagation();stepLayerZOrder('${w.id}', -1)" class="px-1 rounded hover:bg-black/40 text-slate-400 hover:text-white" title="Descer 1 Nível">↓</button>
             <button onclick="event.stopPropagation();toggleLayerLock('${w.id}')" class="p-1 rounded hover:bg-black/40 ${w.locked ? 'text-[#ff3b00]' : 'text-slate-500'}" title="Travar/Destravar Posição">
               ${w.locked ? '🔒' : '🔓'}
             </button>
@@ -2274,6 +2676,40 @@
         `;
         list.appendChild(item);
       });
+    }
+
+    // Reordena o array project.widgets com base no arraste visual na Guia 03
+    function reorderWidgetLayersByDrag(sourceId, targetId, dropAboveInVisualList) {
+      const srcIdx = project.widgets.findIndex(w => w.id === sourceId);
+      if (srcIdx === -1) return;
+      const [movedWidget] = project.widgets.splice(srcIdx, 1);
+
+      const tgtIdx = project.widgets.findIndex(w => w.id === targetId);
+      if (tgtIdx === -1) {
+        project.widgets.push(movedWidget);
+      } else {
+        // Como a lista visual é invertida (topo = maior índice no array),
+        // soltar ACIMA na lista visual significa inserir DEPOIS (índice + 1) no array real
+        const insertIndex = dropAboveInVisualList ? tgtIdx + 1 : tgtIdx;
+        project.widgets.splice(insertIndex, 0, movedWidget);
+      }
+
+      selectedWidgetId = sourceId;
+      renderStageWidgets();
+      renderInspector();
+      recordHistory('Reordenar camadas');
+      showToast('⇅ ORDEM DE SOBREPOSIÇÃO ATUALIZADA');
+    }
+
+    function stepLayerZOrder(id, dir) {
+      const idx = project.widgets.findIndex(w => w.id === id);
+      if (idx === -1) return;
+      const newIdx = idx + dir;
+      if (newIdx < 0 || newIdx >= project.widgets.length) return;
+      const [item] = project.widgets.splice(idx, 1);
+      project.widgets.splice(newIdx, 0, item);
+      renderStageWidgets();
+      recordHistory('Alterar nível da camada');
     }
 
     function toggleLayerLock(id) {
@@ -2292,7 +2728,7 @@
       recordHistory(w.hidden ? 'Ocultar camada' : 'Mostrar camada');
     }
 
-    function createNewWidget(type) {
+    function createNewWidget(type, subStyle = '') {
       const id = 'w_' + Date.now();
       let w = { id, type, name: type.toUpperCase(), x: 320, y: 320, color: '#00f0ff', glow: 6, widgetScale: 100 };
 
@@ -2305,7 +2741,9 @@
       } else if (type === 'radial') {
         w = { ...w, name: 'Arco Circular', sensor: 'gpu_load', radius: 200, thickness: 12, startAngle: 135, sweepAngle: 270, trackColor: '#181822', dashed: false };
       } else if (type === 'seg_bar') {
-        w = { ...w, name: 'Barra Células LED', sensor: 'ram_percent', width: 230, height: 16, segments: 16, color: '#b8ff01', trackColor: '#181822' };
+        const bStyle = subStyle || 'cells';
+        const styleNames = { cells: 'Barra LED Células', gradient: 'Barra Gradiente', chevron: 'Barra Chevron ///', dual_rail: 'Barra Plasma Rail', ruler: 'Barra Régua HUD' };
+        w = { ...w, name: styleNames[bStyle] || 'Barra Linear', barStyle: bStyle, sensor: 'ram_percent', width: 240, height: 18, segments: 18, color: '#b8ff01', secondaryColor: '#00f0ff', trackColor: '#181822', showHeader: false };
       } else if (type === 'reticle') {
         w = { ...w, name: 'Mira Técnica HUD', radius: 275, color: '#2e2e42', style: 'ticks' };
       } else if (type === 'chart') {
@@ -2315,7 +2753,7 @@
       } else if (type === 'clock') {
         w = { ...w, name: 'Cronômetro', format: 'HH:MM:SS', fontSize: 28, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#ffffff' };
       } else if (type === 'spectrum') {
-        w = { ...w, name: 'Espectro Áudio', width: 220, height: 60, color: '#ff3b00' };
+        w = { ...w, name: 'Espectro Áudio PC', width: 240, height: 64, barCount: 22, sensitivity: 140, spectrumStyle: 'bars', color: '#ff3b00', secondaryColor: '#00f0ff', glow: 6 };
       } else if (type === 'sticker') {
         w = { ...w, name: 'Mini GIF Animado', width: 140, height: 140, maskShape: 'circle', blendMode: 'normal', showBorder: true, color: '#00f0ff', glow: 8, url: 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif' };
       } else if (type === 'label') {
@@ -2326,6 +2764,54 @@
       selectWidget(id);
       recordHistory(`Adicionar ${w.name}`);
       showToast(`+ ADICIONADO: ${w.name.toUpperCase()}`);
+    }
+
+    // Atalho dedicado para criar módulos de Potência/Carga em Watts (W)
+    function createPowerWattsWidget(kind) {
+      const id = 'pwr_' + Date.now();
+      let w;
+      if (kind === 'dual_power') {
+        w = {
+          id,
+          type: 'dual_pill',
+          name: 'Potência CPU/GPU (W)',
+          sensorA: 'cpu_power',
+          sensorB: 'gpu_power',
+          x: 320,
+          y: 410,
+          fontSize: 20,
+          unitSize: 15,
+          fontWeight: 800,
+          color: '#f59e0b',
+          bgColor: '#0e0e14',
+          widgetScale: 100
+        };
+      } else {
+        const isCpu = kind === 'cpu_power';
+        w = {
+          id,
+          type: 'telemetry_card',
+          name: isCpu ? 'CPU Potência (W)' : 'GPU Potência (W)',
+          sensor: isCpu ? 'cpu_power' : 'gpu_power',
+          title: isCpu ? 'CPU WATTS' : 'GPU WATTS',
+          x: isCpu ? 180 : 460,
+          y: 320,
+          fontSize: 58,
+          labelSize: 16,
+          unitSize: 24,
+          fontWeight: 800,
+          fontFamily: 'Chakra Petch',
+          color: '#ffffff',
+          accentColor: '#f59e0b',
+          labelColor: '#fbbf24',
+          glow: 6,
+          widgetScale: 100
+        };
+      }
+      project.widgets.push(w);
+      selectWidget(id);
+      recordHistory(`Adicionar ${w.name}`);
+      showToast(`⚡ ADICIONADO: ${w.name.toUpperCase()}`);
     }
 
     // Cria um Mini GIF Flutuante pronto da biblioteca com 1 clique
@@ -2624,14 +3110,14 @@
     }
 
     /*************************************************************************
-     * 12. HOOK OFICIAL NZXT CAM (`window.nzxt.v1`) & SIMULADOR FÍSICO
+     * 12. HOOK OFICIAL NZXT CAM (`window.nzxt.v1`) & SIMULADOR FÍSICO (COM WATTS)
      *************************************************************************/
     function updateDiagnosticsPanel() {
       const setD = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
-      setD('diag-cpu', `${Math.round(telemetry.cpu_temp)}°C // ${telemetry.cpu_freq.toFixed(2)}GHz`);
-      setD('diag-gpu', `${Math.round(telemetry.gpu_temp)}°C // ${Math.round(telemetry.gpu_freq)}MHz`);
+      setD('diag-cpu', `${Math.round(telemetry.cpu_temp)}°C // ${Math.round(telemetry.cpu_power)}W`);
+      setD('diag-gpu', `${Math.round(telemetry.gpu_temp)}°C // ${Math.round(telemetry.gpu_power)}W`);
       setD('diag-liq', `${telemetry.liquid_temp.toFixed(1)}°C // ${Math.round(telemetry.pump_rpm)}`);
-      setD('diag-ram', `${telemetry.ram_used.toFixed(1)}GB (${Math.round(telemetry.ram_percent)}%)`);
+      setD('diag-ram', `${telemetry.ram_used.toFixed(1)}GB // ${Math.round(telemetry.sys_power)}W`);
     }
 
     setInterval(() => {
@@ -2643,36 +3129,45 @@
         telemetry.gpu_load = Math.min(Math.max(telemetry.gpu_load + (Math.random() - 0.5) * 5, 5), 99);
         telemetry.cpu_freq = 3.9 + (telemetry.cpu_load / 100) * 1.35;
         telemetry.gpu_freq = 2180 + (telemetry.gpu_load / 100) * 610;
+        // Cálculo realista de Potência (Watts) proporcional à carga e temperatura
+        telemetry.cpu_power = Math.round(28 + (telemetry.cpu_load / 100) * 115 + (Math.random() - 0.5) * 3);
+        telemetry.gpu_power = Math.round(35 + (telemetry.gpu_load / 100) * 265 + (Math.random() - 0.5) * 5);
+        telemetry.sys_power = Math.round(telemetry.cpu_power + telemetry.gpu_power + 48);
+
         telemetry.ram_used = Math.min(Math.max(telemetry.ram_used + (Math.random() - 0.5) * 0.15, 12.0), 29.0);
         telemetry.ram_percent = (telemetry.ram_used / telemetry.ram_total) * 100;
         telemetry.pump_rpm = Math.round(2480 + (telemetry.liquid_temp / 45) * 340);
       }
 
-      ['cpu_temp', 'cpu_load', 'gpu_temp', 'gpu_load', 'liquid_temp', 'ram_percent'].forEach(k => {
+      ['cpu_temp', 'cpu_load', 'cpu_power', 'gpu_temp', 'gpu_load', 'gpu_power', 'sys_power', 'liquid_temp', 'ram_percent'].forEach(k => {
+        if (!telemetryHistory[k]) telemetryHistory[k] = Array(40).fill(telemetry[k] || 0);
         telemetryHistory[k].push(telemetry[k]);
         if (telemetryHistory[k].length > 40) telemetryHistory[k].shift();
       });
 
-      if (!activeDrag) renderStageWidgets();
+      if (!activeDrag && !activeScaleDrag) renderStageWidgets();
       updateDiagnosticsPanel();
-    }, 500);
+    }, 120);
 
     function triggerThermalSpike() {
       telemetry.cpu_temp = 88;
       telemetry.cpu_load = 99;
       telemetry.cpu_freq = 5.35;
+      telemetry.cpu_power = 168;
       telemetry.gpu_temp = 83;
       telemetry.gpu_load = 98;
       telemetry.gpu_freq = 2895;
+      telemetry.gpu_power = 345;
+      telemetry.sys_power = 565;
       telemetry.liquid_temp = 39.4;
       telemetry.ram_used = 29.4;
       telemetry.ram_percent = 92;
       renderStageWidgets();
       updateDiagnosticsPanel();
-      showToast('⚡ SIMULAÇÃO DE PICO TÉRMICO (99% LOAD)');
+      showToast('⚡ SIMULAÇÃO DE PICO TÉRMICO (99% LOAD // 565W)');
     }
 
-    // Hook Oficial NZXT CAM Web Integration
+    // Hook Oficial NZXT CAM Web Integration (Incluindo leitura ou estimativa inteligente de Watts)
     window.nzxt = window.nzxt || {};
     window.nzxt.v1 = window.nzxt.v1 || {};
     window.nzxt.v1.onMonitoringDataUpdate = (data) => {
@@ -2688,13 +3183,26 @@
           if (c.temperature !== undefined) telemetry.cpu_temp = c.temperature;
           if (c.load !== undefined) telemetry.cpu_load = c.load <= 1 ? c.load * 100 : c.load;
           if (c.frequency !== undefined) telemetry.cpu_freq = c.frequency > 100 ? c.frequency / 1000 : c.frequency;
+          if (c.power !== undefined) {
+            telemetry.cpu_power = c.power;
+          } else {
+            // Fallback caso a placa-mãe não exponha c.power diretamente no CAM
+            telemetry.cpu_power = Math.round(25 + (telemetry.cpu_load / 100) * 115);
+          }
         }
         if (data.gpus && data.gpus[0]) {
           const g = data.gpus[0];
           if (g.temperature !== undefined) telemetry.gpu_temp = g.temperature;
           if (g.load !== undefined) telemetry.gpu_load = g.load <= 1 ? g.load * 100 : g.load;
           if (g.frequency !== undefined) telemetry.gpu_freq = g.frequency < 100 ? g.frequency * 1000 : g.frequency;
+          if (g.power !== undefined) {
+            telemetry.gpu_power = g.power;
+          } else {
+            telemetry.gpu_power = Math.round(30 + (telemetry.gpu_load / 100) * 250);
+          }
         }
+        telemetry.sys_power = Math.round(telemetry.cpu_power + telemetry.gpu_power + 45);
+
         if (data.ram && data.ram.inUse !== undefined && data.ram.totalSize !== undefined) {
           telemetry.ram_used = data.ram.inUse > 1024 ? data.ram.inUse / 1024 : data.ram.inUse;
           telemetry.ram_total = data.ram.totalSize > 1024 ? data.ram.totalSize / 1024 : data.ram.totalSize;
