@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KRAKEN // OS — Precision Telemetry & LCD Studio (640x640)</title>
+  <title>KRAKEN // OS v4.2 — High-Legibility Telemetry & GIF Studio (640x640)</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,7 +71,8 @@
       pointer-events: none !important;
     }
     body.kraken-hardware-mode .stage-widget.selected-widget::after,
-    body.kraken-hardware-mode .widget-coord-tag {
+    body.kraken-hardware-mode .widget-coord-tag,
+    body.kraken-hardware-mode .widget-scale-handle {
       display: none !important;
     }
 
@@ -165,6 +166,47 @@
       display: block;
     }
 
+    /* Alça de Escala Proporcional Direta no Canto Inferior Direito do Widget */
+    .widget-scale-handle {
+      position: absolute;
+      right: -11px;
+      bottom: -11px;
+      width: 16px;
+      height: 16px;
+      background: #ff3b00;
+      border: 2px solid #000;
+      border-radius: 3px;
+      cursor: nwse-resize;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 0 8px rgba(255, 59, 0, 0.8);
+    }
+    .stage-widget.selected-widget .widget-scale-handle {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .widget-scale-handle::after {
+      content: '⤡';
+      font-size: 9px;
+      color: #000;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    /* Máscaras Geométricas para GIFs Flutuantes */
+    .mask-shape-circle {
+      border-radius: 50%;
+      clip-path: circle(50% at 50% 50%);
+    }
+    .mask-shape-rounded {
+      border-radius: 16px;
+      overflow: hidden;
+    }
+    .mask-shape-hexagon {
+      clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
+    }
+
     /* Linhas Laser de Snap Magnético */
     .snap-laser-v {
       position: absolute;
@@ -249,53 +291,63 @@
       <div>
         <div class="flex items-center space-x-2">
           <span class="font-bold tracking-widest text-xs text-white font-mono">KRAKEN // OS</span>
-          <span class="text-[10px] font-mono bg-[#181822] text-[#ff3b00] border border-[#ff3b00]/40 px-1.5 py-0.2 rounded">v3.4 STUDIO</span>
+          <span class="text-[10px] font-mono bg-[#181822] text-[#b8ff01] border border-[#b8ff01]/40 px-1.5 py-0.2 rounded">v4.2 ULTRA-LEGIBLE</span>
         </div>
-        <div class="text-[10px] font-mono text-slate-500">NZXT KRAKEN ELITE 640×640 TELEMETRY ARCHITECT</div>
+        <div class="text-[10px] font-mono text-slate-500">NZXT KRAKEN ELITE 640×640 TELEMETRY & GIF ARCHITECT</div>
       </div>
     </div>
 
-    <!-- Centro: Motor Undo / Redo (Ctrl+Z / Ctrl+Y) + Controles de Guia Visual -->
+    <!-- Centro: Motor Undo / Redo + Controles de Zoom Global e Boost de Fontes -->
     <div class="flex items-center space-x-2">
       
       <!-- Bloco Undo / Redo -->
       <div class="flex items-center bg-[#111118] border border-[#222230] rounded p-0.5 space-x-0.5">
-        <button id="btn-undo" onclick="performUndo()" disabled class="flex items-center space-x-1.5 px-2.5 py-1 rounded text-xs font-mono text-slate-300 hover:bg-[#1d1d2b] disabled:opacity-30 disabled:pointer-events-none transition" title="Desfazer última ação (Atalho: Ctrl + Z)">
+        <button id="btn-undo" onclick="performUndo()" disabled class="flex items-center space-x-1 px-2 py-1 rounded text-xs font-mono text-slate-300 hover:bg-[#1d1d2b] disabled:opacity-30 disabled:pointer-events-none transition" title="Desfazer última ação (Atalho: Ctrl + Z)">
           <svg class="w-3.5 h-3.5 text-[#00f0ff]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"/></svg>
-          <span>DESFAZER</span>
-          <kbd class="text-[9px] bg-black/60 px-1 py-0.5 rounded text-slate-400">Ctrl+Z</kbd>
+          <span> CTRL+Z</span>
         </button>
 
         <div class="h-4 w-[1px] bg-[#222230]"></div>
 
-        <button id="btn-redo" onclick="performRedo()" disabled class="flex items-center space-x-1.5 px-2.5 py-1 rounded text-xs font-mono text-slate-300 hover:bg-[#1d1d2b] disabled:opacity-30 disabled:pointer-events-none transition" title="Refazer ação (Atalho: Ctrl + Y ou Ctrl + Shift + Z)">
-          <span>REFAZER</span>
+        <button id="btn-redo" onclick="performRedo()" disabled class="flex items-center space-x-1 px-2 py-1 rounded text-xs font-mono text-slate-300 hover:bg-[#1d1d2b] disabled:opacity-30 disabled:pointer-events-none transition" title="Refazer ação (Atalho: Ctrl + Y)">
           <svg class="w-3.5 h-3.5 text-[#00f0ff]" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 10H11a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"/></svg>
         </button>
 
-        <span id="history-counter-badge" class="text-[10px] font-mono text-slate-500 px-2">0/0</span>
+        <span id="history-counter-badge" class="text-[10px] font-mono text-slate-500 px-1.5">0/0</span>
+      </div>
+
+      <!-- NOVO: Controle Rápido de Zoom Global do Preset & Boost de Fontes -->
+      <div class="flex items-center bg-[#111118] border border-[#ff3b00]/40 rounded px-2.5 py-1 space-x-3">
+        <div class="flex items-center space-x-1.5">
+          <span class="text-[10px] font-mono text-[#ff3b00] font-bold">🔍 ZOOM PRESET:</span>
+          <button onclick="stepGlobalZoom(-5)" class="px-1.5 py-0.5 rounded bg-[#1b1b26] hover:bg-[#272738] text-white font-mono text-[10px]">-</button>
+          <input type="range" id="top-global-zoom" min="50" max="175" value="100" oninput="previewGlobalScale('globalZoom', Number(this.value))" onchange="commitGlobalScale('globalZoom', Number(this.value))" class="w-20">
+          <button onclick="stepGlobalZoom(5)" class="px-1.5 py-0.5 rounded bg-[#1b1b26] hover:bg-[#272738] text-white font-mono text-[10px]">+</button>
+          <span id="lbl-top-zoom" class="text-[11px] font-mono font-bold text-white w-9 text-right">100%</span>
+        </div>
+
+        <div class="h-4 w-[1px] bg-[#262638]"></div>
+
+        <div class="flex items-center space-x-1.5">
+          <span class="text-[10px] font-mono text-[#b8ff01] font-bold">Aa FONTE GLOBAL:</span>
+          <input type="range" id="top-global-font" min="70" max="220" value="100" oninput="previewGlobalScale('globalFontScale', Number(this.value))" onchange="commitGlobalScale('globalFontScale', Number(this.value))" class="w-20">
+          <span id="lbl-top-font" class="text-[11px] font-mono font-bold text-[#b8ff01] w-9 text-right">100%</span>
+          <button onclick="resetGlobalScales()" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#1b1b26] hover:bg-[#28283a] text-slate-300" title="Resetar Zoom e Fontes para 100%">100%</button>
+        </div>
       </div>
 
       <!-- Bloco de Guias de Precisão no Canvas -->
-      <div class="flex items-center bg-[#111118] border border-[#222230] rounded p-0.5 space-x-1 text-[11px] font-mono">
-        <button id="toggle-safezone" onclick="toggleGuideOption('safeZone')" class="px-2 py-1 rounded bg-[#1d1d2b] text-[#00f0ff] border border-[#00f0ff]/30 transition" title="Mostrar Zona Segura Circular (580px) e Borda 640px">
-          ◎ SAFE ZONE
+      <div class="flex items-center bg-[#111118] border border-[#222230] rounded p-0.5 space-x-1 text-[10px] font-mono">
+        <button id="toggle-safezone" onclick="toggleGuideOption('safeZone')" class="px-2 py-1 rounded bg-[#1d1d2b] text-[#00f0ff] border border-[#00f0ff]/30 transition" title="Mostrar Zona Segura Circular (580px)">
+          ◎ SAFE
         </button>
-        <button id="toggle-polargrid" onclick="toggleGuideOption('polarGrid')" class="px-2 py-1 rounded text-slate-400 hover:text-white transition" title="Mostrar Mira Polar Radial e Eixos Centrais">
-          ⌖ GRADE POLAR
+        <button id="toggle-polargrid" onclick="toggleGuideOption('polarGrid')" class="px-2 py-1 rounded text-slate-400 hover:text-white transition" title="Mostrar Mira Polar Radial">
+          ⌖ GRADE
         </button>
-        <button id="toggle-snap" onclick="toggleGuideOption('magneticSnap')" class="px-2 py-1 rounded bg-[#1d1d2b] text-[#ff0055] border border-[#ff0055]/30 transition" title="Ativar Ímã Magnético Inteligente entre Widgets e Centro">
-          🧲 SNAP ATIVO
-        </button>
-        <button id="toggle-bezel" onclick="toggleGuideOption('showChassis')" class="px-2 py-1 rounded bg-[#1d1d2b] text-slate-200 transition" title="Mostrar/Ocultar Anel Físico da Bomba NZXT">
-          ◯ CHASSI
+        <button id="toggle-snap" onclick="toggleGuideOption('magneticSnap')" class="px-2 py-1 rounded bg-[#1d1d2b] text-[#ff0055] border border-[#ff0055]/30 transition" title="Ativar Ímã Magnético">
+          🧲 SNAP
         </button>
       </div>
-
-      <!-- Botão de Simulação de Stress -->
-      <button onclick="triggerThermalSpike()" class="px-2.5 py-1.5 rounded bg-[#181822] hover:bg-[#ff3b00]/20 border border-[#262638] hover:border-[#ff3b00] text-[11px] font-mono text-[#ff3b00] transition" title="Simular Pico de Temperatura / 99% Load">
-        ⚡ TESTAR PICO
-      </button>
     </div>
 
     <!-- Direita: Status CAM + Preview Puro + Exportar -->
@@ -370,23 +422,50 @@
       <div class="flex-1 flex flex-col overflow-hidden">
 
         <!-- =============================================================== -->
-        <!-- GUIA [01]: TEMPLATES AUTORAIS NÃO-GENÉRICOS                     -->
+        <!-- GUIA [01]: TEMPLATES AUTORAIS + CALIBRAÇÃO DE ESCALA GLOBAL     -->
         <!-- =============================================================== -->
         <div id="tab-pane-templates" class="flex-1 overflow-y-auto p-4 space-y-3">
           <div class="border-b border-[#1e1e2a] pb-2">
             <span class="text-[10px] font-mono text-[#ff3b00] uppercase tracking-widest">// GUIA 01</span>
-            <h2 class="text-sm font-bold text-white tracking-wide">PRESETS DE ENGENHARIA</h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">Layouts desenhados sob medida para a geometria circular 640×640. Todos os elementos podem ser movidos.</p>
+            <h2 class="text-sm font-bold text-white tracking-wide">PRESETS DE ALTA LEGIBILIDADE</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Fontes e rótulos recalibrados para leitura cristalina direto na tela física do Kraken Elite.</p>
+          </div>
+
+          <!-- Painel de Calibração Rápida do Preset para o Watercooler -->
+          <div class="p-3 rounded-lg bg-[#12121c] border border-[#00f0ff]/40 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-[#00f0ff] uppercase">CALIBRAÇÃO DO PRESET NO LCD</span>
+              <button onclick="resetGlobalScales()" class="text-[9px] font-mono text-slate-400 hover:text-white underline">Resetar 100%</button>
+            </div>
+            <div>
+              <div class="flex justify-between text-[11px] font-mono mb-1">
+                <span>Zoom Geral do Preset</span>
+                <span id="side-lbl-zoom" class="text-[#ff3b00] font-bold">100%</span>
+              </div>
+              <input type="range" id="side-global-zoom" min="50" max="175" value="100" oninput="previewGlobalScale('globalZoom', Number(this.value))" onchange="commitGlobalScale('globalZoom', Number(this.value))" class="w-full">
+            </div>
+            <div>
+              <div class="flex justify-between text-[11px] font-mono mb-1">
+                <span>Multiplicador de Todas as Fontes</span>
+                <span id="side-lbl-font" class="text-[#b8ff01] font-bold">100%</span>
+              </div>
+              <input type="range" id="side-global-font" min="70" max="220" value="100" oninput="previewGlobalScale('globalFontScale', Number(this.value))" onchange="commitGlobalScale('globalFontScale', Number(this.value))" class="w-full">
+            </div>
+            <div class="grid grid-cols-3 gap-1.5 pt-1 font-mono text-[10px]">
+              <button onclick="commitGlobalScale('globalFontScale', 120)" class="py-1 rounded bg-[#1b1b28] hover:bg-[#262638] text-[#b8ff01] border border-[#b8ff01]/30">+20% FONTES</button>
+              <button onclick="commitGlobalScale('globalFontScale', 140)" class="py-1 rounded bg-[#1b1b28] hover:bg-[#262638] text-[#b8ff01] border border-[#b8ff01]/30">+40% FONTES</button>
+              <button onclick="commitGlobalScale('globalZoom', 112)" class="py-1 rounded bg-[#1b1b28] hover:bg-[#262638] text-[#00f0ff] border border-[#00f0ff]/30">ZOOM 112%</button>
+            </div>
           </div>
 
           <div class="space-y-2.5">
             <!-- Preset 1 -->
             <button onclick="applyPresetTemplate('tachometer_pro')" class="w-full p-3 rounded-lg bg-[#111118] hover:bg-[#171722] border border-[#222230] hover:border-[#ff3b00] text-left transition group">
               <div class="flex items-center justify-between">
-                <span class="font-mono font-bold text-xs text-white group-hover:text-[#ff3b00]">01 // TACHOMETER PRO</span>
+                <span class="font-mono font-bold text-xs text-white group-hover:text-[#ff3b00]">01 // TACHOMETER PRO XL</span>
                 <span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#ff3b00]/15 text-[#ff3b00]">INDUSTRIAL</span>
               </div>
-              <p class="text-[11px] text-slate-400 mt-1">Tacômetros radiais segmentados estilo automobilístico com CPU/GPU GHz/MHz, reator central de líquido e barra LED de RAM.</p>
+              <p class="text-[11px] text-slate-400 mt-1">Dígitos grandes e nítidos, pílulas duplas reforçadas (GHz + %), reator central de líquido e barra de RAM.</p>
             </button>
 
             <!-- Preset 2 -->
@@ -428,30 +507,62 @@
         </div>
 
         <!-- =============================================================== -->
-        <!-- GUIA [02]: CATÁLOGO DE WIDGETS NÃO-GENÉRICOS                    -->
+        <!-- GUIA [02]: CATÁLOGO DE WIDGETS & GIFS FLUTUANTES                -->
         <!-- =============================================================== -->
         <div id="tab-pane-widgets" class="flex-1 overflow-y-auto p-4 space-y-4 hidden">
           <div class="border-b border-[#1e1e2a] pb-2">
             <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GUIA 02</span>
-            <h2 class="text-sm font-bold text-white tracking-wide">ADICIONAR MÓDULOS</h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">Clique para inserir no centro do display (320, 320).</p>
+            <h2 class="text-sm font-bold text-white tracking-wide">MÓDULOS & MINI GIFS</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Adicione sensores com fontes 100% ajustáveis ou pequenos GIFs animados flutuantes em qualquer lugar do layout.</p>
+          </div>
+
+          <!-- NOVO: Destaque para Adicionar GIFs Flutuantes no Layout -->
+          <div class="p-3 rounded-lg bg-gradient-to-br from-[#1b1124] to-[#111118] border border-pink-500/40 space-y-2.5">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-pink-400 uppercase tracking-wider">★ GIFS ANIMADOS NO LAYOUT</span>
+              <span class="text-[9px] font-mono bg-pink-500/20 text-pink-300 px-1.5 py-0.5 rounded">MULTI-CAMADAS</span>
+            </div>
+            <p class="text-[10px] text-slate-300 leading-relaxed">Adicione quantos mini GIFs, mascotes ou ícones animados quiser sobre ou atrás dos medidores:</p>
+
+            <div class="grid grid-cols-2 gap-1.5">
+              <button onclick="createNewWidget('sticker')" class="py-2 px-2.5 rounded bg-pink-500 hover:bg-pink-400 text-black font-mono font-bold text-[11px] flex items-center justify-center space-x-1 transition shadow-lg shadow-pink-500/20">
+                <span>+ NOVO GIF / STICKER</span>
+              </button>
+              <label class="py-2 px-2.5 rounded bg-[#181826] hover:bg-[#232336] text-pink-300 border border-pink-500/40 font-mono font-bold text-[11px] flex items-center justify-center cursor-pointer transition text-center">
+                <span>📂 SUBIR GIF DO PC</span>
+                <input type="file" accept="image/gif,image/webp,image/png,video/mp4,video/webm" onchange="uploadNewFloatingGifWidget(event)" class="hidden">
+              </label>
+            </div>
+
+            <!-- Biblioteca Rápida de Mini GIFs Animados -->
+            <div class="pt-1">
+              <span class="text-[9px] font-mono text-slate-400 uppercase block mb-1.5">Adicionar Mini GIF Pronto (1 Clique):</span>
+              <div class="grid grid-cols-3 gap-1.5 font-mono text-[10px]">
+                <button onclick="spawnPresetSticker('Reator Cyber', 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif', 135, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-cyan-300 truncate">⚛ Reator</button>
+                <button onclick="spawnPresetSticker('Pulso Matrix', 'https://media.giphy.com/media/A06UFEx8jxEwU/giphy.gif', 130, 'hexagon')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-emerald-300 truncate">💠 Hex Data</button>
+                <button onclick="spawnPresetSticker('Synth Grid', 'https://media.giphy.com/media/Lp9ms49jJ55n6zD49s/giphy.gif', 140, 'rounded')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-purple-300 truncate">🌆 Synth</button>
+                <button onclick="spawnPresetSticker('Cyber Rain', 'https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif', 130, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-pink-300 truncate">🌧 Neon Orb</button>
+                <button onclick="spawnPresetSticker('HUD Radar', 'https://media.giphy.com/media/26tn33aiTi1jkl6H6/giphy.gif', 135, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-amber-300 truncate">📡 Radar</button>
+                <button onclick="spawnPresetSticker('Holo Glitch', 'https://media.giphy.com/media/l41lI4bYmcsPJX9Go/giphy.gif', 135, 'rounded')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-sky-300 truncate">⚡ Glitch</button>
+              </div>
+            </div>
           </div>
 
           <!-- Categoria: Telemetria & Blocos -->
           <div class="space-y-2">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Módulos de Telemetria</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Módulos de Telemetria (Fontes Ajustáveis)</span>
             <div class="grid grid-cols-2 gap-2">
               <button onclick="createNewWidget('telemetry_card')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-[#00f0ff]">BLOCO HUD</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Tag + Valor Grande + Unidade</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Título + Valor + Unidade</div>
               </button>
               <button onclick="createNewWidget('dual_pill')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-[#b8ff01]">PÍLULA DUPLA</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Clock + % Load integrados</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Clock + % Load grandes</div>
               </button>
               <button onclick="createNewWidget('sensor')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-white">NÚMERO PURO</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Leitura direta de sensor</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Valor + Prefixo + Unidade</div>
               </button>
               <button onclick="createNewWidget('clock')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-amber-400">CRONÔMETRO</div>
@@ -478,14 +589,14 @@
               </button>
               <button onclick="createNewWidget('chart')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#ff3b00] text-left transition">
                 <div class="text-xs font-mono font-bold text-purple-400">GRÁFICO ONDA</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Histórico 40s em tempo real</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Histórico 40s com legenda</div>
               </button>
             </div>
           </div>
 
-          <!-- Categoria: Vetores HUD, Espectro e Stickers -->
+          <!-- Categoria: Vetores HUD e Espectro -->
           <div class="space-y-2">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Elementos Visuais & Mídia</span>
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Elementos Visuais & Texto</span>
             <div class="grid grid-cols-2 gap-2">
               <button onclick="createNewWidget('reticle')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
                 <div class="text-xs font-mono font-bold text-sky-400">ANEL / MIRA HUD</div>
@@ -495,13 +606,9 @@
                 <div class="text-xs font-mono font-bold text-pink-400">ESPECTRO ÁUDIO</div>
                 <div class="text-[10px] text-slate-400 mt-0.5">Barras de frequência</div>
               </button>
-              <button onclick="createNewWidget('sticker')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
-                <div class="text-xs font-mono font-bold text-rose-400">STICKER GIF/PNG</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Imagem animada sobreposta</div>
-              </button>
-              <button onclick="createNewWidget('label')" class="p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
-                <div class="text-xs font-mono font-bold text-slate-200">RÓTULO / TEXTO</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Tag ou título customizado</div>
+              <button onclick="createNewWidget('label')" class="col-span-2 p-2.5 rounded-lg bg-[#111118] hover:bg-[#191926] border border-[#222230] hover:border-[#00f0ff] text-left transition">
+                <div class="text-xs font-mono font-bold text-slate-200">RÓTULO / TEXTO LIVRE</div>
+                <div class="text-[10px] text-slate-400 mt-0.5">Tag ou título customizado com controle total de fonte</div>
               </button>
             </div>
           </div>
@@ -705,8 +812,8 @@
           <div id="snap-line-h" class="snap-laser-h" style="top: 320px;"></div>
           <div id="snap-label-badge" class="snap-badge">SNAP 320px</div>
 
-          <!-- Camada 4: Elementos / Widgets Renderizados -->
-          <div id="stage-widgets-container" class="absolute inset-0 z-30"></div>
+          <!-- Camada 4: Elementos / Widgets Renderizados (Suporta Zoom Global do Preset) -->
+          <div id="stage-widgets-container" class="absolute inset-0 z-30" style="transform-origin: 320px 320px;"></div>
 
         </div>
       </div>
@@ -986,6 +1093,8 @@
 
     let project = {
       maskCircular: true,
+      globalZoom: 100,
+      globalFontScale: 100,
       background: {
         color: '#000000',
         mediaType: 'none',
@@ -1002,10 +1111,12 @@
 
     let selectedWidgetId = null;
     let activeDrag = null;
+    let activeScaleDrag = null;
+    const stickerBlobCache = {}; // Cache em memória para GIFs flutuantes salvos no IndexedDB
 
     function persistAndSyncProject() {
       try {
-        localStorage.setItem('kraken_os_project_v3', JSON.stringify(project));
+        localStorage.setItem('kraken_os_project_v4', JSON.stringify(project));
         if (broadcastBus) broadcastBus.postMessage({ type: 'SYNC_PROJECT', project });
       } catch (e) {}
     }
@@ -1014,124 +1125,147 @@
       broadcastBus.onmessage = async (e) => {
         if (e.data?.type === 'SYNC_PROJECT') {
           project = e.data.project;
+          await preloadStickerAssets();
           await applyStageBackground();
           renderStageWidgets();
         } else if (e.data?.type === 'SYNC_MEDIA') {
+          await preloadStickerAssets();
           await applyStageBackground();
+          renderStageWidgets();
         }
       };
     }
 
     window.addEventListener('storage', async (e) => {
-      if (e.key === 'kraken_os_project_v3' && e.newValue) {
+      if (e.key === 'kraken_os_project_v4' && e.newValue) {
         try {
           project = JSON.parse(e.newValue);
+          await preloadStickerAssets();
           await applyStageBackground();
           renderStageWidgets();
         } catch (err) {}
       }
     });
 
+    async function preloadStickerAssets() {
+      if (!project || !Array.isArray(project.widgets)) return;
+      for (const w of project.widgets) {
+        if (w.type === 'sticker' && w.assetKey && !stickerBlobCache[w.assetKey]) {
+          const rec = await getMediaAsset(w.assetKey);
+          if (rec && rec.dataUrl) {
+            stickerBlobCache[w.assetKey] = rec;
+          }
+        }
+      }
+    }
+
     /*************************************************************************
-     * 5. TEMPLATES AUTORAIS NÃO-GENÉRICOS (640x640 GEOMETRY)
+     * 5. TEMPLATES AUTORAIS COM FONTES GRANDES DE ALTA LEGIBILIDADE (640x640)
      *************************************************************************/
     const ARTISANAL_PRESETS = {
       tachometer_pro: {
         maskCircular: true,
+        globalZoom: 100,
+        globalFontScale: 100,
         background: { color: '#040406', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 65, blur: 0, vignette: 50 },
         widgets: [
-          // Mira Técnica de Fundo
-          { id: 'tp_ret', type: 'reticle', name: 'Anel Escala Externa', x: 320, y: 320, radius: 296, color: '#262636', style: 'ticks' },
-          // Tacômetros Segmentados Esquerdo (CPU) e Direito (GPU)
-          { id: 'tp_tach_cpu', type: 'tachometer', name: 'Tacômetro CPU', sensor: 'cpu_load', x: 320, y: 320, radius: 266, thickness: 16, startAngle: 190, sweepAngle: 140, segments: 24, color: '#ff3b00', trackColor: '#161620', glow: 8 },
-          { id: 'tp_tach_gpu', type: 'tachometer', name: 'Tacômetro GPU', sensor: 'gpu_load', x: 320, y: 320, radius: 266, thickness: 16, startAngle: 30, sweepAngle: 140, segments: 24, color: '#00f0ff', trackColor: '#161620', glow: 8 },
-          // Reator Central Líquido
-          { id: 'tp_core_ring', type: 'radial', name: 'Aro Reator Líquido', sensor: 'liquid_temp', x: 320, y: 320, radius: 78, thickness: 5, startAngle: 0, sweepAngle: 360, color: '#b8ff01', trackColor: '#14141d', glow: 10, dashed: true },
-          // Blocos HUD de Telemetria
-          { id: 'tp_card_cpu', type: 'telemetry_card', name: 'Card CPU', sensor: 'cpu_temp', title: 'CPU // CORE', x: 158, y: 270, fontSize: 54, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
-          { id: 'tp_pill_cpu', type: 'dual_pill', name: 'Clock+Load CPU', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 158, y: 355, color: '#ff3b00', bgColor: '#0e0e14' },
+          { id: 'tp_ret', type: 'reticle', name: 'Anel Escala Externa', x: 320, y: 320, radius: 296, color: '#262636', style: 'ticks', widgetScale: 100 },
+          { id: 'tp_tach_cpu', type: 'tachometer', name: 'Tacômetro CPU', sensor: 'cpu_load', x: 320, y: 320, radius: 268, thickness: 18, startAngle: 192, sweepAngle: 136, segments: 24, color: '#ff3b00', trackColor: '#161620', glow: 8, widgetScale: 100 },
+          { id: 'tp_tach_gpu', type: 'tachometer', name: 'Tacômetro GPU', sensor: 'gpu_load', x: 320, y: 320, radius: 268, thickness: 18, startAngle: 32, sweepAngle: 136, segments: 24, color: '#00f0ff', trackColor: '#161620', glow: 8, widgetScale: 100 },
+          { id: 'tp_core_ring', type: 'radial', name: 'Aro Reator Líquido', sensor: 'liquid_temp', x: 320, y: 320, radius: 88, thickness: 6, startAngle: 0, sweepAngle: 360, color: '#b8ff01', trackColor: '#14141d', glow: 10, dashed: true, widgetScale: 100 },
+          // Blocos HUD de Telemetria com rótulos e unidades amplos e legíveis
+          { id: 'tp_card_cpu', type: 'telemetry_card', name: 'Card CPU', sensor: 'cpu_temp', title: 'CPU CORE', x: 152, y: 262, fontSize: 66, labelSize: 16, unitSize: 26, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', labelColor: '#cbd5e1', glow: 4, widgetScale: 100 },
+          { id: 'tp_pill_cpu', type: 'dual_pill', name: 'Clock+Load CPU', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 152, y: 362, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#ff3b00', bgColor: '#0e0e14', widgetScale: 100 },
 
-          { id: 'tp_card_gpu', type: 'telemetry_card', name: 'Card GPU', sensor: 'gpu_temp', title: 'GPU // CORE', x: 482, y: 270, fontSize: 54, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 0 },
-          { id: 'tp_pill_gpu', type: 'dual_pill', name: 'Clock+Load GPU', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 482, y: 355, color: '#00f0ff', bgColor: '#0e0e14' },
+          { id: 'tp_card_gpu', type: 'telemetry_card', name: 'Card GPU', sensor: 'gpu_temp', title: 'GPU CORE', x: 488, y: 262, fontSize: 66, labelSize: 16, unitSize: 26, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', labelColor: '#cbd5e1', glow: 4, widgetScale: 100 },
+          { id: 'tp_pill_gpu', type: 'dual_pill', name: 'Clock+Load GPU', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 488, y: 362, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#0e0e14', widgetScale: 100 },
 
           // Leitura Central do Líquido
-          { id: 'tp_liq_lbl', type: 'label', name: 'Tag Coolant', text: 'LIQUID', x: 320, y: 284, fontSize: 10, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0 },
-          { id: 'tp_liq_val', type: 'sensor', name: 'Temp Líquido', sensor: 'liquid_temp', prefix: '', showUnit: true, x: 320, y: 318, fontSize: 32, fontFamily: 'Chakra Petch', color: '#b8ff01', glow: 8 },
-          { id: 'tp_pump', type: 'sensor', name: 'RPM Bomba', sensor: 'pump_rpm', prefix: '', showUnit: true, x: 320, y: 352, fontSize: 11, fontFamily: 'JetBrains Mono', color: '#64748b', glow: 0 },
+          { id: 'tp_liq_lbl', type: 'label', name: 'Tag Coolant', text: 'LIQUID', x: 320, y: 274, fontSize: 16, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#cbd5e1', glow: 0, widgetScale: 100 },
+          { id: 'tp_liq_val', type: 'sensor', name: 'Temp Líquido', sensor: 'liquid_temp', prefix: '', showUnit: true, x: 320, y: 318, fontSize: 40, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#b8ff01', glow: 8, widgetScale: 100 },
+          { id: 'tp_pump', type: 'sensor', name: 'RPM Bomba', sensor: 'pump_rpm', prefix: '', showUnit: true, x: 320, y: 362, fontSize: 16, unitSize: 12, fontWeight: 700, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0, widgetScale: 100 },
 
           // Barra Segmentada de RAM na Base + Cronômetro no Topo
-          { id: 'tp_ram_bar', type: 'seg_bar', name: 'Barra LED RAM', sensor: 'ram_percent', x: 320, y: 488, width: 250, height: 14, segments: 18, color: '#b8ff01', trackColor: '#161622' },
-          { id: 'tp_ram_txt', type: 'dual_pill', name: 'Pílula RAM', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 526, color: '#b8ff01', bgColor: '#0e0e14' },
-          { id: 'tp_clock', type: 'clock', name: 'Cronômetro Topo', format: 'HH:MM:SS', x: 320, y: 105, fontSize: 18, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0 }
+          { id: 'tp_ram_bar', type: 'seg_bar', name: 'Barra LED RAM', sensor: 'ram_percent', x: 320, y: 478, width: 250, height: 16, segments: 18, color: '#b8ff01', trackColor: '#161622', widgetScale: 100 },
+          { id: 'tp_ram_txt', type: 'dual_pill', name: 'Pílula RAM', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 526, fontSize: 20, unitSize: 15, fontWeight: 800, color: '#b8ff01', bgColor: '#0e0e14', widgetScale: 100 },
+          { id: 'tp_clock', type: 'clock', name: 'Cronômetro Topo', format: 'HH:MM:SS', x: 320, y: 108, fontSize: 24, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 0, widgetScale: 100 }
         ]
       },
 
       nothing_dot_os: {
         maskCircular: true,
+        globalZoom: 100,
+        globalFontScale: 100,
         background: { color: '#000000', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 60, blur: 0, vignette: 20 },
         widgets: [
-          { id: 'nd_ret1', type: 'reticle', name: 'Mira Externa Pontilhada', x: 320, y: 320, radius: 288, color: '#333340', style: 'crosshair' },
-          { id: 'nd_arc_cpu', type: 'tachometer', name: 'Arco Pontilhado CPU', sensor: 'cpu_temp', x: 320, y: 320, radius: 265, thickness: 10, startAngle: 200, sweepAngle: 120, segments: 30, color: '#ff1e00', trackColor: '#1a1a1f', glow: 0 },
-          { id: 'nd_arc_gpu', type: 'tachometer', name: 'Arco Pontilhado GPU', sensor: 'gpu_temp', x: 320, y: 320, radius: 265, thickness: 10, startAngle: 40, sweepAngle: 120, segments: 30, color: '#ffffff', trackColor: '#1a1a1f', glow: 0 },
-          { id: 'nd_hdr', type: 'label', name: 'Header OS', text: 'NZXT // OS (01)', x: 320, y: 96, fontSize: 12, fontFamily: 'Share Tech Mono', color: '#ff1e00', glow: 0 },
-          { id: 'nd_cpu', type: 'telemetry_card', name: 'Bloco CPU', sensor: 'cpu_temp', title: 'CPU.01', x: 185, y: 245, fontSize: 64, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ff1e00', glow: 0 },
-          { id: 'nd_cpu_p', type: 'dual_pill', name: 'Dados CPU', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 185, y: 335, color: '#ffffff', bgColor: '#111115' },
-          { id: 'nd_gpu', type: 'telemetry_card', name: 'Bloco GPU', sensor: 'gpu_temp', title: 'GPU.02', x: 455, y: 245, fontSize: 64, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ffffff', glow: 0 },
-          { id: 'nd_gpu_p', type: 'dual_pill', name: 'Dados GPU', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 455, y: 335, color: '#ff1e00', bgColor: '#111115' },
-          { id: 'nd_liq', type: 'sensor', name: 'Líquido', sensor: 'liquid_temp', prefix: 'COOLANT // ', showUnit: true, x: 320, y: 428, fontSize: 24, fontFamily: 'Share Tech Mono', color: '#ff1e00', glow: 0 },
-          { id: 'nd_ram', type: 'dual_pill', name: 'RAM Status', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 488, color: '#94a3b8', bgColor: '#0c0c10' }
+          { id: 'nd_ret1', type: 'reticle', name: 'Mira Externa Pontilhada', x: 320, y: 320, radius: 288, color: '#333340', style: 'crosshair', widgetScale: 100 },
+          { id: 'nd_arc_cpu', type: 'tachometer', name: 'Arco Pontilhado CPU', sensor: 'cpu_temp', x: 320, y: 320, radius: 266, thickness: 12, startAngle: 200, sweepAngle: 120, segments: 30, color: '#ff1e00', trackColor: '#1a1a1f', glow: 0, widgetScale: 100 },
+          { id: 'nd_arc_gpu', type: 'tachometer', name: 'Arco Pontilhado GPU', sensor: 'gpu_temp', x: 320, y: 320, radius: 266, thickness: 12, startAngle: 40, sweepAngle: 120, segments: 30, color: '#ffffff', trackColor: '#1a1a1f', glow: 0, widgetScale: 100 },
+          { id: 'nd_hdr', type: 'label', name: 'Header OS', text: 'NZXT // OS (01)', x: 320, y: 100, fontSize: 18, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ff1e00', glow: 0, widgetScale: 100 },
+          { id: 'nd_cpu', type: 'telemetry_card', name: 'Bloco CPU', sensor: 'cpu_temp', title: 'CPU.01', x: 180, y: 238, fontSize: 72, labelSize: 18, unitSize: 28, fontWeight: 800, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ff1e00', labelColor: '#ff1e00', glow: 0, widgetScale: 100 },
+          { id: 'nd_cpu_p', type: 'dual_pill', name: 'Dados CPU', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 180, y: 342, fontSize: 20, unitSize: 15, fontWeight: 700, color: '#ffffff', bgColor: '#111115', widgetScale: 100 },
+          { id: 'nd_gpu', type: 'telemetry_card', name: 'Bloco GPU', sensor: 'gpu_temp', title: 'GPU.02', x: 460, y: 238, fontSize: 72, labelSize: 18, unitSize: 28, fontWeight: 800, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ffffff', labelColor: '#cbd5e1', glow: 0, widgetScale: 100 },
+          { id: 'nd_gpu_p', type: 'dual_pill', name: 'Dados GPU', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 460, y: 342, fontSize: 20, unitSize: 15, fontWeight: 700, color: '#ff1e00', bgColor: '#111115', widgetScale: 100 },
+          { id: 'nd_liq', type: 'sensor', name: 'Líquido', sensor: 'liquid_temp', prefix: 'COOLANT // ', showUnit: true, x: 320, y: 432, fontSize: 30, unitSize: 20, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ff1e00', glow: 0, widgetScale: 100 },
+          { id: 'nd_ram', type: 'dual_pill', name: 'RAM Status', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 500, fontSize: 20, unitSize: 15, fontWeight: 700, color: '#e2e8f0', bgColor: '#0c0c10', widgetScale: 100 }
         ]
       },
 
       cryo_reactor_hud: {
         maskCircular: true,
+        globalZoom: 100,
+        globalFontScale: 100,
         background: { color: '#02060d', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 65, blur: 0, vignette: 50 },
         widgets: [
-          { id: 'cr_r1', type: 'radial', name: 'Anel Externo CPU', sensor: 'cpu_load', x: 320, y: 320, radius: 274, thickness: 14, startAngle: 135, sweepAngle: 270, color: '#00f0ff', trackColor: '#0f172a', glow: 12, dashed: false },
-          { id: 'cr_r2', type: 'radial', name: 'Anel Interno GPU', sensor: 'gpu_load', x: 320, y: 320, radius: 248, thickness: 8, startAngle: 135, sweepAngle: 270, color: '#a855f7', trackColor: '#0f172a', glow: 8, dashed: true },
-          { id: 'cr_ret', type: 'reticle', name: 'Mira Radar Central', x: 320, y: 320, radius: 105, color: '#00f0ff', style: 'radar' },
-          { id: 'cr_liq', type: 'telemetry_card', name: 'Núcleo Líquido', sensor: 'liquid_temp', title: 'CRYO CORE', x: 320, y: 315, fontSize: 44, fontFamily: 'Orbitron', color: '#00ffc8', accentColor: '#00f0ff', glow: 10 },
-          { id: 'cr_cpu', type: 'telemetry_card', name: 'Leitura CPU', sensor: 'cpu_temp', title: 'CPU', x: 132, y: 275, fontSize: 42, fontFamily: 'Orbitron', color: '#00f0ff', accentColor: '#00f0ff', glow: 8 },
-          { id: 'cr_cpu_d', type: 'dual_pill', name: 'CPU GHz/%', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 142, y: 355, color: '#00f0ff', bgColor: '#07101e' },
-          { id: 'cr_gpu', type: 'telemetry_card', name: 'Leitura GPU', sensor: 'gpu_temp', title: 'GPU', x: 508, y: 275, fontSize: 42, fontFamily: 'Orbitron', color: '#c084fc', accentColor: '#a855f7', glow: 8 },
-          { id: 'cr_gpu_d', type: 'dual_pill', name: 'GPU MHz/%', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 498, y: 355, color: '#c084fc', bgColor: '#130b24' },
-          { id: 'cr_chart', type: 'chart', name: 'Onda Térmica', sensor: 'cpu_temp', x: 320, y: 485, width: 220, height: 52, color: '#00f0ff' },
-          { id: 'cr_ram', type: 'dual_pill', name: 'RAM Info', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 542, color: '#38bdf8', bgColor: '#07101e' }
+          { id: 'cr_r1', type: 'radial', name: 'Anel Externo CPU', sensor: 'cpu_load', x: 320, y: 320, radius: 274, thickness: 15, startAngle: 135, sweepAngle: 270, color: '#00f0ff', trackColor: '#0f172a', glow: 12, dashed: false, widgetScale: 100 },
+          { id: 'cr_r2', type: 'radial', name: 'Anel Interno GPU', sensor: 'gpu_load', x: 320, y: 320, radius: 248, thickness: 9, startAngle: 135, sweepAngle: 270, color: '#a855f7', trackColor: '#0f172a', glow: 8, dashed: true, widgetScale: 100 },
+          { id: 'cr_ret', type: 'reticle', name: 'Mira Radar Central', x: 320, y: 320, radius: 108, color: '#00f0ff', style: 'radar', widgetScale: 100 },
+          { id: 'cr_liq', type: 'telemetry_card', name: 'Núcleo Líquido', sensor: 'liquid_temp', title: 'CRYO CORE', x: 320, y: 315, fontSize: 50, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Orbitron', color: '#00ffc8', accentColor: '#00f0ff', labelColor: '#00f0ff', glow: 10, widgetScale: 100 },
+          { id: 'cr_cpu', type: 'telemetry_card', name: 'Leitura CPU', sensor: 'cpu_temp', title: 'CPU', x: 132, y: 268, fontSize: 52, labelSize: 17, unitSize: 22, fontWeight: 800, fontFamily: 'Orbitron', color: '#00f0ff', accentColor: '#00f0ff', labelColor: '#e2e8f0', glow: 8, widgetScale: 100 },
+          { id: 'cr_cpu_d', type: 'dual_pill', name: 'CPU GHz/%', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 142, y: 360, fontSize: 18, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#07101e', widgetScale: 100 },
+          { id: 'cr_gpu', type: 'telemetry_card', name: 'Leitura GPU', sensor: 'gpu_temp', title: 'GPU', x: 508, y: 268, fontSize: 52, labelSize: 17, unitSize: 22, fontWeight: 800, fontFamily: 'Orbitron', color: '#c084fc', accentColor: '#a855f7', labelColor: '#e2e8f0', glow: 8, widgetScale: 100 },
+          { id: 'cr_gpu_d', type: 'dual_pill', name: 'GPU MHz/%', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 498, y: 360, fontSize: 18, unitSize: 14, fontWeight: 800, color: '#c084fc', bgColor: '#130b24', widgetScale: 100 },
+          { id: 'cr_chart', type: 'chart', name: 'Onda Térmica', sensor: 'cpu_temp', x: 320, y: 478, width: 230, height: 54, labelSize: 13, showLabel: true, color: '#00f0ff', widgetScale: 100 },
+          { id: 'cr_ram', type: 'dual_pill', name: 'RAM Info', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 540, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#38bdf8', bgColor: '#07101e', widgetScale: 100 }
         ]
       },
 
       anime_holo_frame: {
         maskCircular: true,
+        globalZoom: 100,
+        globalFontScale: 100,
         background: { color: '#05050a', mediaType: 'url', mediaUrl: 'https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif', scale: 118, offsetX: 0, offsetY: 0, opacity: 82, blur: 0, vignette: 55 },
         widgets: [
-          { id: 'ah_ring', type: 'tachometer', name: 'Aro Perimetral', sensor: 'cpu_load', x: 320, y: 320, radius: 288, thickness: 8, startAngle: 140, sweepAngle: 260, segments: 36, color: '#b8ff01', trackColor: 'rgba(0,0,0,0.5)', glow: 8 },
-          { id: 'ah_clk', type: 'clock', name: 'Relógio Topo', format: 'HH:MM', x: 320, y: 82, fontSize: 38, fontFamily: 'Orbitron', color: '#ffffff', glow: 12 },
-          { id: 'ah_cpu', type: 'telemetry_card', name: 'HUD CPU', sensor: 'cpu_temp', title: 'CPU', x: 170, y: 472, fontSize: 34, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 8 },
-          { id: 'ah_liq', type: 'telemetry_card', name: 'HUD Líquido', sensor: 'liquid_temp', title: 'LIQUID', x: 320, y: 472, fontSize: 34, fontFamily: 'Chakra Petch', color: '#b8ff01', accentColor: '#b8ff01', glow: 8 },
-          { id: 'ah_gpu', type: 'telemetry_card', name: 'HUD GPU', sensor: 'gpu_temp', title: 'GPU', x: 470, y: 472, fontSize: 34, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 8 },
-          { id: 'ah_pills', type: 'dual_pill', name: 'RAM & Clock', sensorA: 'cpu_freq', sensorB: 'ram_percent', x: 320, y: 548, color: '#b8ff01', bgColor: 'rgba(0,0,0,0.75)' }
+          { id: 'ah_ring', type: 'tachometer', name: 'Aro Perimetral', sensor: 'cpu_load', x: 320, y: 320, radius: 288, thickness: 10, startAngle: 140, sweepAngle: 260, segments: 36, color: '#b8ff01', trackColor: 'rgba(0,0,0,0.5)', glow: 8, widgetScale: 100 },
+          { id: 'ah_clk', type: 'clock', name: 'Relógio Topo', format: 'HH:MM', x: 320, y: 88, fontSize: 46, fontWeight: 800, fontFamily: 'Orbitron', color: '#ffffff', glow: 12, widgetScale: 100 },
+          { id: 'ah_cpu', type: 'telemetry_card', name: 'HUD CPU', sensor: 'cpu_temp', title: 'CPU', x: 165, y: 468, fontSize: 46, labelSize: 16, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', labelColor: '#00f0ff', glow: 8, widgetScale: 100 },
+          { id: 'ah_liq', type: 'telemetry_card', name: 'HUD Líquido', sensor: 'liquid_temp', title: 'LIQUID', x: 320, y: 468, fontSize: 46, labelSize: 16, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#b8ff01', accentColor: '#b8ff01', labelColor: '#ffffff', glow: 8, widgetScale: 100 },
+          { id: 'ah_gpu', type: 'telemetry_card', name: 'HUD GPU', sensor: 'gpu_temp', title: 'GPU', x: 475, y: 468, fontSize: 46, labelSize: 16, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', labelColor: '#ff3b00', glow: 8, widgetScale: 100 },
+          { id: 'ah_pills', type: 'dual_pill', name: 'RAM & Clock', sensorA: 'cpu_freq', sensorB: 'ram_percent', x: 320, y: 548, fontSize: 20, unitSize: 15, fontWeight: 800, color: '#b8ff01', bgColor: 'rgba(0,0,0,0.82)', widgetScale: 100 }
         ]
       },
 
       overclock_telemetry: {
         maskCircular: true,
+        globalZoom: 100,
+        globalFontScale: 100,
         background: { color: '#050508', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 60, blur: 0, vignette: 40 },
         widgets: [
-          { id: 'oc_ret', type: 'reticle', name: 'Grade Técnica', x: 320, y: 320, radius: 292, color: '#222230', style: 'ticks' },
-          { id: 'oc_ch1', type: 'chart', name: 'Gráfico CPU', sensor: 'cpu_temp', x: 195, y: 230, width: 175, height: 64, color: '#00f0ff' },
-          { id: 'oc_c1', type: 'telemetry_card', name: 'CPU Temp', sensor: 'cpu_temp', title: 'CPU CORE', x: 195, y: 155, fontSize: 40, fontFamily: 'Chakra Petch', color: '#00f0ff', accentColor: '#00f0ff', glow: 6 },
-          { id: 'oc_p1', type: 'dual_pill', name: 'CPU Freq/Load', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 195, y: 288, color: '#00f0ff', bgColor: '#0d0d14' },
+          { id: 'oc_ret', type: 'reticle', name: 'Grade Técnica', x: 320, y: 320, radius: 292, color: '#222230', style: 'ticks', widgetScale: 100 },
+          { id: 'oc_ch1', type: 'chart', name: 'Gráfico CPU', sensor: 'cpu_temp', x: 192, y: 236, width: 185, height: 64, labelSize: 13, showLabel: true, color: '#00f0ff', widgetScale: 100 },
+          { id: 'oc_c1', type: 'telemetry_card', name: 'CPU Temp', sensor: 'cpu_temp', title: 'CPU CORE', x: 192, y: 150, fontSize: 50, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#00f0ff', accentColor: '#00f0ff', labelColor: '#e2e8f0', glow: 6, widgetScale: 100 },
+          { id: 'oc_p1', type: 'dual_pill', name: 'CPU Freq/Load', sensorA: 'cpu_freq', sensorB: 'cpu_load', x: 192, y: 300, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#0d0d14', widgetScale: 100 },
 
-          { id: 'oc_ch2', type: 'chart', name: 'Gráfico GPU', sensor: 'gpu_temp', x: 445, y: 230, width: 175, height: 64, color: '#ff3b00' },
-          { id: 'oc_c2', type: 'telemetry_card', name: 'GPU Temp', sensor: 'gpu_temp', title: 'GPU CORE', x: 445, y: 155, fontSize: 40, fontFamily: 'Chakra Petch', color: '#ff3b00', accentColor: '#ff3b00', glow: 6 },
-          { id: 'oc_p2', type: 'dual_pill', name: 'GPU Freq/Load', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 445, y: 288, color: '#ff3b00', bgColor: '#0d0d14' },
+          { id: 'oc_ch2', type: 'chart', name: 'Gráfico GPU', sensor: 'gpu_temp', x: 448, y: 236, width: 185, height: 64, labelSize: 13, showLabel: true, color: '#ff3b00', widgetScale: 100 },
+          { id: 'oc_c2', type: 'telemetry_card', name: 'GPU Temp', sensor: 'gpu_temp', title: 'GPU CORE', x: 448, y: 150, fontSize: 50, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ff3b00', accentColor: '#ff3b00', labelColor: '#e2e8f0', glow: 6, widgetScale: 100 },
+          { id: 'oc_p2', type: 'dual_pill', name: 'GPU Freq/Load', sensorA: 'gpu_freq', sensorB: 'gpu_load', x: 448, y: 300, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#ff3b00', bgColor: '#0d0d14', widgetScale: 100 },
 
-          { id: 'oc_b1', type: 'seg_bar', name: 'Barra Líquido', sensor: 'liquid_temp', x: 320, y: 382, width: 310, height: 14, segments: 22, color: '#00ffc8', trackColor: '#141420' },
-          { id: 'oc_l1', type: 'sensor', name: 'Líquido Temp', sensor: 'liquid_temp', prefix: 'COOLANT: ', showUnit: true, x: 320, y: 350, fontSize: 22, fontFamily: 'Chakra Petch', color: '#00ffc8', glow: 6 },
+          { id: 'oc_b1', type: 'seg_bar', name: 'Barra Líquido', sensor: 'liquid_temp', x: 320, y: 392, width: 310, height: 15, segments: 22, color: '#00ffc8', trackColor: '#141420', widgetScale: 100 },
+          { id: 'oc_l1', type: 'sensor', name: 'Líquido Temp', sensor: 'liquid_temp', prefix: 'COOLANT: ', showUnit: true, x: 320, y: 356, fontSize: 28, unitSize: 18, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#00ffc8', glow: 6, widgetScale: 100 },
 
-          { id: 'oc_b2', type: 'seg_bar', name: 'Barra RAM', sensor: 'ram_percent', x: 320, y: 465, width: 260, height: 12, segments: 18, color: '#a855f7', trackColor: '#141420' },
-          { id: 'oc_r1', type: 'dual_pill', name: 'RAM GB/%', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 432, color: '#c084fc', bgColor: '#0d0d14' },
-          { id: 'oc_clk', type: 'clock', name: 'Relógio Base', format: 'HH:MM:SS', x: 320, y: 530, fontSize: 18, fontFamily: 'JetBrains Mono', color: '#64748b', glow: 0 }
+          { id: 'oc_b2', type: 'seg_bar', name: 'Barra RAM', sensor: 'ram_percent', x: 320, y: 478, width: 260, height: 14, segments: 18, color: '#a855f7', trackColor: '#141420', widgetScale: 100 },
+          { id: 'oc_r1', type: 'dual_pill', name: 'RAM GB/%', sensorA: 'ram_used', sensorB: 'ram_percent', x: 320, y: 440, fontSize: 19, unitSize: 14, fontWeight: 800, color: '#c084fc', bgColor: '#0d0d14', widgetScale: 100 },
+          { id: 'oc_clk', type: 'clock', name: 'Relógio Base', format: 'HH:MM:SS', x: 320, y: 534, fontSize: 22, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0, widgetScale: 100 }
         ]
       }
     };
@@ -1215,6 +1349,14 @@
       const container = document.getElementById('stage-widgets-container');
       container.innerHTML = '';
 
+      // Aplica o Zoom Global do Preset a partir do centro (320, 320)
+      const gZoom = (project.globalZoom || 100) / 100;
+      const gFont = (project.globalFontScale || 100) / 100;
+      container.style.transform = `scale(${gZoom})`;
+
+      // Sincroniza sliders de Zoom Global / Fonte Global no topo e na lateral
+      syncGlobalScaleUI();
+
       project.widgets.forEach((w, index) => {
         if (w.hidden) return;
 
@@ -1225,50 +1367,70 @@
         el.style.zIndex = index + 10;
         el.style.left = `${w.x}px`;
         el.style.top = `${w.y}px`;
-        el.style.transform = `translate(-50%, -50%) rotate(${w.rotation || 0}deg)`;
+
+        const wScale = (w.widgetScale || 100) / 100;
+        const flipX = w.flipX ? -1 : 1;
+        el.style.transform = `translate(-50%, -50%) rotate(${w.rotation || 0}deg) scale(${wScale * flipX}, ${wScale})`;
         el.style.opacity = (w.opacity ?? 100) / 100;
+        if (w.blendMode && w.blendMode !== 'normal') {
+          el.style.mixBlendMode = w.blendMode;
+        }
 
         el.addEventListener('mousedown', (evt) => startDraggingWidget(evt, w.id));
 
-        // Etiqueta de Coordenada Viva quando selecionado
-        const coordBadge = `<div class="widget-coord-tag">X:${w.x} Y:${w.y}</div>`;
+        // Etiqueta de Coordenada Viva + Alça de Escala Direta quando selecionado
+        const coordBadge = `<div class="widget-coord-tag" style="transform: translateX(-50%) scale(${1 / Math.max(wScale, 0.4)});">X:${w.x} Y:${w.y} · ${Math.round(wScale * 100)}%</div>`;
+        const scaleHandle = `<div class="widget-scale-handle" onmousedown="startScalingWidget(event, '${w.id}')" title="Arraste para redimensionar proporcionalmente"></div>`;
 
-        // 1. BLOCO HUD DE TELEMETRIA (Tag técnica + Valor + Unidade superscript)
+        // 1. BLOCO HUD DE TELEMETRIA (Com controle individual de Título, Valor e Unidade)
         if (w.type === 'telemetry_card') {
           const meta = SENSORS_CATALOG[w.sensor] || { unit: '°C', short: 'SENSOR' };
           const val = formatReading(w.sensor);
+          const mainPx = Math.round((w.fontSize || 62) * gFont);
+          const lblPx = Math.round((w.labelSize || 16) * gFont);
+          const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 62) * 0.42)) * gFont);
+          const weight = w.fontWeight || 800;
+          const dotSize = Math.max(6, Math.round(lblPx * 0.45));
           const glowStyle = w.glow > 0 ? `text-shadow: 0 0 ${w.glow}px ${w.color};` : '';
+
           el.innerHTML = `
-            ${coordBadge}
+            ${coordBadge}${scaleHandle}
             <div class="flex flex-col items-center text-center">
-              <div class="flex items-center space-x-1.5 mb-0.5">
-                <span style="width:6px;height:6px;border-radius:1px;background:${w.accentColor || w.color || '#ff3b00'};display:inline-block;"></span>
-                <span style="font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:0.14em;color:#94a3b8;">${w.title || meta.short}</span>
+              <div class="flex items-center space-x-1.5 mb-1">
+                <span style="width:${dotSize}px;height:${dotSize}px;border-radius:2px;background:${w.accentColor || w.color || '#ff3b00'};display:inline-block;box-shadow:0 0 6px ${w.accentColor || w.color};"></span>
+                <span style="font-family:'${w.labelFont || 'JetBrains Mono'}',monospace;font-size:${lblPx}px;font-weight:800;letter-spacing:0.12em;color:${w.labelColor || '#cbd5e1'};line-height:1;">${w.title ?? meta.short}</span>
               </div>
-              <div style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;font-size:${w.fontSize || 48}px;font-weight:800;line-height:0.95;color:${w.color || '#ffffff'};${glowStyle}">
-                ${val}<sup style="font-size:0.42em;font-weight:700;color:${w.accentColor || w.color};margin-left:2px;">${meta.unit}</sup>
+              <div style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;font-size:${mainPx}px;font-weight:${weight};line-height:0.92;color:${w.color || '#ffffff'};display:flex;align-items:flex-start;${glowStyle}">
+                <span>${val}</span>
+                <span style="font-size:${unitPx}px;font-weight:${weight};color:${w.accentColor || w.color};margin-left:3px;line-height:1.05;">${meta.unit}</span>
               </div>
             </div>
           `;
         }
 
-        // 2. PÍLULA DUPLA INTEGRADA (Ex: Clock GHz + Uso %)
+        // 2. PÍLULA DUPLA INTEGRADA (Com controle de Fonte Principal + Tamanho da Unidade + Padding proporcional)
         else if (w.type === 'dual_pill') {
           const metaA = SENSORS_CATALOG[w.sensorA || 'cpu_freq'] || { unit: '' };
           const metaB = SENSORS_CATALOG[w.sensorB || 'cpu_load'] || { unit: '%' };
           const valA = formatReading(w.sensorA || 'cpu_freq');
           const valB = formatReading(w.sensorB || 'cpu_load');
+          const mainPx = Math.round((w.fontSize || 19) * gFont);
+          const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 19) * 0.76)) * gFont);
+          const weight = w.fontWeight || 800;
+          const padY = Math.max(4, Math.round(mainPx * 0.28));
+          const padX = Math.max(10, Math.round(mainPx * 0.65));
+
           el.innerHTML = `
-            ${coordBadge}
-            <div style="background:${w.bgColor || '#0e0e14'};border:1px solid rgba(255,255,255,0.14);border-left:3px solid ${w.color || '#00f0ff'};padding:4px 10px;border-radius:4px;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:${w.fontSize || 13}px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.5);">
-              <span style="color:#f8fafc;font-weight:700;">${valA}<small style="opacity:0.7;margin-left:1px;">${metaA.unit}</small></span>
-              <span style="color:rgba(255,255,255,0.25);">//</span>
-              <span style="color:${w.color || '#00f0ff'};font-weight:800;">${valB}${metaB.unit}</span>
+            ${coordBadge}${scaleHandle}
+            <div style="background:${w.bgColor || '#0e0e14'};border:1.5px solid rgba(255,255,255,0.18);border-left:4px solid ${w.color || '#00f0ff'};padding:${padY}px ${padX}px;border-radius:6px;display:flex;align-items:baseline;gap:${Math.round(mainPx * 0.45)}px;font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${mainPx}px;font-weight:${weight};white-space:nowrap;box-shadow:0 6px 16px rgba(0,0,0,0.65);">
+              <span style="color:#ffffff;">${valA}<span style="font-size:${unitPx}px;opacity:0.85;margin-left:2px;">${metaA.unit}</span></span>
+              <span style="color:rgba(255,255,255,0.35);font-size:${unitPx}px;">//</span>
+              <span style="color:${w.color || '#00f0ff'};">${valB}<span style="font-size:${unitPx}px;margin-left:1px;">${metaB.unit}</span></span>
             </div>
           `;
         }
 
-        // 3. TACÔMETRO RADIAL SEGMENTADO (TICKS INDUSTRIAIS)
+        // 3. TACÔMETRO RADIAL SEGMENTADO
         else if (w.type === 'tachometer') {
           const r = w.radius || 240;
           const thick = w.thickness || 14;
@@ -1294,14 +1456,14 @@
             const y2 = cy + rOuter * Math.sin(rad);
             const isLit = i < activeSegs;
             const strokeClr = isLit ? (w.color || '#ff3b00') : (w.trackColor || '#1a1a24');
-            ticksSvg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${strokeClr}" stroke-width="3.5" stroke-linecap="butt"/>`;
+            ticksSvg += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${strokeClr}" stroke-width="${w.tickWidth || 4}" stroke-linecap="butt"/>`;
           }
 
           const glowFilter = w.glow > 0 ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color});` : '';
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
           el.innerHTML = `
-            ${coordBadge}
+            ${coordBadge}${scaleHandle}
             <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="${glowFilter}" class="overflow-visible">
               ${ticksSvg}
             </svg>
@@ -1320,13 +1482,13 @@
           const prog = getNormalizedSensor(w.sensor || 'cpu_load');
           const trackD = polarArcPath(cx, cy, r, startA, sweepA);
           const valD = polarArcPath(cx, cy, r, startA, Math.max(sweepA * prog, 1));
-          const dash = w.dashed ? `stroke-dasharray="7 5"` : '';
+          const dash = w.dashed ? `stroke-dasharray="8 6"` : '';
           const glowFilter = w.glow > 0 ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color});` : '';
 
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
           el.innerHTML = `
-            ${coordBadge}
+            ${coordBadge}${scaleHandle}
             <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="overflow-visible">
               <path d="${trackD}" fill="none" stroke="${w.trackColor || '#161622'}" stroke-width="${thick}" stroke-linecap="round" ${dash}/>
               <path d="${valD}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="${thick}" stroke-linecap="round" style="${glowFilter}" ${dash}/>
@@ -1334,10 +1496,10 @@
           `;
         }
 
-        // 5. BARRA LED EM CÉLULAS SEGMENTADAS
+        // 5. BARRA LED EM CÉLULAS SEGMENTADAS (Com opção de rótulo embutido)
         else if (w.type === 'seg_bar') {
           const width = w.width || 240;
-          const height = w.height || 14;
+          const height = w.height || 16;
           const segs = w.segments || 16;
           const prog = getNormalizedSensor(w.sensor || 'ram_percent');
           const litCount = Math.round(prog * segs);
@@ -1351,7 +1513,7 @@
           }
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-          el.innerHTML = `${coordBadge}<div style="width:100%;height:100%;display:flex;gap:3px;padding:2px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:3px;">${cellsHtml}</div>`;
+          el.innerHTML = `${coordBadge}${scaleHandle}<div style="width:100%;height:100%;display:flex;gap:3px;padding:2px;background:rgba(0,0,0,0.6);border:1px solid rgba(255,255,255,0.14);border-radius:4px;">${cellsHtml}</div>`;
         }
 
         // 6. ANEL / MIRA DECORATIVA HUD (RETICLE)
@@ -1359,88 +1521,111 @@
           const r = w.radius || 280;
           const size = (r + 12) * 2;
           const c = size / 2;
-          let svgInner = `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${w.color || '#2a2a3a'}" stroke-width="1" stroke-dasharray="4 8"/>`;
+          let svgInner = `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${w.color || '#2a2a3a'}" stroke-width="1.2" stroke-dasharray="4 8"/>`;
           if (w.style === 'ticks') {
             for (let a = 0; a < 360; a += 10) {
               const rad = a * Math.PI / 180;
-              const len = (a % 30 === 0) ? 8 : 4;
+              const len = (a % 30 === 0) ? 9 : 4;
               const x1 = c + (r - len) * Math.cos(rad);
               const y1 = c + (r - len) * Math.sin(rad);
               const x2 = c + r * Math.cos(rad);
               const y2 = c + r * Math.sin(rad);
-              svgInner += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${w.color || '#333348'}" stroke-width="${a % 30 === 0 ? 1.5 : 1}"/>`;
+              svgInner += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${w.color || '#333348'}" stroke-width="${a % 30 === 0 ? 1.8 : 1}"/>`;
             }
           } else if (w.style === 'crosshair') {
             svgInner += `
               <circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${w.color || '#333344'}" stroke-width="1.5" stroke-dasharray="2 6"/>
-              <line x1="${c - 15}" y1="${c}" x2="${c + 15}" y2="${c}" stroke="${w.color}" stroke-width="1"/>
-              <line x1="${c}" y1="${c - 15}" x2="${c}" y2="${c + 15}" stroke="${w.color}" stroke-width="1"/>
+              <line x1="${c - 18}" y1="${c}" x2="${c + 18}" y2="${c}" stroke="${w.color}" stroke-width="1.5"/>
+              <line x1="${c}" y1="${c - 18}" x2="${c}" y2="${c + 18}" stroke="${w.color}" stroke-width="1.5"/>
             `;
           }
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
-          el.innerHTML = `${coordBadge}<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${svgInner}</svg>`;
+          el.innerHTML = `${coordBadge}${scaleHandle}<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${svgInner}</svg>`;
         }
 
-        // 7. GRÁFICO SPARKLINE EM TEMPO REAL
+        // 7. GRÁFICO SPARKLINE EM TEMPO REAL (Com Rótulo e Valor Ajustáveis)
         else if (w.type === 'chart') {
           const width = w.width || 190;
           const height = w.height || 60;
+          const meta = SENSORS_CATALOG[w.sensor || 'cpu_temp'] || { short: 'TEMP', unit: '°C' };
+          const val = formatReading(w.sensor || 'cpu_temp');
+          const lblPx = Math.round((w.labelSize || 13) * gFont);
           const hist = telemetryHistory[w.sensor || 'cpu_temp'] || telemetryHistory.cpu_temp;
           const pts = hist.map((v, i) => {
             const px = (i / (hist.length - 1)) * width;
-            const py = height - (Math.min(Math.max(v, 0), 100) / 100) * (height - 10) - 5;
+            const py = height - (Math.min(Math.max(v, 0), 100) / 100) * (height - 12) - 4;
             return `${px.toFixed(1)},${py.toFixed(1)}`;
           }).join(' ');
           const poly = `0,${height} ${pts} ${width},${height}`;
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
+          const overlayHeader = (w.showLabel !== false)
+            ? `<div style="position:absolute;top:4px;left:8px;right:8px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;color:${w.color || '#00f0ff'};pointer-events:none;text-shadow:0 1px 4px #000;"><span>${w.title || meta.short}</span><span>${val}${meta.unit}</span></div>`
+            : '';
           el.innerHTML = `
-            ${coordBadge}
-            <svg width="${width}" height="${height}" class="rounded bg-black/55 border border-white/10 overflow-hidden">
-              <polygon points="${poly}" fill="${w.color || '#00f0ff'}" fill-opacity="0.2"/>
-              <polyline points="${pts}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="2"/>
-            </svg>
+            ${coordBadge}${scaleHandle}
+            <div class="relative w-full h-full">
+              ${overlayHeader}
+              <svg width="${width}" height="${height}" class="rounded bg-black/65 border border-white/15 overflow-hidden">
+                <polygon points="${poly}" fill="${w.color || '#00f0ff'}" fill-opacity="0.22"/>
+                <polyline points="${pts}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="2.2"/>
+              </svg>
+            </div>
           `;
         }
 
-        // 8. SENSOR DE TEXTO PURO, RÓTULO, RELÓGIO, ESPECTRO E STICKER
+        // 8. SENSOR DE TEXTO PURO (Com tamanho independente para Prefixo, Número e Unidade)
         else if (w.type === 'sensor') {
           const meta = SENSORS_CATALOG[w.sensor] || { unit: '' };
           const val = formatReading(w.sensor);
           const unit = w.showUnit ? meta.unit : '';
+          const mainPx = Math.round((w.fontSize || 38) * gFont);
+          const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 38) * 0.58)) * gFont);
+          const lblPx = Math.round((w.labelSize || Math.round((w.fontSize || 38) * 0.65)) * gFont);
+          const weight = w.fontWeight || 800;
+
           el.style.fontFamily = `'${w.fontFamily || 'Chakra Petch'}', sans-serif`;
-          el.style.fontSize = `${w.fontSize || 34}px`;
-          el.style.fontWeight = '800';
+          el.style.fontWeight = weight;
           el.style.color = w.color || '#00f0ff';
           el.style.whiteSpace = 'nowrap';
           if (w.glow > 0) el.style.textShadow = `0 0 ${w.glow}px ${w.color}`;
-          el.innerHTML = `${coordBadge}<span>${w.prefix || ''}${val}<small style="font-size:0.55em;margin-left:2px;opacity:0.85;">${unit}</small></span>`;
+
+          const prefixHtml = w.prefix ? `<span style="font-size:${lblPx}px;color:${w.labelColor || w.color};opacity:0.9;">${w.prefix}</span>` : '';
+          const unitHtml = unit ? `<span style="font-size:${unitPx}px;margin-left:3px;opacity:0.9;">${unit}</span>` : '';
+
+          el.innerHTML = `${coordBadge}${scaleHandle}<div style="display:flex;align-items:baseline;">${prefixHtml}<span style="font-size:${mainPx}px;line-height:1;">${val}</span>${unitHtml}</div>`;
         }
 
+        // 9. RÓTULO / TEXTO CUSTOMIZADO
         else if (w.type === 'label') {
+          const mainPx = Math.round((w.fontSize || 18) * gFont);
           el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
-          el.style.fontSize = `${w.fontSize || 14}px`;
-          el.style.fontWeight = '700';
-          el.style.letterSpacing = '0.12em';
+          el.style.fontSize = `${mainPx}px`;
+          el.style.fontWeight = w.fontWeight || '800';
+          el.style.letterSpacing = `${w.letterSpacing ?? 2}px`;
           el.style.color = w.color || '#ffffff';
           el.style.whiteSpace = 'nowrap';
-          el.innerHTML = `${coordBadge}<span>${w.text || 'LABEL'}</span>`;
+          if (w.glow > 0) el.style.textShadow = `0 0 ${w.glow}px ${w.color}`;
+          el.innerHTML = `${coordBadge}${scaleHandle}<span>${w.text || 'LABEL'}</span>`;
         }
 
+        // 10. CRONÔMETRO / RELÓGIO DIGITAL
         else if (w.type === 'clock') {
           const d = new Date();
           const hh = String(d.getHours()).padStart(2, '0');
           const mm = String(d.getMinutes()).padStart(2, '0');
           const ss = String(d.getSeconds()).padStart(2, '0');
+          const mainPx = Math.round((w.fontSize || 26) * gFont);
           el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
-          el.style.fontSize = `${w.fontSize || 22}px`;
-          el.style.fontWeight = '800';
+          el.style.fontSize = `${mainPx}px`;
+          el.style.fontWeight = w.fontWeight || '800';
           el.style.color = w.color || '#ffffff';
           if (w.glow > 0) el.style.textShadow = `0 0 ${w.glow}px ${w.color}`;
-          el.innerHTML = `${coordBadge}<span>${w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`}</span>`;
+          el.innerHTML = `${coordBadge}${scaleHandle}<span>${w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`}</span>`;
         }
 
+        // 11. ESPECTRO DE ÁUDIO
         else if (w.type === 'spectrum') {
           const width = w.width || 240;
           const height = w.height || 64;
@@ -1452,13 +1637,44 @@
           }
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-          el.innerHTML = `${coordBadge}<div style="width:100%;height:100%;display:flex;align-items:flex-end;gap:3px;">${bars}</div>`;
+          el.innerHTML = `${coordBadge}${scaleHandle}<div style="width:100%;height:100%;display:flex;align-items:flex-end;gap:3px;">${bars}</div>`;
         }
 
+        // 12. MINI GIF / STICKER ANIMADO FLUTUANTE (Suporta IndexedDB local + URL + Máscara + Borda Neon)
         else if (w.type === 'sticker') {
-          const width = w.width || 130;
+          const width = w.width || 140;
+          const height = w.height || 140;
+          let mediaSrc = w.url || 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif';
+          let isVideo = /\.(mp4|webm)(\?.*)?$/i.test(mediaSrc);
+
+          if (w.assetKey && stickerBlobCache[w.assetKey]) {
+            mediaSrc = stickerBlobCache[w.assetKey].dataUrl;
+            isVideo = (stickerBlobCache[w.assetKey].mimeType || '').startsWith('video/');
+          }
+
+          const shapeClass = w.maskShape === 'circle'
+            ? 'mask-shape-circle'
+            : w.maskShape === 'hexagon'
+            ? 'mask-shape-hexagon'
+            : w.maskShape === 'rounded'
+            ? 'mask-shape-rounded'
+            : '';
+
+          const borderStyle = w.showBorder
+            ? `border: 2px solid ${w.color || '#00f0ff'};`
+            : '';
+          const glowStyle = w.glow > 0
+            ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color || '#00f0ff'});`
+            : '';
+
           el.style.width = `${width}px`;
-          el.innerHTML = `${coordBadge}<img src="${w.url || 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif'}" style="width:100%;height:auto;display:block;pointer-events:none;border-radius:4px;">`;
+          el.style.height = `${height}px`;
+
+          const mediaTag = isVideo
+            ? `<video src="${mediaSrc}" autoplay loop muted playsinline class="w-full h-full object-cover pointer-events-none ${shapeClass}" style="${borderStyle}${glowStyle}"></video>`
+            : `<img src="${mediaSrc}" class="w-full h-full object-cover pointer-events-none ${shapeClass}" style="${borderStyle}${glowStyle}">`;
+
+          el.innerHTML = `${coordBadge}${scaleHandle}${mediaTag}`;
         }
 
         container.appendChild(el);
@@ -1472,6 +1688,7 @@
      *************************************************************************/
     function startDraggingWidget(e, id) {
       if (document.body.classList.contains('kraken-hardware-mode')) return;
+      if (e.target.classList.contains('widget-scale-handle')) return;
       e.stopPropagation();
       selectWidget(id);
 
@@ -1488,13 +1705,47 @@
       };
     }
 
+    function startScalingWidget(e, id) {
+      if (document.body.classList.contains('kraken-hardware-mode')) return;
+      e.stopPropagation();
+      e.preventDefault();
+      selectWidget(id);
+
+      const w = project.widgets.find(item => item.id === id);
+      if (!w || w.locked) return;
+
+      activeScaleDrag = {
+        id,
+        startX: e.clientX,
+        startY: e.clientY,
+        origScale: w.widgetScale || 100
+      };
+    }
+
     window.addEventListener('mousemove', (e) => {
+      // Arraste da Alça de Redimensionamento Proporcional
+      if (activeScaleDrag) {
+        const w = project.widgets.find(item => item.id === activeScaleDrag.id);
+        if (!w) return;
+        const delta = (e.clientX - activeScaleDrag.startX) + (e.clientY - activeScaleDrag.startY);
+        const newScale = Math.min(Math.max(Math.round(activeScaleDrag.origScale + delta * 0.45), 35), 300);
+        w.widgetScale = newScale;
+        renderStageWidgets();
+        const scaleInp = document.getElementById('insp-rng-wscale');
+        const scaleLbl = document.getElementById('insp-lbl-wscale');
+        if (scaleInp) scaleInp.value = newScale;
+        if (scaleLbl) scaleLbl.textContent = `${newScale}%`;
+        persistAndSyncProject();
+        return;
+      }
+
       if (!activeDrag) return;
       const w = project.widgets.find(item => item.id === activeDrag.id);
       if (!w) return;
 
-      const dx = e.clientX - activeDrag.startX;
-      const dy = e.clientY - activeDrag.startY;
+      const gZoom = (project.globalZoom || 100) / 100;
+      const dx = (e.clientX - activeDrag.startX) / gZoom;
+      const dy = (e.clientY - activeDrag.startY) / gZoom;
       if (Math.abs(dx) > 1 || Math.abs(dy) > 1) activeDrag.moved = true;
 
       let nx = Math.round(activeDrag.origX + dx);
@@ -1555,6 +1806,12 @@
     });
 
     window.addEventListener('mouseup', () => {
+      if (activeScaleDrag) {
+        recordHistory('Escalar elemento');
+        renderInspector();
+        activeScaleDrag = null;
+        return;
+      }
       if (!activeDrag) return;
       document.getElementById('snap-line-v').style.display = 'none';
       document.getElementById('snap-line-h').style.display = 'none';
@@ -1684,7 +1941,7 @@
       };
 
       let html = `
-        <!-- Seção 1: Identificação & Coordenadas -->
+        <!-- Seção 1: Identificação, Coordenadas & Escala Direta do Elemento -->
         <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
           <div>
             <label class="block text-[9px] font-mono text-slate-400 uppercase mb-1">Nome da Camada</label>
@@ -1704,6 +1961,15 @@
               <input type="number" value="${w.rotation || 0}" onchange="commitWidgetProp('rotation', Number(this.value))" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
             </div>
           </div>
+
+          <!-- Escala Individual Rápida do Widget -->
+          <div class="pt-1 border-t border-[#1e1e2a]">
+            <div class="flex justify-between font-mono text-[10px] mb-1">
+              <span class="text-[#ff3b00] font-bold">⤡ ESCALA DESTE ITEM</span>
+              <span id="insp-lbl-wscale" class="text-white font-bold">${w.widgetScale || 100}%</span>
+            </div>
+            <input type="range" id="insp-rng-wscale" min="40" max="260" value="${w.widgetScale || 100}" oninput="previewWidgetProp('widgetScale', Number(this.value));document.getElementById('insp-lbl-wscale').textContent=this.value+'%'" onchange="commitWidgetProp('widgetScale', Number(this.value))" class="w-full">
+          </div>
         </div>
       `;
 
@@ -1713,10 +1979,22 @@
           <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2">
             <label class="block text-[10px] font-mono font-bold text-[#00f0ff] uppercase">FONTE DE DADOS (SENSOR)</label>
             ${sensorSelectHTML('sensor', w.sensor)}
-            ${w.type === 'telemetry_card' ? `
+            ${['telemetry_card', 'chart'].includes(w.type) ? `
               <div class="pt-1">
-                <label class="block text-[9px] font-mono text-slate-400 mb-1">TÍTULO DO BLOCO HUD</label>
+                <label class="block text-[9px] font-mono text-slate-400 mb-1">TÍTULO / RÓTULO SUPERIOR</label>
                 <input type="text" value="${w.title || ''}" oninput="previewWidgetProp('title', this.value)" onchange="commitWidgetProp('title', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
+              </div>
+            ` : ''}
+            ${w.type === 'sensor' ? `
+              <div class="pt-1 grid grid-cols-2 gap-2 items-center">
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">PREFIXO ANTES DO VALOR</label>
+                  <input type="text" value="${w.prefix || ''}" oninput="previewWidgetProp('prefix', this.value)" onchange="commitWidgetProp('prefix', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
+                </div>
+                <label class="flex items-center space-x-2 pt-4 cursor-pointer">
+                  <input type="checkbox" ${w.showUnit !== false ? 'checked' : ''} onchange="commitWidgetProp('showUnit', this.checked)">
+                  <span class="font-mono text-[10px] text-slate-300">Mostrar Unidade</span>
+                </label>
               </div>
             ` : ''}
           </div>
@@ -1738,7 +2016,81 @@
         `;
       }
 
-      // Seção 3: Geometria de Tacômetros e Arcos Radiais
+      // Seção 3: CONTROLE COMPLETO DE FONTES (PRINCIPAL + RÓTULO + UNIDADE + PESO)
+      if (['telemetry_card', 'dual_pill', 'sensor', 'label', 'clock', 'chart'].includes(w.type)) {
+        const fonts = ['Chakra Petch', 'Orbitron', 'JetBrains Mono', 'Share Tech Mono', 'Rajdhani', 'Russo One', 'Space Grotesk', 'Inter'];
+        const fOpts = fonts.map(f => `<option value="${f}" ${w.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('');
+        const weights = [
+          { v: 500, l: '500 Medium' },
+          { v: 600, l: '600 SemiBold' },
+          { v: 700, l: '700 Bold' },
+          { v: 800, l: '800 ExtraBold' },
+          { v: 900, l: '900 Black' }
+        ];
+        const wOpts = weights.map(item => `<option value="${item.v}" ${(w.fontWeight || 800) == item.v ? 'selected' : ''}>${item.l}</option>`).join('');
+
+        html += `
+          <div class="p-3 rounded-lg bg-[#12121d] border border-[#b8ff01]/40 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="block text-[10px] font-mono font-bold text-[#b8ff01] uppercase">TIPOGRAFIA & TAMANHOS DE FONTE</span>
+              <span class="text-[9px] font-mono text-slate-400">SUB-ELEMENTOS</span>
+            </div>
+
+            ${w.type !== 'chart' ? `
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">FAMÍLIA DA FONTE</label>
+                  <select onchange="commitWidgetProp('fontFamily', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1.5 text-white font-mono text-[11px]">${fOpts}</select>
+                </div>
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ESPESSURA (PESO)</label>
+                  <select onchange="commitWidgetProp('fontWeight', Number(this.value))" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1.5 text-white font-mono text-[11px]">${wOpts}</select>
+                </div>
+              </div>
+
+              <!-- 1. Tamanho do Valor / Número Principal -->
+              <div>
+                <div class="flex justify-between font-mono text-[10px] mb-1">
+                  <span class="text-white font-bold">1. TAMANHO FONTE PRINCIPAL</span>
+                  <span class="text-[#00f0ff] font-bold">${w.fontSize || 36}px</span>
+                </div>
+                <input type="range" min="10" max="150" value="${w.fontSize || 36}" oninput="previewWidgetProp('fontSize', Number(this.value))" onchange="commitWidgetProp('fontSize', Number(this.value))" class="w-full">
+              </div>
+            ` : ''}
+
+            <!-- 2. Tamanho do Rótulo / Título / Prefixo -->
+            ${['telemetry_card', 'sensor', 'chart'].includes(w.type) ? `
+              <div>
+                <div class="flex justify-between font-mono text-[10px] mb-1">
+                  <span class="text-slate-200 font-bold">2. TAMANHO DO RÓTULO / TÍTULO</span>
+                  <span class="text-[#b8ff01] font-bold">${w.labelSize || 16}px</span>
+                </div>
+                <input type="range" min="8" max="72" value="${w.labelSize || 16}" oninput="previewWidgetProp('labelSize', Number(this.value))" onchange="commitWidgetProp('labelSize', Number(this.value))" class="w-full">
+              </div>
+            ` : ''}
+
+            <!-- 3. Tamanho da Unidade (°C, GHz, MHz, %) -->
+            ${['telemetry_card', 'dual_pill', 'sensor'].includes(w.type) ? `
+              <div>
+                <div class="flex justify-between font-mono text-[10px] mb-1">
+                  <span class="text-slate-200 font-bold">3. TAMANHO DA UNIDADE (°C, GHz, %)</span>
+                  <span class="text-[#ff3b00] font-bold">${w.unitSize || 20}px</span>
+                </div>
+                <input type="range" min="8" max="80" value="${w.unitSize || 20}" oninput="previewWidgetProp('unitSize', Number(this.value))" onchange="commitWidgetProp('unitSize', Number(this.value))" class="w-full">
+              </div>
+            ` : ''}
+
+            ${w.type === 'label' ? `
+              <div>
+                <label class="block text-[9px] font-mono text-slate-400 mb-1">TEXTO DO RÓTULO</label>
+                <input type="text" value="${w.text || ''}" oninput="previewWidgetProp('text', this.value)" onchange="commitWidgetProp('text', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+
+      // Seção 4: Geometria de Tacômetros e Arcos Radiais
       if (['radial', 'tachometer', 'reticle'].includes(w.type)) {
         html += `
           <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-3">
@@ -1773,73 +2125,102 @@
         `;
       }
 
-      // Seção 4: Tipografia
-      if (['telemetry_card', 'sensor', 'label', 'clock'].includes(w.type)) {
-        const fonts = ['Chakra Petch', 'Orbitron', 'JetBrains Mono', 'Share Tech Mono', 'Rajdhani', 'Russo One', 'Space Grotesk'];
-        const fOpts = fonts.map(f => `<option value="${f}" ${w.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('');
-        html += `
-          <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
-            <span class="block text-[10px] font-mono font-bold text-slate-300 uppercase">TIPOGRAFIA</span>
-            <select onchange="commitWidgetProp('fontFamily', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1.5 text-white font-mono text-[11px]">${fOpts}</select>
-            <div>
-              <div class="flex justify-between font-mono text-[10px] mb-1"><span>TAMANHO</span><span class="text-[#00f0ff]">${w.fontSize || 32}px</span></div>
-              <input type="range" min="10" max="100" value="${w.fontSize || 32}" oninput="previewWidgetProp('fontSize', Number(this.value))" onchange="commitWidgetProp('fontSize', Number(this.value))" class="w-full">
-            </div>
-            ${w.type === 'label' ? `
-              <div>
-                <label class="block text-[9px] font-mono text-slate-400 mb-1">TEXTO</label>
-                <input type="text" value="${w.text || ''}" oninput="previewWidgetProp('text', this.value)" onchange="commitWidgetProp('text', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
-              </div>
-            ` : ''}
-          </div>
-        `;
-      }
-
-      // Seção 5: Dimensões para Barras, Gráficos, Espectro e Stickers
+      // Seção 5: Controles Específicos para GIF / Sticker Flutuante e Barras
       if (['seg_bar', 'chart', 'spectrum', 'sticker'].includes(w.type)) {
         html += `
           <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
+            <span class="block text-[10px] font-mono font-bold text-pink-400 uppercase">${w.type === 'sticker' ? 'CONFIGURAÇÃO DO MINI GIF / STICKER' : 'DIMENSÕES DO MÓDULO'}</span>
             <div>
-              <div class="flex justify-between font-mono text-[10px] mb-1"><span>LARGURA</span><span class="text-[#00f0ff]">${w.width || 200}px</span></div>
-              <input type="range" min="40" max="540" value="${w.width || 200}" oninput="previewWidgetProp('width', Number(this.value))" onchange="commitWidgetProp('width', Number(this.value))" class="w-full">
+              <div class="flex justify-between font-mono text-[10px] mb-1"><span>LARGURA</span><span class="text-[#00f0ff]">${w.width || 140}px</span></div>
+              <input type="range" min="30" max="560" value="${w.width || 140}" oninput="previewWidgetProp('width', Number(this.value))" onchange="commitWidgetProp('width', Number(this.value))" class="w-full">
             </div>
-            ${w.type !== 'sticker' ? `
-              <div>
-                <div class="flex justify-between font-mono text-[10px] mb-1"><span>ALTURA</span><span class="text-[#00f0ff]">${w.height || 40}px</span></div>
-                <input type="range" min="8" max="240" value="${w.height || 40}" oninput="previewWidgetProp('height', Number(this.value))" onchange="commitWidgetProp('height', Number(this.value))" class="w-full">
+            <div>
+              <div class="flex justify-between font-mono text-[10px] mb-1"><span>ALTURA</span><span class="text-[#00f0ff]">${w.height || 140}px</span></div>
+              <input type="range" min="8" max="560" value="${w.height || 140}" oninput="previewWidgetProp('height', Number(this.value))" onchange="commitWidgetProp('height', Number(this.value))" class="w-full">
+            </div>
+
+            ${w.type === 'sticker' ? `
+              <div class="pt-1 space-y-2 border-t border-[#1e1e2a]">
+                <label class="block w-full py-2 px-2 rounded bg-pink-500/15 hover:bg-pink-500/25 border border-dashed border-pink-400 text-pink-300 font-mono font-bold text-[10px] text-center cursor-pointer transition">
+                  📂 TROCAR POR GIF / PNG / MP4 DO PC
+                  <input type="file" accept="image/gif,image/webp,image/png,video/mp4,video/webm" onchange="replaceCurrentStickerFile(event)" class="hidden">
+                </label>
+
+                <div>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">OU URL DO GIF / STICKER</label>
+                  <input type="text" value="${w.url || ''}" onchange="commitWidgetProp('assetKey', '');commitWidgetProp('url', this.value)" placeholder="https://media.giphy.com/..." class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white text-[11px]">
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <label class="block text-[9px] font-mono text-slate-400 mb-1">MÁSCARA DE RECORTE</label>
+                    <select onchange="commitWidgetProp('maskShape', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white text-[11px]">
+                      <option value="none" ${(!w.maskShape || w.maskShape === 'none') ? 'selected' : ''}>Livre / Retangular</option>
+                      <option value="circle" ${w.maskShape === 'circle' ? 'selected' : ''}>Círculo Perfeito</option>
+                      <option value="rounded" ${w.maskShape === 'rounded' ? 'selected' : ''}>Bordas Arredondadas</option>
+                      <option value="hexagon" ${w.maskShape === 'hexagon' ? 'selected' : ''}>Hexágono Tático</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label class="block text-[9px] font-mono text-slate-400 mb-1">MODO DE MESCLAGEM</label>
+                    <select onchange="commitWidgetProp('blendMode', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white text-[11px]">
+                      <option value="normal" ${(!w.blendMode || w.blendMode === 'normal') ? 'selected' : ''}>Normal</option>
+                      <option value="screen" ${w.blendMode === 'screen' ? 'selected' : ''}>Screen (Remove Fundo Preto)</option>
+                      <option value="lighten" ${w.blendMode === 'lighten' ? 'selected' : ''}>Lighten</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="flex items-center justify-between pt-1">
+                  <label class="flex items-center space-x-1.5 cursor-pointer">
+                    <input type="checkbox" ${w.flipX ? 'checked' : ''} onchange="commitWidgetProp('flipX', this.checked)">
+                    <span class="font-mono text-[10px] text-slate-300">Espelhar GIF</span>
+                  </label>
+                  <label class="flex items-center space-x-1.5 cursor-pointer">
+                    <input type="checkbox" ${w.showBorder ? 'checked' : ''} onchange="commitWidgetProp('showBorder', this.checked)">
+                    <span class="font-mono text-[10px] text-slate-300">Borda Neon</span>
+                  </label>
+                </div>
               </div>
-            ` : `
-              <div>
-                <label class="block text-[9px] font-mono text-slate-400 mb-1">URL DO GIF / PNG</label>
-                <input type="text" value="${w.url || ''}" onchange="commitWidgetProp('url', this.value)" class="w-full bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
-              </div>
-            `}
+            ` : ''}
           </div>
         `;
       }
 
       // Seção 6: Cores & Brilho
-      if (w.type !== 'sticker') {
-        html += `
-          <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
-            <span class="block text-[10px] font-mono font-bold text-slate-300 uppercase">COR & EMISSÃO OLED</span>
-            <div class="flex items-center space-x-2">
-              <input type="color" value="${w.color || '#00f0ff'}" oninput="previewWidgetProp('color', this.value)" onchange="commitWidgetProp('color', this.value)" class="w-8 h-8 rounded cursor-pointer bg-transparent border-0">
-              <input type="text" value="${w.color || '#00f0ff'}" onchange="commitWidgetProp('color', this.value)" class="flex-1 bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
-            </div>
-            ${w.type === 'telemetry_card' ? `
-              <div class="flex items-center justify-between pt-1">
-                <span class="font-mono text-[10px] text-slate-400">Cor do Acento / Unidade</span>
-                <input type="color" value="${w.accentColor || '#ff3b00'}" oninput="previewWidgetProp('accentColor', this.value)" onchange="commitWidgetProp('accentColor', this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent">
-              </div>
-            ` : ''}
-            <div>
-              <div class="flex justify-between font-mono text-[10px] mb-1"><span>GLOW NEON</span><span class="text-[#00f0ff]">${w.glow ?? 0}px</span></div>
-              <input type="range" min="0" max="24" value="${w.glow ?? 0}" oninput="previewWidgetProp('glow', Number(this.value))" onchange="commitWidgetProp('glow', Number(this.value))" class="w-full">
-            </div>
+      html += `
+        <div class="p-3 rounded-lg bg-[#111118] border border-[#1e1e2a] space-y-2.5">
+          <span class="block text-[10px] font-mono font-bold text-slate-300 uppercase">CORES & EMISSÃO OLED</span>
+          <div class="flex items-center space-x-2">
+            <input type="color" value="${w.color || '#00f0ff'}" oninput="previewWidgetProp('color', this.value)" onchange="commitWidgetProp('color', this.value)" class="w-8 h-8 rounded cursor-pointer bg-transparent border-0">
+            <input type="text" value="${w.color || '#00f0ff'}" onchange="commitWidgetProp('color', this.value)" class="flex-1 bg-[#09090d] border border-[#242434] rounded px-2 py-1 font-mono text-white">
           </div>
-        `;
-      }
+          ${w.type === 'telemetry_card' ? `
+            <div class="flex items-center justify-between pt-1">
+              <span class="font-mono text-[10px] text-slate-400">Cor da Unidade / Ponto</span>
+              <input type="color" value="${w.accentColor || '#ff3b00'}" oninput="previewWidgetProp('accentColor', this.value)" onchange="commitWidgetProp('accentColor', this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent">
+            </div>
+            <div class="flex items-center justify-between pt-1">
+              <span class="font-mono text-[10px] text-slate-400">Cor do Título / Rótulo</span>
+              <input type="color" value="${w.labelColor || '#cbd5e1'}" oninput="previewWidgetProp('labelColor', this.value)" onchange="commitWidgetProp('labelColor', this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent">
+            </div>
+          ` : ''}
+          ${w.type === 'dual_pill' ? `
+            <div class="flex items-center justify-between pt-1">
+              <span class="font-mono text-[10px] text-slate-400">Cor de Fundo da Pílula</span>
+              <input type="color" value="${w.bgColor || '#0e0e14'}" oninput="previewWidgetProp('bgColor', this.value)" onchange="commitWidgetProp('bgColor', this.value)" class="w-6 h-6 rounded cursor-pointer bg-transparent">
+            </div>
+          ` : ''}
+          <div>
+            <div class="flex justify-between font-mono text-[10px] mb-1"><span>OPACIDADE</span><span class="text-[#00f0ff]">${w.opacity ?? 100}%</span></div>
+            <input type="range" min="10" max="100" value="${w.opacity ?? 100}" oninput="previewWidgetProp('opacity', Number(this.value))" onchange="commitWidgetProp('opacity', Number(this.value))" class="w-full">
+          </div>
+          <div>
+            <div class="flex justify-between font-mono text-[10px] mb-1"><span>GLOW NEON</span><span class="text-[#00f0ff]">${w.glow ?? 0}px</span></div>
+            <input type="range" min="0" max="28" value="${w.glow ?? 0}" oninput="previewWidgetProp('glow', Number(this.value))" onchange="commitWidgetProp('glow', Number(this.value))" class="w-full">
+          </div>
+        </div>
+      `;
 
       bodyEl.innerHTML = html;
     }
@@ -1913,38 +2294,170 @@
 
     function createNewWidget(type) {
       const id = 'w_' + Date.now();
-      let w = { id, type, name: type.toUpperCase(), x: 320, y: 320, color: '#00f0ff', glow: 6 };
+      let w = { id, type, name: type.toUpperCase(), x: 320, y: 320, color: '#00f0ff', glow: 6, widgetScale: 100 };
 
       if (type === 'telemetry_card') {
-        w = { ...w, name: 'Bloco Telemetria', sensor: 'cpu_temp', title: 'CPU // CORE', fontSize: 48, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00' };
+        w = { ...w, name: 'Bloco Telemetria', sensor: 'cpu_temp', title: 'CPU CORE', fontSize: 64, labelSize: 16, unitSize: 26, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', labelColor: '#cbd5e1' };
       } else if (type === 'dual_pill') {
-        w = { ...w, name: 'Pílula Dupla', sensorA: 'cpu_freq', sensorB: 'cpu_load', color: '#00f0ff', bgColor: '#0e0e14' };
+        w = { ...w, name: 'Pílula Dupla', sensorA: 'cpu_freq', sensorB: 'cpu_load', fontSize: 20, unitSize: 15, fontWeight: 800, color: '#00f0ff', bgColor: '#0e0e14' };
       } else if (type === 'tachometer') {
-        w = { ...w, name: 'Tacômetro Segmentado', sensor: 'cpu_load', radius: 220, thickness: 14, startAngle: 135, sweepAngle: 270, segments: 24, color: '#ff3b00', trackColor: '#181822' };
+        w = { ...w, name: 'Tacômetro Segmentado', sensor: 'cpu_load', radius: 220, thickness: 16, startAngle: 135, sweepAngle: 270, segments: 24, color: '#ff3b00', trackColor: '#181822' };
       } else if (type === 'radial') {
-        w = { ...w, name: 'Arco Circular', sensor: 'gpu_load', radius: 200, thickness: 10, startAngle: 135, sweepAngle: 270, trackColor: '#181822', dashed: false };
+        w = { ...w, name: 'Arco Circular', sensor: 'gpu_load', radius: 200, thickness: 12, startAngle: 135, sweepAngle: 270, trackColor: '#181822', dashed: false };
       } else if (type === 'seg_bar') {
-        w = { ...w, name: 'Barra Células LED', sensor: 'ram_percent', width: 220, height: 14, segments: 16, color: '#b8ff01', trackColor: '#181822' };
+        w = { ...w, name: 'Barra Células LED', sensor: 'ram_percent', width: 230, height: 16, segments: 16, color: '#b8ff01', trackColor: '#181822' };
       } else if (type === 'reticle') {
         w = { ...w, name: 'Mira Técnica HUD', radius: 275, color: '#2e2e42', style: 'ticks' };
       } else if (type === 'chart') {
-        w = { ...w, name: 'Gráfico Onda', sensor: 'cpu_temp', width: 190, height: 60 };
+        w = { ...w, name: 'Gráfico Onda', sensor: 'cpu_temp', width: 200, height: 64, labelSize: 14, showLabel: true };
       } else if (type === 'sensor') {
-        w = { ...w, name: 'Sensor Número', sensor: 'liquid_temp', prefix: '', showUnit: true, fontSize: 36, fontFamily: 'Chakra Petch' };
+        w = { ...w, name: 'Sensor Número', sensor: 'liquid_temp', prefix: 'LIQUID ', showUnit: true, fontSize: 42, labelSize: 20, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch' };
       } else if (type === 'clock') {
-        w = { ...w, name: 'Cronômetro', format: 'HH:MM:SS', fontSize: 24, fontFamily: 'JetBrains Mono', color: '#ffffff' };
+        w = { ...w, name: 'Cronômetro', format: 'HH:MM:SS', fontSize: 28, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#ffffff' };
       } else if (type === 'spectrum') {
         w = { ...w, name: 'Espectro Áudio', width: 220, height: 60, color: '#ff3b00' };
       } else if (type === 'sticker') {
-        w = { ...w, name: 'Sticker GIF', width: 130, url: 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif' };
+        w = { ...w, name: 'Mini GIF Animado', width: 140, height: 140, maskShape: 'circle', blendMode: 'normal', showBorder: true, color: '#00f0ff', glow: 8, url: 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif' };
       } else if (type === 'label') {
-        w = { ...w, name: 'Rótulo Técnico', text: 'KRAKEN // ELITE', fontSize: 14, fontFamily: 'JetBrains Mono', color: '#94a3b8' };
+        w = { ...w, name: 'Rótulo Técnico', text: 'KRAKEN // ELITE', fontSize: 20, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#e2e8f0' };
       }
 
       project.widgets.push(w);
       selectWidget(id);
       recordHistory(`Adicionar ${w.name}`);
       showToast(`+ ADICIONADO: ${w.name.toUpperCase()}`);
+    }
+
+    // Cria um Mini GIF Flutuante pronto da biblioteca com 1 clique
+    function spawnPresetSticker(name, url, size = 135, maskShape = 'circle') {
+      const id = 'gif_' + Date.now();
+      const w = {
+        id,
+        type: 'sticker',
+        name: `GIF: ${name}`,
+        x: 320,
+        y: 210,
+        width: size,
+        height: size,
+        url,
+        maskShape,
+        blendMode: 'screen',
+        showBorder: true,
+        color: '#00f0ff',
+        glow: 8,
+        widgetScale: 100
+      };
+      project.widgets.push(w);
+      selectWidget(id);
+      recordHistory(`Adicionar ${w.name}`);
+      showToast(`★ MINI GIF ADICIONADO: ${name.toUpperCase()}`);
+    }
+
+    // Faz upload de um GIF/WebP/PNG/MP4 do PC e adiciona como Widget Flutuante no Layout
+    function uploadNewFloatingGifWidget(evt) {
+      const file = evt.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const assetKey = 'sticker_asset_' + Date.now();
+        const dataUrl = e.target.result;
+        await saveMediaAsset(assetKey, dataUrl, file.type);
+        stickerBlobCache[assetKey] = { dataUrl, mimeType: file.type };
+
+        const id = 'gif_' + Date.now();
+        const w = {
+          id,
+          type: 'sticker',
+          name: `GIF: ${file.name.substring(0, 14)}`,
+          x: 320,
+          y: 320,
+          width: 150,
+          height: 150,
+          assetKey,
+          url: '',
+          maskShape: 'rounded',
+          blendMode: 'normal',
+          showBorder: false,
+          color: '#00f0ff',
+          glow: 6,
+          widgetScale: 100
+        };
+        project.widgets.push(w);
+        selectWidget(id);
+        recordHistory('Subir GIF flutuante');
+        if (broadcastBus) broadcastBus.postMessage({ type: 'SYNC_MEDIA' });
+        showToast('★ MINI GIF LOCAL ADICIONADO AO LAYOUT!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Troca o arquivo do GIF Flutuante atualmente selecionado no Inspetor
+    function replaceCurrentStickerFile(evt) {
+      const file = evt.target.files[0];
+      if (!file || !selectedWidgetId) return;
+      const w = project.widgets.find(i => i.id === selectedWidgetId);
+      if (!w) return;
+
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        const assetKey = 'sticker_asset_' + Date.now();
+        const dataUrl = e.target.result;
+        await saveMediaAsset(assetKey, dataUrl, file.type);
+        stickerBlobCache[assetKey] = { dataUrl, mimeType: file.type };
+
+        w.assetKey = assetKey;
+        w.url = '';
+        renderStageWidgets();
+        renderInspector();
+        recordHistory('Trocar arquivo do Mini GIF');
+        if (broadcastBus) broadcastBus.postMessage({ type: 'SYNC_MEDIA' });
+        showToast('ARQUIVO DO MINI GIF ATUALIZADO!');
+      };
+      reader.readAsDataURL(file);
+    }
+
+    // Funções de Zoom Global do Preset e Multiplicador Global de Fontes
+    function syncGlobalScaleUI() {
+      const gz = project.globalZoom || 100;
+      const gf = project.globalFontScale || 100;
+      const setV = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+      const setT = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+
+      setV('top-global-zoom', gz);
+      setT('lbl-top-zoom', `${gz}%`);
+      setV('side-global-zoom', gz);
+      setT('side-lbl-zoom', `${gz}%`);
+
+      setV('top-global-font', gf);
+      setT('lbl-top-font', `${gf}%`);
+      setV('side-global-font', gf);
+      setT('side-lbl-font', `${gf}%`);
+    }
+
+    function previewGlobalScale(prop, val) {
+      project[prop] = val;
+      renderStageWidgets();
+      persistAndSyncProject();
+    }
+
+    function commitGlobalScale(prop, val) {
+      project[prop] = val;
+      renderStageWidgets();
+      recordHistory(prop === 'globalZoom' ? `Zoom do Preset (${val}%)` : `Escala de Fontes (${val}%)`);
+      showToast(prop === 'globalZoom' ? `🔍 ZOOM DO PRESET: ${val}%` : `Aa ESCALA DE FONTES: ${val}%`);
+    }
+
+    function stepGlobalZoom(delta) {
+      const next = Math.min(Math.max((project.globalZoom || 100) + delta, 50), 175);
+      commitGlobalScale('globalZoom', next);
+    }
+
+    function resetGlobalScales() {
+      project.globalZoom = 100;
+      project.globalFontScale = 100;
+      renderStageWidgets();
+      recordHistory('Resetar Zoom e Fontes para 100%');
+      showToast('ZOOM E FONTES RESETADOS PARA 100%');
     }
 
     function duplicateActiveWidget() {
@@ -2209,7 +2722,7 @@
       const camBox = document.getElementById('kraken-cam-url-box');
       if (camBox) camBox.value = `${baseUrl}?kraken=1`;
 
-      const saved = localStorage.getItem('kraken_os_project_v3');
+      const saved = localStorage.getItem('kraken_os_project_v4');
       if (saved) {
         try {
           project = JSON.parse(saved);
@@ -2220,9 +2733,13 @@
         project = JSON.parse(JSON.stringify(ARTISANAL_PRESETS.tachometer_pro));
       }
 
+      if (!project.globalZoom) project.globalZoom = 100;
+      if (!project.globalFontScale) project.globalFontScale = 100;
+
       undoStack = [createSnapshot('Estado Inicial')];
       updateUndoRedoUI();
 
+      await preloadStickerAssets();
       await applyStageBackground();
       renderStageWidgets();
       updateDiagnosticsPanel();
