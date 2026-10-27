@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenKraken Studio — Customizador Livre para NZXT Kraken Elite</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts para Tipografia de Telemetria -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Orbitron:wght@500;700;800;900&family=Rajdhani:wght@500;600;700&family=Russo+One&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #090a0f;
+      color: #f1f5f9;
+      font-family: 'Inter', sans-serif;
+      overflow: hidden;
+    }
+
+    /* Modo Hardware Kraken Puro (640x640 Sem Bordas) */
+    body.kraken-hardware-mode {
+      background-color: #000000 !important;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100vw;
+      height: 100vh;
+    }
+
+    body.kraken-hardware-mode .studio-chrome {
+      display: none !important;
+    }
+
+    body.kraken-hardware-mode #canvas-wrapper {
+      padding: 0 !important;
+      margin: 0 !important;
+      background: none !important;
+      box-shadow: none !important;
+    }
+
+    /* O Display Físico 640x640 */
+    #kraken-stage {
+      position: relative;
+      width: 640px;
+      height: 640px;
+      min-width: 640px;
+      min-height: 640px;
+      background-color: #000000;
+      overflow: hidden;
+      transition: border-radius 0.25s ease;
+      box-shadow: 0 0 80px rgba(0, 0, 0, 0.95);
+    }
+
+    #kraken-stage.mask-circular {
+      border-radius: 50%;
+      clip-path: circle(50% at 50% 50%);
+    }
+
+    /* Moldura Externa do Bezel no Modo Studio */
+    .bezel-ring-preview {
+      pointer-events: none;
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      border: 2px dashed rgba(0, 240, 255, 0.28);
+      z-index: 90;
+    }
+
+    /* Elementos Arrastáveis no Canvas */
+    .stage-widget {
+      position: absolute;
+      transform-origin: center center;
+      cursor: grab;
+    }
+
+    .stage-widget:active {
+      cursor: grabbing;
+    }
+
+    body.kraken-hardware-mode .stage-widget {
+      cursor: default;
+      pointer-events: none;
+    }
+
+    /* Outline de Seleção no Editor */
+    .stage-widget.selected-widget::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1.5px solid #00f0ff;
+      border-radius: 4px;
+      pointer-events: none;
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.35);
+    }
+
+    body.kraken-hardware-mode .stage-widget.selected-widget::after {
+      display: none;
+    }
+
+    /* Linhas Guia de Alinhamento Central */
+    .snap-guide-v {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 320px;
+      width: 1px;
+      background: #00f0ff;
+      box-shadow: 0 0 6px #00f0ff;
+      z-index: 95;
+      pointer-events: none;
+      display: none;
+    }
+    .snap-guide-h {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 320px;
+      height: 1px;
+      background: #00f0ff;
+      box-shadow: 0 0 6px #00f0ff;
+      z-index: 95;
+      pointer-events: none;
+      display: none;
+    }
+
+    /* Scrollbars elegantes */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0d1017;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #262d3d;
+      border-radius: 3px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #00f0ff;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen flex flex-col">
+
+  <!-- ===================================================================== -->
+  <!-- BARRA SUPERIOR DO ESTÚDIO (OCULTA NA TELA DO WATERCOOLER)             -->
+  <!-- ===================================================================== -->
+  <header class="studio-chrome h-14 bg-[#0d1017] border-b border-slate-800/80 px-4 flex items-center justify-between shrink-0 z-40">
+    <!-- Logo & Status -->
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center shadow-lg shadow-cyan-500/20">
+        <svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="9"/><path d="M12 8v4l3 3"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-center space-x-2">
+          <span class="font-bold tracking-wider text-sm text-white" style="font-family: 'Orbitron', sans-serif;">OPENKRAKEN <span class="text-cyan-400">STUDIO</span></span>
+          <span class="text-[10px] bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 px-2 py-0.5 rounded-full font-mono font-semibold">100% OPEN-SOURCE</span>
+        </div>
+        <p class="text-[11px] text-slate-400">Customizador Drag & Drop Livre para NZXT Kraken Elite (640x640)</p>
+      </div>
+    </div>
+
+    <!-- Barra Central: Adição Rápida de Widgets -->
+    <div class="flex items-center space-x-1.5 bg-[#131822] p-1 rounded-xl border border-slate-800">
+      <button onclick="addWidget('sensor')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Valor de Sensor (CPU, GPU, Líquido, RAM)">
+        <span class="text-cyan-400 font-mono font-bold">88°</span>
+        <span>Sensor</span>
+      </button>
+      <button onclick="addWidget('radial')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Medidor Circular / Arco">
+        <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"/></svg>
+        <span>Arco / Gauge</span>
+      </button>
+      <button onclick="addWidget('bar')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Barra de Progresso">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h14"/></svg>
+        <span>Barra</span>
+      </button>
+      <button onclick="addWidget('chart')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Gráfico de Histórico em Tempo Real">
+        <svg class="w-4 h-4 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18"/></svg>
+        <span>Gráfico</span>
+      </button>
+      <button onclick="addWidget('spectrum')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Equalizador / Espectro">
+        <svg class="w-4 h-4 text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/></svg>
+        <span>Espectro</span>
+      </button>
+      <button onclick="addWidget('clock')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Relógio Digital">
+        <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke-width="2"/><path stroke-linecap="round" stroke-width="2" d="M12 7v5l3 2"/></svg>
+        <span>Relógio</span>
+      </button>
+      <button onclick="addWidget('sticker')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Sticker GIF / PNG Flutuante">
+        <svg class="w-4 h-4 text-rose-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" stroke-width="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path stroke-width="2" d="M21 15l-5-5L5 21"/></svg>
+        <span>GIF/Sticker</span>
+      </button>
+      <button onclick="addWidget('label')" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-lg hover:bg-slate-800 text-xs font-medium text-slate-200 transition" title="Adicionar Texto Estático">
+        <span class="font-bold text-slate-300">T</span>
+        <span>Texto</span>
+      </button>
+    </div>
+
+    <!-- Ações Direita: Tutorial, Preview Puro e Conexão CAM -->
+    <div class="flex items-center space-x-2.5">
+      <div class="flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-800 text-[11px] font-mono">
+        <span id="cam-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+        <span id="cam-status-text" class="text-slate-300">SIMULADOR ATIVO</span>
+      </div>
+
+      <button onclick="toggleKrakenHardwareMode()" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition" title="Ver apenas a tela 640x640 como no Watercooler (Atalho: Tecla F)">
+        Tela Pura [F]
+      </button>
+
+      <button onclick="openTutorialModal()" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-black font-bold text-xs shadow-lg shadow-cyan-500/20 transition flex items-center space-x-1">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span>Como Usar no Kraken</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===================================================================== -->
+  <!-- ÁREA DE TRABALHO PRINCIPAL: PAINEL ESQ | CANVAS 640x640 | INSPETOR DIR -->
+  <!-- ===================================================================== -->
+  <div class="flex-1 flex overflow-hidden">
+
+    <!-- 1. PAINEL ESQUERDO: TEMPLATES, FUNDO (GIF/MP4) & CAMADAS -->
+    <aside class="studio-chrome w-80 bg-[#0d1017] border-r border-slate-800/80 flex flex-col shrink-0 z-30">
+      
+      <!-- Abas do Painel Esquerdo -->
+      <div class="grid grid-cols-3 border-b border-slate-800 bg-[#0a0c12] text-xs font-semibold">
+        <button onclick="switchLeftTab('templates')" id="tab-btn-templates" class="py-3 text-cyan-400 border-b-2 border-cyan-400 transition">Presets</button>
+        <button onclick="switchLeftTab('background')" id="tab-btn-background" class="py-3 text-slate-400 hover:text-slate-200 border-b-2 border-transparent transition">Fundo / GIF</button>
+        <button onclick="switchLeftTab('layers')" id="tab-btn-layers" class="py-3 text-slate-400 hover:text-slate-200 border-b-2 border-transparent transition">Camadas</button>
+      </div>
+
+      <!-- Conteúdo da Aba: PRESETS & TEMPLATES -->
+      <div id="left-tab-templates" class="flex-1 overflow-y-auto p-4 space-y-4">
+        <div>
+          <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-1">Galeria de Layouts Prontos</h3>
+          <p class="text-[11px] text-slate-500 mb-3">Clique em qualquer modelo abaixo para carregar e depois arraste ou edite qualquer peça livremente.</p>
+          
+          <div class="space-y-2.5">
+            <button onclick="loadTemplate('dual_cyber_hud')" class="w-full p-3 rounded-xl bg-[#141923] hover:bg-[#1a2130] border border-slate-800 hover:border-cyan-500/50 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-white group-hover:text-cyan-400">1. Dual Ring Cyber HUD</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/10 text-cyan-400 font-mono">Completo</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">CPU + GPU c/ GHz, MHz e %, Líquido no centro e arco de RAM embaixo.</p>
+            </button>
+
+            <button onclick="loadTemplate('gif_showcase')" class="w-full p-3 rounded-xl bg-[#141923] hover:bg-[#1a2130] border border-slate-800 hover:border-pink-500/50 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-white group-hover:text-pink-400">2. GIF / Anime Showcase</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-pink-500/10 text-pink-400 font-mono">Foco em GIF</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Deixa o centro livre para seu GIF brilhar com pílulas translúcidas nas bordas.</p>
+            </button>
+
+            <button onclick="loadTemplate('nzxt_classic_infographic')" class="w-full p-3 rounded-xl bg-[#141923] hover:bg-[#1a2130] border border-slate-800 hover:border-purple-500/50 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-white group-hover:text-purple-400">3. NZXT Classic Dual Pro</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-purple-500/10 text-purple-400 font-mono">OEM Style</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Inspirado no visual oficial da NZXT, mas com CPU, GPU, Líquido, Clocks e RAM juntos.</p>
+            </button>
+
+            <button onclick="loadTemplate('tactical_overclock')" class="w-full p-3 rounded-xl bg-[#141923] hover:bg-[#1a2130] border border-slate-800 hover:border-emerald-500/50 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-white group-hover:text-emerald-400">4. Tactical Overclocker</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 font-mono">Gráficos</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Inclui gráficos de histórico em tempo real + frequências GHz/MHz + RAM.</p>
+            </button>
+
+            <button onclick="loadTemplate('minimal_monolith')" class="w-full p-3 rounded-xl bg-[#141923] hover:bg-[#1a2130] border border-slate-800 hover:border-amber-500/50 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-white group-hover:text-amber-400">5. Minimalist Monolith</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 font-mono">Clean</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Tipografia gigante de alto contraste para leitura instantânea dentro do gabinete.</p>
+            </button>
+
+            <button onclick="loadTemplate('synthwave_equalizer')" class="w-full p-3 rounded-xl bg-[#141923] hover:bg-[#1a2130] border border-slate-800 hover:border-rose-500/50 text-left transition group">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-xs text-white group-hover:text-rose-400">6. Synthwave Audio HUD</span>
+                <span class="text-[10px] px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 font-mono">Equalizador</span>
+              </div>
+              <p class="text-[11px] text-slate-400 mt-1">Visualizador de espectro reativo + telemetria neon cyberpunk.</p>
+            </button>
+          </div>
+        </div>
+
+        <!-- Importar / Exportar Projeto (.JSON) -->
+        <div class="pt-4 border-t border-slate-800 space-y-2">
+          <h4 class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Salvar / Compartilhar Tema</h4>
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="exportProjectJSON()" class="py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 transition">
+              Exportar .JSON
+            </button>
+            <label class="py-2 px-3 rounded-lg bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-slate-200 text-center cursor-pointer transition">
+              Importar .JSON
+              <input type="file" accept=".json" onchange="importProjectJSON(event)" class="hidden">
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Conteúdo da Aba: FUNDO (GIF / VÍDEO / CORES) -->
+      <div id="left-tab-background" class="flex-1 overflow-y-auto p-4 space-y-4 hidden text-xs">
+        <div class="space-y-2">
+          <label class="block font-bold text-slate-300 uppercase text-[11px]">Cor de Fundo Base</label>
+          <div class="flex items-center space-x-2">
+            <input type="color" id="bg-color-picker" value="#000000" oninput="updateBackgroundProp('color', this.value)" class="w-9 h-9 rounded cursor-pointer bg-transparent border-0">
+            <input type="text" id="bg-color-hex" value="#000000" onchange="updateBackgroundProp('color', this.value)" class="flex-1 bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 font-mono text-white">
+          </div>
+        </div>
+
+        <!-- Upload de GIF / Vídeo Local (Salvo em IndexedDB sem limite de tamanho!) -->
+        <div class="p-3 rounded-xl bg-[#141923] border border-slate-800 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-400 text-[11px] uppercase">Carregar GIF / Vídeo / Imagem</span>
+            <button onclick="clearBackgroundMedia()" class="text-[11px] text-rose-400 hover:underline">Remover</button>
+          </div>
+          
+          <label class="block w-full py-2.5 px-3 rounded-lg border border-dashed border-cyan-500/40 hover:border-cyan-400 bg-cyan-500/5 hover:bg-cyan-500/10 text-center cursor-pointer transition">
+            <span class="font-semibold text-cyan-300 block">Escolher Arquivo do PC</span>
+            <span class="text-[10px] text-slate-400">.GIF, .MP4, .WEBP, .PNG ou .JPG</span>
+            <input type="file" accept="image/*,video/mp4,video/webm" onchange="handleBgFileUpload(event)" class="hidden">
+          </label>
+
+          <div>
+            <label class="block text-[10px] text-slate-400 uppercase mb-1">Ou Cole URL Direta (Giphy / Tenor / Web)</label>
+            <div class="flex space-x-1.5">
+              <input type="text" id="bg-url-input" placeholder="https://media.giphy.com/..." class="flex-1 bg-[#0a0c12] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white font-mono text-[11px]">
+              <button onclick="applyBgUrl()" class="px-3 py-1.5 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg transition">OK</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Galeria Rápida de GIFs Animados Embutidos -->
+        <div class="space-y-1.5">
+          <label class="block font-bold text-slate-300 uppercase text-[11px]">GIFs Sci-Fi & Anime Prontos</label>
+          <div class="grid grid-cols-2 gap-1.5">
+            <button onclick="setBgPresetUrl('https://media.giphy.com/media/Lp9ms49jJ55n6zD49s/giphy.gif')" class="p-2 rounded-lg bg-[#141923] hover:bg-slate-800 border border-slate-800 text-left truncate">Retrowave Grid</button>
+            <button onclick="setBgPresetUrl('https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif')" class="p-2 rounded-lg bg-[#141923] hover:bg-slate-800 border border-slate-800 text-left truncate">Reator Quântico</button>
+            <button onclick="setBgPresetUrl('https://media.giphy.com/media/A06UFEx8jxEwU/giphy.gif')" class="p-2 rounded-lg bg-[#141923] hover:bg-slate-800 border border-slate-800 text-left truncate">Chuva Matrix</button>
+            <button onclick="setBgPresetUrl('https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif')" class="p-2 rounded-lg bg-[#141923] hover:bg-slate-800 border border-slate-800 text-left truncate">Cyberpunk City</button>
+          </div>
+        </div>
+
+        <!-- Ajustes de Transformação do GIF (Zoom, Posição X/Y, Opacidade, Blur) -->
+        <div class="p-3 rounded-xl bg-[#141923] border border-slate-800 space-y-3">
+          <span class="font-bold text-slate-300 text-[11px] uppercase block">Ajustes do GIF / Imagem de Fundo</span>
+          
+          <div>
+            <div class="flex justify-between text-[11px] mb-1"><span>Zoom / Escala</span><span id="lbl-bg-scale" class="font-mono text-cyan-400">100%</span></div>
+            <input type="range" id="bg-scale-slider" min="50" max="250" value="100" oninput="updateBackgroundProp('scale', Number(this.value))" class="w-full accent-cyan-400">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <div class="flex justify-between text-[10px] mb-1"><span>Posição X</span><span id="lbl-bg-x" class="font-mono">0px</span></div>
+              <input type="range" id="bg-x-slider" min="-250" max="250" value="0" oninput="updateBackgroundProp('offsetX', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+            <div>
+              <div class="flex justify-between text-[10px] mb-1"><span>Posição Y</span><span id="lbl-bg-y" class="font-mono">0px</span></div>
+              <input type="range" id="bg-y-slider" min="-250" max="250" value="0" oninput="updateBackgroundProp('offsetY', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[11px] mb-1"><span>Opacidade da Mídia</span><span id="lbl-bg-opacity" class="font-mono text-cyan-400">65%</span></div>
+            <input type="range" id="bg-opacity-slider" min="0" max="100" value="65" oninput="updateBackgroundProp('opacity', Number(this.value))" class="w-full accent-cyan-400">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[11px] mb-1"><span>Brilho</span><span id="lbl-bg-brightness" class="font-mono text-cyan-400">80%</span></div>
+            <input type="range" id="bg-brightness-slider" min="10" max="150" value="80" oninput="updateBackgroundProp('brightness', Number(this.value))" class="w-full accent-cyan-400">
+          </div>
+
+          <div>
+            <div class="flex justify-between text-[11px] mb-1"><span>Desfoque (Blur)</span><span id="lbl-bg-blur" class="font-mono text-cyan-400">0px</span></div>
+            <input type="range" id="bg-blur-slider" min="0" max="20" value="0" oninput="updateBackgroundProp('blur', Number(this.value))" class="w-full accent-cyan-400">
+          </div>
+
+          <div class="flex items-center justify-between pt-1">
+            <span>Grade Tática Sci-Fi de Fundo</span>
+            <input type="checkbox" id="bg-grid-toggle" onchange="updateBackgroundProp('showGrid', this.checked)" class="w-4 h-4 accent-cyan-400">
+          </div>
+        </div>
+      </div>
+
+      <!-- Conteúdo da Aba: LISTA DE CAMADAS (LAYERS) -->
+      <div id="left-tab-layers" class="flex-1 overflow-y-auto p-3 space-y-1.5 hidden">
+        <div class="flex items-center justify-between px-1 mb-2">
+          <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Ordem das Camadas</span>
+          <button onclick="clearAllWidgets()" class="text-[11px] text-rose-400 hover:underline">Limpar Tudo</button>
+        </div>
+        <div id="layers-list-container" class="space-y-1"></div>
+      </div>
+
+    </aside>
+
+    <!-- 2. ÁREA CENTRAL: PALCO INTERATIVO DE 640x640 -->
+    <main id="canvas-wrapper" class="flex-1 bg-[#07090e] flex flex-col items-center justify-center relative overflow-auto p-6">
+      
+      <!-- Barra Flutuante de Ferramentas do Canvas (Oculta no modo Kraken) -->
+      <div class="studio-chrome mb-4 flex items-center space-x-3 bg-[#0d1017]/90 border border-slate-800 px-3.5 py-1.5 rounded-full text-xs backdrop-blur-md shadow-xl">
+        <label class="flex items-center space-x-1.5 cursor-pointer">
+          <input type="checkbox" id="chk-circular-mask" checked onchange="toggleStageMask(this.checked)" class="accent-cyan-400 rounded">
+          <span class="text-slate-300 font-medium">Máscara Circular Kraken</span>
+        </label>
+        <span class="text-slate-700">|</span>
+        <label class="flex items-center space-x-1.5 cursor-pointer">
+          <input type="checkbox" id="chk-snap-center" checked class="accent-cyan-400 rounded">
+          <span class="text-slate-300 font-medium">Ímã de Centro (Snap)</span>
+        </label>
+        <span class="text-slate-700">|</span>
+        <button onclick="triggerStressTest()" class="text-amber-400 hover:text-amber-300 font-semibold flex items-center space-x-1">
+          <span>⚡ Testar Carga 99%</span>
+        </button>
+      </div>
+
+      <!-- =============================================================== -->
+      <!-- DISPLAY 640x640 REAL DO KRAKEN ELITE                            -->
+      <!-- =============================================================== -->
+      <div id="kraken-stage" class="mask-circular" onmousedown="onStageBackgroundClick(event)">
+        
+        <!-- 1. Camada de Mídia de Fundo (GIF / Vídeo / Imagem) -->
+        <div id="stage-bg-layer" class="absolute inset-0 pointer-events-none overflow-hidden flex items-center justify-center">
+          <img id="stage-bg-img" src="" alt="" class="max-w-none hidden" style="transform-origin: center center;">
+          <video id="stage-bg-video" src="" autoplay loop muted playsinline class="max-w-none hidden" style="transform-origin: center center;"></video>
+          <div id="stage-bg-grid" class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at center, rgba(255,255,255,0.18) 1px, transparent 1px), linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 24px 24px;"></div>
+        </div>
+
+        <!-- 2. Linhas Guia de Snap Central -->
+        <div id="snap-v" class="snap-guide-v"></div>
+        <div id="snap-h" class="snap-guide-h"></div>
+
+        <!-- 3. Camada de Elementos / Widgets Livres -->
+        <div id="stage-widgets-layer" class="absolute inset-0"></div>
+
+        <!-- 4. Guia Circular de Borda (Visível só no editor) -->
+        <div class="studio-chrome bezel-ring-preview"></div>
+      </div>
+
+      <!-- Dica de Rodapé no Editor -->
+      <div class="studio-chrome mt-3 text-[11px] text-slate-500 font-mono">
+        Dica: Clique e arraste qualquer item • Use as setas do teclado para ajuste fino de 1px • [Delete] remove o item selecionado
+      </div>
+    </main>
+
+    <!-- 3. PAINEL DIREITO: INSPETOR DE PROPRIEDADES DO ITEM SELECIONADO -->
+    <aside class="studio-chrome w-80 bg-[#0d1017] border-l border-slate-800/80 flex flex-col shrink-0 z-30">
+      <div class="p-3.5 border-b border-slate-800 bg-[#0a0c12] flex items-center justify-between">
+        <span class="font-bold text-xs uppercase tracking-wider text-slate-300">Propriedades do Item</span>
+        <div id="inspector-actions" class="flex items-center space-x-1 hidden">
+          <button onclick="duplicateSelectedWidget()" class="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300" title="Duplicar Camada">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" stroke-width="2"/><path stroke-width="2" d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+          </button>
+          <button onclick="moveSelectedLayer(1)" class="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300" title="Trazer para Frente">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/></svg>
+          </button>
+          <button onclick="moveSelectedLayer(-1)" class="p-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-300" title="Enviar para Trás">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+          </button>
+          <button onclick="deleteSelectedWidget()" class="p-1.5 rounded bg-rose-950/80 hover:bg-rose-800 text-rose-300" title="Excluir Camada [Delete]">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Estado Vazio (Nenhum Widget Selecionado) -->
+      <div id="inspector-empty" class="flex-1 flex flex-col items-center justify-center p-6 text-center text-slate-500">
+        <svg class="w-10 h-10 mb-2 text-slate-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5"/></svg>
+        <p class="text-xs font-semibold text-slate-400">Nenhum Elemento Selecionado</p>
+        <p class="text-[11px] mt-1">Clique em qualquer sensor, arco ou texto dentro do círculo de 640x640 para editar sua cor, fonte, sensor, tamanho ou posição.</p>
+      </div>
+
+      <!-- Formulário Dinâmico do Inspetor -->
+      <div id="inspector-form" class="flex-1 overflow-y-auto p-4 space-y-4 text-xs hidden"></div>
+    </aside>
+
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MODAL DE TUTORIAL EM PORTUGUÊS: COMO FUNCIONA NO NZXT CAM             -->
+  <!-- ===================================================================== -->
+  <div id="tutorial-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#0f131c] border border-slate-700 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+      <div class="p-4 bg-[#141925] border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center space-x-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-cyan-400"></span>
+          <h2 class="font-bold text-sm text-white" style="font-family: 'Orbitron', sans-serif;">COMO USAR NO SEU NZXT KRAKEN ELITE (100% OFICIAL & GRATUITO)</h2>
+        </div>
+        <button onclick="closeTutorialModal()" class="text-slate-400 hover:text-white p-1">✕</button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-4 text-xs text-slate-300 leading-relaxed">
+        <div class="p-3.5 rounded-xl bg-cyan-500/10 border border-cyan-500/30 text-cyan-200">
+          <strong>Por que isso não é pirataria?</strong> A própria NZXT criou um recurso oficial aberto chamado <strong>NZXT CAM Web Integration API</strong>. Tanto o site que você enviou quanto este estúdio usam essa API oficial documentada pela NZXT (`window.nzxt.v1`) para desenhar gráficos personalizados na bomba do watercooler.
+        </div>
+
+        <h3 class="font-bold text-white text-sm">Passo 1: Hospedar ou Rodar seu Estúdio</h3>
+        <p>Salve este arquivo como <code class="text-cyan-400 bg-slate-900 px-1.5 py-0.5 rounded">index.html</code>. Você pode subi-lo gratuitamente no <strong>GitHub Pages / Vercel / Netlify</strong> ou rodá-lo localmente no seu PC com 1 comando (VS Code Live Server ou Python <code class="text-cyan-400 bg-slate-900 px-1.5 py-0.5 rounded">python -m http.server 3000</code>).</p>
+
+        <h3 class="font-bold text-white text-sm">Passo 2: Colocar no NZXT CAM</h3>
+        <ol class="list-decimal list-inside space-y-1.5 text-slate-300">
+          <li>Abra o programa <strong>NZXT CAM</strong> e vá na aba <strong>Lighting (Iluminação)</strong>.</li>
+          <li>No modo do Display LCD, escolha <strong>Web Integration</strong> e clique em <strong>Custom Web Integration</strong>.</li>
+          <li>Cole a URL do seu projeto com <code class="text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded">?kraken=1</code> no final (exemplo: <code class="text-emerald-400 bg-slate-900 px-1.5 py-0.5 rounded">http://localhost:3000/?kraken=1</code>).</li>
+          <li>Quando o parâmetro <code class="text-emerald-400">?kraken=1</code> está presente (ou quando o próprio Kraken carrega a página), <strong>toda a interface do editor desaparece automaticamente</strong> e apenas o círculo de 640x640 aparece no seu watercooler!</li>
+        </ol>
+
+        <h3 class="font-bold text-white text-sm">Passo 3: Editar Ao Vivo em Tempo Real!</h3>
+        <p>Abra <code class="text-cyan-400 bg-slate-900 px-1.5 py-0.5 rounded">http://localhost:3000</code> no seu navegador normal (ou clique no botão <strong>Configure</strong> dentro do NZXT CAM). Tudo o que você arrastar, trocar de cor ou adicionar de GIF no Editor atualizará instantaneamente na tela do seu Kraken Elite em tempo real!</p>
+      </div>
+
+      <div class="p-4 bg-[#141925] border-t border-slate-800 flex justify-end">
+        <button onclick="closeTutorialModal()" class="px-5 py-2 bg-cyan-500 hover:bg-cyan-400 text-black font-bold rounded-lg text-xs transition">Entendi, Vamos Criar!</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- MOTOR JAVASCRIPT DO OPENKRAKEN STUDIO                                 -->
+  <!-- ===================================================================== -->
+  <script>
+    /*************************************************************************
+     * 1. BANCO DE DADOS INDEXEDDB PARA GIFS E VÍDEOS PESADOS
+     *************************************************************************/
+    const DB_NAME = 'OpenKrakenStudioDB';
+    const STORE_NAME = 'mediaStore';
+
+    function openMediaDB() {
+      return new Promise((resolve, reject) => {
+        const req = indexedDB.open(DB_NAME, 1);
+        req.onupgradeneeded = (e) => {
+          const db = e.target.result;
+          if (!db.objectStoreNames.contains(STORE_NAME)) {
+            db.createObjectStore(STORE_NAME);
+          }
+        };
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+      });
+    }
+
+    async function saveMediaBlob(key, dataUrl, mimeType) {
+      try {
+        const db = await openMediaDB();
+        return new Promise((resolve, reject) => {
+          const tx = db.transaction(STORE_NAME, 'readwrite');
+          tx.objectStore(STORE_NAME).put({ dataUrl, mimeType }, key);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        });
+      } catch (e) {
+        console.warn('IndexedDB indisponível:', e);
+      }
+    }
+
+    async function loadMediaBlob(key) {
+      try {
+        const db = await openMediaDB();
+        return new Promise((resolve) => {
+          const tx = db.transaction(STORE_NAME, 'readonly');
+          const req = tx.objectStore(STORE_NAME).get(key);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => resolve(null);
+        });
+      } catch (e) {
+        return null;
+      }
+    }
+
+    /*************************************************************************
+     * 2. TELEMETRIA EM TEMPO REAL + HISTÓRICO PARA GRÁFICOS
+     *************************************************************************/
+    const SENSORS_META = {
+      cpu_temp:    { label: 'Temperatura CPU', unit: '°C', min: 0, max: 100 },
+      cpu_load:    { label: 'Uso da CPU (%)', unit: '%', min: 0, max: 100 },
+      cpu_freq:    { label: 'Velocidade CPU (GHz)', unit: 'GHz', min: 0, max: 6.5 },
+      gpu_temp:    { label: 'Temperatura GPU', unit: '°C', min: 0, max: 100 },
+      gpu_load:    { label: 'Uso da GPU (%)', unit: '%', min: 0, max: 100 },
+      gpu_freq:    { label: 'Velocidade GPU (MHz)', unit: 'MHz', min: 0, max: 3200 },
+      liquid_temp: { label: 'Temperatura Líquido', unit: '°C', min: 20, max: 60 },
+      ram_percent: { label: 'Uso de RAM (%)', unit: '%', min: 0, max: 100 },
+      ram_used:    { label: 'RAM Usada (GB)', unit: 'GB', min: 0, max: 64 },
+      pump_rpm:    { label: 'Bomba Watercooler (RPM)', unit: 'RPM', min: 0, max: 3200 }
+    };
+
+    const liveSensors = {
+      cpu_temp: 54,
+      cpu_load: 42,
+      cpu_freq: 4.75,
+      gpu_temp: 49,
+      gpu_load: 58,
+      gpu_freq: 2565,
+      liquid_temp: 32.4,
+      ram_percent: 51,
+      ram_used: 16.3,
+      ram_total: 32.0,
+      pump_rpm: 2680,
+      isSimulated: true
+    };
+
+    // Histórico de 40 pontos para os gráficos sparkline
+    const sensorHistory = {
+      cpu_temp: Array(40).fill(52),
+      cpu_load: Array(40).fill(40),
+      gpu_temp: Array(40).fill(48),
+      gpu_load: Array(40).fill(55),
+      liquid_temp: Array(40).fill(32),
+      ram_percent: Array(40).fill(50)
+    };
+
+    function formatSensorValue(sensorKey, decimalsOverride) {
+      const val = liveSensors[sensorKey] ?? 0;
+      if (sensorKey === 'cpu_freq') return val.toFixed(2);
+      if (sensorKey === 'liquid_temp' || sensorKey === 'ram_used') return val.toFixed(1);
+      if (decimalsOverride === 1) return val.toFixed(1);
+      return Math.round(val).toString();
+    }
+
+    function getSensorProgress01(sensorKey) {
+      const meta = SENSORS_META[sensorKey] || { min: 0, max: 100 };
+      const val = liveSensors[sensorKey] ?? 0;
+      return Math.min(Math.max((val - meta.min) / (meta.max - meta.min), 0), 1);
+    }
+
+    /*************************************************************************
+     * 3. ESTADO DO PROJETO & SINCRONIZAÇÃO EM TEMPO REAL (BROADCASTCHANNEL)
+     *************************************************************************/
+    const syncChannel = ('BroadcastChannel' in window) ? new BroadcastChannel('kraken_studio_sync') : null;
+
+    let project = {
+      maskCircular: true,
+      background: {
+        color: '#000000',
+        mediaType: 'none', // 'none', 'url', 'indexeddb'
+        mediaUrl: '',
+        scale: 100,
+        offsetX: 0,
+        offsetY: 0,
+        opacity: 65,
+        brightness: 85,
+        blur: 0,
+        showGrid: true
+      },
+      widgets: []
+    };
+
+    let selectedWidgetId = null;
+    let dragState = null;
+
+    function broadcastProjectUpdate() {
+      try {
+        localStorage.setItem('openkraken_studio_project_v1', JSON.stringify(project));
+        if (syncChannel) {
+          syncChannel.postMessage({ type: 'PROJECT_SYNC', project });
+        }
+      } catch (e) {
+        console.warn('Erro ao salvar estado:', e);
+      }
+    }
+
+    if (syncChannel) {
+      syncChannel.onmessage = async (evt) => {
+        if (evt.data && evt.data.type === 'PROJECT_SYNC') {
+          project = evt.data.project;
+          await applyBackgroundToStage();
+          renderStageWidgets();
+        } else if (evt.data && evt.data.type === 'MEDIA_UPDATED') {
+          await applyBackgroundToStage();
+        }
+      };
+    }
+
+    window.addEventListener('storage', async (e) => {
+      if (e.key === 'openkraken_studio_project_v1' && e.newValue) {
+        try {
+          project = JSON.parse(e.newValue);
+          await applyBackgroundToStage();
+          renderStageWidgets();
+        } catch (err) {}
+      }
+    });
+
+    /*************************************************************************
+     * 4. BIBLIOTECA DE 6 TEMPLATES COMPLETOS E EDITÁVEIS
+     *************************************************************************/
+    const TEMPLATES = {
+      dual_cyber_hud: {
+        maskCircular: true,
+        background: { color: '#000000', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 60, brightness: 80, blur: 0, showGrid: true },
+        widgets: [
+          // Arcos Externos CPU e GPU
+          { id: 'w1', type: 'radial', name: 'Arco CPU (Esq)', sensor: 'cpu_load', x: 320, y: 320, radius: 262, thickness: 12, startAngle: 125, sweepAngle: 110, color: '#00f0ff', trackColor: '#1e293b', glow: 8, dashed: false },
+          { id: 'w2', type: 'radial', name: 'Arco GPU (Dir)', sensor: 'gpu_load', x: 320, y: 320, radius: 262, thickness: 12, startAngle: 305, sweepAngle: 110, color: '#a855f7', trackColor: '#1e293b', glow: 8, dashed: false },
+          { id: 'w3', type: 'radial', name: 'Arco RAM (Inf)', sensor: 'ram_percent', x: 320, y: 320, radius: 262, thickness: 8, startAngle: 55, sweepAngle: 70, color: '#38bdf8', trackColor: '#1e293b', glow: 6, dashed: false },
+          // Anel Central Líquido
+          { id: 'w4', type: 'radial', name: 'Anel Reator Líquido', sensor: 'liquid_temp', x: 320, y: 320, radius: 88, thickness: 6, startAngle: 0, sweepAngle: 360, color: '#00ffc8', trackColor: '#0f172a', glow: 10, dashed: true },
+          // Textos CPU (Esquerda)
+          { id: 'w5', type: 'label', name: 'Tag CPU', text: 'CPU CORE', x: 145, y: 245, fontSize: 13, fontFamily: 'Orbitron', color: '#94a3b8', glow: 0 },
+          { id: 'w6', type: 'sensor', name: 'Temp CPU', sensor: 'cpu_temp', prefix: '', showUnit: true, x: 145, y: 290, fontSize: 52, fontFamily: 'Orbitron', color: '#00f0ff', glow: 10 },
+          { id: 'w7', type: 'sensor', name: 'Clock CPU', sensor: 'cpu_freq', prefix: '⚡ ', showUnit: true, x: 145, y: 340, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#f8fafc', glow: 0 },
+          { id: 'w8', type: 'sensor', name: 'Uso CPU %', sensor: 'cpu_load', prefix: 'LOAD: ', showUnit: true, x: 145, y: 366, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#00f0ff', glow: 4 },
+          // Textos Líquido (Centro)
+          { id: 'w9', type: 'label', name: 'Tag Líquido', text: 'LIQUID', x: 320, y: 282, fontSize: 11, fontFamily: 'Orbitron', color: '#94a3b8', glow: 0 },
+          { id: 'w10', type: 'sensor', name: 'Temp Líquido', sensor: 'liquid_temp', prefix: '', showUnit: true, x: 320, y: 318, fontSize: 34, fontFamily: 'Orbitron', color: '#00ffc8', glow: 8 },
+          { id: 'w11', type: 'sensor', name: 'Pump RPM', sensor: 'pump_rpm', prefix: '', showUnit: true, x: 320, y: 355, fontSize: 12, fontFamily: 'JetBrains Mono', color: '#cbd5e1', glow: 0 },
+          // Textos GPU (Direita)
+          { id: 'w12', type: 'label', name: 'Tag GPU', text: 'GPU CORE', x: 495, y: 245, fontSize: 13, fontFamily: 'Orbitron', color: '#94a3b8', glow: 0 },
+          { id: 'w13', type: 'sensor', name: 'Temp GPU', sensor: 'gpu_temp', prefix: '', showUnit: true, x: 495, y: 290, fontSize: 52, fontFamily: 'Orbitron', color: '#a855f7', glow: 10 },
+          { id: 'w14', type: 'sensor', name: 'Clock GPU', sensor: 'gpu_freq', prefix: '⚡ ', showUnit: true, x: 495, y: 340, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#f8fafc', glow: 0 },
+          { id: 'w15', type: 'sensor', name: 'Uso GPU %', sensor: 'gpu_load', prefix: 'LOAD: ', showUnit: true, x: 495, y: 366, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#a855f7', glow: 4 },
+          // RAM (Inferior) e Relógio (Topo)
+          { id: 'w16', type: 'sensor', name: 'RAM GB', sensor: 'ram_used', prefix: 'RAM: ', showUnit: true, x: 280, y: 525, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#f8fafc', glow: 0 },
+          { id: 'w17', type: 'sensor', name: 'RAM %', sensor: 'ram_percent', prefix: '(', showUnit: true, suffix: ')', x: 385, y: 525, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#38bdf8', glow: 6 },
+          { id: 'w18', type: 'clock', name: 'Relógio Topo', format: 'HH:MM:SS', x: 320, y: 95, fontSize: 18, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 4 }
+        ]
+      },
+
+      gif_showcase: {
+        maskCircular: true,
+        background: { color: '#05050a', mediaType: 'url', mediaUrl: 'https://media.giphy.com/media/3oKIPnAiaMCws8nOsE/giphy.gif', scale: 115, offsetX: 0, offsetY: 0, opacity: 80, brightness: 85, blur: 0, showGrid: false },
+        widgets: [
+          { id: 'g1', type: 'radial', name: 'Aro Fino Perimetral', sensor: 'cpu_load', x: 320, y: 320, radius: 292, thickness: 6, startAngle: 135, sweepAngle: 270, color: '#00f0ff', trackColor: 'rgba(255,255,255,0.12)', glow: 10, dashed: false },
+          { id: 'g2', type: 'clock', name: 'Relógio Grande Topo', format: 'HH:MM', x: 320, y: 88, fontSize: 42, fontFamily: 'Orbitron', color: '#ffffff', glow: 12 },
+          // Bloco Inferior HUD Translúcido
+          { id: 'g3', type: 'sensor', name: 'CPU Temp', sensor: 'cpu_temp', prefix: 'CPU ', showUnit: true, x: 175, y: 470, fontSize: 28, fontFamily: 'Orbitron', color: '#00f0ff', glow: 10 },
+          { id: 'g4', type: 'sensor', name: 'CPU GHz', sensor: 'cpu_freq', prefix: '', showUnit: true, x: 175, y: 502, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 4 },
+          { id: 'g5', type: 'sensor', name: 'Líquido Temp', sensor: 'liquid_temp', prefix: 'LIQ ', showUnit: true, x: 320, y: 470, fontSize: 28, fontFamily: 'Orbitron', color: '#00ffc8', glow: 10 },
+          { id: 'g6', type: 'sensor', name: 'RAM %', sensor: 'ram_percent', prefix: 'RAM ', showUnit: true, x: 320, y: 502, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#38bdf8', glow: 4 },
+          { id: 'g7', type: 'sensor', name: 'GPU Temp', sensor: 'gpu_temp', prefix: 'GPU ', showUnit: true, x: 465, y: 470, fontSize: 28, fontFamily: 'Orbitron', color: '#f43f5e', glow: 10 },
+          { id: 'g8', type: 'sensor', name: 'GPU MHz', sensor: 'gpu_freq', prefix: '', showUnit: true, x: 465, y: 502, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 4 }
+        ]
+      },
+
+      nzxt_classic_infographic: {
+        maskCircular: true,
+        background: { color: '#000000', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 50, brightness: 80, blur: 0, showGrid: false },
+        widgets: [
+          { id: 'c1', type: 'radial', name: 'Arco Principal NZXT', sensor: 'cpu_temp', x: 320, y: 320, radius: 270, thickness: 18, startAngle: 135, sweepAngle: 270, color: '#a855f7', trackColor: '#18181b', glow: 10, dashed: false },
+          { id: 'c2', type: 'radial', name: 'Arco Interno GPU', sensor: 'gpu_temp', x: 320, y: 320, radius: 242, thickness: 10, startAngle: 135, sweepAngle: 270, color: '#00f0ff', trackColor: '#18181b', glow: 6, dashed: false },
+          { id: 'c3', type: 'label', name: 'TítuloCPU', text: 'CPU', x: 205, y: 215, fontSize: 18, fontFamily: 'Inter', color: '#a1a1aa', glow: 0 },
+          { id: 'c4', type: 'sensor', name: 'Temp CPU', sensor: 'cpu_temp', prefix: '', showUnit: true, x: 205, y: 265, fontSize: 60, fontFamily: 'Inter', color: '#ffffff', glow: 0 },
+          { id: 'c5', type: 'sensor', name: 'Clock CPU', sensor: 'cpu_freq', prefix: '', showUnit: true, x: 205, y: 312, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#a855f7', glow: 0 },
+          { id: 'c6', type: 'sensor', name: 'Load CPU', sensor: 'cpu_load', prefix: 'Uso: ', showUnit: true, x: 205, y: 336, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#a1a1aa', glow: 0 },
+
+          { id: 'c7', type: 'label', name: 'TítuloGPU', text: 'GPU', x: 435, y: 215, fontSize: 18, fontFamily: 'Inter', color: '#a1a1aa', glow: 0 },
+          { id: 'c8', type: 'sensor', name: 'Temp GPU', sensor: 'gpu_temp', prefix: '', showUnit: true, x: 435, y: 265, fontSize: 60, fontFamily: 'Inter', color: '#ffffff', glow: 0 },
+          { id: 'c9', type: 'sensor', name: 'Clock GPU', sensor: 'gpu_freq', prefix: '', showUnit: true, x: 435, y: 312, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#00f0ff', glow: 0 },
+          { id: 'c10', type: 'sensor', name: 'Load GPU', sensor: 'gpu_load', prefix: 'Uso: ', showUnit: true, x: 435, y: 336, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#a1a1aa', glow: 0 },
+
+          { id: 'c11', type: 'label', name: 'Título Líquido', text: 'LIQUID', x: 320, y: 405, fontSize: 14, fontFamily: 'Inter', color: '#a1a1aa', glow: 0 },
+          { id: 'c12', type: 'sensor', name: 'Temp Líquido', sensor: 'liquid_temp', prefix: '', showUnit: true, x: 320, y: 445, fontSize: 42, fontFamily: 'Inter', color: '#00ffc8', glow: 6 },
+          { id: 'c13', type: 'sensor', name: 'RAM Info', sensor: 'ram_used', prefix: 'RAM: ', showUnit: true, x: 275, y: 515, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#e4e4e7', glow: 0 },
+          { id: 'c14', type: 'sensor', name: 'RAM %', sensor: 'ram_percent', prefix: '(', showUnit: true, suffix: ')', x: 375, y: 515, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#00f0ff', glow: 0 }
+        ]
+      },
+
+      tactical_overclock: {
+        maskCircular: true,
+        background: { color: '#020617', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 50, brightness: 80, blur: 0, showGrid: true },
+        widgets: [
+          { id: 't1', type: 'label', name: 'Header', text: 'SYS // TELEMETRY', x: 320, y: 78, fontSize: 13, fontFamily: 'Chakra Petch', color: '#38bdf8', glow: 6 },
+          { id: 't2', type: 'chart', name: 'Gráfico CPU Temp', sensor: 'cpu_temp', x: 195, y: 215, width: 170, height: 65, color: '#00f0ff' },
+          { id: 't3', type: 'sensor', name: 'CPU Temp', sensor: 'cpu_temp', prefix: 'CPU ', showUnit: true, x: 195, y: 155, fontSize: 32, fontFamily: 'Chakra Petch', color: '#00f0ff', glow: 8 },
+          { id: 't4', type: 'sensor', name: 'CPU Clock', sensor: 'cpu_freq', prefix: '', showUnit: true, x: 155, y: 268, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#ffffff', glow: 0 },
+          { id: 't5', type: 'sensor', name: 'CPU Load', sensor: 'cpu_load', prefix: '', showUnit: true, x: 245, y: 268, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#00f0ff', glow: 0 },
+
+          { id: 't6', type: 'chart', name: 'Gráfico GPU Temp', sensor: 'gpu_temp', x: 445, y: 215, width: 170, height: 65, color: '#f43f5e' },
+          { id: 't7', type: 'sensor', name: 'GPU Temp', sensor: 'gpu_temp', prefix: 'GPU ', showUnit: true, x: 445, y: 155, fontSize: 32, fontFamily: 'Chakra Petch', color: '#f43f5e', glow: 8 },
+          { id: 't8', type: 'sensor', name: 'GPU Clock', sensor: 'gpu_freq', prefix: '', showUnit: true, x: 405, y: 268, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#ffffff', glow: 0 },
+          { id: 't9', type: 'sensor', name: 'GPU Load', sensor: 'gpu_load', prefix: '', showUnit: true, x: 495, y: 268, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#f43f5e', glow: 0 },
+
+          { id: 't10', type: 'bar', name: 'Barra Líquido', sensor: 'liquid_temp', x: 320, y: 365, width: 320, height: 14, color: '#00ffc8', trackColor: '#0f172a' },
+          { id: 't11', type: 'sensor', name: 'Liquid Temp', sensor: 'liquid_temp', prefix: 'COOLANT: ', showUnit: true, x: 320, y: 335, fontSize: 22, fontFamily: 'Chakra Petch', color: '#00ffc8', glow: 6 },
+
+          { id: 't12', type: 'bar', name: 'Barra RAM', sensor: 'ram_percent', x: 320, y: 455, width: 280, height: 12, color: '#a855f7', trackColor: '#0f172a' },
+          { id: 't13', type: 'sensor', name: 'RAM Usada', sensor: 'ram_used', prefix: 'MEMORY: ', showUnit: true, x: 275, y: 425, fontSize: 18, fontFamily: 'Chakra Petch', color: '#e2e8f0', glow: 0 },
+          { id: 't14', type: 'sensor', name: 'RAM %', sensor: 'ram_percent', prefix: '(', showUnit: true, suffix: ')', x: 395, y: 425, fontSize: 18, fontFamily: 'Chakra Petch', color: '#a855f7', glow: 0 },
+          { id: 't15', type: 'clock', name: 'Relógio Rodapé', format: 'HH:MM:SS', x: 320, y: 535, fontSize: 20, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0 }
+        ]
+      },
+
+      minimal_monolith: {
+        maskCircular: true,
+        background: { color: '#000000', mediaType: 'none', mediaUrl: '', scale: 100, offsetX: 0, offsetY: 0, opacity: 50, brightness: 80, blur: 0, showGrid: false },
+        widgets: [
+          { id: 'm1', type: 'sensor', name: 'CPU Temp Gigante', sensor: 'cpu_temp', prefix: '', showUnit: true, x: 190, y: 245, fontSize: 74, fontFamily: 'Russo One', color: '#ffffff', glow: 0 },
+          { id: 'm2', type: 'sensor', name: 'CPU GHz & %', sensor: 'cpu_freq', prefix: 'CPU ', showUnit: true, x: 190, y: 310, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#00f0ff', glow: 0 },
+          { id: 'm3', type: 'sensor', name: 'CPU Load', sensor: 'cpu_load', prefix: 'LOAD ', showUnit: true, x: 190, y: 334, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#64748b', glow: 0 },
+
+          { id: 'm4', type: 'sensor', name: 'GPU Temp Gigante', sensor: 'gpu_temp', prefix: '', showUnit: true, x: 450, y: 245, fontSize: 74, fontFamily: 'Russo One', color: '#ffffff', glow: 0 },
+          { id: 'm5', type: 'sensor', name: 'GPU MHz', sensor: 'gpu_freq', prefix: 'GPU ', showUnit: true, x: 450, y: 310, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#a855f7', glow: 0 },
+          { id: 'm6', type: 'sensor', name: 'GPU Load', sensor: 'gpu_load', prefix: 'LOAD ', showUnit: true, x: 450, y: 334, fontSize: 14, fontFamily: 'JetBrains Mono', color: '#64748b', glow: 0 },
+
+          { id: 'm7', type: 'sensor', name: 'Líquido Central', sensor: 'liquid_temp', prefix: 'LIQUID  ', showUnit: true, x: 320, y: 425, fontSize: 30, fontFamily: 'Orbitron', color: '#00ffc8', glow: 8 },
+          { id: 'm8', type: 'sensor', name: 'RAM Geral', sensor: 'ram_percent', prefix: 'RAM USAGE: ', showUnit: true, x: 320, y: 485, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0 }
+        ]
+      },
+
+      synthwave_equalizer: {
+        maskCircular: true,
+        background: { color: '#090214', mediaType: 'url', mediaUrl: 'https://media.giphy.com/media/Lp9ms49jJ55n6zD49s/giphy.gif', scale: 120, offsetX: 0, offsetY: 0, opacity: 55, brightness: 80, blur: 0, showGrid: false },
+        widgets: [
+          { id: 's1', type: 'spectrum', name: 'Equalizador de Áudio', x: 320, y: 335, width: 360, height: 95, bars: 24, color: '#f43f5e' },
+          { id: 's2', type: 'radial', name: 'Anel Neon Externo', sensor: 'cpu_load', x: 320, y: 320, radius: 280, thickness: 10, startAngle: 140, sweepAngle: 260, color: '#00f0ff', trackColor: 'rgba(255,255,255,0.08)', glow: 12, dashed: true },
+          { id: 's3', type: 'sensor', name: 'CPU Temp', sensor: 'cpu_temp', prefix: 'CPU ', showUnit: true, x: 195, y: 185, fontSize: 36, fontFamily: 'Orbitron', color: '#00f0ff', glow: 10 },
+          { id: 's4', type: 'sensor', name: 'CPU Clock', sensor: 'cpu_freq', prefix: '', showUnit: true, x: 195, y: 222, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#ffffff', glow: 0 },
+          { id: 's5', type: 'sensor', name: 'GPU Temp', sensor: 'gpu_temp', prefix: 'GPU ', showUnit: true, x: 445, y: 185, fontSize: 36, fontFamily: 'Orbitron', color: '#f43f5e', glow: 10 },
+          { id: 's6', type: 'sensor', name: 'GPU Clock', sensor: 'gpu_freq', prefix: '', showUnit: true, x: 445, y: 222, fontSize: 15, fontFamily: 'JetBrains Mono', color: '#ffffff', glow: 0 },
+          { id: 's7', type: 'sensor', name: 'Coolant Temp', sensor: 'liquid_temp', prefix: 'COOLANT ', showUnit: true, x: 320, y: 445, fontSize: 26, fontFamily: 'Orbitron', color: '#00ffc8', glow: 10 },
+          { id: 's8', type: 'sensor', name: 'RAM %', sensor: 'ram_percent', prefix: 'RAM ', showUnit: true, x: 320, y: 495, fontSize: 16, fontFamily: 'JetBrains Mono', color: '#e879f9', glow: 6 }
+        ]
+      }
+    };
+
+    /*************************************************************************
+     * 5. RENDERIZAÇÃO DO FUNDO E ELEMENTOS NO CANVAS 640x640
+     *************************************************************************/
+    async function applyBackgroundToStage() {
+      const stage = document.getElementById('kraken-stage');
+      const bgImg = document.getElementById('stage-bg-img');
+      const bgVid = document.getElementById('stage-bg-video');
+      const bgGrid = document.getElementById('stage-bg-grid');
+      const bg = project.background;
+
+      stage.style.backgroundColor = bg.color || '#000000';
+      if (project.maskCircular) {
+        stage.classList.add('mask-circular');
+      } else {
+        stage.classList.remove('mask-circular');
+      }
+
+      bgGrid.style.display = bg.showGrid ? 'block' : 'none';
+
+      // Transformação comum para imagem ou vídeo
+      const transformCSS = `translate(${bg.offsetX || 0}px, ${bg.offsetY || 0}px) scale(${(bg.scale || 100) / 100})`;
+      const filterCSS = `brightness(${(bg.brightness ?? 80) / 100}) blur(${bg.blur || 0}px)`;
+      const opacityVal = (bg.opacity ?? 65) / 100;
+
+      bgImg.classList.add('hidden');
+      bgVid.classList.add('hidden');
+
+      if (bg.mediaType === 'url' && bg.mediaUrl) {
+        const isVideo = /\.(mp4|webm)(\?.*)?$/i.test(bg.mediaUrl);
+        const activeEl = isVideo ? bgVid : bgImg;
+        if (activeEl.src !== bg.mediaUrl) activeEl.src = bg.mediaUrl;
+        activeEl.style.transform = transformCSS;
+        activeEl.style.filter = filterCSS;
+        activeEl.style.opacity = opacityVal;
+        activeEl.classList.remove('hidden');
+      } else if (bg.mediaType === 'indexeddb') {
+        const stored = await loadMediaBlob('custom_bg_media');
+        if (stored && stored.dataUrl) {
+          const isVideo = (stored.mimeType || '').startsWith('video/');
+          const activeEl = isVideo ? bgVid : bgImg;
+          if (activeEl.src !== stored.dataUrl) activeEl.src = stored.dataUrl;
+          activeEl.style.transform = transformCSS;
+          activeEl.style.filter = filterCSS;
+          activeEl.style.opacity = opacityVal;
+          activeEl.classList.remove('hidden');
+        }
+      }
+
+      syncBackgroundControlsUI();
+    }
+
+    function syncBackgroundControlsUI() {
+      const bg = project.background;
+      const setVal = (id, v) => { const el = document.getElementById(id); if (el) el.value = v; };
+      const setTxt = (id, t) => { const el = document.getElementById(id); if (el) el.textContent = t; };
+
+      setVal('bg-color-picker', bg.color || '#000000');
+      setVal('bg-color-hex', bg.color || '#000000');
+      setVal('bg-scale-slider', bg.scale || 100);
+      setTxt('lbl-bg-scale', `${bg.scale || 100}%`);
+      setVal('bg-x-slider', bg.offsetX || 0);
+      setTxt('lbl-bg-x', `${bg.offsetX || 0}px`);
+      setVal('bg-y-slider', bg.offsetY || 0);
+      setTxt('lbl-bg-y', `${bg.offsetY || 0}px`);
+      setVal('bg-opacity-slider', bg.opacity ?? 65);
+      setTxt('lbl-bg-opacity', `${bg.opacity ?? 65}%`);
+      setVal('bg-brightness-slider', bg.brightness ?? 80);
+      setTxt('lbl-bg-brightness', `${bg.brightness ?? 80}%`);
+      setVal('bg-blur-slider', bg.blur || 0);
+      setTxt('lbl-bg-blur', `${bg.blur || 0}px`);
+      const gridChk = document.getElementById('bg-grid-toggle');
+      if (gridChk) gridChk.checked = !!bg.showGrid;
+    }
+
+    // Desenho de arco polar SVG para os gauges circulares
+    function describeArc(x, y, radius, startAngle, sweepAngle) {
+      const clampedSweep = Math.min(Math.max(sweepAngle, 0.1), 359.9);
+      const startRad = (startAngle - 90) * Math.PI / 180.0;
+      const endRad = (startAngle + clampedSweep - 90) * Math.PI / 180.0;
+      const startX = x + (radius * Math.cos(startRad));
+      const startY = y + (radius * Math.sin(startRad));
+      const endX = x + (radius * Math.cos(endRad));
+      const endY = y + (radius * Math.sin(endRad));
+      const largeArcFlag = clampedSweep <= 180 ? "0" : "1";
+      return `M ${startX} ${startY} A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX} ${endY}`;
+    }
+
+    function renderStageWidgets() {
+      const container = document.getElementById('stage-widgets-layer');
+      container.innerHTML = '';
+
+      project.widgets.forEach((w, idx) => {
+        const el = document.createElement('div');
+        el.className = 'stage-widget' + (w.id === selectedWidgetId ? ' selected-widget' : '');
+        el.dataset.id = w.id;
+        el.style.zIndex = idx + 10;
+        el.style.left = `${w.x}px`;
+        el.style.top = `${w.y}px`;
+        el.style.transform = `translate(-50%, -50%) rotate(${w.rotation || 0}deg)`;
+        el.style.opacity = (w.opacity ?? 100) / 100;
+
+        // Eventos de clique e arraste para o editor
+        el.addEventListener('mousedown', (e) => onWidgetMouseDown(e, w.id));
+
+        if (w.type === 'sensor') {
+          const meta = SENSORS_META[w.sensor] || { unit: '' };
+          const valStr = formatSensorValue(w.sensor);
+          const unitStr = w.showUnit ? meta.unit : '';
+          el.style.fontFamily = `'${w.fontFamily || 'Orbitron'}', sans-serif`;
+          el.style.fontSize = `${w.fontSize || 36}px`;
+          el.style.fontWeight = '800';
+          el.style.color = w.color || '#00f0ff';
+          el.style.whiteSpace = 'nowrap';
+          if (w.glow > 0) {
+            el.style.textShadow = `0 0 ${w.glow}px ${w.color || '#00f0ff'}`;
+          }
+          el.innerHTML = `<span>${w.prefix || ''}${valStr}<small style="font-size:0.55em;opacity:0.85;margin-left:2px;">${unitStr}</small>${w.suffix || ''}</span>`;
+        }
+
+        else if (w.type === 'label') {
+          el.style.fontFamily = `'${w.fontFamily || 'Orbitron'}', sans-serif`;
+          el.style.fontSize = `${w.fontSize || 16}px`;
+          el.style.fontWeight = '700';
+          el.style.letterSpacing = '0.08em';
+          el.style.color = w.color || '#ffffff';
+          el.style.whiteSpace = 'nowrap';
+          if (w.glow > 0) {
+            el.style.textShadow = `0 0 ${w.glow}px ${w.color || '#ffffff'}`;
+          }
+          el.textContent = w.text || 'TEXTO';
+        }
+
+        else if (w.type === 'clock') {
+          const now = new Date();
+          const hh = String(now.getHours()).padStart(2, '0');
+          const mm = String(now.getMinutes()).padStart(2, '0');
+          const ss = String(now.getSeconds()).padStart(2, '0');
+          el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
+          el.style.fontSize = `${w.fontSize || 24}px`;
+          el.style.fontWeight = '800';
+          el.style.color = w.color || '#ffffff';
+          el.style.whiteSpace = 'nowrap';
+          if (w.glow > 0) {
+            el.style.textShadow = `0 0 ${w.glow}px ${w.color || '#ffffff'}`;
+          }
+          el.textContent = (w.format === 'HH:MM') ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`;
+        }
+
+        else if (w.type === 'radial') {
+          const r = w.radius || 120;
+          const stroke = w.thickness || 10;
+          const size = (r + stroke + 16) * 2;
+          const cx = size / 2;
+          const cy = size / 2;
+          const startAngle = w.startAngle ?? 135;
+          const sweepAngle = w.sweepAngle ?? 270;
+          const prog = getSensorProgress01(w.sensor || 'cpu_load');
+          const activeSweep = Math.max(sweepAngle * prog, 1);
+
+          const trackPath = describeArc(cx, cy, r, startAngle, sweepAngle);
+          const valPath = describeArc(cx, cy, r, startAngle, activeSweep);
+          const dashAttr = w.dashed ? `stroke-dasharray="8 6"` : '';
+          const dropFilter = w.glow > 0 ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color});` : '';
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          el.innerHTML = `
+            <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" class="overflow-visible">
+              <path d="${trackPath}" fill="none" stroke="${w.trackColor || '#1e293b'}" stroke-width="${stroke}" stroke-linecap="round" ${dashAttr}/>
+              <path d="${valPath}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="${stroke}" stroke-linecap="round" style="${dropFilter}" ${dashAttr}/>
+            </svg>
+          `;
+        }
+
+        else if (w.type === 'bar') {
+          const width = w.width || 220;
+          const height = w.height || 14;
+          const prog = getSensorProgress01(w.sensor || 'cpu_load') * 100;
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          el.innerHTML = `
+            <div style="width:100%;height:100%;background:${w.trackColor || '#1e293b'};border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);">
+              <div style="width:${prog}%;height:100%;background:${w.color || '#00f0ff'};border-radius:999px;box-shadow:0 0 10px ${w.color || '#00f0ff'};transition:width 0.3s ease;"></div>
+            </div>
+          `;
+        }
+
+        else if (w.type === 'chart') {
+          const width = w.width || 180;
+          const height = w.height || 65;
+          const hist = sensorHistory[w.sensor || 'cpu_temp'] || sensorHistory.cpu_temp;
+          const points = hist.map((val, i) => {
+            const px = (i / (hist.length - 1)) * width;
+            const py = height - (Math.min(Math.max(val, 0), 100) / 100) * (height - 10) - 5;
+            return `${px.toFixed(1)},${py.toFixed(1)}`;
+          }).join(' ');
+          const areaPoints = `0,${height} ${points} ${width},${height}`;
+
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          el.innerHTML = `
+            <svg width="${width}" height="${height}" class="overflow-visible rounded bg-black/40 border border-white/10">
+              <polygon points="${areaPoints}" fill="${w.color || '#00f0ff'}" fill-opacity="0.18"/>
+              <polyline points="${points}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="2.2" stroke-linecap="round"/>
+            </svg>
+          `;
+        }
+
+        else if (w.type === 'spectrum') {
+          const width = w.width || 280;
+          const height = w.height || 80;
+          const barsCount = w.bars || 20;
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          let barsHtml = '';
+          for (let i = 0; i < barsCount; i++) {
+            const wave = Math.abs(Math.sin((Date.now() / 180) + i * 0.45)) * 0.75 + Math.random() * 0.25;
+            const bh = Math.max(Math.round(wave * height), 6);
+            barsHtml += `<div style="flex:1;height:${bh}px;background:${w.color || '#f43f5e'};border-radius:3px 3px 0 0;box-shadow:0 0 8px ${w.color || '#f43f5e'};"></div>`;
+          }
+          el.innerHTML = `<div style="width:100%;height:100%;display:flex;align-items:flex-end;gap:3px;">${barsHtml}</div>`;
+        }
+
+        else if (w.type === 'sticker') {
+          const size = w.width || 130;
+          el.style.width = `${size}px`;
+          el.innerHTML = `<img src="${w.url || 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif'}" style="width:100%;height:auto;display:block;pointer-events:none;border-radius:8px;">`;
+        }
+
+        container.appendChild(el);
+      });
+
+      renderLayersListUI();
+    }
+
+    /*************************************************************************
+     * 6. SISTEMA DRAG & DROP LIVRE COM SNAP CENTRAL (X=320, Y=320)
+     *************************************************************************/
+    function onWidgetMouseDown(e, widgetId) {
+      if (document.body.classList.contains('kraken-hardware-mode')) return;
+      e.stopPropagation();
+      selectWidget(widgetId);
+
+      const w = project.widgets.find(item => item.id === widgetId);
+      if (!w || w.locked) return;
+
+      dragState = {
+        widgetId,
+        startMouseX: e.clientX,
+        startMouseY: e.clientY,
+        origX: w.x,
+        origY: w.y
+      };
+    }
+
+    window.addEventListener('mousemove', (e) => {
+      if (!dragState) return;
+      const w = project.widgets.find(item => item.id === dragState.widgetId);
+      if (!w) return;
+
+      let nextX = Math.round(dragState.origX + (e.clientX - dragState.startMouseX));
+      let nextY = Math.round(dragState.origY + (e.clientY - dragState.startMouseY));
+
+      const snapEnabled = document.getElementById('chk-snap-center')?.checked;
+      const snapV = document.getElementById('snap-v');
+      const snapH = document.getElementById('snap-h');
+
+      if (snapEnabled && Math.abs(nextX - 320) < 7) {
+        nextX = 320;
+        snapV.style.display = 'block';
+      } else {
+        snapV.style.display = 'none';
+      }
+
+      if (snapEnabled && Math.abs(nextY - 320) < 7) {
+        nextY = 320;
+        snapH.style.display = 'block';
+      } else {
+        snapH.style.display = 'none';
+      }
+
+      w.x = nextX;
+      w.y = nextY;
+
+      renderStageWidgets();
+      updateInspectorCoordinatesLive(w);
+      broadcastProjectUpdate();
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (dragState) {
+        dragState = null;
+        document.getElementById('snap-v').style.display = 'none';
+        document.getElementById('snap-h').style.display = 'none';
+      }
+    });
+
+    function onStageBackgroundClick(e) {
+      if (e.target.id === 'kraken-stage' || e.target.id === 'stage-widgets-layer') {
+        selectWidget(null);
+      }
+    }
+
+    // Setas do teclado para movimentação milimétrica e Delete
+    window.addEventListener('keydown', (e) => {
+      if (['INPUT', 'SELECT', 'TEXTAREA'].includes(e.target.tagName)) return;
+
+      if (e.key.toLowerCase() === 'f') {
+        e.preventDefault();
+        toggleKrakenHardwareMode();
+        return;
+      }
+
+      if (!selectedWidgetId) return;
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) return;
+
+      const step = e.shiftKey ? 10 : 1;
+      if (e.key === 'ArrowLeft') { e.preventDefault(); w.x -= step; }
+      else if (e.key === 'ArrowRight') { e.preventDefault(); w.x += step; }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); w.y -= step; }
+      else if (e.key === 'ArrowDown') { e.preventDefault(); w.y += step; }
+      else if (e.key === 'Delete' || e.key === 'Backspace') {
+        e.preventDefault();
+        deleteSelectedWidget();
+        return;
+      } else {
+        return;
+      }
+
+      renderStageWidgets();
+      renderInspectorForm();
+      broadcastProjectUpdate();
+    });
+
+    /*************************************************************************
+     * 7. INSPETOR DE PROPRIEDADES (PAINEL DIREITO) & CAMADAS
+     *************************************************************************/
+    function selectWidget(id) {
+      selectedWidgetId = id;
+      renderStageWidgets();
+      renderInspectorForm();
+    }
+
+    function updateInspectorCoordinatesLive(w) {
+      const inpX = document.getElementById('insp-x');
+      const inpY = document.getElementById('insp-y');
+      if (inpX) inpX.value = w.x;
+      if (inpY) inpY.value = w.y;
+    }
+
+    function renderInspectorForm() {
+      const emptyEl = document.getElementById('inspector-empty');
+      const formEl = document.getElementById('inspector-form');
+      const actionsEl = document.getElementById('inspector-actions');
+
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) {
+        emptyEl.classList.remove('hidden');
+        formEl.classList.add('hidden');
+        actionsEl.classList.add('hidden');
+        return;
+      }
+
+      emptyEl.classList.add('hidden');
+      formEl.classList.remove('hidden');
+      actionsEl.classList.remove('hidden');
+
+      let html = `
+        <div class="space-y-3">
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Nome da Camada</label>
+            <input type="text" value="${w.name || w.type}" oninput="updateWidgetProp('name', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
+          </div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Posição X (px)</label>
+              <input type="number" id="insp-x" value="${w.x}" oninput="updateWidgetProp('x', Number(this.value))" class="w-full bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 font-mono text-white">
+            </div>
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Posição Y (px)</label>
+              <input type="number" id="insp-y" value="${w.y}" oninput="updateWidgetProp('y', Number(this.value))" class="w-full bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 font-mono text-white">
+            </div>
+          </div>
+
+          <div class="flex gap-2">
+            <button onclick="updateWidgetProp('x', 320)" class="flex-1 py-1 bg-slate-800 hover:bg-slate-700 rounded text-[11px] text-cyan-300 font-medium">Centralizar X (320)</button>
+            <button onclick="updateWidgetProp('y', 320)" class="flex-1 py-1 bg-slate-800 hover:bg-slate-700 rounded text-[11px] text-cyan-300 font-medium">Centralizar Y (320)</button>
+          </div>
+      `;
+
+      // Se o Widget usa Sensor
+      if (['sensor', 'radial', 'bar', 'chart'].includes(w.type)) {
+        const sensorOptions = Object.entries(SENSORS_META).map(([k, m]) =>
+          `<option value="${k}" ${w.sensor === k ? 'selected' : ''}>${m.label}</option>`
+        ).join('');
+        html += `
+          <div class="pt-2 border-t border-slate-800">
+            <label class="block text-[10px] font-bold uppercase text-cyan-400 mb-1">Sensor de Hardware</label>
+            <select onchange="updateWidgetProp('sensor', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-2 text-white">
+              ${sensorOptions}
+            </select>
+          </div>
+        `;
+      }
+
+      // Controles específicos de Texto / Sensor / Relógio
+      if (['sensor', 'label', 'clock'].includes(w.type)) {
+        const fonts = ['Orbitron', 'JetBrains Mono', 'Rajdhani', 'Inter', 'Chakra Petch', 'Russo One'];
+        const fontOpts = fonts.map(f => `<option value="${f}" ${w.fontFamily === f ? 'selected' : ''}>${f}</option>`).join('');
+        html += `
+          <div class="pt-2 border-t border-slate-800 space-y-2.5">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Fonte Tipográfica</label>
+              <select onchange="updateWidgetProp('fontFamily', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
+                ${fontOpts}
+              </select>
+            </div>
+            <div>
+              <div class="flex justify-between text-[11px] mb-1"><span>Tamanho da Fonte</span><span class="font-mono text-cyan-400">${w.fontSize || 28}px</span></div>
+              <input type="range" min="10" max="110" value="${w.fontSize || 28}" oninput="updateWidgetProp('fontSize', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+          </div>
+        `;
+      }
+
+      if (w.type === 'sensor') {
+        html += `
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Prefixo (Ex: CPU )</label>
+              <input type="text" value="${w.prefix || ''}" oninput="updateWidgetProp('prefix', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded px-2 py-1 text-white font-mono">
+            </div>
+            <div>
+              <label class="block text-[10px] text-slate-400 mb-1">Sufixo</label>
+              <input type="text" value="${w.suffix || ''}" oninput="updateWidgetProp('suffix', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded px-2 py-1 text-white font-mono">
+            </div>
+          </div>
+          <label class="flex items-center justify-between pt-1 cursor-pointer">
+            <span>Mostrar Unidade (°C, GHz, MHz, %)</span>
+            <input type="checkbox" ${w.showUnit ? 'checked' : ''} onchange="updateWidgetProp('showUnit', this.checked)" class="accent-cyan-400 w-4 h-4">
+          </label>
+        `;
+      }
+
+      if (w.type === 'label') {
+        html += `
+          <div>
+            <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Conteúdo do Texto</label>
+            <input type="text" value="${w.text || ''}" oninput="updateWidgetProp('text', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 text-white">
+          </div>
+        `;
+      }
+
+      // Controles específicos do Medidor Circular / Radial
+      if (w.type === 'radial') {
+        html += `
+          <div class="pt-2 border-t border-slate-800 space-y-2.5">
+            <div>
+              <div class="flex justify-between text-[11px] mb-1"><span>Raio do Círculo</span><span class="font-mono text-cyan-400">${w.radius}px</span></div>
+              <input type="range" min="30" max="305" value="${w.radius}" oninput="updateWidgetProp('radius', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+            <div>
+              <div class="flex justify-between text-[11px] mb-1"><span>Espessura da Linha</span><span class="font-mono text-cyan-400">${w.thickness}px</span></div>
+              <input type="range" min="2" max="40" value="${w.thickness}" oninput="updateWidgetProp('thickness', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Ângulo Inicial (°)</label>
+                <input type="number" min="0" max="360" value="${w.startAngle}" oninput="updateWidgetProp('startAngle', Number(this.value))" class="w-full bg-[#141923] border border-slate-700 rounded px-2 py-1 font-mono text-white">
+              </div>
+              <div>
+                <label class="block text-[10px] text-slate-400 mb-1">Abertura (°)</label>
+                <input type="number" min="15" max="360" value="${w.sweepAngle}" oninput="updateWidgetProp('sweepAngle', Number(this.value))" class="w-full bg-[#141923] border border-slate-700 rounded px-2 py-1 font-mono text-white">
+              </div>
+            </div>
+            <label class="flex items-center justify-between pt-1 cursor-pointer">
+              <span>Traço Segmentado (Sci-Fi Dashed)</span>
+              <input type="checkbox" ${w.dashed ? 'checked' : ''} onchange="updateWidgetProp('dashed', this.checked)" class="accent-cyan-400 w-4 h-4">
+            </label>
+          </div>
+        `;
+      }
+
+      // Controles de Largura/Altura para Barra, Gráfico, Espectro e Sticker
+      if (['bar', 'chart', 'spectrum', 'sticker'].includes(w.type)) {
+        html += `
+          <div class="pt-2 border-t border-slate-800 space-y-2.5">
+            <div>
+              <div class="flex justify-between text-[11px] mb-1"><span>Largura</span><span class="font-mono text-cyan-400">${w.width || 160}px</span></div>
+              <input type="range" min="40" max="580" value="${w.width || 160}" oninput="updateWidgetProp('width', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+            ${w.type !== 'sticker' ? `
+            <div>
+              <div class="flex justify-between text-[11px] mb-1"><span>Altura</span><span class="font-mono text-cyan-400">${w.height || 50}px</span></div>
+              <input type="range" min="6" max="300" value="${w.height || 50}" oninput="updateWidgetProp('height', Number(this.value))" class="w-full accent-cyan-400">
+            </div>` : ''}
+          </div>
+        `;
+      }
+
+      if (w.type === 'sticker') {
+        html += `
+          <div class="pt-2 border-t border-slate-800 space-y-2">
+            <label class="block text-[10px] font-bold uppercase text-slate-400">URL do GIF / PNG Transparente</label>
+            <input type="text" value="${w.url || ''}" oninput="updateWidgetProp('url', this.value)" class="w-full bg-[#141923] border border-slate-700 rounded px-2 py-1 text-white font-mono">
+          </div>
+        `;
+      }
+
+      // Cor Principal e Brilho Neon
+      if (w.type !== 'sticker') {
+        html += `
+          <div class="pt-2 border-t border-slate-800 space-y-2.5">
+            <div>
+              <label class="block text-[10px] font-bold uppercase text-slate-400 mb-1">Cor Principal & Neon</label>
+              <div class="flex items-center space-x-2">
+                <input type="color" value="${w.color || '#00f0ff'}" oninput="updateWidgetProp('color', this.value)" class="w-9 h-9 rounded cursor-pointer bg-transparent border-0">
+                <input type="text" value="${w.color || '#00f0ff'}" onchange="updateWidgetProp('color', this.value)" class="flex-1 bg-[#141923] border border-slate-700 rounded-lg px-2.5 py-1.5 font-mono text-white">
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-[11px] mb-1"><span>Intensidade Neon (Glow)</span><span class="font-mono text-cyan-400">${w.glow ?? 6}px</span></div>
+              <input type="range" min="0" max="24" value="${w.glow ?? 6}" oninput="updateWidgetProp('glow', Number(this.value))" class="w-full accent-cyan-400">
+            </div>
+          </div>
+        `;
+      }
+
+      html += `</div>`;
+      formEl.innerHTML = html;
+    }
+
+    function updateWidgetProp(prop, val) {
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) return;
+      w[prop] = val;
+      renderStageWidgets();
+      renderInspectorForm();
+      broadcastProjectUpdate();
+    }
+
+    function renderLayersListUI() {
+      const container = document.getElementById('layers-list-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      [...project.widgets].reverse().forEach((w) => {
+        const isSel = w.id === selectedWidgetId;
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer text-xs transition ${
+          isSel ? 'bg-cyan-500/20 border border-cyan-500/50 text-white' : 'bg-[#141923] hover:bg-slate-800 text-slate-300 border border-transparent'
+        }`;
+        row.onclick = () => selectWidget(w.id);
+        row.innerHTML = `
+          <div class="flex items-center space-x-2 truncate">
+            <span class="w-2.5 h-2.5 rounded-full shrink-0" style="background:${w.color || '#00f0ff'}"></span>
+            <span class="font-medium truncate">${w.name || w.type}</span>
+          </div>
+          <span class="text-[10px] font-mono text-slate-500 uppercase">${w.type}</span>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    /*************************************************************************
+     * 8. ADIÇÃO, DUPLICAÇÃO E REMOÇÃO DE ELEMENTOS
+     *************************************************************************/
+    function addWidget(type) {
+      const id = 'w_' + Date.now();
+      let newW = { id, type, name: type.toUpperCase(), x: 320, y: 320, color: '#00f0ff', glow: 8 };
+
+      if (type === 'sensor') {
+        newW = { ...newW, name: 'Novo Sensor', sensor: 'cpu_temp', prefix: 'CPU ', showUnit: true, fontSize: 38, fontFamily: 'Orbitron' };
+      } else if (type === 'radial') {
+        newW = { ...newW, name: 'Novo Arco Circular', sensor: 'cpu_load', radius: 180, thickness: 12, startAngle: 135, sweepAngle: 270, trackColor: '#1e293b', dashed: false };
+      } else if (type === 'bar') {
+        newW = { ...newW, name: 'Barra de Progresso', sensor: 'gpu_load', width: 220, height: 14, trackColor: '#1e293b' };
+      } else if (type === 'chart') {
+        newW = { ...newW, name: 'Gráfico Histórico', sensor: 'cpu_temp', width: 190, height: 70 };
+      } else if (type === 'spectrum') {
+        newW = { ...newW, name: 'Equalizador', width: 260, height: 75, bars: 20, color: '#f43f5e' };
+      } else if (type === 'clock') {
+        newW = { ...newW, name: 'Relógio Digital', format: 'HH:MM:SS', fontSize: 28, fontFamily: 'JetBrains Mono', color: '#ffffff' };
+      } else if (type === 'sticker') {
+        newW = { ...newW, name: 'Sticker GIF', width: 140, url: 'https://media.giphy.com/media/3o7TKTDnUxE0g2fSE8/giphy.gif' };
+      } else if (type === 'label') {
+        newW = { ...newW, name: 'Texto Livre', text: 'KRAKEN ELITE', fontSize: 20, fontFamily: 'Orbitron', color: '#ffffff' };
+      }
+
+      project.widgets.push(newW);
+      selectWidget(id);
+      broadcastProjectUpdate();
+    }
+
+    function duplicateSelectedWidget() {
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) return;
+      const copy = JSON.parse(JSON.stringify(w));
+      copy.id = 'w_' + Date.now();
+      copy.name = (w.name || 'Item') + ' (Cópia)';
+      copy.x += 20;
+      copy.y += 20;
+      project.widgets.push(copy);
+      selectWidget(copy.id);
+      broadcastProjectUpdate();
+    }
+
+    function deleteSelectedWidget() {
+      if (!selectedWidgetId) return;
+      project.widgets = project.widgets.filter(item => item.id !== selectedWidgetId);
+      selectWidget(null);
+      broadcastProjectUpdate();
+    }
+
+    function moveSelectedLayer(dir) {
+      const idx = project.widgets.findIndex(item => item.id === selectedWidgetId);
+      if (idx === -1) return;
+      const targetIdx = idx + dir;
+      if (targetIdx < 0 || targetIdx >= project.widgets.length) return;
+      const temp = project.widgets[idx];
+      project.widgets[idx] = project.widgets[targetIdx];
+      project.widgets[targetIdx] = temp;
+      renderStageWidgets();
+      broadcastProjectUpdate();
+    }
+
+    function clearAllWidgets() {
+      project.widgets = [];
+      selectWidget(null);
+      broadcastProjectUpdate();
+    }
+
+    /*************************************************************************
+     * 9. CONTROLES DE FUNDO, TEMPLATES E EXPORTAÇÃO JSON
+     *************************************************************************/
+    function switchLeftTab(tabName) {
+      ['templates', 'background', 'layers'].forEach(t => {
+        document.getElementById(`left-tab-${t}`).classList.toggle('hidden', t !== tabName);
+        const btn = document.getElementById(`tab-btn-${t}`);
+        if (t === tabName) {
+          btn.className = 'py-3 text-cyan-400 border-b-2 border-cyan-400 transition';
+        } else {
+          btn.className = 'py-3 text-slate-400 hover:text-slate-200 border-b-2 border-transparent transition';
+        }
+      });
+    }
+
+    async function loadTemplate(templateKey) {
+      const tpl = TEMPLATES[templateKey];
+      if (!tpl) return;
+      project = JSON.parse(JSON.stringify(tpl));
+      selectedWidgetId = null;
+      await applyBackgroundToStage();
+      renderStageWidgets();
+      renderInspectorForm();
+      broadcastProjectUpdate();
+    }
+
+    async function updateBackgroundProp(prop, val) {
+      project.background[prop] = val;
+      await applyBackgroundToStage();
+      broadcastProjectUpdate();
+    }
+
+    async function setBgPresetUrl(url) {
+      project.background.mediaType = 'url';
+      project.background.mediaUrl = url;
+      document.getElementById('bg-url-input').value = url;
+      await applyBackgroundToStage();
+      broadcastProjectUpdate();
+    }
+
+    async function applyBgUrl() {
+      const url = document.getElementById('bg-url-input').value.trim();
+      if (!url) return;
+      await setBgPresetUrl(url);
+    }
+
+    function handleBgFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        await saveMediaBlob('custom_bg_media', e.target.result, file.type);
+        project.background.mediaType = 'indexeddb';
+        project.background.mediaUrl = '';
+        await applyBackgroundToStage();
+        broadcastProjectUpdate();
+        if (syncChannel) syncChannel.postMessage({ type: 'MEDIA_UPDATED' });
+      };
+      reader.readAsDataURL(file);
+    }
+
+    async function clearBackgroundMedia() {
+      project.background.mediaType = 'none';
+      project.background.mediaUrl = '';
+      await applyBackgroundToStage();
+      broadcastProjectUpdate();
+    }
+
+    function toggleStageMask(isCircular) {
+      project.maskCircular = isCircular;
+      applyBackgroundToStage();
+      broadcastProjectUpdate();
+    }
+
+    function toggleKrakenHardwareMode() {
+      document.body.classList.toggle('kraken-hardware-mode');
+      selectWidget(null);
+    }
+
+    function openTutorialModal() {
+      document.getElementById('tutorial-modal').classList.remove('hidden');
+    }
+
+    function closeTutorialModal() {
+      document.getElementById('tutorial-modal').classList.add('hidden');
+    }
+
+    function exportProjectJSON() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(project, null, 2));
+      const a = document.createElement('a');
+      a.setAttribute("href", dataStr);
+      a.setAttribute("download", "openkraken_theme.json");
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+
+    function importProjectJSON(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = async (e) => {
+        try {
+          project = JSON.parse(e.target.result);
+          selectWidget(null);
+          await applyBackgroundToStage();
+          renderStageWidgets();
+          broadcastProjectUpdate();
+        } catch (err) {
+          console.error('JSON inválido:', err);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    /*************************************************************************
+     * 10. INTEGRAÇÃO OFICIAL NZXT CAM API (`window.nzxt.v1`) + SIMULADOR
+     *************************************************************************/
+    function pushHistoryPoint() {
+      ['cpu_temp', 'cpu_load', 'gpu_temp', 'gpu_load', 'liquid_temp', 'ram_percent'].forEach(k => {
+        sensorHistory[k].push(liveSensors[k]);
+        if (sensorHistory[k].length > 40) sensorHistory[k].shift();
+      });
+    }
+
+    setInterval(() => {
+      if (liveSensors.isSimulated) {
+        liveSensors.cpu_temp = Math.min(Math.max(liveSensors.cpu_temp + (Math.random() - 0.49) * 1.8, 38), 86);
+        liveSensors.gpu_temp = Math.min(Math.max(liveSensors.gpu_temp + (Math.random() - 0.49) * 1.5, 36), 83);
+        liveSensors.liquid_temp = Math.min(Math.max(liveSensors.liquid_temp + (Math.random() - 0.5) * 0.15, 29), 42);
+        liveSensors.cpu_load = Math.min(Math.max(liveSensors.cpu_load + (Math.random() - 0.5) * 7, 6), 99);
+        liveSensors.gpu_load = Math.min(Math.max(liveSensors.gpu_load + (Math.random() - 0.5) * 6, 4), 99);
+        liveSensors.cpu_freq = 3.85 + (liveSensors.cpu_load / 100) * 1.35;
+        liveSensors.gpu_freq = 2150 + (liveSensors.gpu_load / 100) * 620;
+        liveSensors.ram_used = Math.min(Math.max(liveSensors.ram_used + (Math.random() - 0.5) * 0.2, 11.5), 29.5);
+        liveSensors.ram_percent = (liveSensors.ram_used / liveSensors.ram_total) * 100;
+        liveSensors.pump_rpm = Math.round(2450 + (liveSensors.liquid_temp / 45) * 350);
+      }
+      pushHistoryPoint();
+      if (!dragState) renderStageWidgets();
+    }, 500);
+
+    function triggerStressTest() {
+      liveSensors.cpu_temp = 86;
+      liveSensors.cpu_load = 99;
+      liveSensors.cpu_freq = 5.25;
+      liveSensors.gpu_temp = 81;
+      liveSensors.gpu_load = 98;
+      liveSensors.gpu_freq = 2840;
+      liveSensors.liquid_temp = 38.8;
+      liveSensors.ram_used = 28.6;
+      liveSensors.ram_percent = 89;
+      pushHistoryPoint();
+      renderStageWidgets();
+    }
+
+    // Hook Oficial NZXT CAM Web Integration
+    window.nzxt = window.nzxt || {};
+    window.nzxt.v1 = window.nzxt.v1 || {};
+    window.nzxt.v1.onMonitoringDataUpdate = (data) => {
+      liveSensors.isSimulated = false;
+      const dot = document.getElementById('cam-dot');
+      const txt = document.getElementById('cam-status-text');
+      if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400';
+      if (txt) txt.textContent = 'NZXT CAM CONECTADO';
+
+      try {
+        if (data.cpus && data.cpus[0]) {
+          const c = data.cpus[0];
+          if (c.temperature !== undefined) liveSensors.cpu_temp = c.temperature;
+          if (c.load !== undefined) liveSensors.cpu_load = c.load <= 1 ? c.load * 100 : c.load;
+          if (c.frequency !== undefined) liveSensors.cpu_freq = c.frequency > 100 ? c.frequency / 1000 : c.frequency;
+        }
+        if (data.gpus && data.gpus[0]) {
+          const g = data.gpus[0];
+          if (g.temperature !== undefined) liveSensors.gpu_temp = g.temperature;
+          if (g.load !== undefined) liveSensors.gpu_load = g.load <= 1 ? g.load * 100 : g.load;
+          if (g.frequency !== undefined) liveSensors.gpu_freq = g.frequency < 100 ? g.frequency * 1000 : g.frequency;
+        }
+        if (data.ram) {
+          if (data.ram.inUse !== undefined && data.ram.totalSize !== undefined) {
+            liveSensors.ram_used = data.ram.inUse > 1024 ? data.ram.inUse / 1024 : data.ram.inUse;
+            liveSensors.ram_total = data.ram.totalSize > 1024 ? data.ram.totalSize / 1024 : data.ram.totalSize;
+            liveSensors.ram_percent = (liveSensors.ram_used / liveSensors.ram_total) * 100;
+          }
+        }
+        if (data.kraken) {
+          if (data.kraken.liquidTemperature !== undefined) liveSensors.liquid_temp = data.kraken.liquidTemperature;
+          if (data.kraken.pumpSpeed !== undefined) liveSensors.pump_rpm = data.kraken.pumpSpeed;
+        }
+      } catch (e) {}
+    };
+
+    /*************************************************************************
+     * 11. INICIALIZAÇÃO E DETECÇÃO AUTOMÁTICA DA TELA DO WATERCOOLER
+     *************************************************************************/
+    window.addEventListener('DOMContentLoaded', async () => {
+      // Detecta se está rodando direto no LCD do Kraken Elite (?kraken=1 ou viewport 640x640 do NZXT CAM)
+      const params = new URLSearchParams(window.location.search);
+      const isKrakenScreen = params.get('kraken') === '1' || window.nzxt?.v1?.target === 'kraken' || (window.innerWidth === 640 && window.innerHeight === 640);
+      if (isKrakenScreen) {
+        document.body.classList.add('kraken-hardware-mode');
+      }
+
+      // Carrega projeto salvo ou carrega o template principal Dual Ring Cyber HUD
+      const saved = localStorage.getItem('openkraken_studio_project_v1');
+      if (saved) {
+        try {
+          project = JSON.parse(saved);
+        } catch (e) {
+          project = JSON.parse(JSON.stringify(TEMPLATES.dual_cyber_hud));
+        }
+      } else {
+        project = JSON.parse(JSON.stringify(TEMPLATES.dual_cyber_hud));
+      }
+
+      await applyBackgroundToStage();
+      renderStageWidgets();
+    });
+  </script>
+</body>
+</html>
