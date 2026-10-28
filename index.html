@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&family=Orbitron:wght@600;700;800;900&family=Rajdhani:wght@600;700;800&family=Share+Tech+Mono&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Black+Ops+One&family=Chakra+Petch:wght@500;600;700;800&family=Electrolize&family=Exo+2:wght@600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Michroma&family=Orbitron:wght@600;700;800;900&family=Oxanium:wght@600;700;800&family=Rajdhani:wght@600;700;800&family=Russo+One&family=Saira+Stencil+One&family=Share+Tech+Mono&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@700&family=Teko:wght@600;700&family=VT323&family=Wallpoet&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-dark: #07070b;
@@ -241,6 +241,32 @@
       border: 2px solid #050508;
       box-shadow: 0 0 6px rgba(0, 240, 255, 0.8);
     }
+
+    /* Inputs numéricos editáveis ao clicar */
+    .editable-num-pill {
+      background: #141422;
+      border: 1px solid #2b2b40;
+      color: #00f0ff;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      border-radius: 4px;
+      padding: 1px 4px;
+      width: 52px;
+      text-align: right;
+      outline: none;
+      transition: border-color 0.15s, background 0.15s;
+      user-select: text !important;
+    }
+    .editable-num-pill:hover {
+      border-color: #00f0ff;
+      background: #1a1a2e;
+    }
+    .editable-num-pill:focus {
+      border-color: #b8ff01;
+      color: #b8ff01;
+      background: #0c0c16;
+    }
   </style>
 </head>
 <body class="h-screen w-screen flex flex-col bg-[#06060a] text-slate-100 overflow-hidden">
@@ -277,15 +303,15 @@
       <!-- Zoom Global do Preset -->
       <div class="flex items-center space-x-2 border-r border-[#242436] pr-2.5">
         <span class="text-[10px] font-mono text-slate-400">🔍 ZOOM:</span>
-        <input id="top-rng-zoom" type="range" min="60" max="150" value="100" oninput="setGlobalPresetZoom(this.value)" class="w-20">
-        <span id="top-lbl-zoom" class="text-[10px] font-mono font-bold text-[#00f0ff] w-9">100%</span>
+        <input id="top-rng-zoom" type="range" min="50" max="175" value="100" oninput="setGlobalPresetZoom(this.value)" class="w-20">
+        <input id="top-lbl-zoom" type="number" min="50" max="175" value="100" onchange="setGlobalPresetZoom(this.value)" class="editable-num-pill w-12" title="Clique para digitar o Zoom (%)">
       </div>
 
       <!-- Multiplicador Global de Fontes -->
       <div class="flex items-center space-x-2">
         <span class="text-[10px] font-mono text-slate-400">Aa FONTES:</span>
-        <input id="top-rng-font" type="range" min="70" max="180" value="105" oninput="setGlobalFontBoost(this.value)" class="w-20">
-        <span id="top-lbl-font" class="text-[10px] font-mono font-bold text-[#b8ff01] w-9">105%</span>
+        <input id="top-rng-font" type="range" min="60" max="220" value="105" oninput="setGlobalFontBoost(this.value)" class="w-20">
+        <input id="top-lbl-font" type="number" min="60" max="220" value="105" onchange="setGlobalFontBoost(this.value)" class="editable-num-pill w-12 !text-[#b8ff01]" title="Clique para digitar a Escala de Fonte (%)">
         <button onclick="resetGlobalScales()" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#191926] hover:bg-[#252538] text-slate-300" title="Resetar Zoom e Fontes para 100%">100%</button>
       </div>
     </div>
@@ -397,18 +423,18 @@
           <div class="p-3 rounded-lg bg-[#11111a] border border-[#252538] space-y-3">
             <div class="font-mono font-bold text-[11px] text-[#00f0ff]">AJUSTE GERAL NO VISOR DO WATERCOOLER</div>
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-300">ZOOM DE TODO O LAYOUT</span>
-                <span id="tab-lbl-zoom" class="text-[#00f0ff] font-bold">100%</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-300">ZOOM DE TODO O LAYOUT (%)</span>
+                <input id="tab-lbl-zoom" type="number" min="50" max="175" value="100" oninput="setGlobalPresetZoom(this.value)" class="editable-num-pill">
               </div>
-              <input id="tab-rng-zoom" type="range" min="60" max="150" value="100" oninput="setGlobalPresetZoom(this.value)" class="w-full">
+              <input id="tab-rng-zoom" type="range" min="50" max="175" value="100" oninput="setGlobalPresetZoom(this.value)" class="w-full">
             </div>
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-300">TAMANHO DE TODAS AS FONTES</span>
-                <span id="tab-lbl-font" class="text-[#b8ff01] font-bold">105%</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-300">TAMANHO DE TODAS AS FONTES (%)</span>
+                <input id="tab-lbl-font" type="number" min="60" max="220" value="105" oninput="setGlobalFontBoost(this.value)" class="editable-num-pill !text-[#b8ff01]">
               </div>
-              <input id="tab-rng-font" type="range" min="70" max="180" value="105" oninput="setGlobalFontBoost(this.value)" class="w-full">
+              <input id="tab-rng-font" type="range" min="60" max="220" value="105" oninput="setGlobalFontBoost(this.value)" class="w-full">
             </div>
           </div>
 
@@ -544,122 +570,107 @@
             <div>
               <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GUIA 03</span>
               <h2 class="text-sm font-bold text-white">ORDEM DAS CAMADAS</h2>
-              <p class="text-[10px] text-slate-400">Arraste pelo ícone <strong class="text-white">⋮⋮</strong> para mudar a sobreposição:</p>
             </div>
-            <button onclick="deleteSelectedWidget()" class="px-2 py-1 rounded bg-rose-950/60 hover:bg-rose-900 border border-rose-700/40 font-mono text-[10px] text-rose-300">
-              🗑 EXCLUIR
-            </button>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-[#161624] text-slate-400">ARRASTE ⋮⋮</span>
           </div>
-
-          <div id="layers-tree-list" class="flex-1 overflow-y-auto space-y-1.5 py-3 pr-1"></div>
+          <p class="text-[10px] text-slate-400 my-2">Arraste as camadas com o mouse para mudar quem fica na frente ou atrás no visor:</p>
+          <div id="layers-tree-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1"></div>
         </div>
 
         <!-- =============================================================== -->
-        <!-- GUIA [04]: GIF / VÍDEO DE PLANO DE FUNDO                        -->
+        <!-- GUIA [04]: PLANO DE FUNDO (GIF / VÍDEO / AJUSTE SEM CORTE)      -->
         <!-- =============================================================== -->
         <div id="tab-pane-background" class="flex-1 overflow-y-auto p-4 space-y-4 hidden text-xs">
           <div>
             <span class="text-[10px] font-mono text-purple-400 uppercase tracking-widest">// GUIA 04</span>
-            <h2 class="text-sm font-bold text-white">PLANO DE FUNDO (GIF / MP4)</h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">Personalize o fundo do visor 640×640 sem perder contraste:</p>
+            <h2 class="text-sm font-bold text-white">FUNDO GIF / MP4 & ENCAIXE</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Carregue um GIF ou vídeo e ajuste posição e zoom sem cortes forçados:</p>
           </div>
 
-          <!-- Upload Local -->
-          <label class="w-full py-2.5 px-3 rounded-lg bg-[#161326] hover:bg-[#211c38] border border-dashed border-purple-500/50 text-purple-300 font-mono font-bold text-[11px] flex items-center justify-center cursor-pointer transition">
-            <span>📁 CARREGAR GIF / MP4 / PNG DO PC</span>
-            <input type="file" accept="image/*,video/mp4,video/webm" class="hidden" onchange="uploadLocalBgMedia(event)">
-          </label>
+          <div class="space-y-2">
+            <label class="w-full py-2.5 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-[11px] flex items-center justify-center cursor-pointer transition shadow-lg">
+              <span>📁 CARREGAR GIF / MP4 / PNG DO PC</span>
+              <input type="file" accept="image/gif,image/png,image/jpeg,image/webp,video/mp4,video/webm" class="hidden" onchange="uploadLocalBgMedia(event)">
+            </label>
 
-          <!-- URL Externa -->
-          <div class="space-y-1">
-            <label class="text-[10px] font-mono text-slate-400">OU COLE LINK DIRETO DE GIF:</label>
             <div class="flex space-x-1.5">
-              <input id="bg-url-input" type="text" placeholder="https://media.giphy.com/..." class="flex-1 bg-[#12121c] border border-[#262638] rounded px-2.5 py-1.5 font-mono text-[11px] text-white">
-              <button onclick="applyCustomBgUrl()" class="px-3 py-1.5 rounded bg-[#00f0ff] text-black font-mono font-bold text-[10px]">OK</button>
+              <input id="bg-url-input" type="text" placeholder="Cole link https://... (.gif / .mp4)" class="flex-1 bg-[#12121c] border border-[#262638] rounded px-2.5 py-1.5 font-mono text-[10px] text-white">
+              <button onclick="applyCustomBgUrl()" class="px-3 py-1.5 rounded bg-[#00f0ff] hover:bg-cyan-300 text-black font-mono font-bold text-[10px]">USAR</button>
+            </div>
+
+            <div class="grid grid-cols-3 gap-1.5 pt-1 font-mono text-[10px]">
+              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.synthsun)" class="p-1.5 rounded bg-[#141420] hover:bg-[#1e1e30] border border-[#262638] text-purple-300">🌆 Synth</button>
+              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.reactor)" class="p-1.5 rounded bg-[#141420] hover:bg-[#1e1e30] border border-[#262638] text-cyan-300">⚛ Reator</button>
+              <button onclick="clearBackgroundMedia()" class="p-1.5 rounded bg-rose-950/40 hover:bg-rose-900/50 border border-rose-700/40 text-rose-300">✕ Preto OLED</button>
             </div>
           </div>
 
-          <!-- Fundos Animados Prontos -->
-          <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-slate-400 uppercase block">Fundos Animados Embutidos:</span>
-            <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.synthsun)" class="p-2 rounded bg-[#13131f] hover:bg-[#1d1d30] border border-[#262638] text-purple-300">🌆 Synthwave Sun</button>
-              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.reactor)" class="p-2 rounded bg-[#13131f] hover:bg-[#1d1d30] border border-[#262638] text-cyan-300">⚛ Arc Reactor</button>
-              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.radar)" class="p-2 rounded bg-[#13131f] hover:bg-[#1d1d30] border border-[#262638] text-emerald-300">📡 Radar Militar</button>
-              <button onclick="clearBackgroundMedia()" class="p-2 rounded bg-rose-950/30 hover:bg-rose-900/40 border border-rose-700/40 text-rose-300">⬛ Preto OLED Puro</button>
+          <div class="p-3 rounded-lg bg-[#11111a] border border-[#242436] space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-[10px] text-[#00f0ff]">MODO DE ENCAIXE NO VISOR</span>
+              <button onclick="resetBgTransform()" class="text-[9px] font-mono px-2 py-0.5 rounded bg-[#191926] hover:bg-[#252538] text-[#b8ff01]">Centralizar</button>
             </div>
-          </div>
 
-          <!-- Sliders de Ajuste do Fundo -->
-          <div class="p-3 rounded-lg bg-[#111118] border border-[#222232] space-y-3">
-            <div class="flex items-center justify-between border-b border-[#1e1e2d] pb-1.5">
-              <span class="text-[10px] font-mono font-bold text-[#00f0ff]">ENCAIXE E POSIÇÃO NO VISOR</span>
-              <button onclick="resetBgTransform()" class="text-[9px] font-mono px-2 py-0.5 rounded bg-[#1b1b28] hover:bg-[#252538] text-slate-300">Centralizar</button>
-            </div>
+            <select id="sel-bg-fit" onchange="updateBgParam('fitMode', this.value)" class="w-full bg-[#12121c] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
+              <option value="cover">Preencher Visor (Cover)</option>
+              <option value="contain">Conter Inteiro (Sem Cortar)</option>
+              <option value="fill">Esticar Proporção 100% (Fill)</option>
+              <option value="none">Tamanho Original (None)</option>
+            </select>
 
             <div>
-              <label class="block text-[9px] font-mono text-slate-400 mb-1">MODO DE AJUSTE (EVITAR CORTE AUTOMÁTICO)</label>
-              <select id="sel-bg-fit" onchange="updateBgParam('fitMode', this.value)" class="w-full bg-[#151522] border border-[#2a2a3d] rounded px-2 py-1.5 font-mono text-[10px] text-white">
-                <option value="contain">Conter Inteiro (Sem Cortar Bordas)</option>
-                <option value="cover">Preencher Visor (Cobrir 640×640)</option>
-                <option value="fill">Esticar Livremente (100% × 100%)</option>
-                <option value="none">Tamanho Original (Sem Escala Auto)</option>
-              </select>
-            </div>
-
-            <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-400">ZOOM DO FUNDO</span>
-                <span id="lbl-bg-scale" class="text-[#00f0ff] font-bold">100%</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-400">ZOOM DO FUNDO (%)</span>
+                <input id="lbl-bg-scale" type="number" min="25" max="300" value="100" oninput="updateBgParam('scale', Number(this.value))" class="editable-num-pill">
               </div>
               <input id="rng-bg-scale" type="range" min="25" max="300" value="100" oninput="updateBgParam('scale', Number(this.value))" class="w-full">
             </div>
 
             <div class="grid grid-cols-2 gap-2">
               <div>
-                <div class="flex justify-between text-[10px] font-mono mb-1">
-                  <span class="text-slate-400">POSIÇÃO X</span>
-                  <span id="lbl-bg-posx" class="text-white">0px</span>
+                <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                  <span class="text-slate-400">POS X</span>
+                  <input id="lbl-bg-posx" type="number" min="-320" max="320" value="0" oninput="updateBgParam('posX', Number(this.value))" class="editable-num-pill">
                 </div>
                 <input id="rng-bg-posx" type="range" min="-320" max="320" value="0" oninput="updateBgParam('posX', Number(this.value))" class="w-full">
               </div>
               <div>
-                <div class="flex justify-between text-[10px] font-mono mb-1">
-                  <span class="text-slate-400">POSIÇÃO Y</span>
-                  <span id="lbl-bg-posy" class="text-white">0px</span>
+                <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                  <span class="text-slate-400">POS Y</span>
+                  <input id="lbl-bg-posy" type="number" min="-320" max="320" value="0" oninput="updateBgParam('posY', Number(this.value))" class="editable-num-pill">
                 </div>
                 <input id="rng-bg-posy" type="range" min="-320" max="320" value="0" oninput="updateBgParam('posY', Number(this.value))" class="w-full">
               </div>
             </div>
 
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-400">ROTAÇÃO DA MÍDIA</span>
-                <span id="lbl-bg-rot" class="text-amber-300">0°</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-400">ROTAÇÃO DA MÍDIA (°)</span>
+                <input id="lbl-bg-rot" type="number" min="-180" max="180" value="0" oninput="updateBgParam('rotation', Number(this.value))" class="editable-num-pill !text-amber-300">
               </div>
               <input id="rng-bg-rot" type="range" min="-180" max="180" value="0" oninput="updateBgParam('rotation', Number(this.value))" class="w-full">
             </div>
 
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-400">OPACIDADE DO FUNDO</span>
-                <span id="lbl-bg-opacity" class="text-white">50%</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-400">OPACIDADE DO FUNDO (%)</span>
+                <input id="lbl-bg-opacity" type="number" min="0" max="100" value="50" oninput="updateBgParam('opacity', Number(this.value))" class="editable-num-pill">
               </div>
               <input id="rng-bg-opacity" type="range" min="0" max="100" value="50" oninput="updateBgParam('opacity', Number(this.value))" class="w-full">
             </div>
 
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-400">DESFOQUE (BLUR)</span>
-                <span id="lbl-bg-blur" class="text-white">0px</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-400">DESFOQUE / BLUR (PX)</span>
+                <input id="lbl-bg-blur" type="number" min="0" max="20" value="0" oninput="updateBgParam('blur', Number(this.value))" class="editable-num-pill">
               </div>
               <input id="rng-bg-blur" type="range" min="0" max="20" value="0" oninput="updateBgParam('blur', Number(this.value))" class="w-full">
             </div>
 
             <div>
-              <div class="flex justify-between text-[10px] font-mono mb-1">
-                <span class="text-slate-400">VINHETA CIRCULAR OLED</span>
-                <span id="lbl-bg-vignette" class="text-white">60%</span>
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-400">VINHETA CIRCULAR OLED (%)</span>
+                <input id="lbl-bg-vignette" type="number" min="0" max="100" value="60" oninput="updateBgParam('vignette', Number(this.value))" class="editable-num-pill">
               </div>
               <input id="rng-bg-vignette" type="range" min="0" max="100" value="60" oninput="updateBgParam('vignette', Number(this.value))" class="w-full">
             </div>
@@ -1591,26 +1602,103 @@
       const z = project.globalZoom || 100;
       const f = project.globalFontScale || 100;
       const ids = [
-        ['top-rng-zoom', z], ['top- rng-font', f], ['top-rng-font', f],
-        ['tab-rng-zoom', z], ['tab-rng-font', f]
+        ['top-rng-zoom', z], ['top-rng-font', f],
+        ['tab-rng-zoom', z], ['tab-rng-font', f],
+        ['top-lbl-zoom', z], ['top-lbl-font', f],
+        ['tab-lbl-zoom', z], ['tab-lbl-font', f]
       ];
       ids.forEach(([id, v]) => {
         const el = document.getElementById(id);
         if (el) el.value = v;
       });
-      const lbls = [
-        ['top-lbl-zoom', `${z}%`], ['top-lbl-font', `${f}%`],
-        ['tab-lbl-zoom', `${z}%`], ['tab-lbl-font', `${f}%`]
-      ];
-      lbls.forEach(([id, txt]) => {
-        const el = document.getElementById(id);
-        if (el) el.textContent = txt;
-      });
     }
 
     /*************************************************************************
-     * 6. RENDERIZADOR ZERO-FLICKER DO PALCO 640x640
+     * 6. RENDERIZADOR ZERO-FLICKER DO PALCO 640x640 (COM DEGRADÊ, SOMBRA 2ª COR E CONTORNO + NEON)
      *************************************************************************/
+    function isOutlineGlowEnabled(w) {
+      return w.useOutlineGlow !== undefined ? !!w.useOutlineGlow : (Number(w.glow) > 0);
+    }
+
+    function getOutlineGlowColor(w, fallbackColor) {
+      return w.outlineGlowColor || w.textStrokeColor || w.shapeOutlineColor || w.secondaryColor || fallbackColor || '#00f0ff';
+    }
+
+    function buildTextAdvancedCss(w, primaryColor) {
+      const secCol = w.secondaryColor || '#00f0ff';
+      const strokeW = Number(w.textStrokeWidth) || 0;
+      const strokeCol = w.textStrokeColor || secCol;
+      const shX = Number(w.shadowOffsetX) || 0;
+      const shY = Number(w.shadowOffsetY) || 0;
+      const shBlur = Number(w.shadowBlur) || 0;
+      const shCol = w.shadowColor || secCol;
+
+      // O Brilho Neon agora pertence exclusivamente ao Contorno!
+      // Quando ativado na fonte, garante pelo menos um contorno fino para emitir o neon da borda sem borrar o miolo da fonte.
+      const glowOn = isOutlineGlowEnabled(w);
+      const glow = glowOn ? (Number(w.glow) || 0) : 0;
+      const effectiveStrokeW = strokeW > 0 ? strokeW : (glow > 0 ? 1.5 : 0);
+      const glowCol = w.outlineGlowColor || strokeCol;
+
+      let css = '';
+      if (effectiveStrokeW > 0) {
+        css += `-webkit-text-stroke: ${effectiveStrokeW}px ${strokeCol}; paint-order: stroke fill;`;
+      }
+
+      // Usamos filter: drop-shadow para que o brilho neon saia a partir do limite externo do contorno (-webkit-text-stroke) e não de dentro da cor principal
+      const dropFilters = [];
+      if (glow > 0) {
+        dropFilters.push(`drop-shadow(0 0 ${Math.max(1, Math.round(glow * 0.45))}px ${glowCol})`);
+        dropFilters.push(`drop-shadow(0 0 ${glow}px ${glowCol})`);
+      }
+      if (w.useShadow2 || shX !== 0 || shY !== 0 || shBlur > 0) {
+        dropFilters.push(`drop-shadow(${shX}px ${shY}px ${Math.max(0, shBlur)}px ${shCol})`);
+      }
+
+      if (w.useGradient) {
+        const deg = w.gradientAngle ?? 135;
+        css += `background: linear-gradient(${deg}deg, ${primaryColor} 0%, ${secCol} 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;`;
+      } else {
+        css += `color: ${primaryColor};`;
+      }
+
+      if (dropFilters.length > 0) {
+        css += `filter: ${dropFilters.join(' ')};`;
+      }
+      return css;
+    }
+
+    function buildSvgFilterStyle(w, primaryColor) {
+      const secCol = w.secondaryColor || '#00f0ff';
+      const outlineCol = w.shapeOutlineColor || secCol;
+      const shX = Number(w.shadowOffsetX) || 0;
+      const shY = Number(w.shadowOffsetY) || 0;
+      const shBlur = Number(w.shadowBlur) || 0;
+      const shCol = w.shadowColor || secCol;
+      const glowOn = isOutlineGlowEnabled(w);
+      const glow = glowOn ? (Number(w.glow) || 0) : 0;
+      const glowCol = w.outlineGlowColor || outlineCol;
+      const filters = [];
+      if (glow > 0) {
+        filters.push(`drop-shadow(0 0 ${Math.max(1, Math.round(glow * 0.5))}px ${glowCol})`);
+        filters.push(`drop-shadow(0 0 ${glow}px ${glowCol})`);
+      }
+      if (w.useShadow2 || shX !== 0 || shY !== 0 || shBlur > 0) {
+        filters.push(`drop-shadow(${shX}px ${shY}px ${Math.max(0, shBlur)}px ${shCol})`);
+      }
+      return filters.length > 0 ? `filter:${filters.join(' ')};` : '';
+    }
+
+    function buildSvgGradientDef(id, w, primaryColor) {
+      const secCol = w.secondaryColor || '#00f0ff';
+      const angle = (Number(w.gradientAngle) ?? 90) * Math.PI / 180;
+      const x1 = Math.round(50 - Math.cos(angle) * 50);
+      const y1 = Math.round(50 - Math.sin(angle) * 50);
+      const x2 = Math.round(50 + Math.cos(angle) * 50);
+      const y2 = Math.round(50 + Math.sin(angle) * 50);
+      return `<linearGradient id="${id}" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%"><stop offset="0%" stop-color="${primaryColor}"/><stop offset="100%" stop-color="${secCol}"/></linearGradient>`;
+    }
+
     function polarToCartesian(cx, cy, r, angleDeg) {
       const rad = (angleDeg * Math.PI) / 180;
       return {
@@ -1676,7 +1764,8 @@
           const lblPx = Math.round((w.labelSize || Math.max(12, Math.round((w.fontSize || 64) * 0.24))) * gFont);
           const unitPx = Math.round((w.unitSize || Math.max(14, Math.round((w.fontSize || 64) * 0.42))) * gFont);
           const weight = w.fontWeight || 800;
-          const glow = w.glow ? `text-shadow: 0 0 ${w.glow}px ${w.accentColor || w.color};` : '';
+          const mainTextStyle = buildTextAdvancedCss(w, w.color || '#ffffff');
+          const lblColor = w.labelColor || '#cbd5e1';
 
           el.style.width = 'auto';
           el.style.height = 'auto';
@@ -1685,11 +1774,11 @@
             <div class="flex flex-col items-center leading-none pointer-events-none">
               <div class="flex items-center space-x-1.5 mb-1">
                 <span class="w-2 h-2 rounded-full" style="background:${w.accentColor || '#ff3b00'};box-shadow:0 0 8px ${w.accentColor || '#ff3b00'}"></span>
-                <span style="font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;letter-spacing:0.14em;color:#cbd5e1;text-transform:uppercase;">${w.title || meta.short}</span>
+                <span style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${lblPx}px;font-weight:800;letter-spacing:0.14em;color:${lblColor};text-transform:uppercase;">${w.title || meta.short}</span>
               </div>
-              <div class="flex items-start" style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;font-weight:${weight};color:${w.color || '#fff'};${glow}">
-                <span style="font-size:${mainPx}px;line-height:0.92;letter-spacing:-0.03em;">${val}</span>
-                <span style="font-size:${unitPx}px;color:${w.accentColor || '#ff3b00'};margin-left:3px;margin-top:2px;font-weight:800;">${meta.unit}</span>
+              <div class="flex items-start" style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;font-weight:${weight};">
+                <span style="font-size:${mainPx}px;line-height:0.92;letter-spacing:-0.03em;${mainTextStyle}">${val}</span>
+                <span style="font-size:${unitPx}px;color:${w.accentColor || w.secondaryColor || '#ff3b00'};margin-left:3px;margin-top:2px;font-weight:800;">${meta.unit}</span>
               </div>
             </div>
           `;
@@ -1705,22 +1794,25 @@
           const mainPx = Math.round((w.fontSize || 18) * gFont);
           const unitPx = Math.round((w.unitSize || Math.max(11, Math.round((w.fontSize || 18) * 0.75))) * gFont);
           const weight = w.fontWeight || 800;
+          const pillTextStyle = buildTextAdvancedCss(w, w.color || '#00f0ff');
+          const borderCol = w.textStrokeWidth > 0 ? (w.textStrokeColor || w.secondaryColor || '#00f0ff') : 'rgba(255,255,255,0.14)';
+          const borderW = w.textStrokeWidth > 0 ? w.textStrokeWidth : 1;
 
           el.style.width = 'auto';
           el.style.height = 'auto';
           const html = `
             ${coordBadge}${scaleHandle}
-            <div class="px-3.5 py-1.5 rounded-full border flex items-center space-x-2.5 whitespace-nowrap pointer-events-none"
-                 style="background:${w.bgColor || '#12121c'};border-color:rgba(255,255,255,0.14);font-family:'JetBrains Mono',monospace;font-size:${mainPx}px;font-weight:${weight};">
+            <div class="px-3.5 py-1.5 rounded-full flex items-center space-x-2.5 whitespace-nowrap pointer-events-none"
+                 style="background:${w.bgColor || '#12121c'};border:${borderW}px solid ${borderCol};font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${mainPx}px;font-weight:${weight};${buildSvgFilterStyle(w, w.color || '#00f0ff')}">
               <span class="text-white">${vA}<small style="color:${w.color || '#00f0ff'};margin-left:2px;font-size:${unitPx}px;">${mA.unit}</small></span>
-              <span class="text-slate-600">//</span>
-              <span style="color:${w.color || '#00f0ff'}">${vB}<small style="font-size:${unitPx}px;margin-left:1px;">${mB.unit}</small></span>
+              <span class="text-slate-500">//</span>
+              <span style="${pillTextStyle}">${vB}<small style="font-size:${unitPx}px;margin-left:1px;">${mB.unit}</small></span>
             </div>
           `;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 3. TACÔMETRO RADIAL SEGMENTADO (COM ESTILOS CYBERPUNK & MULTI-LINHAS 2X/3X)
+        // 3. TACÔMETRO RADIAL SEGMENTADO (COM ESTILOS CYBERPUNK, DEGRADÊ, CONTORNO & SOMBRA 2ª COR)
         else if (w.type === 'tachometer') {
           const r = w.radius || 240;
           const thick = w.thickness || 16;
@@ -1741,43 +1833,46 @@
           const secColor = w.secondaryColor || '#00f0ff';
           const terColor = w.tertiaryColor || '#b8ff01';
           const trkColor = w.trackColor || '#181822';
-          const glowFilter = w.glow > 0 ? `style="filter:drop-shadow(0 0 ${w.glow}px ${priColor});"` : '';
+          const gradId = `tachgrad_${w.id}`;
+          const paintA = w.useGradient ? `url(#${gradId})` : priColor;
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+          const outlineW = Number(w.shapeOutlineWidth) || 0;
+          const outlineCol = w.shapeOutlineColor || secColor;
           const lineCount = Number(w.multiLineCount) || (tachStyle === 'triple_matrix' ? 3 : tachStyle === 'dual_track' ? 2 : 1);
 
-          let pathsHtml = '';
+          let pathsHtml = `<defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>`;
           const gapDeg = 2.4;
           const segSweep = Math.max(1, (sweep - gapDeg * (segs - 1)) / segs);
 
-          // Função auxiliar para desenhar um anel de blocos em qualquer raio
           const buildBlockRing = (ringRadius, ringThick, countActive, ringCol) => {
             let out = '';
             for (let i = 0; i < segs; i++) {
               const aStart = sAngle + i * (segSweep + gapDeg);
               const d = polarArcPath(cx, cy, ringRadius, aStart, segSweep);
               const isLit = i < countActive;
-              out += `<path d="${d}" fill="none" stroke="${isLit ? ringCol : trkColor}" stroke-width="${ringThick}" stroke-linecap="butt" ${isLit ? glowFilter : ''}/>`;
+              if (isLit && outlineW > 0) {
+                out += `<path d="${d}" fill="none" stroke="${outlineCol}" stroke-width="${ringThick + outlineW * 2}" stroke-linecap="butt"/>`;
+              }
+              out += `<path d="${d}" fill="none" stroke="${isLit ? ringCol : trkColor}" stroke-width="${ringThick}" stroke-linecap="butt"/>`;
             }
             return out;
           };
 
           if (tachStyle === 'dual_track' || (lineCount === 2 && tachStyle === 'blocks')) {
-            // 2 Linhas Concêntricas de Tacômetro Independentes (Sensor A externo + Sensor B interno)
             const rOuter = r + thick * 0.42;
             const rInner = Math.max(24, r - thick * 0.55);
             const tSub = Math.max(4, thick * 0.58);
-            pathsHtml += buildBlockRing(rOuter, tSub, activeCount, priColor);
+            pathsHtml += buildBlockRing(rOuter, tSub, activeCount, paintA);
             pathsHtml += buildBlockRing(rInner, tSub, activeCountB, secColor);
           } else if (tachStyle === 'triple_matrix' || lineCount === 3) {
-            // 3 Linhas Concêntricas de Tacômetro (Sensor A + Sensor B + Sensor C)
             const r1 = r + thick * 0.68;
             const r2 = r;
             const r3 = Math.max(22, r - thick * 0.68);
             const tSub = Math.max(3, thick * 0.46);
-            pathsHtml += buildBlockRing(r1, tSub, activeCount, priColor);
+            pathsHtml += buildBlockRing(r1, tSub, activeCount, paintA);
             pathsHtml += buildBlockRing(r2, tSub, activeCountB, secColor);
             pathsHtml += buildBlockRing(r3, tSub, activeCountC, terColor);
           } else if (tachStyle === 'blades') {
-            // Lâminas Cyberpunk inclinadas (suporta 2 linhas se multiLineCount >= 2)
             const stepDeg = sweep / segs;
             const skewDeg = stepDeg * 0.42;
             for (let i = 0; i < segs; i++) {
@@ -1791,14 +1886,14 @@
               const p4 = polarToCartesian(cx, cy, rIn, a2);
               const isLit = i < activeCount;
               const isPeak = i >= segs * 0.8;
-              const fillCol = isLit ? (isPeak ? secColor : priColor) : trkColor;
-              pathsHtml += `<polygon points="${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)} ${p3.x.toFixed(1)},${p3.y.toFixed(1)} ${p4.x.toFixed(1)},${p4.y.toFixed(1)}" fill="${fillCol}" ${isLit ? glowFilter : ''}/>`;
+              const fillCol = isLit ? (w.useGradient ? paintA : (isPeak ? secColor : priColor)) : trkColor;
+              const strokeAttr = (isLit && outlineW > 0) ? `stroke="${outlineCol}" stroke-width="${outlineW}"` : '';
+              pathsHtml += `<polygon points="${p1.x.toFixed(1)},${p1.y.toFixed(1)} ${p2.x.toFixed(1)},${p2.y.toFixed(1)} ${p3.x.toFixed(1)},${p3.y.toFixed(1)} ${p4.x.toFixed(1)},${p4.y.toFixed(1)}" fill="${fillCol}" ${strokeAttr}/>`;
             }
             if (lineCount >= 2) {
               pathsHtml += buildBlockRing(Math.max(24, r - thick * 1.05), Math.max(4, thick * 0.45), activeCountB, secColor);
             }
           } else if (tachStyle === 'reactor') {
-            // Pinos de Reator (alternando comprimentos com anel guia)
             const guidePath = polarArcPath(cx, cy, r - thick * 0.65, sAngle, sweep);
             pathsHtml += `<path d="${guidePath}" fill="none" stroke="${trkColor}" stroke-width="2"/>`;
             for (let i = 0; i < segs; i++) {
@@ -1810,15 +1905,14 @@
               const p1 = polarToCartesian(cx, cy, rIn, deg);
               const p2 = polarToCartesian(cx, cy, rOut, deg);
               const isLit = i < activeCount;
-              const col = isLit ? (isMajor ? secColor : priColor) : trkColor;
-              pathsHtml += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${col}" stroke-width="${isMajor ? 4.5 : 2.8}" stroke-linecap="round" ${isLit ? glowFilter : ''}/>`;
+              const col = isLit ? (w.useGradient ? paintA : (isMajor ? secColor : priColor)) : trkColor;
+              pathsHtml += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${col}" stroke-width="${isMajor ? 4.5 : 2.8}" stroke-linecap="round"/>`;
             }
             if (lineCount >= 2) {
               const innerValD = polarArcPath(cx, cy, Math.max(24, r - thick * 1.15), sAngle, Math.max(1, sweep * progB));
               pathsHtml += `<path d="${innerValD}" fill="none" stroke="${secColor}" stroke-width="4" stroke-dasharray="8 4"/>`;
             }
           } else if (tachStyle === 'equalizer_arc') {
-            // Barras radiais progressivas crescentes
             for (let i = 0; i < segs; i++) {
               const frac = segs > 1 ? i / (segs - 1) : 0;
               const deg = sAngle + frac * sweep;
@@ -1826,32 +1920,20 @@
               const p1 = polarToCartesian(cx, cy, r - barLen / 2, deg);
               const p2 = polarToCartesian(cx, cy, r + barLen / 2, deg);
               const isLit = i < activeCount;
-              const col = isLit ? (i > segs * 0.75 ? secColor : priColor) : trkColor;
-              pathsHtml += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${col}" stroke-width="4" stroke-linecap="butt" ${isLit ? glowFilter : ''}/>`;
+              const col = isLit ? (w.useGradient ? paintA : (i > segs * 0.75 ? secColor : priColor)) : trkColor;
+              pathsHtml += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${col}" stroke-width="4" stroke-linecap="butt"/>`;
             }
           } else {
-            // Clássico blocos de arco (blocks)
-            pathsHtml += buildBlockRing(r, thick, activeCount, priColor);
-          }
-
-          // Legenda opcional de sensores múltiplos no centro ou topo do arco
-          if (w.showArcLegend) {
-            const mA = SENSORS_CATALOG[w.sensor || 'cpu_load'] || { short: 'A', unit: '%' };
-            const mB = SENSORS_CATALOG[w.sensorB || 'gpu_load'] || { short: 'B', unit: '%' };
-            const vA = `${formatReading(w.sensor || 'cpu_load')}${mA.unit}`;
-            const vB = `${formatReading(w.sensorB || 'gpu_load')}${mB.unit}`;
-            pathsHtml += `
-              <text x="${cx}" y="${cy - r + thick + 18}" text-anchor="middle" fill="${priColor}" font-family="JetBrains Mono" font-size="11" font-weight="800">${mA.short}: ${vA}${lineCount >= 2 ? `  |  ${mB.short}: ${vB}` : ''}</text>
-            `;
+            pathsHtml += buildBlockRing(r, thick, activeCount, paintA);
           }
 
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
-          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${pathsHtml}</svg>`;
+          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="${svgFilter}">${pathsHtml}</svg>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 4. ARCO CONTÍNUO / RADIAL GAUGE (COM ESTILOS CYBERPUNK & MULTI-SENSORES A/B/C)
+        // 4. ARCO CONTÍNUO / RADIAL GAUGE (COM DEGRADÊ, CONTORNO & SOMBRA 2ª COR)
         else if (w.type === 'radial') {
           const r = w.radius || 220;
           const thick = w.thickness || 12;
@@ -1871,13 +1953,16 @@
           const secColor = w.secondaryColor || '#fcee0a';
           const terColor = w.tertiaryColor || '#ff0055';
           const trkColor = w.trackColor || '#14141f';
-          const glowFilter = w.glow > 0 ? `style="filter:drop-shadow(0 0 ${w.glow}px ${priColor});"` : '';
+          const gradId = `radgrad_${w.id}`;
+          const paintA = w.useGradient ? `url(#${gradId})` : priColor;
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+          const outlineW = Number(w.shapeOutlineWidth) || 0;
+          const outlineCol = w.shapeOutlineColor || secColor;
           const lineCount = Number(w.multiLineCount) || (radialStyle === 'triple_hud' ? 3 : (radialStyle === 'multi_dual' || radialStyle === 'cyber_telemetry') ? 2 : 1);
 
-          let svgInner = '';
+          let svgInner = `<defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>`;
 
           if (radialStyle === 'multi_dual' || (lineCount === 2 && radialStyle === 'solid')) {
-            // 2 Trilhos Radiais Independentes (Sensor A Externo + Sensor B Interno)
             const gapR = Math.max(10, thick + 5);
             const rA = r + gapR * 0.45;
             const rB = Math.max(24, r - gapR * 0.55);
@@ -1887,16 +1972,16 @@
             const valB = polarArcPath(cx, cy, rB, sAngle, activeSweepB);
             const tipA = polarToCartesian(cx, cy, rA, sAngle + activeSweepA);
             const tipB = polarToCartesian(cx, cy, rB, sAngle + activeSweepB);
-            svgInner = `
+            svgInner += `
               <path d="${trkA}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round"/>
               <path d="${trkB}" fill="none" stroke="${trkColor}" stroke-width="${Math.max(4, thick * 0.78)}" stroke-linecap="round"/>
-              <path d="${valA}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="round" ${glowFilter}/>
+              ${outlineW > 0 ? `<path d="${valA}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="round"/>` : ''}
+              <path d="${valA}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round"/>
               <path d="${valB}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.78)}" stroke-linecap="round"/>
               <circle cx="${tipA.x.toFixed(1)}" cy="${tipA.y.toFixed(1)}" r="${thick * 0.45}" fill="#ffffff"/>
               <circle cx="${tipB.x.toFixed(1)}" cy="${tipB.y.toFixed(1)}" r="${thick * 0.38}" fill="#ffffff"/>
             `;
           } else if (radialStyle === 'cyber_telemetry') {
-            // Arco Cyberpunk Multi-Telemetria: trilho externo chanfrado + barra interna tracejada + marcadores de grau
             const rOuter = r + thick * 0.5;
             const rInner = Math.max(24, r - thick * 0.85);
             const trkOuter = polarArcPath(cx, cy, rOuter, sAngle, sweep);
@@ -1906,7 +1991,8 @@
             svgInner += `
               <path d="${trkOuter}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="butt"/>
               <path d="${trkInner}" fill="none" stroke="${trkColor}" stroke-width="${Math.max(4, thick * 0.55)}" stroke-dasharray="6 4"/>
-              <path d="${valOuter}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="butt" ${glowFilter}/>
+              ${outlineW > 0 ? `<path d="${valOuter}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="butt"/>` : ''}
+              <path d="${valOuter}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="butt"/>
               <path d="${valInner}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.55)}" stroke-dasharray="6 4"/>
             `;
             for (let i = 0; i <= 10; i++) {
@@ -1916,21 +2002,20 @@
               svgInner += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${i <= progA * 10 ? secColor : trkColor}" stroke-width="2"/>`;
             }
           } else if (radialStyle === 'cyber_rail') {
-            // Arco principal + trilho interno pontilhado + cursor laser na ponta
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const innerTrackD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, sweep);
             const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
             const innerValD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, lineCount >= 2 ? activeSweepB : activeSweepA);
             const tipPos = polarToCartesian(cx, cy, r, sAngle + activeSweepA);
-            svgInner = `
+            svgInner += `
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="butt"/>
               <path d="${innerTrackD}" fill="none" stroke="${trkColor}" stroke-width="3" stroke-dasharray="4 6"/>
-              <path d="${valD}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="butt" ${glowFilter}/>
+              ${outlineW > 0 ? `<path d="${valD}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="butt"/>` : ''}
+              <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="butt"/>
               <path d="${innerValD}" fill="none" stroke="${secColor}" stroke-width="3.5" stroke-dasharray="8 4"/>
-              <circle cx="${tipPos.x.toFixed(1)}" cy="${tipPos.y.toFixed(1)}" r="${thick * 0.65}" fill="#ffffff" stroke="${secColor}" stroke-width="3" ${glowFilter}/>
+              <circle cx="${tipPos.x.toFixed(1)}" cy="${tipPos.y.toFixed(1)}" r="${thick * 0.65}" fill="#ffffff" stroke="${secColor}" stroke-width="3"/>
             `;
           } else if (radialStyle === 'triple_hud' || lineCount === 3) {
-            // 3 Anéis Concêntricos Sci-Fi Independentes (Sensores A, B e C)
             const stepR = Math.max(9, thick * 0.85);
             const rOuter = r + stepR;
             const rMid = r;
@@ -1942,11 +2027,11 @@
             const valMid = polarArcPath(cx, cy, rMid, sAngle, activeSweepB);
             const valInner = polarArcPath(cx, cy, rInner, sAngle, activeSweepC);
             const subT = Math.max(4, thick * 0.55);
-            svgInner = `
+            svgInner += `
               <path d="${trkOuter}" fill="none" stroke="${trkColor}" stroke-width="${subT}" stroke-linecap="round"/>
               <path d="${trkMid}" fill="none" stroke="${trkColor}" stroke-width="${subT}" stroke-linecap="round"/>
               <path d="${trkInner}" fill="none" stroke="${trkColor}" stroke-width="${subT}" stroke-linecap="round"/>
-              <path d="${valOuter}" fill="none" stroke="${priColor}" stroke-width="${subT}" stroke-linecap="round" ${glowFilter}/>
+              <path d="${valOuter}" fill="none" stroke="${paintA}" stroke-width="${subT}" stroke-linecap="round"/>
               <path d="${valMid}" fill="none" stroke="${secColor}" stroke-width="${subT}" stroke-linecap="round"/>
               <path d="${valInner}" fill="none" stroke="${terColor}" stroke-width="${subT}" stroke-linecap="round"/>
             `;
@@ -1954,19 +2039,20 @@
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
             const dashAttr = (radialStyle === 'dashed' || w.dashed) ? `stroke-dasharray="10 6"` : '';
-            svgInner = `
+            svgInner += `
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr}/>
-              <path d="${valD}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr} ${glowFilter}/>
+              ${outlineW > 0 ? `<path d="${valD}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="round" ${dashAttr}/>` : ''}
+              <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr}/>
             `;
           }
 
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
-          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${svgInner}</svg>`;
+          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="${svgFilter}">${svgInner}</svg>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 5. BARRA MULTIMODO EM SVG PURO (12 ESTILOS + MULTI-LINHAS COM SENSORES A, B e C)
+        // 5. BARRA MULTIMODO EM SVG PURO (12 ESTILOS + DEGRADÊ, CONTORNO & SOMBRA 2ª COR)
         else if (w.type === 'seg_bar') {
           const width = Math.max(60, Number(w.width) || 260);
           const height = Math.max(12, Number(w.height) || 22);
@@ -1994,25 +2080,27 @@
           const headerHeight = w.showHeader ? (lblPx + 6) : 0;
           const barSvgH = Math.max(10, height - headerHeight);
           const gradId = `bargrad_${w.id}`;
+          const paintPrimary = w.useGradient ? `url(#${gradId})` : priColor;
+          const outlineW = Number(w.shapeOutlineWidth) || 0;
+          const outlineCol = w.shapeOutlineColor || secColor;
+          const cellStrokeAttr = outlineW > 0 ? `stroke="${outlineCol}" stroke-width="${outlineW}"` : '';
 
           let svgBarContent = '';
           const litCount = Math.round(prog * segs);
           const litCountB = Math.round(progB * segs);
 
           if (style === 'multi_dual_bar') {
-            // 09. Barra Dupla Independente (Sensor A no Trilho Superior + Sensor B no Trilho Inferior)
             const railH = Math.max(4, (barSvgH - 8) / 2);
             const fillA = Math.max(3, (width - 6) * prog);
             const fillB = Math.max(3, (width - 6) * progB);
             svgBarContent = `
-              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(5,5,12,0.82)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>
+              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(5,5,12,0.82)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.16)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>
               <rect x="3" y="2.5" width="${width - 6}" height="${railH}" rx="2" fill="${trkColor}"/>
-              <rect x="3" y="2.5" width="${fillA}" height="${railH}" rx="2" fill="${priColor}"/>
+              <rect x="3" y="2.5" width="${fillA}" height="${railH}" rx="2" fill="${paintPrimary}"/>
               <rect x="3" y="${barSvgH - railH - 2.5}" width="${width - 6}" height="${railH}" rx="2" fill="${trkColor}"/>
               <rect x="3" y="${barSvgH - railH - 2.5}" width="${fillB}" height="${railH}" rx="2" fill="${secColor}"/>
             `;
           } else if (style === 'multi_triple_bar') {
-            // 10. Barra Tripla Multi-Sensor (Sensores A, B e C em 3 linhas paralelas)
             const gapY = 2.5;
             const railH = Math.max(3, (barSvgH - gapY * 4) / 3);
             const fillA = Math.max(3, (width - 6) * prog);
@@ -2022,23 +2110,22 @@
             const y2 = gapY * 2 + railH;
             const y3 = gapY * 3 + railH * 2;
             svgBarContent = `
-              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(5,5,12,0.85)" stroke="rgba(255,255,255,0.18)" stroke-width="1"/>
+              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(5,5,12,0.85)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.18)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>
               <rect x="3" y="${y1.toFixed(1)}" width="${width - 6}" height="${railH.toFixed(1)}" rx="1.5" fill="${trkColor}"/>
-              <rect x="3" y="${y1.toFixed(1)}" width="${fillA.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${priColor}"/>
+              <rect x="3" y="${y1.toFixed(1)}" width="${fillA.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${paintPrimary}"/>
               <rect x="3" y="${y2.toFixed(1)}" width="${width - 6}" height="${railH.toFixed(1)}" rx="1.5" fill="${trkColor}"/>
               <rect x="3" y="${y2.toFixed(1)}" width="${fillB.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${secColor}"/>
               <rect x="3" y="${y3.toFixed(1)}" width="${width - 6}" height="${railH.toFixed(1)}" rx="1.5" fill="${trkColor}"/>
               <rect x="3" y="${y3.toFixed(1)}" width="${fillC.toFixed(1)}" height="${railH.toFixed(1)}" rx="1.5" fill="${terColor}"/>
             `;
           } else if (style === 'dual_cells_matrix') {
-            // 11. Matriz de Células LED Dupla (2 fileiras de células independentes: Sensor A em cima, Sensor B embaixo)
             const gap = 2.5;
             const cellW = Math.max(3, (width - 6 - gap * (segs - 1)) / segs);
             const rowH = Math.max(3, (barSvgH - 7) / 2);
-            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.75)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>`;
+            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.75)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.16)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>`;
             for (let i = 0; i < segs; i++) {
               const x = 3 + i * (cellW + gap);
-              const colA = i < litCount ? priColor : trkColor;
+              const colA = i < litCount ? paintPrimary : trkColor;
               const colB = i < litCountB ? secColor : trkColor;
               svgBarContent += `
                 <rect x="${x.toFixed(1)}" y="2.5" width="${cellW.toFixed(1)}" height="${rowH.toFixed(1)}" rx="1" fill="${colA}"/>
@@ -2046,10 +2133,9 @@
               `;
             }
           } else if (style === 'cyber_hud_dual') {
-            // 12. Cyber Telemetria HUD Dupla (Moldura chanfrada com barra superior segmentada + barra inferior laser)
             const cut = Math.min(8, barSvgH * 0.35);
             const framePts = `0,${cut} ${cut},0 ${width},0 ${width},${barSvgH - cut} ${width - cut},${barSvgH} 0,${barSvgH}`;
-            svgBarContent += `<polygon points="${framePts}" fill="rgba(8,8,14,0.9)" stroke="${priColor}" stroke-width="1.5"/>`;
+            svgBarContent += `<polygon points="${framePts}" fill="rgba(8,8,14,0.9)" stroke="${outlineW > 0 ? outlineCol : priColor}" stroke-width="${Math.max(1.5, outlineW)}"/>`;
             const topH = Math.max(4, (barSvgH - 9) * 0.58);
             const botH = Math.max(3, (barSvgH - 9) * 0.36);
             const gap = 2.5;
@@ -2057,7 +2143,7 @@
             const cellW = Math.max(3, (innerW - gap * (segs - 1)) / segs);
             for (let i = 0; i < segs; i++) {
               const x = 4 + i * (cellW + gap);
-              const col = i < litCount ? priColor : trkColor;
+              const col = i < litCount ? paintPrimary : trkColor;
               svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${topH.toFixed(1)}" fill="${col}"/>`;
             }
             const fillB = Math.max(2, innerW * progB);
@@ -2066,15 +2152,13 @@
               <rect x="4" y="${(barSvgH - botH - 3).toFixed(1)}" width="${fillB.toFixed(1)}" height="${botH.toFixed(1)}" fill="${secColor}"/>
             `;
           } else if (style === 'gradient') {
-            // 02. Laser Gradiente Contínuo
             const fillW = Math.max(4, (width - 4) * prog);
             svgBarContent = `
-              <rect x="1" y="1" width="${width - 2}" height="${barSvgH - 2}" rx="${barSvgH / 2}" fill="${trkColor}" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+              <rect x="1" y="1" width="${width - 2}" height="${barSvgH - 2}" rx="${barSvgH / 2}" fill="${trkColor}" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.2)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>
               <rect x="2" y="2" width="${fillW}" height="${barSvgH - 4}" rx="${(barSvgH - 4) / 2}" fill="url(#${gradId})"/>
               <rect x="${Math.min(width - 5, fillW)}" y="1" width="4" height="${barSvgH - 2}" rx="2" fill="#ffffff"/>
             `;
           } else if (style === 'chevron') {
-            // 03. Chevron Tático (///)
             const slant = Math.min(12, barSvgH * 0.45);
             const gap = 3;
             const totalW = width - slant - 4;
@@ -2087,23 +2171,21 @@
               const p3 = `${(x0 + cellW).toFixed(1)},${barSvgH - 2}`;
               const p4 = `${x0.toFixed(1)},${barSvgH - 2}`;
               const active = i < litCount;
-              const col = active ? (i >= segs * 0.8 ? secColor : priColor) : trkColor;
-              svgBarContent += `<polygon points="${p1} ${p2} ${p3} ${p4}" fill="${col}"/>`;
+              const col = active ? (w.useGradient ? paintPrimary : (i >= segs * 0.8 ? secColor : priColor)) : trkColor;
+              svgBarContent += `<polygon points="${p1} ${p2} ${p3} ${p4}" fill="${col}" ${active ? cellStrokeAttr : ''}/>`;
             }
           } else if (style === 'dual_rail') {
-            // 04. Plasma Dual-Rail (Agora suporta Sensor B no segundo trilho se configurado)
             const railH = Math.max(3, (barSvgH - 6) / 2);
             const fillW = Math.max(2, (width - 4) * prog);
             const fillWB = w.sensorB ? Math.max(2, (width - 4) * progB) : fillW;
             svgBarContent = `
-              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="3" fill="rgba(0,0,0,0.65)" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="3" fill="rgba(0,0,0,0.65)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.15)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>
               <rect x="2" y="2" width="${width - 4}" height="${railH}" rx="1.5" fill="${trkColor}"/>
-              <rect x="2" y="2" width="${fillW}" height="${railH}" rx="1.5" fill="${priColor}"/>
+              <rect x="2" y="2" width="${fillW}" height="${railH}" rx="1.5" fill="${paintPrimary}"/>
               <rect x="2" y="${barSvgH - railH - 2}" width="${width - 4}" height="${railH}" rx="1.5" fill="${trkColor}"/>
               <rect x="2" y="${barSvgH - railH - 2}" width="${fillWB}" height="${railH}" rx="1.5" fill="${secColor}"/>
             `;
           } else if (style === 'ruler') {
-            // 05. Régua Tática Milimétrica
             const gap = 2;
             const cellW = Math.max(2, (width - 4 - gap * (segs - 1)) / segs);
             svgBarContent += `<rect x="0" y="${barSvgH - 2}" width="${width}" height="2" fill="${priColor}"/>`;
@@ -2113,14 +2195,13 @@
               const y = barSvgH - 3 - h;
               const x = 2 + i * (cellW + gap);
               const active = i < litCount;
-              const col = active ? (isMajor ? '#ffffff' : priColor) : trkColor;
-              svgBarContent += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${cellW.toFixed(1)}" height="${h.toFixed(1)}" rx="1" fill="${col}"/>`;
+              const col = active ? (isMajor ? '#ffffff' : paintPrimary) : trkColor;
+              svgBarContent += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${cellW.toFixed(1)}" height="${h.toFixed(1)}" rx="1" fill="${col}" ${active ? cellStrokeAttr : ''}/>`;
             }
           } else if (style === 'cyber_chamfer') {
-            // 06. Cyber Chanfrada (Moldura recortada Cyberpunk 2077 + células anguladas)
             const cut = Math.min(10, barSvgH * 0.45);
             const framePts = `0,${cut} ${cut},0 ${width},0 ${width},${barSvgH - cut} ${width - cut},${barSvgH} 0,${barSvgH}`;
-            svgBarContent += `<polygon points="${framePts}" fill="rgba(5,5,10,0.85)" stroke="${priColor}" stroke-width="1.5"/>`;
+            svgBarContent += `<polygon points="${framePts}" fill="rgba(5,5,10,0.85)" stroke="${outlineW > 0 ? outlineCol : priColor}" stroke-width="${Math.max(1.5, outlineW)}"/>`;
             const pad = 4;
             const innerW = width - pad * 2;
             const gap = 3;
@@ -2128,15 +2209,14 @@
             for (let i = 0; i < segs; i++) {
               const x = pad + i * (cellW + gap);
               const active = i < litCount;
-              const col = active ? (i >= segs * 0.78 ? secColor : priColor) : trkColor;
+              const col = active ? (w.useGradient ? paintPrimary : (i >= segs * 0.78 ? secColor : priColor)) : trkColor;
               svgBarContent += `<rect x="${x.toFixed(1)}" y="4" width="${cellW.toFixed(1)}" height="${barSvgH - 8}" fill="${col}"/>`;
             }
           } else if (style === 'cyber_glitch') {
-            // 07. Cyber Glitch (Blocos assimétricos defasados com barra de scanline)
             const fillW = Math.max(2, (width - 4) * prog);
             svgBarContent += `
-              <rect x="0" y="2" width="${width}" height="${barSvgH - 4}" fill="${trkColor}" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
-              <rect x="2" y="4" width="${fillW}" height="${barSvgH - 8}" fill="${priColor}"/>
+              <rect x="0" y="2" width="${width}" height="${barSvgH - 4}" fill="${trkColor}" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.15)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>
+              <rect x="2" y="4" width="${fillW}" height="${barSvgH - 8}" fill="${paintPrimary}"/>
               <rect x="2" y="2" width="${Math.min(width - 4, fillW * 1.04)}" height="3" fill="${secColor}"/>
               <rect x="${Math.max(2, fillW - 14)}" y="${barSvgH - 4}" width="16" height="3" fill="#ffffff"/>
             `;
@@ -2145,29 +2225,27 @@
               svgBarContent += `<line x1="${gx.toFixed(1)}" y1="0" x2="${gx.toFixed(1)}" y2="${barSvgH}" stroke="#050508" stroke-width="${i % 3 === 0 ? 3 : 1.5}"/>`;
             }
           } else if (style === 'equalizer') {
-            // 08. Barra Equalizer (Colunas escalonadas com topo destacado)
             const gap = 3;
             const cellW = Math.max(3, (width - 4 - gap * (segs - 1)) / segs);
             for (let i = 0; i < segs; i++) {
               const x = 2 + i * (cellW + gap);
               const active = i < litCount;
-              const col = active ? priColor : trkColor;
+              const col = active ? paintPrimary : trkColor;
               const capCol = active ? secColor : trkColor;
               svgBarContent += `
-                <rect x="${x.toFixed(1)}" y="5" width="${cellW.toFixed(1)}" height="${Math.max(3, barSvgH - 6)}" rx="1" fill="${col}"/>
+                <rect x="${x.toFixed(1)}" y="5" width="${cellW.toFixed(1)}" height="${Math.max(3, barSvgH - 6)}" rx="1" fill="${col}" ${active ? cellStrokeAttr : ''}/>
                 <rect x="${x.toFixed(1)}" y="1" width="${cellW.toFixed(1)}" height="3" rx="1" fill="${capCol}"/>
               `;
             }
           } else {
-            // 01. Células LED Digitais (Padrão)
             const gap = 3;
             const cellW = Math.max(3, (width - 6 - gap * (segs - 1)) / segs);
-            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.68)" stroke="rgba(255,255,255,0.16)" stroke-width="1"/>`;
+            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.68)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.16)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>`;
             for (let i = 0; i < segs; i++) {
               const x = 3 + i * (cellW + gap);
               const active = i < litCount;
-              const col = active ? (i >= segs * 0.85 ? secColor : priColor) : trkColor;
-              svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" rx="1.5" fill="${col}"/>`;
+              const col = active ? (w.useGradient ? paintPrimary : (i >= segs * 0.85 ? secColor : priColor)) : trkColor;
+              svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" rx="1.5" fill="${col}" ${active ? cellStrokeAttr : ''}/>`;
             }
           }
 
@@ -2179,24 +2257,19 @@
             : `<span style="color:${priColor};">${valStr} (${pct}%)</span>`;
 
           const headerCaption = w.showHeader
-            ? `<div style="width:${width}px;display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;color:#e2e8f0;margin-bottom:3px;line-height:1;"><span>${w.title || meta.short}</span><span>${rightHeaderText}</span></div>`
+            ? `<div style="width:${width}px;display:flex;justify-content:space-between;align-items:center;font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${lblPx}px;font-weight:800;color:#e2e8f0;margin-bottom:3px;line-height:1;"><span>${w.title || meta.short}</span><span>${rightHeaderText}</span></div>`
             : '';
 
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
 
-          const glowStyle = w.glow > 0 ? `filter:drop-shadow(0 0 ${w.glow}px ${priColor});` : '';
+          const svgFilter = buildSvgFilterStyle(w, priColor);
           const html = `
             ${coordBadge}${scaleHandle}
             <div class="pointer-events-none" style="width:${width}px;height:${height}px;display:flex;flex-direction:column;justify-content:center;">
               ${headerCaption}
-              <svg width="${width}" height="${barSvgH}" viewBox="0 0 ${width} ${barSvgH}" style="display:block;overflow:visible;${glowStyle}">
-                <defs>
-                  <linearGradient id="${gradId}" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stop-color="${secColor}"/>
-                    <stop offset="100%" stop-color="${priColor}"/>
-                  </linearGradient>
-                </defs>
+              <svg width="${width}" height="${barSvgH}" viewBox="0 0 ${width} ${barSvgH}" style="display:block;overflow:visible;${svgFilter}">
+                <defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>
                 ${svgBarContent}
               </svg>
             </div>
@@ -2204,7 +2277,7 @@
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 5.5 FORMAS BÁSICAS DE DESIGN TOTALMENTE EDITÁVEIS (VETORIAIS)
+        // 5.5 FORMAS BÁSICAS DE DESIGN TOTALMENTE EDITÁVEIS (COM DEGRADÊ, CONTORNO & SOMBRA 2ª COR)
         else if (w.type === 'shape') {
           const width = Math.max(20, Number(w.width) || 180);
           const height = Math.max(8, Number(w.height) || 120);
@@ -2215,31 +2288,40 @@
           const strokeW = w.strokeWidth ?? 2;
           const cornerR = w.cornerRadius ?? 12;
           const dashAttr = w.dashed ? `stroke-dasharray="${w.dashPattern || '8 5'}"` : '';
-          const glowStyle = w.glow > 0 ? `filter:drop-shadow(0 0 ${w.glow}px ${strokeCol});` : '';
+          const svgFilter = buildSvgFilterStyle(w, strokeCol);
           const pad = Math.max(4, strokeW);
           const iw = Math.max(4, width - pad * 2);
           const ih = Math.max(4, height - pad * 2);
+          const gradFillId = `shpfill_${w.id}`;
+          const gradStrokeId = `shpstrk_${w.id}`;
+          const fillPaint = w.useGradient ? `url(#${gradFillId})` : fillCol;
+          const strokePaint = w.useStrokeGradient ? `url(#${gradStrokeId})` : strokeCol;
 
-          let shapeSvg = '';
+          let shapeSvg = `
+            <defs>
+              ${buildSvgGradientDef(gradFillId, w, fillCol)}
+              ${buildSvgGradientDef(gradStrokeId, w, strokeCol)}
+            </defs>
+          `;
           if (shapeType === 'circle') {
-            shapeSvg = `<ellipse cx="${width / 2}" cy="${height / 2}" rx="${iw / 2}" ry="${ih / 2}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+            shapeSvg += `<ellipse cx="${width / 2}" cy="${height / 2}" rx="${iw / 2}" ry="${ih / 2}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>`;
           } else if (shapeType === 'cyber_panel') {
             const cut = Math.min(iw, ih) * 0.22;
             const pts = `${pad + cut},${pad} ${pad + iw},${pad} ${pad + iw},${pad + ih - cut} ${pad + iw - cut},${pad + ih} ${pad},${pad + ih} ${pad},${pad + cut}`;
-            shapeSvg = `
-              <polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>
+            shapeSvg += `
+              <polygon points="${pts}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>
               <line x1="${pad}" y1="${pad + cut}" x2="${pad + cut}" y2="${pad}" stroke="#ffffff" stroke-width="${Math.max(2, strokeW + 1)}"/>
               <line x1="${pad + iw - cut}" y1="${pad + ih}" x2="${pad + iw}" y2="${pad + ih - cut}" stroke="${w.secondaryColor || '#fcee0a'}" stroke-width="${Math.max(2, strokeW + 1)}"/>
             `;
           } else if (shapeType === 'hud_brackets') {
             const bl = Math.min(iw, ih) * 0.28;
             const x0 = pad, y0 = pad, x1 = pad + iw, y1 = pad + ih;
-            shapeSvg = `
-              <rect x="${x0}" y="${y0}" width="${iw}" height="${ih}" fill="${fillCol}" fill-opacity="${fillOp}"/>
-              <path d="M ${x0},${y0 + bl} L ${x0},${y0} L ${x0 + bl},${y0}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
-              <path d="M ${x1 - bl},${y0} L ${x1},${y0} L ${x1},${y0 + bl}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
-              <path d="M ${x0},${y1 - bl} L ${x0},${y1} L ${x0 + bl},${y1}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
-              <path d="M ${x1 - bl},${y1} L ${x1},${y1} L ${x1},${y1 - bl}" fill="none" stroke="${strokeCol}" stroke-width="${strokeW}"/>
+            shapeSvg += `
+              <rect x="${x0}" y="${y0}" width="${iw}" height="${ih}" fill="${fillPaint}" fill-opacity="${fillOp}"/>
+              <path d="M ${x0},${y0 + bl} L ${x0},${y0} L ${x0 + bl},${y0}" fill="none" stroke="${strokePaint}" stroke-width="${strokeW}"/>
+              <path d="M ${x1 - bl},${y0} L ${x1},${y0} L ${x1},${y0 + bl}" fill="none" stroke="${strokePaint}" stroke-width="${strokeW}"/>
+              <path d="M ${x0},${y1 - bl} L ${x0},${y1} L ${x0 + bl},${y1}" fill="none" stroke="${strokePaint}" stroke-width="${strokeW}"/>
+              <path d="M ${x1 - bl},${y1} L ${x1},${y1} L ${x1},${y1 - bl}" fill="none" stroke="${strokePaint}" stroke-width="${strokeW}"/>
             `;
           } else if (shapeType === 'hexagon') {
             const cx = width / 2, cy = height / 2;
@@ -2252,39 +2334,39 @@
               `${cx - rx * 0.5},${cy + ry}`,
               `${cx - rx},${cy}`
             ].join(' ');
-            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+            shapeSvg += `<polygon points="${pts}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>`;
           } else if (shapeType === 'octagon') {
             const c = Math.min(iw, ih) * 0.28;
             const x0 = pad, y0 = pad, x1 = pad + iw, y1 = pad + ih;
             const pts = `${x0 + c},${y0} ${x1 - c},${y0} ${x1},${y0 + c} ${x1},${y1 - c} ${x1 - c},${y1} ${x0 + c},${y1} ${x0},${y1 - c} ${x0},${y0 + c}`;
-            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+            shapeSvg += `<polygon points="${pts}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>`;
           } else if (shapeType === 'triangle') {
             const pts = `${width / 2},${pad} ${pad + iw},${pad + ih} ${pad},${pad + ih}`;
-            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+            shapeSvg += `<polygon points="${pts}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>`;
           } else if (shapeType === 'diamond') {
             const pts = `${width / 2},${pad} ${pad + iw},${height / 2} ${width / 2},${pad + ih} ${pad},${height / 2}`;
-            shapeSvg = `<polygon points="${pts}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+            shapeSvg += `<polygon points="${pts}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>`;
           } else if (shapeType === 'cross') {
             const cx = width / 2, cy = height / 2;
-            shapeSvg = `
-              <line x1="${pad}" y1="${cy}" x2="${width - pad}" y2="${cy}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>
-              <line x1="${cx}" y1="${pad}" x2="${cx}" y2="${height - pad}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>
+            shapeSvg += `
+              <line x1="${pad}" y1="${cy}" x2="${width - pad}" y2="${cy}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>
+              <line x1="${cx}" y1="${pad}" x2="${cx}" y2="${height - pad}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>
               <circle cx="${cx}" cy="${cy}" r="${Math.max(3, strokeW * 1.6)}" fill="none" stroke="${w.secondaryColor || '#fcee0a'}" stroke-width="1.5"/>
             `;
           } else if (shapeType === 'line') {
             const cy = height / 2;
-            shapeSvg = `
-              <line x1="${pad}" y1="${cy}" x2="${width - pad}" y2="${cy}" stroke="${strokeCol}" stroke-width="${strokeW}" stroke-linecap="round" ${dashAttr}/>
+            shapeSvg += `
+              <line x1="${pad}" y1="${cy}" x2="${width - pad}" y2="${cy}" stroke="${strokePaint}" stroke-width="${strokeW}" stroke-linecap="round" ${dashAttr}/>
               <circle cx="${pad}" cy="${cy}" r="${Math.max(2.5, strokeW)}" fill="${w.secondaryColor || strokeCol}"/>
               <circle cx="${width - pad}" cy="${cy}" r="${Math.max(2.5, strokeW)}" fill="${w.secondaryColor || strokeCol}"/>
             `;
           } else {
-            shapeSvg = `<rect x="${pad}" y="${pad}" width="${iw}" height="${ih}" rx="${cornerR}" fill="${fillCol}" fill-opacity="${fillOp}" stroke="${strokeCol}" stroke-width="${strokeW}" ${dashAttr}/>`;
+            shapeSvg += `<rect x="${pad}" y="${pad}" width="${iw}" height="${ih}" rx="${cornerR}" fill="${fillPaint}" fill-opacity="${fillOp}" stroke="${strokePaint}" stroke-width="${strokeW}" ${dashAttr}/>`;
           }
 
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="overflow:visible;${glowStyle}">${shapeSvg}</svg>`;
+          const html = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="overflow:visible;${svgFilter}">${shapeSvg}</svg>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
@@ -2293,7 +2375,8 @@
           const r = w.radius || 280;
           const size = (r + 12) * 2;
           const c = size / 2;
-          const sig = `ret_${r}_${w.color}_${w.style}_${isSelected}_${w.x}_${w.y}_${wScale}`;
+          const svgFilter = buildSvgFilterStyle(w, w.color || '#2a2a3a');
+          const sig = `ret_${r}_${w.color}_${w.style}_${isSelected}_${w.x}_${w.y}_${wScale}_${svgFilter}`;
           el.style.width = `${size}px`;
           el.style.height = `${size}px`;
           if (el.dataset.sig !== sig) {
@@ -2316,7 +2399,6 @@
                 <line x1="${c}" y1="${c - 18}" x2="${c}" y2="${c + 18}" stroke="${w.color}" stroke-width="1.5"/>
               `;
             } else if (w.style === 'cyber_hud') {
-              // Anel técnico Cyberpunk com colchetes angulares e marcas de grau
               svgInner += `
                 <circle cx="${c}" cy="${c}" r="${r - 6}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="1" stroke-dasharray="24 12 4 12" opacity="0.65"/>
                 <path d="${polarArcPath(c, c, r, 155, 50)}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="4"/>
@@ -2332,7 +2414,7 @@
                 svgInner += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${w.color || '#fcee0a'}" stroke-width="${a % 45 === 0 ? 2.2 : 1}"/>`;
               }
             }
-            el.innerHTML = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">${svgInner}</svg>`;
+            el.innerHTML = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="${svgFilter}">${svgInner}</svg>`;
           }
         }
 
@@ -2351,6 +2433,7 @@
             return `${px.toFixed(1)},${py.toFixed(1)}`;
           }).join(' ');
           const poly = `0,${height} ${pts} ${width},${height}`;
+          const svgFilter = buildSvgFilterStyle(w, w.color || '#00f0ff');
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
           const overlayHeader = (w.showLabel !== false)
@@ -2358,7 +2441,7 @@
             : '';
           el.innerHTML = `
             ${coordBadge}${scaleHandle}
-            <div class="relative w-full h-full pointer-events-none">
+            <div class="relative w-full h-full pointer-events-none" style="${svgFilter}">
               ${overlayHeader}
               <svg width="${width}" height="${height}" class="rounded bg-black/65 border border-white/15 overflow-hidden">
                 <polygon points="${poly}" fill="${w.color || '#00f0ff'}" fill-opacity="0.22"/>
@@ -2368,7 +2451,7 @@
           `;
         }
 
-        // 8. SENSOR DE TEXTO PURO
+        // 8. SENSOR DE TEXTO PURO (COM DEGRADÊ, CONTORNO + NEON E SOMBRA 2ª COR)
         else if (w.type === 'sensor') {
           const meta = SENSORS_CATALOG[w.sensor] || { unit: '' };
           const val = formatReading(w.sensor);
@@ -2377,53 +2460,50 @@
           const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 38) * 0.58)) * gFont);
           const lblPx = Math.round((w.labelSize || Math.round((w.fontSize || 38) * 0.65)) * gFont);
           const weight = w.fontWeight || 800;
+          const advCss = buildTextAdvancedCss(w, w.color || '#00f0ff');
 
           el.style.width = 'auto';
           el.style.height = 'auto';
           el.style.fontFamily = `'${w.fontFamily || 'Chakra Petch'}', sans-serif`;
           el.style.fontWeight = weight;
-          el.style.color = w.color || '#00f0ff';
           el.style.whiteSpace = 'nowrap';
-          el.style.textShadow = w.glow > 0 ? `0 0 ${w.glow}px ${w.color}` : 'none';
 
-          const prefixHtml = w.prefix ? `<span style="font-size:${lblPx}px;color:${w.labelColor || w.color};opacity:0.9;">${w.prefix}</span>` : '';
-          const unitHtml = unit ? `<span style="font-size:${unitPx}px;margin-left:3px;opacity:0.9;">${unit}</span>` : '';
+          const prefixHtml = w.prefix ? `<span style="font-size:${lblPx}px;color:${w.labelColor || w.secondaryColor || w.color};opacity:0.95;margin-right:3px;">${w.prefix}</span>` : '';
+          const unitHtml = unit ? `<span style="font-size:${unitPx}px;margin-left:3px;color:${w.secondaryColor || w.color};opacity:0.95;">${unit}</span>` : '';
 
-          const html = `${coordBadge}${scaleHandle}<div class="pointer-events-none" style="display:flex;align-items:baseline;">${prefixHtml}<span style="font-size:${mainPx}px;line-height:1;">${val}</span>${unitHtml}</div>`;
+          const html = `${coordBadge}${scaleHandle}<div class="pointer-events-none" style="display:flex;align-items:baseline;">${prefixHtml}<span style="font-size:${mainPx}px;line-height:1;${advCss}">${val}</span>${unitHtml}</div>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 9. RÓTULO / TEXTO CUSTOMIZADO
+        // 9. RÓTULO / TEXTO CUSTOMIZADO (COM DEGRADÊ, CONTORNO + NEON E SOMBRA 2ª COR)
         else if (w.type === 'label') {
           const mainPx = Math.round((w.fontSize || 18) * gFont);
+          const advCss = buildTextAdvancedCss(w, w.color || '#ffffff');
           el.style.width = 'auto';
           el.style.height = 'auto';
           el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
           el.style.fontSize = `${mainPx}px`;
           el.style.fontWeight = w.fontWeight || '800';
           el.style.letterSpacing = `${w.letterSpacing ?? 2}px`;
-          el.style.color = w.color || '#ffffff';
           el.style.whiteSpace = 'nowrap';
-          el.style.textShadow = w.glow > 0 ? `0 0 ${w.glow}px ${w.color}` : 'none';
-          const html = `${coordBadge}${scaleHandle}<span class="pointer-events-none">${w.text || 'LABEL'}</span>`;
+          const html = `${coordBadge}${scaleHandle}<span class="pointer-events-none" style="${advCss}">${w.text || 'LABEL'}</span>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 10. CRONÔMETRO / RELÓGIO DIGITAL
+        // 10. CRONÔMETRO / RELÓGIO DIGITAL (COM DEGRADÊ, CONTORNO + NEON E SOMBRA 2ª COR)
         else if (w.type === 'clock') {
           const d = new Date();
           const hh = String(d.getHours()).padStart(2, '0');
           const mm = String(d.getMinutes()).padStart(2, '0');
           const ss = String(d.getSeconds()).padStart(2, '0');
           const mainPx = Math.round((w.fontSize || 26) * gFont);
+          const advCss = buildTextAdvancedCss(w, w.color || '#ffffff');
           el.style.width = 'auto';
           el.style.height = 'auto';
           el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
           el.style.fontSize = `${mainPx}px`;
           el.style.fontWeight = w.fontWeight || '800';
-          el.style.color = w.color || '#ffffff';
-          el.style.textShadow = w.glow > 0 ? `0 0 ${w.glow}px ${w.color}` : 'none';
-          const html = `${coordBadge}${scaleHandle}<span class="pointer-events-none">${w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`}</span>`;
+          const html = `${coordBadge}${scaleHandle}<span class="pointer-events-none" style="${advCss}">${w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`}</span>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
@@ -2437,6 +2517,9 @@
           const priColor = w.color || '#ff3b00';
           const secColor = w.secondaryColor || '#00f0ff';
           const bins = sampleAudioSpectrumBins(count, sens);
+          const glowOn = isOutlineGlowEnabled(w);
+          const glowPx = glowOn ? (Number(w.glow) || 0) : 0;
+          const glowCol = getOutlineGlowColor(w, priColor);
 
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
@@ -2452,16 +2535,19 @@
               ${coordBadge}${scaleHandle}
               <svg width="${width}" height="${height}" class="overflow-visible pointer-events-none">
                 <polygon points="${poly}" fill="${priColor}" fill-opacity="0.22"/>
-                <polyline points="${pts}" fill="none" stroke="${priColor}" stroke-width="2.5" style="filter:drop-shadow(0 0 6px ${priColor});"/>
+                <polyline points="${pts}" fill="none" stroke="${priColor}" stroke-width="2.5" style="${glowPx > 0 ? `filter:drop-shadow(0 0 ${glowPx}px ${glowCol});` : ''}"/>
               </svg>
             `;
           } else {
             let barsHtml = '';
+            const outlineW = Number(w.shapeOutlineWidth) || 0;
+            const outlineCol = w.shapeOutlineColor || secColor;
             for (let i = 0; i < count; i++) {
               const bh = Math.max(10, Math.round(bins[i] * 100));
               const isHigh = bins[i] > 0.72;
               const barCol = isHigh ? secColor : priColor;
-              barsHtml += `<div style="flex:1;height:${bh}%;background:${barCol};border-radius:999px;box-shadow:${w.glow ? `0 0 ${w.glow}px ${barCol}` : 'none'};"></div>`;
+              const borderCss = outlineW > 0 ? `border:${outlineW}px solid ${outlineCol};` : '';
+              barsHtml += `<div style="flex:1;height:${bh}%;background:${barCol};border-radius:999px;${borderCss}box-shadow:${glowPx > 0 ? `0 0 ${glowPx}px ${glowCol}` : 'none'};"></div>`;
             }
             const alignClass = style === 'mirror' ? 'items-center' : 'items-end';
             el.innerHTML = `${coordBadge}${scaleHandle}<div class="w-full h-full flex ${alignClass} space-x-1 pointer-events-none">${barsHtml}</div>`;
@@ -2499,12 +2585,12 @@
           const panX = w.mediaPanX || 0;
           const panY = w.mediaPanY || 0;
 
-          const borderStyle = w.showBorder
-            ? `border: 2px solid ${w.color || '#00f0ff'};`
+          const outlineW = Number(w.shapeOutlineWidth) || (w.showBorder ? 2 : 0);
+          const outlineCol = w.shapeOutlineColor || w.color || '#00f0ff';
+          const borderStyle = outlineW > 0
+            ? `border: ${outlineW}px solid ${outlineCol};`
             : '';
-          const glowStyle = w.glow > 0
-            ? `filter: drop-shadow(0 0 ${w.glow}px ${w.color || '#00f0ff'});`
-            : '';
+          const glowStyle = buildSvgFilterStyle(w, outlineCol);
           const innerTransform = `object-fit:${fitMode};transform:translate(${panX}px, ${panY}px) scale(${mediaZoom});transform-origin:center center;`;
 
           el.style.width = `${width}px`;
@@ -2756,11 +2842,11 @@
           </div>
 
           <div class="p-2.5 rounded-lg bg-[#12121c] border border-[#ff3b00]/40 space-y-1.5">
-            <div class="flex justify-between text-[10px] font-mono">
-              <span class="text-[#ff3b00] font-bold">⤡ ESCALA DO ELEMENTO</span>
-              <span id="insp-lbl-wscale" class="text-white font-bold">${w.widgetScale || 100}%</span>
+            <div class="flex justify-between items-center text-[10px] font-mono">
+              <span class="text-[#ff3b00] font-bold">⤡ ESCALA DO ELEMENTO (%)</span>
+              <input id="insp-lbl-wscale" type="number" min="35" max="300" value="${w.widgetScale || 100}" oninput="mutateWidget('widgetScale', Number(this.value), false);document.getElementById('insp-rng-wscale').value=this.value;" onchange="recordHistory('Escalar elemento')" class="editable-num-pill">
             </div>
-            <input id="insp-rng-wscale" type="range" min="40" max="260" value="${w.widgetScale || 100}" oninput="mutateWidget('widgetScale', Number(this.value), false);document.getElementById('insp-lbl-wscale').textContent=this.value+'%';" onchange="recordHistory('Escalar elemento')" class="w-full">
+            <input id="insp-rng-wscale" type="range" min="35" max="300" value="${w.widgetScale || 100}" oninput="mutateWidget('widgetScale', Number(this.value), false);document.getElementById('insp-lbl-wscale').value=this.value;" onchange="recordHistory('Escalar elemento')" class="w-full">
           </div>
 
           <div class="grid grid-cols-3 gap-2">
@@ -2864,44 +2950,56 @@
 
               ${w.fontSize !== undefined ? `
                 <div>
-                  <div class="flex justify-between text-[10px] font-mono mb-1">
-                    <span class="text-slate-300">1. TAMANHO FONTE PRINCIPAL</span>
-                    <span class="text-[#00f0ff] font-bold">${w.fontSize}px</span>
+                  <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                    <span class="text-slate-300">1. TAMANHO FONTE PRINCIPAL (PX)</span>
+                    <input type="number" min="8" max="200" value="${w.fontSize}" oninput="mutateWidget('fontSize', Number(this.value), false)" onchange="recordHistory('Tamanho da fonte principal');renderInspector();" class="editable-num-pill">
                   </div>
-                  <input type="range" min="10" max="150" value="${w.fontSize}" oninput="mutateWidget('fontSize', Number(this.value), false)" onchange="recordHistory('Tamanho da fonte principal');renderInspector();" class="w-full">
+                  <input type="range" min="10" max="150" value="${w.fontSize}" oninput="mutateWidget('fontSize', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Tamanho da fonte principal');renderInspector();" class="w-full">
                 </div>
               ` : ''}
 
               ${(w.type === 'telemetry_card' || w.type === 'sensor' || w.type === 'chart') ? `
                 <div>
-                  <div class="flex justify-between text-[10px] font-mono mb-1">
-                    <span class="text-slate-300">2. TAMANHO RÓTULO / PREFIXO</span>
-                    <span class="text-[#b8ff01] font-bold">${w.labelSize || 16}px</span>
+                  <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                    <span class="text-slate-300">2. TAMANHO RÓTULO / PREFIXO (PX)</span>
+                    <input type="number" min="6" max="100" value="${w.labelSize || 16}" oninput="mutateWidget('labelSize', Number(this.value), false)" onchange="recordHistory('Tamanho do rótulo');renderInspector();" class="editable-num-pill !text-[#b8ff01]">
                   </div>
-                  <input type="range" min="8" max="72" value="${w.labelSize || 16}" oninput="mutateWidget('labelSize', Number(this.value), false)" onchange="recordHistory('Tamanho do rótulo');renderInspector();" class="w-full">
+                  <input type="range" min="8" max="72" value="${w.labelSize || 16}" oninput="mutateWidget('labelSize', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Tamanho do rótulo');renderInspector();" class="w-full">
                 </div>
               ` : ''}
 
               ${(w.type === 'telemetry_card' || w.type === 'dual_pill' || w.type === 'sensor') ? `
                 <div>
-                  <div class="flex justify-between text-[10px] font-mono mb-1">
+                  <div class="flex justify-between items-center text-[10px] font-mono mb-1">
                     <span class="text-slate-300">3. TAMANHO UNIDADE (°C, W, %)</span>
-                    <span class="text-[#ff3b00] font-bold">${w.unitSize || Math.round((w.fontSize || 40) * 0.45)}px</span>
+                    <input type="number" min="6" max="110" value="${w.unitSize || Math.round((w.fontSize || 40) * 0.45)}" oninput="mutateWidget('unitSize', Number(this.value), false)" onchange="recordHistory('Tamanho da unidade');renderInspector();" class="editable-num-pill !text-[#ff3b00]">
                   </div>
-                  <input type="range" min="8" max="80" value="${w.unitSize || Math.round((w.fontSize || 40) * 0.45)}" oninput="mutateWidget('unitSize', Number(this.value), false)" onchange="recordHistory('Tamanho da unidade');renderInspector();" class="w-full">
+                  <input type="range" min="8" max="80" value="${w.unitSize || Math.round((w.fontSize || 40) * 0.45)}" oninput="mutateWidget('unitSize', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Tamanho da unidade');renderInspector();" class="w-full">
                 </div>
               ` : ''}
 
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">FAMÍLIA DA FONTE</label>
+                  <label class="block text-[9px] font-mono text-slate-400 mb-1">FAMÍLIA DA FONTE (18 FONTES)</label>
                   <select onchange="mutateWidget('fontFamily', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
-                    <option value="Chakra Petch" ${w.fontFamily === 'Chakra Petch' ? 'selected' : ''}>Chakra Petch</option>
+                    <option value="Chakra Petch" ${w.fontFamily === 'Chakra Petch' ? 'selected' : ''}>Chakra Petch (Padrão)</option>
                     <option value="JetBrains Mono" ${w.fontFamily === 'JetBrains Mono' ? 'selected' : ''}>JetBrains Mono</option>
                     <option value="Orbitron" ${w.fontFamily === 'Orbitron' ? 'selected' : ''}>Orbitron Sci-Fi</option>
                     <option value="Share Tech Mono" ${w.fontFamily === 'Share Tech Mono' ? 'selected' : ''}>Share Tech Matrix</option>
                     <option value="Rajdhani" ${w.fontFamily === 'Rajdhani' ? 'selected' : ''}>Rajdhani Heavy</option>
                     <option value="Space Grotesk" ${w.fontFamily === 'Space Grotesk' ? 'selected' : ''}>Space Grotesk</option>
+                    <option value="Audiowide" ${w.fontFamily === 'Audiowide' ? 'selected' : ''}>Audiowide Cyber</option>
+                    <option value="Syncopate" ${w.fontFamily === 'Syncopate' ? 'selected' : ''}>Syncopate Wide</option>
+                    <option value="Oxanium" ${w.fontFamily === 'Oxanium' ? 'selected' : ''}>Oxanium Mecha</option>
+                    <option value="Black Ops One" ${w.fontFamily === 'Black Ops One' ? 'selected' : ''}>Black Ops Militar</option>
+                    <option value="Teko" ${w.fontFamily === 'Teko' ? 'selected' : ''}>Teko Tall HUD</option>
+                    <option value="Electrolize" ${w.fontFamily === 'Electrolize' ? 'selected' : ''}>Electrolize Tech</option>
+                    <option value="Wallpoet" ${w.fontFamily === 'Wallpoet' ? 'selected' : ''}>Wallpoet Stencil</option>
+                    <option value="Russo One" ${w.fontFamily === 'Russo One' ? 'selected' : ''}>Russo One Esports</option>
+                    <option value="Saira Stencil One" ${w.fontFamily === 'Saira Stencil One' ? 'selected' : ''}>Saira Stencil</option>
+                    <option value="Michroma" ${w.fontFamily === 'Michroma' ? 'selected' : ''}>Michroma Euro</option>
+                    <option value="VT323" ${w.fontFamily === 'VT323' ? 'selected' : ''}>VT323 Pixel Retro</option>
+                    <option value="Exo 2" ${w.fontFamily === 'Exo 2' ? 'selected' : ''}>Exo 2 Futurista</option>
                   </select>
                 </div>
                 <div>
@@ -2941,27 +3039,42 @@
 
               <div class="grid grid-cols-3 gap-1.5">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ZOOM (${w.mediaZoom || 100}%)</label>
-                  <input type="range" min="30" max="260" value="${w.mediaZoom || 100}" oninput="mutateWidget('mediaZoom', Number(this.value), false)" onchange="recordHistory('Zoom interno GIF');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>ZOOM</span>
+                    <input type="number" min="30" max="260" value="${w.mediaZoom || 100}" oninput="mutateWidget('mediaZoom', Number(this.value), false)" onchange="recordHistory('Zoom interno GIF');renderInspector();" class="editable-num-pill !w-11">
+                  </div>
+                  <input type="range" min="30" max="260" value="${w.mediaZoom || 100}" oninput="mutateWidget('mediaZoom', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Zoom interno GIF');renderInspector();" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">PAN X (${w.mediaPanX || 0})</label>
-                  <input type="range" min="-150" max="150" value="${w.mediaPanX || 0}" oninput="mutateWidget('mediaPanX', Number(this.value), false)" onchange="recordHistory('Pan X GIF');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>PAN X</span>
+                    <input type="number" min="-150" max="150" value="${w.mediaPanX || 0}" oninput="mutateWidget('mediaPanX', Number(this.value), false)" onchange="recordHistory('Pan X GIF');renderInspector();" class="editable-num-pill !w-11">
+                  </div>
+                  <input type="range" min="-150" max="150" value="${w.mediaPanX || 0}" oninput="mutateWidget('mediaPanX', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Pan X GIF');renderInspector();" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">PAN Y (${w.mediaPanY || 0})</label>
-                  <input type="range" min="-150" max="150" value="${w.mediaPanY || 0}" oninput="mutateWidget('mediaPanY', Number(this.value), false)" onchange="recordHistory('Pan Y GIF');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>PAN Y</span>
+                    <input type="number" min="-150" max="150" value="${w.mediaPanY || 0}" oninput="mutateWidget('mediaPanY', Number(this.value), false)" onchange="recordHistory('Pan Y GIF');renderInspector();" class="editable-num-pill !w-11">
+                  </div>
+                  <input type="range" min="-150" max="150" value="${w.mediaPanY || 0}" oninput="mutateWidget('mediaPanY', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Pan Y GIF');renderInspector();" class="w-full">
                 </div>
               </div>
 
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">LARGURA (${w.width || 140}PX)</label>
-                  <input type="range" min="40" max="540" value="${w.width || 140}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura GIF');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>LARGURA (PX)</span>
+                    <input type="number" min="20" max="600" value="${w.width || 140}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura GIF');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="40" max="540" value="${w.width || 140}" oninput="mutateWidget('width', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Largura GIF');renderInspector();" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ALTURA (${w.height || 140}PX)</label>
-                  <input type="range" min="40" max="540" value="${w.height || 140}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura GIF');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>ALTURA (PX)</span>
+                    <input type="number" min="20" max="600" value="${w.height || 140}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura GIF');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="40" max="540" value="${w.height || 140}" oninput="mutateWidget('height', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Altura GIF');renderInspector();" class="w-full">
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-2">
@@ -3017,22 +3130,34 @@
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">LARGURA (${w.width || 180}PX)</label>
-                  <input type="range" min="20" max="600" value="${w.width || 180}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura Forma');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>LARGURA</span>
+                    <input type="number" min="10" max="640" value="${w.width || 180}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura Forma');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="20" max="600" value="${w.width || 180}" oninput="mutateWidget('width', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Largura Forma');renderInspector();" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ALTURA (${w.height || 120}PX)</label>
-                  <input type="range" min="8" max="600" value="${w.height || 120}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura Forma');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>ALTURA</span>
+                    <input type="number" min="4" max="640" value="${w.height || 120}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura Forma');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="8" max="600" value="${w.height || 120}" oninput="mutateWidget('height', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Altura Forma');renderInspector();" class="w-full">
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">BORDA (${w.strokeWidth ?? 2}PX)</label>
-                  <input type="range" min="0" max="24" value="${w.strokeWidth ?? 2}" oninput="mutateWidget('strokeWidth', Number(this.value), false)" onchange="recordHistory('Espessura Borda');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>BORDA (PX)</span>
+                    <input type="number" min="0" max="40" value="${w.strokeWidth ?? 2}" oninput="mutateWidget('strokeWidth', Number(this.value), false)" onchange="recordHistory('Espessura Borda');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="0" max="24" value="${w.strokeWidth ?? 2}" oninput="mutateWidget('strokeWidth', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Espessura Borda');renderInspector();" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">CANTO (${w.cornerRadius ?? 12}PX)</label>
-                  <input type="range" min="0" max="120" value="${w.cornerRadius ?? 12}" oninput="mutateWidget('cornerRadius', Number(this.value), false)" onchange="recordHistory('Canto Forma');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>CANTO (PX)</span>
+                    <input type="number" min="0" max="200" value="${w.cornerRadius ?? 12}" oninput="mutateWidget('cornerRadius', Number(this.value), false)" onchange="recordHistory('Canto Forma');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="0" max="120" value="${w.cornerRadius ?? 12}" oninput="mutateWidget('cornerRadius', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Canto Forma');renderInspector();" class="w-full">
                 </div>
               </div>
               <div class="grid grid-cols-2 gap-2">
@@ -3044,13 +3169,21 @@
                   </div>
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">OPACIDADE FUNDO (${w.fillOpacity ?? 45}%)</label>
-                  <input type="range" min="0" max="100" value="${w.fillOpacity ?? 45}" oninput="mutateWidget('fillOpacity', Number(this.value), false)" onchange="recordHistory('Opacidade fundo forma');renderInspector();" class="w-full mt-2">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>OPACIDADE (%)</span>
+                    <input type="number" min="0" max="100" value="${w.fillOpacity ?? 45}" oninput="mutateWidget('fillOpacity', Number(this.value), false)" onchange="recordHistory('Opacidade fundo forma');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="0" max="100" value="${w.fillOpacity ?? 45}" oninput="mutateWidget('fillOpacity', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Opacidade fundo forma');renderInspector();" class="w-full mt-1">
                 </div>
               </div>
-              <button onclick="mutateWidget('dashed', !${!!w.dashed}, true);renderInspector();" class="w-full py-1.5 rounded bg-[#14141f] border border-[#262638] font-mono text-[10px] ${w.dashed ? 'text-[#fcee0a]' : 'text-slate-400'}">
-                Contorno Tracejado: ${w.dashed ? 'ATIVO' : 'CONTÍNUO'}
-              </button>
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="mutateWidget('dashed', !${!!w.dashed}, true);renderInspector();" class="py-1.5 rounded bg-[#14141f] border border-[#262638] font-mono text-[10px] ${w.dashed ? 'text-[#fcee0a]' : 'text-slate-400'}">
+                  Tracejado: ${w.dashed ? 'SIM' : 'NÃO'}
+                </button>
+                <button onclick="mutateWidget('useStrokeGradient', !${!!w.useStrokeGradient}, true);renderInspector();" class="py-1.5 rounded bg-[#14141f] border border-[#262638] font-mono text-[10px] ${w.useStrokeGradient ? 'text-cyan-300' : 'text-slate-400'}">
+                  Borda Degradê: ${w.useStrokeGradient ? 'SIM' : 'NÃO'}
+                </button>
+              </div>
             </div>
           ` : ''}
 
@@ -3096,175 +3229,379 @@
               ` : ''}
 
               <div>
-                <div class="flex justify-between text-[10px] font-mono">
-                  <span class="text-slate-400">RAIO DO ARCO</span>
-                  <span class="text-white">${w.radius || 240}px</span>
+                <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                  <span class="text-slate-400">RAIO DO ARCO (PX)</span>
+                  <input type="number" min="20" max="320" value="${w.radius || 240}" oninput="mutateWidget('radius', Number(this.value), false)" onchange="recordHistory('Alterar raio');renderInspector();" class="editable-num-pill">
                 </div>
-                <input type="range" min="40" max="310" value="${w.radius || 240}" oninput="mutateWidget('radius', Number(this.value), false)" onchange="recordHistory('Alterar raio');renderInspector();" class="w-full">
+                <input type="range" min="40" max="310" value="${w.radius || 240}" oninput="mutateWidget('radius', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Alterar raio');renderInspector();" class="w-full">
               </div>
               ${w.thickness !== undefined ? `
                 <div>
-                  <div class="flex justify-between text-[10px] font-mono">
-                    <span class="text-slate-400">ESPESSURA DO TRAÇO</span>
-                    <span class="text-white">${w.thickness}px</span>
+                  <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                    <span class="text-slate-400">ESPESSURA DO TRAÇO (PX)</span>
+                    <input type="number" min="1" max="60" value="${w.thickness}" oninput="mutateWidget('thickness', Number(this.value), false)" onchange="recordHistory('Espessura');renderInspector();" class="editable-num-pill">
                   </div>
-                  <input type="range" min="2" max="40" value="${w.thickness}" oninput="mutateWidget('thickness', Number(this.value), false)" onchange="recordHistory('Espessura');renderInspector();" class="w-full">
+                  <input type="range" min="2" max="40" value="${w.thickness}" oninput="mutateWidget('thickness', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Espessura');renderInspector();" class="w-full">
                 </div>
               ` : ''}
               ${(w.type === 'tachometer' || w.type === 'radial') ? `
                 <div class="grid grid-cols-2 gap-2">
                   <div>
-                    <label class="block text-[9px] font-mono text-slate-400 mb-1">ÂNGULO INICIAL (${w.startAngle ?? 135}°)</label>
-                    <input type="range" min="0" max="360" value="${w.startAngle ?? 135}" oninput="mutateWidget('startAngle', Number(this.value), false)" onchange="recordHistory('Ângulo inicial');renderInspector();" class="w-full">
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                      <span>INÍCIO (°)</span>
+                      <input type="number" min="0" max="360" value="${w.startAngle ?? 135}" oninput="mutateWidget('startAngle', Number(this.value), false)" onchange="recordHistory('Ângulo inicial');renderInspector();" class="editable-num-pill">
+                    </div>
+                    <input type="range" min="0" max="360" value="${w.startAngle ?? 135}" oninput="mutateWidget('startAngle', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Ângulo inicial');renderInspector();" class="w-full">
                   </div>
                   <div>
-                    <label class="block text-[9px] font-mono text-slate-400 mb-1">ABERTURA (${w.sweepAngle ?? 270}°)</label>
-                    <input type="range" min="20" max="360" value="${w.sweepAngle ?? 270}" oninput="mutateWidget('sweepAngle', Number(this.value), false)" onchange="recordHistory('Abertura do arco');renderInspector();" class="w-full">
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                      <span>ABERTURA (°)</span>
+                      <input type="number" min="10" max="360" value="${w.sweepAngle ?? 270}" oninput="mutateWidget('sweepAngle', Number(this.value), false)" onchange="recordHistory('Abertura do arco');renderInspector();" class="editable-num-pill">
+                    </div>
+                    <input type="range" min="20" max="360" value="${w.sweepAngle ?? 270}" oninput="mutateWidget('sweepAngle', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Abertura do arco');renderInspector();" class="w-full">
                   </div>
                 </div>
               ` : ''}
               ${w.segments !== undefined ? `
                 <div>
-                  <div class="flex justify-between text-[10px] font-mono">
+                  <div class="flex justify-between items-center text-[10px] font-mono mb-1">
                     <span class="text-slate-400">DIVISÕES / TICKS</span>
-                    <span class="text-white">${w.segments}</span>
+                    <input type="number" min="4" max="90" value="${w.segments}" oninput="mutateWidget('segments', Number(this.value), false)" onchange="recordHistory('Divisões');renderInspector();" class="editable-num-pill">
                   </div>
-                  <input type="range" min="6" max="60" value="${w.segments}" oninput="mutateWidget('segments', Number(this.value), false)" onchange="recordHistory('Segmentos');renderInspector();" class="w-full">
+                  <input type="range" min="6" max="60" value="${w.segments}" oninput="mutateWidget('segments', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Divisões');renderInspector();" class="w-full">
                 </div>
               ` : ''}
             </div>
           ` : ''}
 
-          ${(w.type === 'seg_bar' || w.type === 'chart' || w.type === 'spectrum') ? `
-            <div class="pt-2 border-t border-[#1e1e2a] space-y-2.5">
+          ${w.type === 'seg_bar' ? `
+            <div class="pt-2 border-t border-[#1e1e2a] space-y-2">
+              <div>
+                <label class="block text-[9px] font-mono text-[#b8ff01] mb-1">ESTILO VISUAL DA BARRA (12 OPÇÕES)</label>
+                <select onchange="mutateWidget('barStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
+                  <option value="cells" ${(w.barStyle === 'cells' || !w.barStyle) ? 'selected' : ''}>01. Células LED Digitais</option>
+                  <option value="gradient" ${w.barStyle === 'gradient' ? 'selected' : ''}>02. Barra Laser Gradiente</option>
+                  <option value="chevron" ${w.barStyle === 'chevron' ? 'selected' : ''}>03. Barra Chevron Tática (///)</option>
+                  <option value="dual_rail" ${w.barStyle === 'dual_rail' ? 'selected' : ''}>04. Barra Plasma Dual-Rail</option>
+                  <option value="ruler" ${w.barStyle === 'ruler' ? 'selected' : ''}>05. Barra Régua Milimétrica</option>
+                  <option value="cyber_chamfer" ${w.barStyle === 'cyber_chamfer' ? 'selected' : ''}>06. Cyberpunk Chanfrada 2077</option>
+                  <option value="cyber_glitch" ${w.barStyle === 'cyber_glitch' ? 'selected' : ''}>07. Cyberpunk Glitch Scanline</option>
+                  <option value="equalizer" ${w.barStyle === 'equalizer' ? 'selected' : ''}>08. Equalizer Peak Caps</option>
+                  <option value="multi_dual_bar" ${w.barStyle === 'multi_dual_bar' ? 'selected' : ''}>09. Multi-Barra Dupla (Sensores A+B)</option>
+                  <option value="multi_triple_bar" ${w.barStyle === 'multi_triple_bar' ? 'selected' : ''}>10. Multi-Barra Tripla (Sensores A+B+C)</option>
+                  <option value="dual_cells_matrix" ${w.barStyle === 'dual_cells_matrix' ? 'selected' : ''}>11. Matriz de Células Duplas 2x (A+B)</option>
+                  <option value="cyber_hud_dual" ${w.barStyle === 'cyber_hud_dual' ? 'selected' : ''}>12. Cyber Telemetria HUD Dupla (A+B)</option>
+                </select>
+              </div>
               <div class="grid grid-cols-2 gap-2">
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">LARGURA (${w.width}PX)</label>
-                  <input type="range" min="60" max="520" value="${w.width || 220}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>LARGURA</span>
+                    <input type="number" min="40" max="600" value="${w.width || 260}" oninput="mutateWidget('width', Number(this.value), false)" onchange="recordHistory('Largura da barra');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="60" max="540" value="${w.width || 260}" oninput="mutateWidget('width', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Largura da barra');renderInspector();" class="w-full">
                 </div>
                 <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">ALTURA (${w.height}PX)</label>
-                  <input type="range" min="12" max="200" value="${w.height || 24}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura');renderInspector();" class="w-full">
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>ALTURA</span>
+                    <input type="number" min="8" max="150" value="${w.height || 22}" oninput="mutateWidget('height', Number(this.value), false)" onchange="recordHistory('Altura da barra');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="10" max="110" value="${w.height || 22}" oninput="mutateWidget('height', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Altura da barra');renderInspector();" class="w-full">
                 </div>
               </div>
-
-              ${w.type === 'seg_bar' ? `
-                <div class="space-y-2 pt-1 border-t border-[#1e1e2a]">
-                  <div>
-                    <label class="block text-[9px] font-mono text-[#fcee0a] mb-1">ESTILO VISUAL DA BARRA (12 MODOS)</label>
-                    <select onchange="mutateWidget('barStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
-                      <option value="cells" ${(w.barStyle === 'cells' || !w.barStyle) ? 'selected' : ''}>01. Células LED Digitais</option>
-                      <option value="gradient" ${w.barStyle === 'gradient' ? 'selected' : ''}>02. Gradiente Contínuo + Laser</option>
-                      <option value="chevron" ${w.barStyle === 'chevron' ? 'selected' : ''}>03. Chevron Tático (///)</option>
-                      <option value="dual_rail" ${w.barStyle === 'dual_rail' ? 'selected' : ''}>04. Plasma Dual-Rail</option>
-                      <option value="ruler" ${w.barStyle === 'ruler' ? 'selected' : ''}>05. Régua Milimétrica</option>
-                      <option value="cyber_chamfer" ${w.barStyle === 'cyber_chamfer' ? 'selected' : ''}>06. Cyberpunk Chanfrada 2077</option>
-                      <option value="cyber_glitch" ${w.barStyle === 'cyber_glitch' ? 'selected' : ''}>07. Cyberpunk Glitch Scanline</option>
-                      <option value="equalizer" ${w.barStyle === 'equalizer' ? 'selected' : ''}>08. Equalizer Peak Caps</option>
-                      <option value="multi_dual_bar" ${w.barStyle === 'multi_dual_bar' ? 'selected' : ''}>09. Barra Dupla (Sensores A + B)</option>
-                      <option value="multi_triple_bar" ${w.barStyle === 'multi_triple_bar' ? 'selected' : ''}>10. Barra Tripla (Sensores A + B + C)</option>
-                      <option value="dual_cells_matrix" ${w.barStyle === 'dual_cells_matrix' ? 'selected' : ''}>11. Matriz Células Dupla (2 Fileiras)</option>
-                      <option value="cyber_hud_dual" ${w.barStyle === 'cyber_hud_dual' ? 'selected' : ''}>12. Cyber Telemetria HUD Dupla</option>
-                    </select>
+              <div class="grid grid-cols-2 gap-2 items-center">
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>CÉLULAS</span>
+                    <input type="number" min="4" max="60" value="${w.segments || 18}" oninput="mutateWidget('segments', Number(this.value), false)" onchange="recordHistory('Células da barra');renderInspector();" class="editable-num-pill">
                   </div>
-                  <div class="grid grid-cols-2 gap-2">
-                    <div>
-                      <label class="block text-[9px] font-mono text-slate-400 mb-1">DIVISÕES (${w.segments || 16})</label>
-                      <input type="range" min="5" max="40" value="${w.segments || 16}" oninput="mutateWidget('segments', Number(this.value), false)" onchange="recordHistory('Divisões barra');renderInspector();" class="w-full">
-                    </div>
-                    <div class="flex items-end">
-                      <button onclick="mutateWidget('showHeader', !${!!w.showHeader}, true);renderInspector();" class="w-full py-1.5 rounded bg-[#14141f] border border-[#262638] font-mono text-[10px] ${w.showHeader ? 'text-[#00f0ff]' : 'text-slate-400'}">
-                        Cabeçalho: ${w.showHeader ? 'SIM' : 'NÃO'}
-                      </button>
-                    </div>
-                  </div>
+                  <input type="range" min="4" max="40" value="${w.segments || 18}" oninput="mutateWidget('segments', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Células da barra');renderInspector();" class="w-full">
                 </div>
-              ` : ''}
-
-              ${w.type === 'spectrum' ? `
-                <div class="pt-2 space-y-2.5 border-t border-[#1e1e2a]">
-                  <div class="p-2.5 rounded bg-[#161224] border border-pink-500/40 space-y-2">
-                    <span class="block text-[9px] font-mono font-bold text-pink-400 uppercase">SINCRONIZAÇÃO DE ÁUDIO DO DESKTOP</span>
-                    <div class="grid grid-cols-2 gap-1.5">
-                      <button onclick="startLiveAudioCapture('system')" class="py-1.5 px-2 rounded bg-pink-500 hover:bg-pink-400 text-black font-mono font-bold text-[10px] transition">
-                        🔊 ÁUDIO DESKTOP
-                      </button>
-                      <button onclick="startLiveAudioCapture('mic')" class="py-1.5 px-2 rounded bg-[#00f0ff] hover:bg-cyan-300 text-black font-mono font-bold text-[10px] transition">
-                        🎙 STEREO MIX / MIC
-                      </button>
-                    </div>
-                    <button onclick="startBuiltinSynthAudioTest()" class="w-full py-1.5 px-2 rounded bg-[#1d2818] hover:bg-[#273820] text-[#b8ff01] border border-[#b8ff01]/40 font-mono font-bold text-[10px] transition">
-                      🎹 TOCAR SYNTHWAVE DE TESTE
-                    </button>
-                  </div>
-
-                  <div>
-                    <label class="block text-[9px] font-mono text-slate-400 mb-1">ESTILO DO ANALISADOR</label>
-                    <select onchange="mutateWidget('spectrumStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[11px] text-white">
-                      <option value="bars" ${(w.spectrumStyle === 'bars' || !w.spectrumStyle) ? 'selected' : ''}>Barras de Frequência</option>
-                      <option value="mirror" ${w.spectrumStyle === 'mirror' ? 'selected' : ''}>Onda Simétrica (Mirror)</option>
-                      <option value="wave" ${w.spectrumStyle === 'wave' ? 'selected' : ''}>Linha Osciloscópio Neon</option>
-                    </select>
-                  </div>
-                </div>
-              ` : ''}
+                <button onclick="mutateWidget('showHeader', !${!!w.showHeader}, true);renderInspector();" class="py-1.5 px-2 rounded bg-[#14141f] border border-[#262638] font-mono text-[10px] ${w.showHeader ? 'text-[#b8ff01]' : 'text-slate-400'}">
+                  Info Topo: ${w.showHeader ? 'SIM' : 'NÃO'}
+                </button>
+              </div>
             </div>
           ` : ''}
 
-          <!-- CORES E BRILHO -->
-          <div class="pt-2 border-t border-[#1e1e2a] space-y-2">
-            <div class="grid grid-cols-2 gap-2">
+          ${w.type === 'spectrum' ? `
+            <div class="pt-2 border-t border-[#1e1e2a] space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono text-pink-400 uppercase font-bold">// ÁUDIO DESKTOP (WEB AUDIO FFT)</span>
+                <span class="text-[9px] font-mono px-1.5 py-0.5 rounded ${liveAudioEngine.active ? 'bg-pink-500/20 text-pink-300' : 'bg-slate-800 text-slate-400'}">
+                  ${liveAudioEngine.active ? 'AO VIVO' : 'SIMULADO'}
+                </span>
+              </div>
+              <button onclick="openAudioConfigModal()" class="w-full py-2 px-3 rounded bg-pink-600 hover:bg-pink-500 text-white font-mono font-bold text-[10px] transition shadow">
+                🔊 CONFIGURAR FONTE DE ÁUDIO DO PC
+              </button>
               <div>
-                <label class="block text-[9px] font-mono text-slate-400 mb-1">COR PRINCIPAL</label>
-                <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded p-1">
-                  <input type="color" value="${w.color || '#00f0ff'}" oninput="mutateWidget('color', this.value, false)" onchange="recordHistory('Alterar cor')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
-                  <span class="font-mono text-[10px] text-slate-300">${w.color || '#00f0ff'}</span>
+                <label class="block text-[9px] font-mono text-slate-400 mb-1">ESTILO DO ESPECTRO</label>
+                <select onchange="mutateWidget('spectrumStyle', this.value, true)" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1 font-mono text-[11px] text-white">
+                  <option value="bars" ${(w.spectrumStyle === 'bars' || !w.spectrumStyle) ? 'selected' : ''}>Barras Verticais Equalizer</option>
+                  <option value="mirror" ${w.spectrumStyle === 'mirror' ? 'selected' : ''}>Onda Simétrica Central (Mirror)</option>
+                  <option value="wave" ${w.spectrumStyle === 'wave' ? 'selected' : ''}>Linha de Frequência Neon</option>
+                </select>
+              </div>
+              <div class="grid grid-cols-2 gap-2">
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>COLUNAS</span>
+                    <input type="number" min="6" max="64" value="${w.barCount || 20}" oninput="mutateWidget('barCount', Number(this.value), false)" onchange="recordHistory('Barras de áudio');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="8" max="48" value="${w.barCount || 20}" oninput="mutateWidget('barCount', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Barras de áudio');renderInspector();" class="w-full">
+                </div>
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
+                    <span>GANHO (%)</span>
+                    <input type="number" min="40" max="400" value="${w.sensitivity || 135}" oninput="mutateWidget('sensitivity', Number(this.value), false)" onchange="recordHistory('Ganho de áudio');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="50" max="300" value="${w.sensitivity || 135}" oninput="mutateWidget('sensitivity', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Ganho de áudio');renderInspector();" class="w-full">
                 </div>
               </div>
-              ${(w.type === 'seg_bar' || w.type === 'tachometer' || w.type === 'radial' || w.type === 'spectrum' || w.type === 'shape') ? `
-                <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR SECUNDÁRIA (LINHA B)</label>
-                  <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded p-1">
-                    <input type="color" value="${w.secondaryColor || '#00f0ff'}" oninput="mutateWidget('secondaryColor', this.value, false)" onchange="recordHistory('Cor secundária')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
-                    <span class="font-mono text-[10px] text-slate-300">${w.secondaryColor || '#00f0ff'}</span>
-                  </div>
+            </div>
+          ` : ''}
+
+          <!-- CORES, DEGRADÊ, CONTORNO (+ NEON) E SOMBRA PROJETADA -->
+          <div class="pt-3 border-t border-[#1e1e2a] space-y-3">
+            <span class="block text-[10px] font-mono font-bold text-[#fcee0a] uppercase tracking-wider">// CORES, DEGRADÊ, CONTORNO & SOMBRA</span>
+
+            <!-- GRADE DE CORES PRINCIPAIS -->
+            <div class="grid grid-cols-2 gap-2">
+              <div>
+                <label class="block text-[9px] font-mono text-slate-400 mb-1">1ª COR (PRINCIPAL)</label>
+                <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded-md p-1.5">
+                  <input type="color" value="${w.color || '#00f0ff'}" oninput="mutateWidget('color', this.value, false)" onchange="recordHistory('Mudar 1ª cor');renderInspector();" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                  <span class="font-mono text-[10px] text-slate-200 truncate">${w.color || '#00f0ff'}</span>
                 </div>
-              ` : ''}
-              ${(w.type === 'seg_bar' || w.type === 'tachometer' || w.type === 'radial') ? `
-                <div>
-                  <label class="block text-[9px] font-mono text-slate-400 mb-1">COR TERCIÁRIA (LINHA C)</label>
-                  <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded p-1">
-                    <input type="color" value="${w.tertiaryColor || '#b8ff01'}" oninput="mutateWidget('tertiaryColor', this.value, false)" onchange="recordHistory('Cor terciária')" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0">
-                    <span class="font-mono text-[10px] text-slate-300">${w.tertiaryColor || '#b8ff01'}</span>
+              </div>
+              <div>
+                <label class="block text-[9px] font-mono text-cyan-300 mb-1">2ª COR (SECUNDÁRIA)</label>
+                <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded-md p-1.5">
+                  <input type="color" value="${w.secondaryColor || '#ff0055'}" oninput="mutateWidget('secondaryColor', this.value, false)" onchange="recordHistory('Mudar 2ª cor');renderInspector();" class="w-6 h-6 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                  <span class="font-mono text-[10px] text-slate-200 truncate">${w.secondaryColor || '#ff0055'}</span>
+                </div>
+              </div>
+            </div>
+
+            ${(w.accentColor !== undefined || w.trackColor !== undefined || w.bgColor !== undefined) ? `
+              <div class="grid grid-cols-2 gap-2">
+                ${w.accentColor !== undefined ? `
+                  <div>
+                    <label class="block text-[9px] font-mono text-slate-400 mb-1">COR UNIDADE / DESTAQUE</label>
+                    <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded-md p-1.5">
+                      <input type="color" value="${w.accentColor}" oninput="mutateWidget('accentColor', this.value, false)" onchange="recordHistory('Cor destaque');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                      <span class="font-mono text-[10px] text-slate-300 truncate">${w.accentColor}</span>
+                    </div>
                   </div>
+                ` : ''}
+                ${w.trackColor !== undefined ? `
+                  <div>
+                    <label class="block text-[9px] font-mono text-slate-400 mb-1">COR TRILHO INATIVO</label>
+                    <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded-md p-1.5">
+                      <input type="color" value="${w.trackColor}" oninput="mutateWidget('trackColor', this.value, false)" onchange="recordHistory('Cor trilho');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                      <span class="font-mono text-[10px] text-slate-300 truncate">${w.trackColor}</span>
+                    </div>
+                  </div>
+                ` : ''}
+                ${w.bgColor !== undefined ? `
+                  <div>
+                    <label class="block text-[9px] font-mono text-slate-400 mb-1">FUNDO DA PÍLULA</label>
+                    <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded-md p-1.5">
+                      <input type="color" value="${w.bgColor}" oninput="mutateWidget('bgColor', this.value, false)" onchange="recordHistory('Cor pílula');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                      <span class="font-mono text-[10px] text-slate-300 truncate">${w.bgColor}</span>
+                    </div>
+                  </div>
+                ` : ''}
+              </div>
+            ` : ''}
+
+            <!-- 1. CARD DE DEGRADÊ (1ª COR -> 2ª COR) -->
+            <div class="p-3 rounded-lg bg-[#111722] border border-cyan-500/30 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold text-cyan-300">🌈 DEGRADÊ (1ª → 2ª COR)</span>
+                <button onclick="mutateWidget('useGradient', !${!!w.useGradient}, true);renderInspector();" class="px-2.5 py-1 rounded font-mono text-[9px] font-bold transition ${w.useGradient ? 'bg-cyan-400 text-black' : 'bg-[#1a2232] text-slate-400'}">
+                  ${w.useGradient ? 'ATIVO' : 'DESATIVADO'}
+                </button>
+              </div>
+              ${w.useGradient ? `
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                    <span>ÂNGULO DO DEGRADÊ (°)</span>
+                    <input type="number" min="0" max="360" value="${w.gradientAngle ?? 135}" oninput="mutateWidget('gradientAngle', Number(this.value), false)" onchange="recordHistory('Ângulo degradê');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="0" max="360" value="${w.gradientAngle ?? 135}" oninput="mutateWidget('gradientAngle', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Ângulo degradê');renderInspector();" class="w-full">
                 </div>
               ` : ''}
             </div>
 
-            <div class="grid grid-cols-2 gap-2 pt-1">
-              <div>
-                <div class="flex justify-between text-[10px] font-mono">
-                  <span class="text-slate-400">BRILHO NEON</span>
-                  <span class="text-white">${w.glow || 0}px</span>
-                </div>
-                <input type="range" min="0" max="30" value="${w.glow || 0}" oninput="mutateWidget('glow', Number(this.value), false)" onchange="recordHistory('Brilho')" class="w-full">
+            <!-- 2. CARD DE CONTORNO + EXTENSÃO DE BRILHO NEON NO CONTORNO -->
+            <div class="p-3 rounded-lg bg-[#151221] border border-purple-500/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold text-purple-300">✒ CONTORNO EXTERNO</span>
+                <span class="text-[8px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300">BORDA + NEON</span>
               </div>
-              <div>
-                <div class="flex justify-between text-[10px] font-mono">
-                  <span class="text-slate-400">OPACIDADE</span>
-                  <span class="text-white">${w.opacity ?? 100}%</span>
+
+              ${hasFontSettings ? `
+                <div class="space-y-2">
+                  <div>
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                      <span>ESPESSURA DO CONTORNO (PX)</span>
+                      <input type="number" min="0" max="12" step="0.5" value="${w.textStrokeWidth || 0}" oninput="mutateWidget('textStrokeWidth', Number(this.value), false)" onchange="recordHistory('Espessura contorno fonte');renderInspector();" class="editable-num-pill">
+                    </div>
+                    <input type="range" min="0" max="8" step="0.5" value="${w.textStrokeWidth || 0}" oninput="mutateWidget('textStrokeWidth', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Espessura contorno fonte');renderInspector();" class="w-full">
+                  </div>
+                  <div class="flex items-center justify-between bg-[#0e0c18] border border-[#28233c] rounded-md px-2.5 py-1.5">
+                    <span class="text-[9px] font-mono text-slate-300">COR DO CONTORNO</span>
+                    <div class="flex items-center space-x-1.5">
+                      <input type="color" value="${w.textStrokeColor || w.secondaryColor || '#00f0ff'}" oninput="syncOutlineAndNeonColor('textStrokeColor', this.value)" onchange="recordHistory('Cor contorno fonte');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
+                      <span class="font-mono text-[10px] text-purple-200">${w.textStrokeColor || w.secondaryColor || '#00f0ff'}</span>
+                    </div>
+                  </div>
                 </div>
-                <input type="range" min="10" max="100" value="${w.opacity ?? 100}" oninput="mutateWidget('opacity', Number(this.value), false)" onchange="recordHistory('Opacidade')" class="w-full">
+              ` : `
+                <div class="space-y-2">
+                  <div>
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                      <span>ESPESSURA DO CONTORNO (PX)</span>
+                      <input type="number" min="0" max="12" step="0.5" value="${w.shapeOutlineWidth || 0}" oninput="mutateWidget('shapeOutlineWidth', Number(this.value), false)" onchange="recordHistory('Espessura contorno');renderInspector();" class="editable-num-pill">
+                    </div>
+                    <input type="range" min="0" max="8" step="0.5" value="${w.shapeOutlineWidth || 0}" oninput="mutateWidget('shapeOutlineWidth', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Espessura contorno');renderInspector();" class="w-full">
+                  </div>
+                  <div class="flex items-center justify-between bg-[#0e0c18] border border-[#28233c] rounded-md px-2.5 py-1.5">
+                    <span class="text-[9px] font-mono text-slate-300">COR DO CONTORNO</span>
+                    <div class="flex items-center space-x-1.5">
+                      <input type="color" value="${w.shapeOutlineColor || w.secondaryColor || '#00f0ff'}" oninput="syncOutlineAndNeonColor('shapeOutlineColor', this.value)" onchange="recordHistory('Cor contorno');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
+                      <span class="font-mono text-[10px] text-purple-200">${w.shapeOutlineColor || w.secondaryColor || '#00f0ff'}</span>
+                    </div>
+                  </div>
+                </div>
+              `}
+
+              <!-- EXTENSÃO ATIVÁVEL: BRILHO NEON DO CONTORNO -->
+              <div class="pt-2.5 border-t border-purple-500/30 space-y-2.5">
+                <div class="flex items-center justify-between">
+                  <div>
+                    <span class="block text-[9px] font-mono font-bold text-[#b8ff01]">✨ NEON NO CONTORNO</span>
+                    <span class="block text-[8px] font-mono text-slate-400">Brilha na borda sem borrar o interior</span>
+                  </div>
+                  <button onclick="toggleOutlineGlowExtension()" class="px-2.5 py-1 rounded font-mono text-[9px] font-bold transition shrink-0 ${isOutlineGlowEnabled(w) ? 'bg-[#b8ff01] text-black shadow-[0_0_10px_rgba(184,255,1,0.6)]' : 'bg-[#1f1b2e] text-slate-400'}">
+                    ${isOutlineGlowEnabled(w) ? 'NEON ATIVO' : 'ATIVAR NEON'}
+                  </button>
+                </div>
+
+                ${isOutlineGlowEnabled(w) ? `
+                  <div class="space-y-2 bg-[#0e0c18] p-2.5 rounded-md border border-[#b8ff01]/30">
+                    <div>
+                      <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                        <span>INTENSIDADE DO NEON (PX)</span>
+                        <input type="number" min="1" max="50" value="${w.glow || 10}" oninput="mutateWidget('glow', Number(this.value), false)" onchange="recordHistory('Intensidade Neon');renderInspector();" class="editable-num-pill !text-[#b8ff01]">
+                      </div>
+                      <input type="range" min="1" max="35" value="${w.glow || 10}" oninput="mutateWidget('glow', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Intensidade Neon');renderInspector();" class="w-full">
+                    </div>
+                    <div class="flex items-center justify-between pt-1">
+                      <span class="text-[9px] font-mono text-[#b8ff01]">COR DO BRILHO NEON</span>
+                      <div class="flex items-center space-x-1.5">
+                        <input type="color" value="${getOutlineGlowColor(w, w.secondaryColor || '#00f0ff')}" oninput="mutateWidget('outlineGlowColor', this.value, false)" onchange="recordHistory('Cor do Brilho Neon');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0">
+                        <span class="font-mono text-[10px] text-[#b8ff01]">${getOutlineGlowColor(w, w.secondaryColor || '#00f0ff')}</span>
+                      </div>
+                    </div>
+                  </div>
+                ` : ''}
               </div>
+            </div>
+
+            <!-- 3. CARD DE SOMBRA PROJETADA (DROP SHADOW 2ª COR) -->
+            <div class="p-3 rounded-lg bg-[#191118] border border-pink-500/35 space-y-2.5">
+              <div class="flex items-center justify-between">
+                <span class="text-[10px] font-mono font-bold text-pink-300">🌘 SOMBRA PROJETADA (3D)</span>
+                <div class="flex items-center space-x-1.5 bg-[#120c12] border border-pink-500/30 rounded px-2 py-0.5">
+                  <span class="text-[8px] font-mono text-pink-200">COR:</span>
+                  <input type="color" value="${w.shadowColor || w.secondaryColor || '#ff0055'}" oninput="mutateWidget('shadowColor', this.value, false)" onchange="recordHistory('Cor da sombra');renderInspector();" class="w-4 h-4 rounded cursor-pointer bg-transparent border-0">
+                </div>
+              </div>
+
+              <div class="space-y-2">
+                <div class="grid grid-cols-2 gap-2">
+                  <div>
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                      <span>DESLOC. X</span>
+                      <input type="number" min="-40" max="40" value="${w.shadowOffsetX || 0}" oninput="mutateWidget('shadowOffsetX', Number(this.value), false)" onchange="recordHistory('Sombra X');renderInspector();" class="editable-num-pill !w-12">
+                    </div>
+                    <input type="range" min="-25" max="25" value="${w.shadowOffsetX || 0}" oninput="mutateWidget('shadowOffsetX', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Sombra X');renderInspector();" class="w-full">
+                  </div>
+                  <div>
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                      <span>DESLOC. Y</span>
+                      <input type="number" min="-40" max="40" value="${w.shadowOffsetY || 0}" oninput="mutateWidget('shadowOffsetY', Number(this.value), false)" onchange="recordHistory('Sombra Y');renderInspector();" class="editable-num-pill !w-12">
+                    </div>
+                    <input type="range" min="-25" max="25" value="${w.shadowOffsetY || 0}" oninput="mutateWidget('shadowOffsetY', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Sombra Y');renderInspector();" class="w-full">
+                  </div>
+                </div>
+
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                    <span>SUAVIZAÇÃO / BLUR DA SOMBRA (PX)</span>
+                    <input type="number" min="0" max="50" value="${w.shadowBlur || 0}" oninput="mutateWidget('shadowBlur', Number(this.value), false)" onchange="recordHistory('Blur sombra');renderInspector();" class="editable-num-pill">
+                  </div>
+                  <input type="range" min="0" max="35" value="${w.shadowBlur || 0}" oninput="mutateWidget('shadowBlur', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Blur sombra');renderInspector();" class="w-full">
+                </div>
+              </div>
+            </div>
+
+            <!-- OPACIDADE GERAL DA CAMADA -->
+            <div class="pt-1">
+              <div class="flex justify-between items-center text-[10px] font-mono mb-1">
+                <span class="text-slate-400">OPACIDADE DA CAMADA (%)</span>
+                <input type="number" min="5" max="100" value="${w.opacity ?? 100}" oninput="mutateWidget('opacity', Number(this.value), false)" onchange="recordHistory('Opacidade');renderInspector();" class="editable-num-pill">
+              </div>
+              <input type="range" min="10" max="100" value="${w.opacity ?? 100}" oninput="mutateWidget('opacity', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Opacidade')" class="w-full">
             </div>
           </div>
 
-          <div class="pt-3 border-t border-[#1e1e2a] grid grid-cols-2 gap-2">
-            <button onclick="duplicateSelectedWidget()" class="py-2 rounded bg-[#161622] hover:bg-[#1f1f30] border border-[#2c2c40] font-mono text-[10px] text-cyan-300 font-bold">⧉ DUPLICAR</button>
-            <button onclick="deleteSelectedWidget()" class="py-2 rounded bg-rose-950/40 hover:bg-rose-900/60 border border-rose-700/40 font-mono text-[10px] text-rose-300 font-bold">✕ EXCLUIR</button>
+          <!-- BOTÕES DE AÇÃO DA CAMADA (BEM ESPAÇADOS NO RODAPÉ DO INSPETOR) -->
+          <div class="pt-4 mt-2 border-t border-[#222234] grid grid-cols-2 gap-2.5 pb-4">
+            <button onclick="duplicateSelectedWidget()" class="py-2.5 px-3 rounded-lg bg-[#161625] hover:bg-[#202036] border border-[#2e2e46] font-mono text-[11px] text-cyan-300 font-bold transition shadow">
+              ⧉ DUPLICAR
+            </button>
+            <button onclick="deleteSelectedWidget()" class="py-2.5 px-3 rounded-lg bg-rose-950/45 hover:bg-rose-900/65 border border-rose-700/50 font-mono text-[11px] text-rose-300 font-bold transition shadow">
+              ✕ EXCLUIR
+            </button>
           </div>
         </div>
       `;
+    }
+
+    function syncOutlineAndNeonColor(strokeProp, newColor) {
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) return;
+      w[strokeProp] = newColor;
+      w.outlineGlowColor = newColor;
+      renderStageWidgets(true);
+      persistAndSyncProject();
+    }
+
+    function toggleOutlineGlowExtension() {
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) return;
+      const currentlyEnabled = isOutlineGlowEnabled(w);
+      w.useOutlineGlow = !currentlyEnabled;
+      if (w.useOutlineGlow) {
+        if (!w.glow || w.glow <= 0) w.glow = 10;
+        const hasTextStroke = ['telemetry_card', 'dual_pill', 'sensor', 'label', 'clock', 'chart'].includes(w.type);
+        if (hasTextStroke) {
+          if (!w.textStrokeWidth || w.textStrokeWidth <= 0) w.textStrokeWidth = 1.5;
+          if (!w.textStrokeColor) w.textStrokeColor = w.secondaryColor || '#00f0ff';
+          w.outlineGlowColor = w.textStrokeColor;
+        } else {
+          if (!w.shapeOutlineWidth || w.shapeOutlineWidth <= 0) w.shapeOutlineWidth = 1.5;
+          if (!w.shapeOutlineColor) w.shapeOutlineColor = w.secondaryColor || '#00f0ff';
+          w.outlineGlowColor = w.shapeOutlineColor;
+        }
+      }
+      renderStageWidgets(true);
+      recordHistory(w.useOutlineGlow ? 'Ativar Neon no Contorno' : 'Desativar Neon no Contorno');
+      renderInspector();
     }
 
     function mutateWidget(key, value, commitHistory = false) {
@@ -3656,20 +3993,22 @@
       const vigStrength = (bg.vignette ?? 55) / 100;
       vig.style.background = `radial-gradient(circle, rgba(0,0,0,0) 42%, rgba(0,0,0,${vigStrength}) 100%)`;
 
-      const setTxt = (id, t) => { const e = document.getElementById(id); if (e) e.textContent = t; };
       const setVal = (id, v) => { const e = document.getElementById(id); if (e) e.value = v; };
-      setTxt('lbl-bg-opacity', `${bg.opacity ?? 50}%`);
-      setTxt('lbl-bg-scale', `${bg.scale ?? 100}%`);
-      setTxt('lbl-bg-posx', `${bg.posX || 0}px`);
-      setTxt('lbl-bg-posy', `${bg.posY || 0}px`);
-      setTxt('lbl-bg-rot', `${bg.rotation || 0}°`);
-      setTxt('lbl-bg-blur', `${bg.blur ?? 0}px`);
-      setTxt('lbl-bg-vignette', `${bg.vignette ?? 55}%`);
+      setVal('lbl-bg-opacity', bg.opacity ?? 50);
+      setVal('lbl-bg-scale', bg.scale ?? 100);
+      setVal('lbl-bg-posx', bg.posX || 0);
+      setVal('lbl-bg-posy', bg.posY || 0);
+      setVal('lbl-bg-rot', bg.rotation || 0);
+      setVal('lbl-bg-blur', bg.blur ?? 0);
+      setVal('lbl-bg-vignette', bg.vignette ?? 55);
       setVal('sel-bg-fit', bg.fitMode || 'cover');
       setVal('rng-bg-scale', bg.scale ?? 100);
       setVal('rng-bg-posx', bg.posX || 0);
       setVal('rng-bg-posy', bg.posY || 0);
       setVal('rng-bg-rot', bg.rotation || 0);
+      setVal('rng-bg-opacity', bg.opacity ?? 50);
+      setVal('rng-bg-blur', bg.blur ?? 0);
+      setVal('rng-bg-vignette', bg.vignette ?? 55);
     }
 
     function resetBgTransform() {
