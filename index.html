@@ -477,18 +477,23 @@
 
           <!-- Medidores Circulares & Gráficos -->
           <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-slate-400 uppercase block">Arcos, Multi-Arcos (2/3 Linhas) & Gráficos:</span>
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">Arcos, Multi-Arcos (2/3 Linhas) & Animados:</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
               <button onclick="createNewWidget('tachometer', 'blocks')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#ff3b00]">+ Tacômetro Ticks</button>
               <button onclick="createNewWidget('tachometer', 'blades')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#fcee0a]/40 text-left text-[#fcee0a]">+ Arco Cyber Blades</button>
               <button onclick="createNewWidget('tachometer', 'reactor')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-cyan-500/40 text-left text-cyan-300">+ Arco Reator Pinos</button>
               <button onclick="createNewWidget('tachometer', 'dual_track')" class="p-2 rounded bg-[#161326] hover:bg-[#221c3a] border border-purple-500/50 text-left text-purple-300">+ Tacômetro Duplo (2x)</button>
               <button onclick="createNewWidget('tachometer', 'triple_matrix')" class="p-2 rounded bg-[#142016] hover:bg-[#1c2e20] border border-[#b8ff01]/50 text-left text-[#b8ff01]">+ Tacômetro Triplo (3x)</button>
+              <button onclick="createNewWidget('tachometer', 'pulse_wave')" class="p-2 rounded bg-[#1d1128] hover:bg-[#2a183b] border border-pink-500/50 text-left text-pink-300">✨ Tac. Pulse Wave</button>
+              <button onclick="createNewWidget('tachometer', 'turbine_spin')" class="p-2 rounded bg-[#101e26] hover:bg-[#172d38] border border-cyan-400/50 text-left text-cyan-300">✨ Tac. Turbine Spin</button>
               <button onclick="createNewWidget('radial', 'solid')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#00f0ff]">+ Arco Contínuo</button>
               <button onclick="createNewWidget('radial', 'cyber_rail')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#fcee0a]/40 text-left text-[#fcee0a]">+ Arco Cyber Rail</button>
               <button onclick="createNewWidget('radial', 'triple_hud')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-purple-500/40 text-left text-purple-300">+ Arco Triplo HUD (3x)</button>
               <button onclick="createNewWidget('radial', 'multi_dual')" class="p-2 rounded bg-[#0d1b22] hover:bg-[#132833] border border-cyan-400/50 text-left text-cyan-300">+ Arco Duplo CPU+GPU</button>
               <button onclick="createNewWidget('radial', 'cyber_telemetry')" class="p-2 rounded bg-[#1f1608] hover:bg-[#2c200b] border border-[#fcee0a]/50 text-left text-[#fcee0a]">+ Arco Cyber Multi-HUD</button>
+              <button onclick="createNewWidget('radial', 'energy_flow')" class="p-2 rounded bg-[#11241c] hover:bg-[#183529] border border-[#b8ff01]/50 text-left text-[#b8ff01]">✨ Arco Energy Flow</button>
+              <button onclick="createNewWidget('radial', 'gyro_orbit')" class="p-2 rounded bg-[#1a132b] hover:bg-[#251b3d] border border-purple-400/50 text-left text-purple-300">✨ Arco Giroscópio</button>
+              <button onclick="createNewWidget('radial', 'radar_sweep')" class="p-2 rounded bg-[#22140c] hover:bg-[#331e12] border border-orange-400/50 text-left text-orange-300">✨ Arco Radar Sweep</button>
               <button onclick="createNewWidget('chart')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-emerald-300">+ Gráfico Tempo Real</button>
               <button onclick="createNewWidget('spectrum')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-pink-500/40 text-left text-pink-400">+ Espectro Áudio PC</button>
               <button onclick="createNewWidget('clock')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-white">+ Relógio Digital</button>
@@ -496,9 +501,9 @@
             </div>
           </div>
 
-          <!-- 12 Tipos de Barras Lineares, Cyberpunk & Multi-Linhas -->
+          <!-- 16 Tipos de Barras Lineares, Cyberpunk, Multi-Linhas & Animadas -->
           <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">12 Estilos de Barras (Simples & Multi-Linhas):</span>
+            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">16 Estilos de Barras (Simples, Multi & Animadas):</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
               <button onclick="createNewWidget('seg_bar', 'cells')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#b8ff01]">+ 01. Células LED</button>
               <button onclick="createNewWidget('seg_bar', 'gradient')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-cyan-300">+ 02. Laser Gradiente</button>
@@ -512,6 +517,10 @@
               <button onclick="createNewWidget('seg_bar', 'multi_triple_bar')" class="p-2 rounded bg-[#161326] hover:bg-[#211c38] border border-purple-400/50 text-left text-purple-300">+ 10. Barra Tripla (3x)</button>
               <button onclick="createNewWidget('seg_bar', 'dual_cells_matrix')" class="p-2 rounded bg-[#1b140c] hover:bg-[#291e12] border border-amber-400/50 text-left text-amber-300">+ 11. Células Duplas 2x</button>
               <button onclick="createNewWidget('seg_bar', 'cyber_hud_dual')" class="p-2 rounded bg-[#1f1808] hover:bg-[#2d230b] border border-[#fcee0a]/60 text-left text-[#fcee0a]">+ 12. Cyber HUD Dupla</button>
+              <button onclick="createNewWidget('seg_bar', 'plasma_stream')" class="p-2 rounded bg-[#0d2224] hover:bg-[#133236] border border-cyan-400/60 text-left text-cyan-300">✨ 13. Plasma Stream</button>
+              <button onclick="createNewWidget('seg_bar', 'cyber_scanner')" class="p-2 rounded bg-[#22101c] hover:bg-[#321729] border border-pink-500/60 text-left text-pink-300">✨ 14. Scanner Laser</button>
+              <button onclick="createNewWidget('seg_bar', 'reactor_pulse')" class="p-2 rounded bg-[#142210] hover:bg-[#1d3217] border border-[#b8ff01]/60 text-left text-[#b8ff01]">✨ 15. Reator Pulse</button>
+              <button onclick="createNewWidget('seg_bar', 'matrix_rain_bar')" class="p-2 rounded bg-[#1d1908] hover:bg-[#2d270c] border border-[#fcee0a]/60 text-left text-[#fcee0a]">✨ 16. Glitch Rain</button>
             </div>
           </div>
 
@@ -1624,8 +1633,13 @@
       return w.outlineGlowColor || w.textStrokeColor || w.shapeOutlineColor || w.secondaryColor || fallbackColor || '#00f0ff';
     }
 
+    function getGradientEndColor(w) {
+      return w.gradientColor2 || w.secondaryColor || '#ff0055';
+    }
+
     function buildTextAdvancedCss(w, primaryColor) {
       const secCol = w.secondaryColor || '#00f0ff';
+      const gradEndCol = getGradientEndColor(w);
       const strokeW = Number(w.textStrokeWidth) || 0;
       const strokeCol = w.textStrokeColor || secCol;
       const shX = Number(w.shadowOffsetX) || 0;
@@ -1657,7 +1671,7 @@
 
       if (w.useGradient) {
         const deg = w.gradientAngle ?? 135;
-        css += `background: linear-gradient(${deg}deg, ${primaryColor} 0%, ${secCol} 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;`;
+        css += `background: linear-gradient(${deg}deg, ${primaryColor} 0%, ${gradEndCol} 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;`;
       } else {
         css += `color: ${primaryColor};`;
       }
@@ -1690,13 +1704,13 @@
     }
 
     function buildSvgGradientDef(id, w, primaryColor) {
-      const secCol = w.secondaryColor || '#00f0ff';
+      const gradEndCol = getGradientEndColor(w);
       const angle = (Number(w.gradientAngle) ?? 90) * Math.PI / 180;
       const x1 = Math.round(50 - Math.cos(angle) * 50);
       const y1 = Math.round(50 - Math.sin(angle) * 50);
       const x2 = Math.round(50 + Math.cos(angle) * 50);
       const y2 = Math.round(50 + Math.sin(angle) * 50);
-      return `<linearGradient id="${id}" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%"><stop offset="0%" stop-color="${primaryColor}"/><stop offset="100%" stop-color="${secCol}"/></linearGradient>`;
+      return `<linearGradient id="${id}" x1="${x1}%" y1="${y1}%" x2="${x2}%" y2="${y2}%"><stop offset="0%" stop-color="${primaryColor}"/><stop offset="100%" stop-color="${gradEndCol}"/></linearGradient>`;
     }
 
     function polarToCartesian(cx, cy, r, angleDeg) {
@@ -1923,6 +1937,40 @@
               const col = isLit ? (w.useGradient ? paintA : (i > segs * 0.75 ? secColor : priColor)) : trkColor;
               pathsHtml += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${col}" stroke-width="4" stroke-linecap="butt"/>`;
             }
+          } else if (tachStyle === 'pulse_wave') {
+            const animSpeed = Math.max(0.4, (2.2 - progA * 1.2) / ((w.animSpeed || 100) / 100)).toFixed(2);
+            for (let i = 0; i < segs; i++) {
+              const aStart = sAngle + i * (segSweep + gapDeg);
+              const d = polarArcPath(cx, cy, r, aStart, segSweep);
+              const isLit = i < activeCount;
+              const delay = ((i / segs) * 1.2).toFixed(2);
+              if (isLit) {
+                pathsHtml += `
+                  <path d="${d}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round">
+                    <animate attributeName="stroke-width" values="${thick * 0.65};${thick * 1.28};${thick * 0.65}" dur="${animSpeed}s" begin="${delay}s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.55;1;0.55" dur="${animSpeed}s" begin="${delay}s" repeatCount="indefinite"/>
+                  </path>
+                `;
+              } else {
+                pathsHtml += `<path d="${d}" fill="none" stroke="${trkColor}" stroke-width="${thick * 0.75}" stroke-linecap="round"/>`;
+              }
+            }
+            if (lineCount >= 2) {
+              pathsHtml += buildBlockRing(Math.max(24, r - thick * 1.1), Math.max(4, thick * 0.48), activeCountB, secColor);
+            }
+          } else if (tachStyle === 'turbine_spin') {
+            const spinDur = Math.max(1.2, (8 - progA * 5.5) / ((w.animSpeed || 100) / 100)).toFixed(2);
+            pathsHtml += buildBlockRing(r, Math.max(5, thick * 0.65), activeCount, paintA);
+            const rRotor = Math.max(26, r - thick * 0.95);
+            pathsHtml += `
+              <g>
+                <circle cx="${cx}" cy="${cy}" r="${rRotor}" fill="none" stroke="${secColor}" stroke-width="${Math.max(3, thick * 0.35)}" stroke-dasharray="16 12"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${cy}" to="360 ${cx} ${cy}" dur="${spinDur}s" repeatCount="indefinite"/>
+              </g>
+            `;
+            if (lineCount >= 2) {
+              pathsHtml += buildBlockRing(Math.max(20, r - thick * 1.6), Math.max(4, thick * 0.42), activeCountB, terColor);
+            }
           } else {
             pathsHtml += buildBlockRing(r, thick, activeCount, paintA);
           }
@@ -1933,7 +1981,7 @@
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 4. ARCO CONTÍNUO / RADIAL GAUGE (COM DEGRADÊ, CONTORNO & SOMBRA 2ª COR)
+        // 4. ARCO CONTÍNUO / RADIAL GAUGE (COM DEGRADÊ, CONTORNO, SOMBRA 2ª COR & ANIMAÇÕES)
         else if (w.type === 'radial') {
           const r = w.radius || 220;
           const thick = w.thickness || 12;
@@ -1959,10 +2007,61 @@
           const outlineW = Number(w.shapeOutlineWidth) || 0;
           const outlineCol = w.shapeOutlineColor || secColor;
           const lineCount = Number(w.multiLineCount) || (radialStyle === 'triple_hud' ? 3 : (radialStyle === 'multi_dual' || radialStyle === 'cyber_telemetry') ? 2 : 1);
+          const speedFactor = (w.animSpeed || 100) / 100;
 
           let svgInner = `<defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>`;
 
-          if (radialStyle === 'multi_dual' || (lineCount === 2 && radialStyle === 'solid')) {
+          if (radialStyle === 'energy_flow') {
+            const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
+            const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
+            const flowDur = Math.max(0.25, (1.4 - progA * 0.85) / speedFactor).toFixed(2);
+            svgInner += `
+              <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round"/>
+              ${outlineW > 0 ? `<path d="${valD}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="round"/>` : ''}
+              <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round" opacity="0.45"/>
+              <path d="${valD}" fill="none" stroke="${ paintA }" stroke-width="${thick}" stroke-linecap="round" stroke-dasharray="18 14">
+                <animate attributeName="stroke-dashoffset" from="64" to="0" dur="${flowDur}s" repeatCount="indefinite"/>
+              </path>
+              <path d="${valD}" fill="none" stroke="#ffffff" stroke-width="${Math.max(2, thick * 0.28)}" stroke-linecap="round" stroke-dasharray="6 26">
+                <animate attributeName="stroke-dashoffset" from="64" to="0" dur="${flowDur}s" repeatCount="indefinite"/>
+              </path>
+            `;
+            if (lineCount >= 2) {
+              const rB = Math.max(24, r - thick * 1.15);
+              const valB = polarArcPath(cx, cy, rB, sAngle, activeSweepB);
+              svgInner += `<path d="${valB}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.65)}" stroke-linecap="round"/>`;
+            }
+          } else if (radialStyle === 'gyro_orbit') {
+            const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
+            const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
+            const dur1 = Math.max(1.5, 7 / speedFactor).toFixed(2);
+            const dur2 = Math.max(1.2, 4.5 / speedFactor).toFixed(2);
+            svgInner += `
+              <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round"/>
+              <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round"/>
+              <g>
+                <circle cx="${cx}" cy="${cy}" r="${r + thick * 0.85}" fill="none" stroke="${secColor}" stroke-width="2.5" stroke-dasharray="28 42 8 18"/>
+                <animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${cy}" to="360 ${cx} ${cy}" dur="${dur1}s" repeatCount="indefinite"/>
+              </g>
+              <g>
+                <circle cx="${cx}" cy="${cy}" r="${Math.max(20, r - thick * 0.85)}" fill="none" stroke="${terColor}" stroke-width="2.5" stroke-dasharray="14 28"/>
+                <animateTransform attributeName="transform" type="rotate" from="360 ${cx} ${cy}" to="0 ${cx} ${cy}" dur="${dur2}s" repeatCount="indefinite"/>
+              </g>
+            `;
+          } else if (radialStyle === 'radar_sweep') {
+            const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
+            const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
+            const sweepDur = Math.max(0.6, 2.2 / speedFactor).toFixed(2);
+            const pTip = polarToCartesian(cx, cy, r, sAngle);
+            svgInner += `
+              <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round"/>
+              <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round"/>
+              <g>
+                <circle cx="${pTip.x.toFixed(1)}" cy="${pTip.y.toFixed(1)}" r="${thick * 0.72}" fill="#ffffff" stroke="${secColor}" stroke-width="3"/>
+                <animateTransform attributeName="transform" type="rotate" values="0 ${cx} ${cy};${activeSweepA.toFixed(1)} ${cx} ${cy};0 ${cx} ${cy}" dur="${sweepDur}s" repeatCount="indefinite"/>
+              </g>
+            `;
+          } else if (radialStyle === 'multi_dual' || (lineCount === 2 && radialStyle === 'solid')) {
             const gapR = Math.max(10, thick + 5);
             const rA = r + gapR * 0.45;
             const rB = Math.max(24, r - gapR * 0.55);
@@ -2151,6 +2250,70 @@
               <rect x="4" y="${(barSvgH - botH - 3).toFixed(1)}" width="${innerW}" height="${botH.toFixed(1)}" fill="${trkColor}"/>
               <rect x="4" y="${(barSvgH - botH - 3).toFixed(1)}" width="${fillB.toFixed(1)}" height="${botH.toFixed(1)}" fill="${secColor}"/>
             `;
+          } else if (style === 'plasma_stream') {
+            const fillW = Math.max(6, (width - 4) * prog);
+            const streamDur = Math.max(0.25, (1.1 - prog * 0.6) / ((w.animSpeed || 100) / 100)).toFixed(2);
+            const midY = (barSvgH / 2).toFixed(1);
+            svgBarContent = `
+              <rect x="1" y="1" width="${width - 2}" height="${barSvgH - 2}" rx="${barSvgH / 2}" fill="${trkColor}" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.22)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>
+              <rect x="2" y="2" width="${fillW}" height="${barSvgH - 4}" rx="${(barSvgH - 4) / 2}" fill="${paintPrimary}" opacity="0.55"/>
+              <line x1="6" y1="${midY}" x2="${Math.max(8, fillW - 4)}" y2="${midY}" stroke="${secColor}" stroke-width="${Math.max(4, barSvgH - 6)}" stroke-linecap="round" stroke-dasharray="14 12">
+                <animate attributeName="stroke-dashoffset" from="52" to="0" dur="${streamDur}s" repeatCount="indefinite"/>
+              </line>
+              <line x1="6" y1="${midY}" x2="${Math.max(8, fillW - 4)}" y2="${midY}" stroke="#ffffff" stroke-width="${Math.max(2, barSvgH * 0.25)}" stroke-linecap="round" stroke-dasharray="4 22">
+                <animate attributeName="stroke-dashoffset" from="52" to="0" dur="${streamDur}s" repeatCount="indefinite"/>
+              </line>
+            `;
+          } else if (style === 'cyber_scanner') {
+            const fillW = Math.max(8, (width - 4) * prog);
+            const scanDur = Math.max(0.5, 1.8 / ((w.animSpeed || 100) / 100)).toFixed(2);
+            const scanMaxX = Math.max(4, fillW - 18);
+            svgBarContent = `
+              <rect x="0" y="0" width="${width}" height="${barSvgH}" rx="3" fill="${trkColor}" stroke="${outlineW > 0 ? outlineCol : priColor}" stroke-width="${Math.max(1, outlineW)}"/>
+              <rect x="2" y="2" width="${fillW}" height="${barSvgH - 4}" rx="2" fill="${paintPrimary}" opacity="0.78"/>
+              <rect x="2" y="1" width="18" height="${barSvgH - 2}" rx="2" fill="#ffffff">
+                <animate attributeName="x" values="2;${scanMaxX.toFixed(1)};2" dur="${scanDur}s" repeatCount="indefinite"/>
+              </rect>
+            `;
+          } else if (style === 'reactor_pulse') {
+            const gap = 3;
+            const cellW = Math.max(3, (width - 6 - gap * (segs - 1)) / segs);
+            const pulseDur = Math.max(0.4, 1.4 / ((w.animSpeed || 100) / 100)).toFixed(2);
+            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.75)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.16)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>`;
+            for (let i = 0; i < segs; i++) {
+              const x = 3 + i * (cellW + gap);
+              const active = i < litCount;
+              const delay = ((i / segs) * 0.9).toFixed(2);
+              const col = active ? (w.useGradient ? paintPrimary : (i >= segs * 0.8 ? secColor : priColor)) : trkColor;
+              if (active) {
+                svgBarContent += `
+                  <rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" rx="1.5" fill="${col}">
+                    <animate attributeName="opacity" values="0.45;1;0.45" dur="${pulseDur}s" begin="${delay}s" repeatCount="indefinite"/>
+                  </rect>
+                `;
+              } else {
+                svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" rx="1.5" fill="${trkColor}"/>`;
+              }
+            }
+          } else if (style === 'matrix_rain_bar') {
+            const gap = 2.5;
+            const cellW = Math.max(3, (width - 6 - gap * (segs - 1)) / segs);
+            const rainDur = Math.max(0.3, 0.9 / ((w.animSpeed || 100) / 100)).toFixed(2);
+            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="3" fill="rgba(5,5,10,0.85)" stroke="${outlineW > 0 ? outlineCol : priColor}" stroke-width="${Math.max(1, outlineW)}"/>`;
+            for (let i = 0; i < segs; i++) {
+              const x = 3 + i * (cellW + gap);
+              const active = i < litCount;
+              const beginT = ((i * 0.17) % 0.9).toFixed(2);
+              if (active) {
+                svgBarContent += `
+                  <rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" fill="${paintPrimary}">
+                    <animate attributeName="height" values="${Math.max(3, (barSvgH - 6) * 0.45)};${Math.max(4, barSvgH - 6)};${Math.max(3, (barSvgH - 6) * 0.45)}" dur="${rainDur}s" begin="${beginT}s" repeatCount="indefinite"/>
+                  </rect>
+                `;
+              } else {
+                svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" fill="${trkColor}"/>`;
+              }
+            }
           } else if (style === 'gradient') {
             const fillW = Math.max(4, (width - 4) * prog);
             svgBarContent = `
@@ -3191,7 +3354,7 @@
             <div class="pt-2 border-t border-[#1e1e2a] space-y-2">
               ${w.type === 'tachometer' ? `
                 <div>
-                  <label class="block text-[9px] font-mono text-[#fcee0a] mb-1">ESTILO DO TACÔMETRO / ARCO</label>
+                  <label class="block text-[9px] font-mono text-[#fcee0a] mb-1">ESTILO DO TACÔMETRO / ARCO (8 OPÇÕES)</label>
                   <select onchange="mutateWidget('tachStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
                     <option value="blocks" ${(w.tachStyle === 'blocks' || !w.tachStyle) ? 'selected' : ''}>01. Blocos de Arco Clássicos</option>
                     <option value="blades" ${w.tachStyle === 'blades' ? 'selected' : ''}>02. Lâminas Cyberpunk Inclinadas</option>
@@ -3199,13 +3362,15 @@
                     <option value="equalizer_arc" ${w.tachStyle === 'equalizer_arc' ? 'selected' : ''}>04. Equalizador Radial</option>
                     <option value="dual_track" ${w.tachStyle === 'dual_track' ? 'selected' : ''}>05. Tacômetro Duplo (2 Linhas A+B)</option>
                     <option value="triple_matrix" ${w.tachStyle === 'triple_matrix' ? 'selected' : ''}>06. Tacômetro Triplo (3 Linhas A+B+C)</option>
+                    <option value="pulse_wave" ${w.tachStyle === 'pulse_wave' ? 'selected' : ''}>✨ 07. Cyber Pulse Wave (Animado)</option>
+                    <option value="turbine_spin" ${w.tachStyle === 'turbine_spin' ? 'selected' : ''}>✨ 08. Turbine Spin Core (Animado)</option>
                   </select>
                 </div>
               ` : ''}
 
               ${w.type === 'radial' ? `
                 <div>
-                  <label class="block text-[9px] font-mono text-[#00f0ff] mb-1">ESTILO DO ARCO RADIAL</label>
+                  <label class="block text-[9px] font-mono text-[#00f0ff] mb-1">ESTILO DO ARCO RADIAL (9 OPÇÕES)</label>
                   <select onchange="mutateWidget('radialStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
                     <option value="solid" ${(w.radialStyle === 'solid' || !w.radialStyle) ? 'selected' : ''}>01. Arco Neon Contínuo</option>
                     <option value="dashed" ${w.radialStyle === 'dashed' ? 'selected' : ''}>02. Arco Tracejado Técnico</option>
@@ -3213,7 +3378,20 @@
                     <option value="triple_hud" ${w.radialStyle === 'triple_hud' ? 'selected' : ''}>04. Triplo Anel Sci-Fi HUD (3 Sensores)</option>
                     <option value="multi_dual" ${w.radialStyle === 'multi_dual' ? 'selected' : ''}>05. Arco Duplo Paralelo (Sensores A+B)</option>
                     <option value="cyber_telemetry" ${w.radialStyle === 'cyber_telemetry' ? 'selected' : ''}>06. Cyber Telemetria Multi-HUD</option>
+                    <option value="energy_flow" ${w.radialStyle === 'energy_flow' ? 'selected' : ''}>✨ 07. Fluxo de Energia Laser (Animado)</option>
+                    <option value="gyro_orbit" ${w.radialStyle === 'gyro_orbit' ? 'selected' : ''}>✨ 08. Giroscópio Sci-Fi Orbital (Animado)</option>
+                    <option value="radar_sweep" ${w.radialStyle === 'radar_sweep' ? 'selected' : ''}>✨ 09. Scanner Radar Pulso (Animado)</option>
                   </select>
+                </div>
+              ` : ''}
+
+              ${(w.tachStyle === 'pulse_wave' || w.tachStyle === 'turbine_spin' || w.radialStyle === 'energy_flow' || w.radialStyle === 'gyro_orbit' || w.radialStyle === 'radar_sweep') ? `
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-[#b8ff01] mb-1">
+                    <span>⚡ VELOCIDADE DA ANIMAÇÃO (%)</span>
+                    <input type="number" min="25" max="300" value="${w.animSpeed || 100}" oninput="mutateWidget('animSpeed', Number(this.value), false)" onchange="recordHistory('Velocidade animação arco');renderInspector();" class="editable-num-pill !text-[#b8ff01]">
+                  </div>
+                  <input type="range" min="25" max="300" value="${w.animSpeed || 100}" oninput="mutateWidget('animSpeed', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Velocidade animação arco');renderInspector();" class="w-full">
                 </div>
               ` : ''}
 
@@ -3277,7 +3455,7 @@
           ${w.type === 'seg_bar' ? `
             <div class="pt-2 border-t border-[#1e1e2a] space-y-2">
               <div>
-                <label class="block text-[9px] font-mono text-[#b8ff01] mb-1">ESTILO VISUAL DA BARRA (12 OPÇÕES)</label>
+                <label class="block text-[9px] font-mono text-[#b8ff01] mb-1">ESTILO VISUAL DA BARRA (16 OPÇÕES)</label>
                 <select onchange="mutateWidget('barStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
                   <option value="cells" ${(w.barStyle === 'cells' || !w.barStyle) ? 'selected' : ''}>01. Células LED Digitais</option>
                   <option value="gradient" ${w.barStyle === 'gradient' ? 'selected' : ''}>02. Barra Laser Gradiente</option>
@@ -3291,8 +3469,21 @@
                   <option value="multi_triple_bar" ${w.barStyle === 'multi_triple_bar' ? 'selected' : ''}>10. Multi-Barra Tripla (Sensores A+B+C)</option>
                   <option value="dual_cells_matrix" ${w.barStyle === 'dual_cells_matrix' ? 'selected' : ''}>11. Matriz de Células Duplas 2x (A+B)</option>
                   <option value="cyber_hud_dual" ${w.barStyle === 'cyber_hud_dual' ? 'selected' : ''}>12. Cyber Telemetria HUD Dupla (A+B)</option>
+                  <option value="plasma_stream" ${w.barStyle === 'plasma_stream' ? 'selected' : ''}>✨ 13. Plasma Stream (Animada)</option>
+                  <option value="cyber_scanner" ${w.barStyle === 'cyber_scanner' ? 'selected' : ''}>✨ 14. Cyber Scanner Laser (Animada)</option>
+                  <option value="reactor_pulse" ${w.barStyle === 'reactor_pulse' ? 'selected' : ''}>✨ 15. Reator Bio-Pulse (Animada)</option>
+                  <option value="matrix_rain_bar" ${w.barStyle === 'matrix_rain_bar' ? 'selected' : ''}>✨ 16. Glitch Matrix Rain (Animada)</option>
                 </select>
               </div>
+              ${(['plasma_stream', 'cyber_scanner', 'reactor_pulse', 'matrix_rain_bar'].includes(w.barStyle)) ? `
+                <div>
+                  <div class="flex justify-between items-center text-[9px] font-mono text-[#b8ff01] mb-1">
+                    <span>⚡ VELOCIDADE DA ANIMAÇÃO (%)</span>
+                    <input type="number" min="25" max="300" value="${w.animSpeed || 100}" oninput="mutateWidget('animSpeed', Number(this.value), false)" onchange="recordHistory('Velocidade animação barra');renderInspector();" class="editable-num-pill !text-[#b8ff01]">
+                  </div>
+                  <input type="range" min="25" max="300" value="${w.animSpeed || 100}" oninput="mutateWidget('animSpeed', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Velocidade animação barra');renderInspector();" class="w-full">
+                </div>
+              ` : ''}
               <div class="grid grid-cols-2 gap-2">
                 <div>
                   <div class="flex justify-between items-center text-[9px] font-mono text-slate-400 mb-1">
@@ -3406,9 +3597,9 @@
                 ` : ''}
                 ${w.bgColor !== undefined ? `
                   <div>
-                    <label class="block text-[9px] font-mono text-slate-400 mb-1">FUNDO DA PÍLULA</label>
+                    <label class="block text-[9px] font-mono text-slate-400 mb-1">COR FUNDO PÍLULA</label>
                     <div class="flex items-center space-x-1.5 bg-[#12121a] border border-[#262638] rounded-md p-1.5">
-                      <input type="color" value="${w.bgColor}" oninput="mutateWidget('bgColor', this.value, false)" onchange="recordHistory('Cor pílula');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                      <input type="color" value="${w.bgColor}" oninput="mutateWidget('bgColor', this.value, false)" onchange="recordHistory('Cor fundo');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
                       <span class="font-mono text-[10px] text-slate-300 truncate">${w.bgColor}</span>
                     </div>
                   </div>
@@ -3416,21 +3607,39 @@
               </div>
             ` : ''}
 
-            <!-- 1. CARD DE DEGRADÊ (1ª COR -> 2ª COR) -->
+            <!-- 1. CARD DE DEGRADÊ (1ª COR -> 2ª COR DO DEGRADÊ) -->
             <div class="p-3 rounded-lg bg-[#111722] border border-cyan-500/30 space-y-2.5">
               <div class="flex items-center justify-between">
                 <span class="text-[10px] font-mono font-bold text-cyan-300">🌈 DEGRADÊ (1ª → 2ª COR)</span>
-                <button onclick="mutateWidget('useGradient', !${!!w.useGradient}, true);renderInspector();" class="px-2.5 py-1 rounded font-mono text-[9px] font-bold transition ${w.useGradient ? 'bg-cyan-400 text-black' : 'bg-[#1a2232] text-slate-400'}">
-                  ${w.useGradient ? 'ATIVO' : 'DESATIVADO'}
+                <button onclick="toggleGradientWithSecondColor()" class="px-2.5 py-1 rounded font-mono text-[9px] font-bold transition ${w.useGradient ? 'bg-cyan-400 text-black shadow-[0_0_10px_rgba(34,211,238,0.5)]' : 'bg-[#1a2232] text-slate-400'}">
+                  ${w.useGradient ? 'DEGRADÊ ATIVO' : 'ATIVAR DEGRADÊ'}
                 </button>
               </div>
               ${w.useGradient ? `
-                <div>
-                  <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
-                    <span>ÂNGULO DO DEGRADÊ (°)</span>
-                    <input type="number" min="0" max="360" value="${w.gradientAngle ?? 135}" oninput="mutateWidget('gradientAngle', Number(this.value), false)" onchange="recordHistory('Ângulo degradê');renderInspector();" class="editable-num-pill">
+                <div class="space-y-2.5 pt-1 border-t border-cyan-500/20">
+                  <div class="grid grid-cols-2 gap-2">
+                    <div>
+                      <label class="block text-[8px] font-mono text-slate-300 mb-1">1ª COR DO DEGRADÊ</label>
+                      <div class="flex items-center space-x-1.5 bg-[#0b1018] border border-cyan-500/30 rounded p-1">
+                        <input type="color" value="${w.color || '#00f0ff'}" oninput="mutateWidget('color', this.value, false)" onchange="recordHistory('1ª cor do degradê');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                        <span class="font-mono text-[9px] text-slate-200 truncate">${w.color || '#00f0ff'}</span>
+                      </div>
+                    </div>
+                    <div>
+                      <label class="block text-[8px] font-mono text-cyan-300 mb-1">2ª COR DO DEGRADÊ</label>
+                      <div class="flex items-center space-x-1.5 bg-[#0b1018] border border-cyan-500/40 rounded p-1">
+                        <input type="color" value="${getGradientEndColor(w)}" oninput="mutateWidget('gradientColor2', this.value, false)" onchange="recordHistory('2ª cor do degradê');renderInspector();" class="w-5 h-5 rounded cursor-pointer bg-transparent border-0 shrink-0">
+                        <span class="font-mono text-[9px] text-cyan-300 truncate">${getGradientEndColor(w)}</span>
+                      </div>
+                    </div>
                   </div>
-                  <input type="range" min="0" max="360" value="${w.gradientAngle ?? 135}" oninput="mutateWidget('gradientAngle', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Ângulo degradê');renderInspector();" class="w-full">
+                  <div>
+                    <div class="flex justify-between items-center text-[9px] font-mono text-slate-300 mb-1">
+                      <span>ÂNGULO DO DEGRADÊ (°)</span>
+                      <input type="number" min="0" max="360" value="${w.gradientAngle ?? 135}" oninput="mutateWidget('gradientAngle', Number(this.value), false)" onchange="recordHistory('Ângulo degradê');renderInspector();" class="editable-num-pill">
+                    </div>
+                    <input type="range" min="0" max="360" value="${w.gradientAngle ?? 135}" oninput="mutateWidget('gradientAngle', Number(this.value), false);this.previousElementSibling.querySelector('input').value=this.value;" onchange="recordHistory('Ângulo degradê');renderInspector();" class="w-full">
+                  </div>
                 </div>
               ` : ''}
             </div>
@@ -3579,6 +3788,18 @@
       w.outlineGlowColor = newColor;
       renderStageWidgets(true);
       persistAndSyncProject();
+    }
+
+    function toggleGradientWithSecondColor() {
+      const w = project.widgets.find(item => item.id === selectedWidgetId);
+      if (!w) return;
+      w.useGradient = !w.useGradient;
+      if (w.useGradient && !w.gradientColor2) {
+        w.gradientColor2 = w.secondaryColor || '#ff0055';
+      }
+      renderStageWidgets(true);
+      recordHistory(w.useGradient ? 'Ativar Degradê' : 'Desativar Degradê');
+      renderInspector();
     }
 
     function toggleOutlineGlowExtension() {
