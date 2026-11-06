@@ -10,12 +10,67 @@
   <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Black+Ops+One&family=Chakra+Petch:wght@500;600;700;800&family=Electrolize&family=Exo+2:wght@600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Michroma&family=Orbitron:wght@600;700;800;900&family=Oxanium:wght@600;700;800&family=Rajdhani:wght@600;700;800&family=Russo+One&family=Saira+Stencil+One&family=Share+Tech+Mono&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@700&family=Teko:wght@600;700&family=VT323&family=Wallpoet&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #07070b;
-      --panel-dark: #0b0b11;
-      --border-dark: #1e1e2c;
+      --bg-dark: #090a0f;
+      --panel-dark: #11131c;
+      --card-dark: #171a26;
+      --border-dark: rgba(255, 255, 255, 0.05);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
       --accent-orange: #ff3b00;
       --accent-cyan: #00f0ff;
       --accent-lime: #b8ff01;
+    }
+
+    /* 6 Temas Clean para a Interface do Estúdio */
+    body[data-studio-theme="obsidian"] {
+      --bg-dark: #07080d;
+      --panel-dark: #0e1017;
+      --card-dark: #161924;
+      --border-dark: rgba(255, 255, 255, 0.04);
+      --accent-cyan: #00f0ff;
+      --accent-orange: #ff3b00;
+    }
+    body[data-studio-theme="nzxt_purple"] {
+      --bg-dark: #090612;
+      --panel-dark: #120d22;
+      --card-dark: #1b1433;
+      --border-dark: rgba(168, 85, 247, 0.12);
+      --accent-cyan: #c084fc;
+      --accent-orange: #f43f5e;
+    }
+    body[data-studio-theme="cyber_gold"] {
+      --bg-dark: #0b0a05;
+      --panel-dark: #14120a;
+      --card-dark: #201c10;
+      --border-dark: rgba(252, 238, 10, 0.12);
+      --accent-cyan: #fcee0a;
+      --accent-orange: #00f0ff;
+    }
+    body[data-studio-theme="emerald_os"] {
+      --bg-dark: #040b08;
+      --panel-dark: #091610;
+      --card-dark: #11241b;
+      --border-dark: rgba(16, 185, 129, 0.12);
+      --accent-cyan: #10b981;
+      --accent-orange: #b8ff01;
+    }
+    body[data-studio-theme="crimson_rog"] {
+      --bg-dark: #0c0507;
+      --panel-dark: #170a0e;
+      --card-dark: #241017;
+      --border-dark: rgba(244, 63, 94, 0.14);
+      --accent-cyan: #fb7185;
+      --accent-orange: #f59e0b;
+    }
+    body[data-studio-theme="frost_light"] {
+      --bg-dark: #eef2f6;
+      --panel-dark: #ffffff;
+      --card-dark: #f1f5f9;
+      --border-dark: rgba(15, 23, 42, 0.08);
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --accent-cyan: #0284c7;
+      --accent-orange: #ea580c;
     }
 
     * {
@@ -28,10 +83,46 @@
       padding: 0;
       width: 100%;
       height: 100%;
-      background-color: #050508;
-      color: #f1f5f9;
+      background-color: var(--bg-dark);
+      color: var(--text-main);
       font-family: 'Space Grotesk', sans-serif;
       overflow: hidden;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    /* Superfícies Clean sem linhas divisórias pesadas */
+    .studio-ui {
+      border-color: var(--border-dark) !important;
+    }
+    header.studio-ui, aside.studio-ui {
+      background-color: var(--panel-dark) !important;
+      border: none !important;
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.35);
+    }
+    main#stage-viewport-wrapper {
+      background: radial-gradient(circle at center, rgba(0, 240, 255, 0.03) 0%, var(--bg-dark) 75%);
+    }
+    aside .bg-\[\#12121c\], aside .bg-\[\#13131f\], aside .bg-\[\#11111a\], aside .bg-\[\#111118\] {
+      background-color: var(--card-dark) !important;
+      border-color: transparent !important;
+      border-radius: 12px !important;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.14);
+    }
+    aside .border-t, aside .border-b {
+      border-color: transparent !important;
+    }
+    body[data-studio-theme="frost_light"] .text-white {
+      color: #0f172a !important;
+    }
+    body[data-studio-theme="frost_light"] .text-slate-300,
+    body[data-studio-theme="frost_light"] .text-slate-400 {
+      color: #475569 !important;
+    }
+    body[data-studio-theme="frost_light"] .bg-\[\#08080d\],
+    body[data-studio-theme="frost_light"] .bg-\[\#101018\],
+    body[data-studio-theme="frost_light"] .bg-\[\#12121a\] {
+      background-color: #e2e8f0 !important;
+      color: #0f172a !important;
     }
 
     /* Scrollbars finas para painéis */
@@ -186,27 +277,27 @@
       display: block;
     }
 
-    /* Máscaras para Mini GIFs / Stickers */
-    .mask-shape-circle {
-      border-radius: 9999px;
+    /* Abas e Botões Clean */
+    .studio-tab-btn {
+      border-radius: 10px;
+      margin: 4px 2px;
+      transition: all 0.18s ease;
     }
-    .mask-shape-rounded {
-      border-radius: 16px;
-    }
-    .mask-shape-hexagon {
-      clip-path: polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);
-    }
-
-    /* Abas e Botões */
     .studio-tab-btn.active {
-      background-color: #161625;
-      color: #00f0ff;
-      border-bottom: 2px solid #00f0ff;
+      background-color: var(--card-dark);
+      color: var(--accent-cyan);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      border-bottom: none;
     }
     .guide-pill-btn.active {
       background-color: rgba(0, 240, 255, 0.15);
-      border-color: #00f0ff;
-      color: #00f0ff;
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+    .preset-filter-pill.active {
+      background-color: var(--accent-cyan);
+      color: #000000;
+      font-weight: 800;
     }
 
     /* Drag & Drop na Lista de Camadas */
@@ -274,34 +365,35 @@
   <!-- ===================================================================== -->
   <!-- TOPBAR: CONTROLES GLOBAIS, UNDO/REDO, ZOOM, ÁUDIO DESKTOP E CAM SYNC  -->
   <!-- ===================================================================== -->
-  <header class="studio-ui h-13 bg-[#0a0a10] border-b border-[#1c1c28] px-4 py-2 flex items-center justify-between shrink-0 z-40">
+  <header class="studio-ui h-14 px-5 py-2 flex items-center justify-between shrink-0 z-40">
     <!-- Marca -->
     <div class="flex items-center space-x-3">
-      <div class="w-8 h-8 rounded-lg bg-[#141420] border border-[#2a2a3d] flex items-center justify-center font-mono font-bold text-[#00f0ff] shadow-inner">
+      <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-cyan-500/20 to-purple-500/20 flex items-center justify-center font-mono font-bold text-[#00f0ff] shadow-inner">
         K//
       </div>
       <div>
         <div class="flex items-center space-x-2">
           <span class="font-bold tracking-widest text-xs text-white font-mono">KRAKEN // OS</span>
-          <span class="text-[10px] font-mono bg-[#142010] text-[#b8ff01] border border-[#b8ff01]/40 px-1.5 py-0.5 rounded">v5.0 ESTÁVEL</span>
+          <span class="text-[10px] font-mono bg-[#ff3b00]/15 text-[#ff3b00] px-2 py-0.5 rounded-full font-bold">DL7TH EDITION</span>
+          <span class="text-[10px] font-mono bg-emerald-500/15 text-[#b8ff01] px-2 py-0.5 rounded-full">v7.0 60FPS</span>
         </div>
-        <div class="text-[10px] font-mono text-slate-400">NZXT KRAKEN ELITE 640×640 WEB INTEGRATION STUDIO</div>
+        <div class="text-[10px] font-mono text-slate-400">28 LAYOUTS PRONTOS · ANIMAÇÕES FLUIDAS 60 FPS · DL7TH</div>
       </div>
     </div>
 
     <!-- Centro: Undo/Redo + Zoom Global + Escala Global de Fontes -->
-    <div class="flex items-center space-x-3 bg-[#101018] border border-[#1f1f2e] px-3 py-1.5 rounded-lg">
-      <div class="flex items-center space-x-1 border-r border-[#242436] pr-2.5">
-        <button id="btn-undo" onclick="undoAction()" class="px-2 py-1 rounded bg-[#171723] hover:bg-[#222234] disabled:opacity-35 text-[11px] font-mono text-slate-200 transition" title="Desfazer (Ctrl+Z)">
+    <div class="flex items-center space-x-3 bg-[#101018]/80 px-3.5 py-1.5 rounded-xl">
+      <div class="flex items-center space-x-1 pr-2">
+        <button id="btn-undo" onclick="undoAction()" class="px-2.5 py-1 rounded-lg bg-[#171723] hover:bg-[#222234] disabled:opacity-35 text-[11px] font-mono text-slate-200 transition" title="Desfazer (Ctrl+Z)">
           ↶ DESFAZER
         </button>
-        <button id="btn-redo" onclick="redoAction()" class="px-2 py-1 rounded bg-[#171723] hover:bg-[#222234] disabled:opacity-35 text-[11px] font-mono text-slate-200 transition" title="Refazer (Ctrl+Y)">
+        <button id="btn-redo" onclick="redoAction()" class="px-2.5 py-1 rounded-lg bg-[#171723] hover:bg-[#222234] disabled:opacity-35 text-[11px] font-mono text-slate-200 transition" title="Refazer (Ctrl+Y)">
           ↷ REFAZER
         </button>
       </div>
 
       <!-- Zoom Global do Preset -->
-      <div class="flex items-center space-x-2 border-r border-[#242436] pr-2.5">
+      <div class="flex items-center space-x-2 pr-2">
         <span class="text-[10px] font-mono text-slate-400">🔍 ZOOM:</span>
         <input id="top-rng-zoom" type="range" min="50" max="175" value="100" oninput="setGlobalPresetZoom(this.value)" class="w-20">
         <input id="top-lbl-zoom" type="number" min="50" max="175" value="100" onchange="setGlobalPresetZoom(this.value)" class="editable-num-pill w-12" title="Clique para digitar o Zoom (%)">
@@ -312,27 +404,40 @@
         <span class="text-[10px] font-mono text-slate-400">Aa FONTES:</span>
         <input id="top-rng-font" type="range" min="60" max="220" value="105" oninput="setGlobalFontBoost(this.value)" class="w-20">
         <input id="top-lbl-font" type="number" min="60" max="220" value="105" onchange="setGlobalFontBoost(this.value)" class="editable-num-pill w-12 !text-[#b8ff01]" title="Clique para digitar a Escala de Fonte (%)">
-        <button onclick="resetGlobalScales()" class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-[#191926] hover:bg-[#252538] text-slate-300" title="Resetar Zoom e Fontes para 100%">100%</button>
+        <button onclick="resetGlobalScales()" class="text-[9px] font-mono px-2 py-0.5 rounded-md bg-[#191926] hover:bg-[#252538] text-slate-300" title="Resetar Zoom e Fontes para 100%">100%</button>
       </div>
     </div>
 
-    <!-- Direita: Áudio Desktop + Simulador + Tela Pura + CAM Link -->
+    <!-- Direita: Seletor de Tema do Estúdio + Áudio Desktop + Simulador + Tela Pura + CAM Link -->
     <div class="flex items-center space-x-2">
-      <button id="btn-top-audio" onclick="openAudioConfigModal()" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded bg-[#13111c] hover:bg-[#1d182b] border border-pink-500/40 text-[10px] font-mono text-slate-200 transition">
-        <span id="audio-led" class="w-2 h-2 rounded-full bg-slate-500"></span>
-        <span id="audio-label">🔊 ÁUDIO DESKTOP</span>
-      </button>
-
-      <div class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded bg-[#111118] border border-[#222230] text-[10px] font-mono">
-        <span id="cam-led" class="w-2 h-2 rounded-full bg-[#b8ff01] animate-pulse"></span>
-        <span id="cam-label" class="text-slate-300">SIMULADOR ATIVO</span>
+      <!-- Seletor de Tema Clean do Menu -->
+      <div class="flex items-center space-x-1.5 bg-[#111118] px-2.5 py-1.5 rounded-xl">
+        <span class="text-[10px] font-mono text-slate-400">🎨 UI:</span>
+        <select id="sel-studio-theme" onchange="setStudioTheme(this.value)" class="bg-transparent font-mono text-[10px] text-cyan-300 font-bold outline-none cursor-pointer">
+          <option value="obsidian" class="bg-[#0e1017] text-white">Obsidian Dark</option>
+          <option value="nzxt_purple" class="bg-[#120d22] text-purple-300">NZXT Violet</option>
+          <option value="cyber_gold" class="bg-[#14120a] text-yellow-300">Cyber Yellow</option>
+          <option value="emerald_os" class="bg-[#091610] text-emerald-300">Emerald Matrix</option>
+          <option value="crimson_rog" class="bg-[#170a0e] text-rose-300">Crimson ROG</option>
+          <option value="frost_light" class="bg-white text-slate-900">Frost Light</option>
+        </select>
       </div>
 
-      <button onclick="toggleKrakenHardwareMode()" class="px-2.5 py-1.5 rounded bg-[#15151f] hover:bg-[#222232] text-slate-200 border border-[#2a2a3c] text-[11px] font-mono transition" title="Modo Tela Pura 640x640 (Tecla F)">
-        TELA PURA [F]
+      <button id="btn-top-audio" onclick="openAudioConfigModal()" class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-[#13111c] hover:bg-[#1d182b] text-[10px] font-mono text-slate-200 transition">
+        <span id="audio-led" class="w-2 h-2 rounded-full bg-slate-500"></span>
+        <span id="audio-label">🔊 ÁUDIO</span>
       </button>
 
-      <button onclick="switchMainTab('connect')" class="px-3 py-1.5 rounded bg-[#ff3b00] hover:bg-[#ff5522] text-black font-bold font-mono text-[11px] tracking-wider transition shadow-lg shadow-[#ff3b00]/20">
+      <div class="flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-[#111118] text-[10px] font-mono">
+        <span id="cam-led" class="w-2 h-2 rounded-full bg-[#b8ff01] animate-pulse"></span>
+        <span id="cam-label" class="text-slate-300">SIMULADOR</span>
+      </div>
+
+      <button onclick="toggleKrakenHardwareMode()" class="px-2.5 py-1.5 rounded-xl bg-[#15151f] hover:bg-[#222232] text-slate-200 text-[11px] font-mono transition" title="Modo Tela Pura 640x640 (Tecla F)">
+        VISOR [F]
+      </button>
+
+      <button onclick="switchMainTab('connect')" class="px-3.5 py-1.5 rounded-xl bg-[#ff3b00] hover:bg-[#ff5522] text-black font-bold font-mono text-[11px] tracking-wider transition shadow-lg shadow-[#ff3b00]/20">
         USAR NO CAM →
       </button>
     </div>
@@ -341,97 +446,62 @@
   <!-- ===================================================================== -->
   <!-- CORPO PRINCIPAL DO ESTÚDIO (ESQUERDA: ABAS | CENTRO: 640x640 | DIREITA: INSPETOR) -->
   <!-- ===================================================================== -->
-  <div class="flex-1 flex overflow-hidden">
+  <div class="flex-1 flex overflow-hidden p-2 gap-2">
 
     <!-- =================================================================== -->
-    <!-- PAINEL ESQUERDO (350PX): 5 GUIAS DE CRIAÇÃO E GERENCIAMENTO         -->
+    <!-- PAINEL ESQUERDO (365PX): 5 GUIAS CLEAN EM PÍLULAS                   -->
     <!-- =================================================================== -->
-    <aside class="studio-ui w-[350px] bg-[#0b0b11] border-r border-[#1c1c28] flex flex-col shrink-0 z-30">
-      <!-- Navegação das 5 Abas -->
-      <div class="grid grid-cols-5 border-b border-[#1c1c28] bg-[#08080d] font-mono text-[10px] font-bold text-slate-400">
-        <button id="tab-btn-presets" onclick="switchMainTab('presets')" class="studio-tab-btn active py-2.5 text-center hover:text-white transition">01.TEMAS</button>
-        <button id="tab-btn-widgets" onclick="switchMainTab('widgets')" class="studio-tab-btn py-2.5 text-center hover:text-white transition">02.ITENS</button>
-        <button id="tab-btn-layers" onclick="switchMainTab('layers')" class="studio-tab-btn py-2.5 text-center hover:text-white transition">03.CAMADAS</button>
-        <button id="tab-btn-background" onclick="switchMainTab('background')" class="studio-tab-btn py-2.5 text-center hover:text-white transition">04.FUNDO</button>
-        <button id="tab-btn-connect" onclick="switchMainTab('connect')" class="studio-tab-btn py-2.5 text-center hover:text-white transition text-[#ff3b00]">05.CAM</button>
+    <aside class="studio-ui w-[365px] rounded-2xl flex flex-col shrink-0 z-30 overflow-hidden">
+      <!-- Navegação Clean das 5 Abas -->
+      <div class="grid grid-cols-5 px-2 pt-1.5 pb-1 bg-black/20 font-mono text-[10px] font-bold text-slate-400">
+        <button id="tab-btn-presets" onclick="switchMainTab('presets')" class="studio-tab-btn active py-2 text-center hover:text-white transition">01.LAYOUTS</button>
+        <button id="tab-btn-widgets" onclick="switchMainTab('widgets')" class="studio-tab-btn py-2 text-center hover:text-white transition">02.WIDGETS</button>
+        <button id="tab-btn-layers" onclick="switchMainTab('layers')" class="studio-tab-btn py-2 text-center hover:text-white transition">03.CAMADAS</button>
+        <button id="tab-btn-background" onclick="switchMainTab('background')" class="studio-tab-btn py-2 text-center hover:text-white transition">04.FUNDO</button>
+        <button id="tab-btn-connect" onclick="switchMainTab('connect')" class="studio-tab-btn py-2 text-center hover:text-white transition text-[#ff3b00]">05.CAM</button>
       </div>
 
       <!-- Conteúdo das Abas -->
       <div class="flex-1 flex flex-col overflow-hidden">
 
         <!-- =============================================================== -->
-        <!-- GUIA [01]: PRESETS AUTORAIS + ESCALA GLOBAL                     -->
+        <!-- GUIA [01]: 24 LAYOUTS PRONTOS (ANIMADOS E ESTÁTICOS)            -->
         <!-- =============================================================== -->
-        <div id="tab-pane-presets" class="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
-          <div>
-            <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GUIA 01</span>
-            <h2 class="text-sm font-bold text-white">PRESETS CALIBRADOS 640×640</h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">Escolha uma base pronta e personalize qualquer elemento no visor:</p>
+        <div id="tab-pane-presets" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GALERIA DE LAYOUTS</span>
+              <h2 class="text-sm font-bold text-white">24 TEMAS PRONTOS P/ A BOMBA</h2>
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 font-bold">100% EDITÁVEIS</span>
           </div>
 
+          <!-- Filtros Rápidos: Todos / Animados / Estáticos + Busca -->
           <div class="space-y-2">
-            <button onclick="applyArtisanalPreset('tachometer_pro')" class="w-full p-3 rounded-lg bg-[#12121c] hover:bg-[#191928] border border-[#26263a] text-left transition flex items-center justify-between group">
-              <div>
-                <div class="font-mono font-bold text-xs text-white group-hover:text-[#ff3b00]">01 // TACHOMETER PRO XL</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Arcos duplos CPU/GPU + Watts + Líquido + RAM LED</div>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#ff3b00]/20 text-[#ff3b00]">PADRÃO</span>
-            </button>
-
-            <button onclick="applyArtisanalPreset('nothing_matrix')" class="w-full p-3 rounded-lg bg-[#12121c] hover:bg-[#191928] border border-[#26263a] text-left transition flex items-center justify-between group">
-              <div>
-                <div class="font-mono font-bold text-xs text-white group-hover:text-[#00f0ff]">02 // NOTHING OS MATRIX XL</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Estética industrial pontilhada com relógio + Watts</div>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-white/10 text-white">MATRIX</span>
-            </button>
-
-            <button onclick="applyArtisanalPreset('cryo_core')" class="w-full p-3 rounded-lg bg-[#12121c] hover:bg-[#191928] border border-[#26263a] text-left transition flex items-center justify-between group">
-              <div>
-                <div class="font-mono font-bold text-xs text-white group-hover:text-cyan-400">03 // CRYO LIQUID CORE XL</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Foco central na temperatura do líquido + Reator animado</div>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-cyan-500/20 text-cyan-300">COOLANT</span>
-            </button>
-
-            <button onclick="applyArtisanalPreset('holo_gif')" class="w-full p-3 rounded-lg bg-[#12121c] hover:bg-[#191928] border border-[#26263a] text-left transition flex items-center justify-between group">
-              <div>
-                <div class="font-mono font-bold text-xs text-white group-hover:text-purple-400">04 // HOLO-GIF + ÁUDIO FFT</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Fundo Synthwave + Mini GIF central + Espectro de Áudio</div>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/20 text-purple-300">GIF HUD</span>
-            </button>
-
-            <button onclick="applyArtisanalPreset('overclock_bench')" class="w-full p-3 rounded-lg bg-[#12121c] hover:bg-[#191928] border border-[#26263a] text-left transition flex items-center justify-between group">
-              <div>
-                <div class="font-mono font-bold text-xs text-white group-hover:text-[#b8ff01]">05 // OVERCLOCK & WATTS XL</div>
-                <div class="text-[10px] text-slate-400 mt-0.5">Gráficos duplos em tempo real + Consumo em Watts (W)</div>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#b8ff01]/20 text-[#b8ff01]">BENCH</span>
-            </button>
-
-            <button onclick="applyArtisanalPreset('cyberpunk_hud')" class="w-full p-3 rounded-lg bg-[#181409] hover:bg-[#241d0c] border border-[#fcee0a]/50 text-left transition flex items-center justify-between group">
-              <div>
-                <div class="font-mono font-bold text-xs text-[#fcee0a] group-hover:text-cyan-300">06 // CYBERPUNK NIGHT CITY HUD</div>
-                <div class="text-[10px] text-slate-300 mt-0.5">Arcos chanfrados glitch + Barras Cyberpunk + Equalizador</div>
-              </div>
-              <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#fcee0a] text-black font-bold">CYBER</span>
-            </button>
+            <div class="grid grid-cols-3 gap-1.5 bg-black/25 p-1 rounded-xl font-mono text-[10px]">
+              <button id="flt-btn-all" onclick="filterPresetsGallery('all')" class="preset-filter-pill active py-1.5 rounded-lg text-slate-300 transition">TODOS (24)</button>
+              <button id="flt-btn-animated" onclick="filterPresetsGallery('animated')" class="preset-filter-pill py-1.5 rounded-lg text-slate-300 transition">✨ ANIMADOS (13)</button>
+              <button id="flt-btn-static" onclick="filterPresetsGallery('static')" class="preset-filter-pill py-1.5 rounded-lg text-slate-300 transition">📌 ESTÁTICOS (11)</button>
+            </div>
+            <input id="preset-search-input" type="text" oninput="renderPresetsGalleryList()" placeholder="🔍 Buscar layout (ex: NZXT, F1, Anime, ROG, Minimal)..." class="w-full bg-black/25 rounded-xl px-3 py-2 font-mono text-[11px] text-white outline-none focus:ring-1 focus:ring-cyan-400">
           </div>
+
+          <!-- Lista Dinâmica dos 24 Presets -->
+          <div id="presets-gallery-container" class="space-y-2 max-h-[370px] overflow-y-auto pr-1"></div>
 
           <!-- Ajuste Rápido de Escala para o Watercooler -->
-          <div class="p-3 rounded-lg bg-[#11111a] border border-[#252538] space-y-3">
-            <div class="font-mono font-bold text-[11px] text-[#00f0ff]">AJUSTE GERAL NO VISOR DO WATERCOOLER</div>
+          <div class="p-3.5 rounded-xl bg-[#11111a] space-y-3">
+            <div class="font-mono font-bold text-[11px] text-[#00f0ff]">AJUSTE RÁPIDO NO VISOR DA BOMBA</div>
             <div>
               <div class="flex justify-between items-center text-[10px] font-mono mb-1">
-                <span class="text-slate-300">ZOOM DE TODO O LAYOUT (%)</span>
+                <span class="text-slate-300">ZOOM DO LAYOUT COMPLETO (%)</span>
                 <input id="tab-lbl-zoom" type="number" min="50" max="175" value="100" oninput="setGlobalPresetZoom(this.value)" class="editable-num-pill">
               </div>
               <input id="tab-rng-zoom" type="range" min="50" max="175" value="100" oninput="setGlobalPresetZoom(this.value)" class="w-full">
             </div>
             <div>
               <div class="flex justify-between items-center text-[10px] font-mono mb-1">
-                <span class="text-slate-300">TAMANHO DE TODAS AS FONTES (%)</span>
+                <span class="text-slate-300">ESCALA DE TODAS AS FONTES (%)</span>
                 <input id="tab-lbl-font" type="number" min="60" max="220" value="105" oninput="setGlobalFontBoost(this.value)" class="editable-num-pill !text-[#b8ff01]">
               </div>
               <input id="tab-rng-font" type="range" min="60" max="220" value="105" oninput="setGlobalFontBoost(this.value)" class="w-full">
@@ -439,11 +509,11 @@
           </div>
 
           <!-- Backup JSON -->
-          <div class="pt-2 border-t border-[#1c1c28] grid grid-cols-2 gap-2">
-            <button onclick="exportProjectJson()" class="py-2 px-3 rounded bg-[#151522] hover:bg-[#1e1e30] border border-[#2a2a3d] font-mono text-[10px] text-slate-200">
+          <div class="grid grid-cols-2 gap-2 pt-1">
+            <button onclick="exportProjectJson()" class="py-2 px-3 rounded-xl bg-[#151522] hover:bg-[#1e1e30] font-mono text-[10px] text-slate-200 transition">
               ⬇ EXPORTAR JSON
             </button>
-            <label class="py-2 px-3 rounded bg-[#151522] hover:bg-[#1e1e30] border border-[#2a2a3d] font-mono text-[10px] text-slate-200 text-center cursor-pointer">
+            <label class="py-2 px-3 rounded-xl bg-[#151522] hover:bg-[#1e1e30] font-mono text-[10px] text-slate-200 text-center cursor-pointer transition">
               ⬆ IMPORTAR JSON
               <input type="file" accept=".json" class="hidden" onchange="importProjectJson(event)">
             </label>
@@ -457,6 +527,28 @@
           <div>
             <span class="text-[10px] font-mono text-[#b8ff01] uppercase tracking-widest">// GUIA 02</span>
             <h2 class="text-sm font-bold text-white">ADICIONAR ELEMENTOS NO VISOR</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Clique para inserir um novo módulo e arraste livremente:</p>
+          </div>
+
+          <!-- NOVOS WIDGETS DE TELEMETRIA AVANÇADA (v6.0) -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-cyan-500/10 to-emerald-500/10 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-[#b8ff01] uppercase">🚀 NOVOS WIDGETS DE TELEMETRIA PRO</span>
+              <span class="text-[9px] font-mono bg-[#b8ff01]/20 text-[#b8ff01] px-1.5 py-0.5 rounded-full">NOVO</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
+              <button onclick="createNewWidget('gauge_needle', 'cpu_temp')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-cyan-300">🧭 Velocímetro Agulha</button>
+              <button onclick="createNewWidget('ring_stat', 'cpu_load')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-[#b8ff01]">🍩 Anel Donut c/ Valor</button>
+              <button onclick="createNewWidget('quad_grid')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-purple-300">⊞ Grade 2×2 Sensores</button>
+              <button onclick="createNewWidget('thermal_badge', 'liquid_temp')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-amber-300">🌡 Status Térmico HUD</button>
+              <button onclick="createNewWidget('fan_rotor', 'pump_rpm')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-pink-300">🌀 Hélice Bomba RPM</button>
+              <button onclick="createNewWidget('sensor_table')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-emerald-300">📋 Tabela 4 Sensores</button>
+            </div>
+          </div>
+
+          <!-- Telemetria & Watts -->
+          <div class="space-y-1.5">
+            <span class="text-[10px] font-mono text-slate-400 uppercase block">Telemetria Clássica & Consumo (Watts):</span>
             <p class="text-[11px] text-slate-400 mt-0.5">Clique para inserir um novo módulo e arraste livremente:</p>
           </div>
 
@@ -503,7 +595,7 @@
 
           <!-- 16 Tipos de Barras Lineares, Cyberpunk, Multi-Linhas & Animadas -->
           <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">16 Estilos de Barras (Simples, Multi & Animadas):</span>
+            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">16 Estilos de Barras (Simples, Multi & Animadas 60FPS):</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
               <button onclick="createNewWidget('seg_bar', 'cells')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#b8ff01]">+ 01. Células LED</button>
               <button onclick="createNewWidget('seg_bar', 'gradient')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-cyan-300">+ 02. Laser Gradiente</button>
@@ -521,6 +613,20 @@
               <button onclick="createNewWidget('seg_bar', 'cyber_scanner')" class="p-2 rounded bg-[#22101c] hover:bg-[#321729] border border-pink-500/60 text-left text-pink-300">✨ 14. Scanner Laser</button>
               <button onclick="createNewWidget('seg_bar', 'reactor_pulse')" class="p-2 rounded bg-[#142210] hover:bg-[#1d3217] border border-[#b8ff01]/60 text-left text-[#b8ff01]">✨ 15. Reator Pulse</button>
               <button onclick="createNewWidget('seg_bar', 'matrix_rain_bar')" class="p-2 rounded bg-[#1d1908] hover:bg-[#2d270c] border border-[#fcee0a]/60 text-left text-[#fcee0a]">✨ 16. Glitch Rain</button>
+            </div>
+          </div>
+
+          <!-- WIDGETS DE ANIMAÇÃO FLUIDA (60 FPS) -->
+          <div class="p-3 rounded-xl bg-gradient-to-br from-cyan-500/15 to-purple-500/15 space-y-2 border border-cyan-500/30">
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] font-mono font-bold text-[#00f0ff] uppercase">⚡ WIDGETS ANIMADOS 60 FPS (DL7TH)</span>
+              <span class="text-[9px] font-mono bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded-full">FLUIDO</span>
+            </div>
+            <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
+              <button onclick="createNewWidget('plasma_core')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-cyan-300">⚛ Núcleo Plasma Pulsante</button>
+              <button onclick="createNewWidget('radar_hud')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-[#b8ff01]">📡 Radar Tático Orbital</button>
+              <button onclick="createNewWidget('time_matrix')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-purple-300">⏳ Ampulheta Temporal</button>
+              <button onclick="createNewWidget('fan_rotor', 'pump_rpm')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-pink-300">🌀 Rotor Bomba 60FPS</button>
             </div>
           </div>
 
@@ -724,135 +830,68 @@
     </aside>
 
     <!-- =================================================================== -->
-    <!-- ÁREA CENTRAL: PALCO 640x640 + BARRA DE GUIAS + DIAGNÓSTICO          -->
+    <!-- ÁREA CENTRAL: VISOR 640x640 NZXT KRAKEN ELITE + GUIAS E DIAGNÓSTICO -->
     <!-- =================================================================== -->
-    <main id="stage-viewport-wrapper" class="flex-1 bg-[#06060a] flex flex-col items-center justify-between p-4 relative overflow-auto">
-
-      <!-- Barra Flutuante Superior de Guias Visuais -->
-      <div class="studio-ui flex items-center space-x-2 bg-[#0d0d15]/90 border border-[#222234] px-3 py-1.5 rounded-full backdrop-blur-md z-20">
-        <button id="guide-btn-safe" onclick="toggleGuide('safeZone')" class="guide-pill-btn active px-2.5 py-1 rounded-full border border-[#2a2a3d] font-mono text-[10px] transition">
-          ◎ SAFE ZONE
-        </button>
-        <button id="guide-btn-polar" onclick="toggleGuide('polarGrid')" class="guide-pill-btn px-2.5 py-1 rounded-full border border-[#2a2a3d] font-mono text-[10px] transition">
-          ⌖ GRADE POLAR
-        </button>
-        <button id="guide-btn-snap" onclick="toggleGuide('magneticSnap')" class="guide-pill-btn active px-2.5 py-1 rounded-full border border-[#2a2a3d] font-mono text-[10px] transition">
-          🧲 SNAP MAGNÉTICO
-        </button>
-        <button id="guide-btn-shape" onclick="toggleBezelShape()" class="guide-pill-btn px-2.5 py-1 rounded-full border border-[#2a2a3d] font-mono text-[10px] transition">
-          ◯ MOLDURA: REDONDA
-        </button>
+    <main id="stage-viewport-wrapper" class="flex-1 rounded-2xl flex flex-col items-center justify-between p-3 overflow-hidden relative">
+      <!-- Barra Superior de Guias do Palco -->
+      <div class="studio-ui flex items-center space-x-2 bg-black/35 px-3 py-1.5 rounded-full backdrop-blur-md z-30">
+        <button id="guide-btn-safe" onclick="toggleGuide('safeZone')" class="guide-pill-btn active px-2.5 py-1 rounded-full border border-white/10 font-mono text-[10px] text-slate-300 transition">◎ SAFE ZONE</button>
+        <button id="guide-btn-polar" onclick="toggleGuide('polarGrid')" class="guide-pill-btn px-2.5 py-1 rounded-full border border-white/10 font-mono text-[10px] text-slate-300 transition">⌖ GRADE POLAR</button>
+        <button id="guide-btn-snap" onclick="toggleGuide('magneticSnap')" class="guide-pill-btn active px-2.5 py-1 rounded-full border border-white/10 font-mono text-[10px] text-slate-300 transition">🧲 SNAP ATIVO</button>
+        <button id="guide-btn-shape" onclick="toggleBezelShape()" class="px-2.5 py-1 rounded-full bg-white/5 hover:bg-white/10 font-mono text-[10px] text-slate-300 transition">◯ MOLDURA: REDONDA</button>
       </div>
 
-      <!-- ================================================================= -->
-      <!-- DISPLAY CIRCULAR 640x640 DO NZXT KRAKEN ELITE                     -->
-      <!-- ================================================================= -->
-      <div class="my-auto flex items-center justify-center">
+      <!-- PALCO 640x640 OFICIAL DO KRAKEN ELITE -->
+      <div class="flex-1 flex items-center justify-center w-full overflow-hidden">
         <div id="kraken-lcd-stage" onmousedown="deselectAllWidgets(event)">
-          <!-- Camada 1: Plano de Fundo (GIF / Vídeo) -->
-          <div id="stage-bg-layer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-
+          <!-- Camada 1: Mídia de Fundo (GIF / MP4) -->
+          <div id="stage-bg-layer" class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"></div>
           <!-- Camada 2: Vinheta Óptica OLED -->
-          <div id="stage-vignette-layer" class="absolute inset-0 pointer-events-none"></div>
-
-          <!-- Camada 3: Widgets Renderizados (640x640) -->
+          <div id="stage-vignette-layer" class="absolute inset-0 w-full h-full pointer-events-none"></div>
+          <!-- Camada 3: Widgets Interativos -->
           <div id="stage-widgets-container"></div>
-
-          <!-- Camada 4: Guias Técnicas, Safe Zone e Snap Laser -->
-          <div id="stage-guides-overlay" class="absolute inset-0 pointer-events-none z-40">
-            <!-- Safe Zone Circular (580px) -->
-            <div id="stage-safe-zone" class="absolute left-[30px] top-[30px] w-[580px] h-[580px] rounded-full border border-dashed border-cyan-400/25"></div>
-
-            <!-- Grade Polar Opcional -->
-            <svg id="stage-polar-grid" class="absolute inset-0 w-full h-full hidden" viewBox="0 0 640 640">
-              <circle cx="320" cy="320" r="120" fill="none" stroke="rgba(0,240,255,0.14)" stroke-dasharray="4 4"/>
-              <circle cx="320" cy="320" r="220" fill="none" stroke="rgba(0,240,255,0.14)" stroke-dasharray="4 4"/>
-              <line x1="0" y1="320" x2="640" y2="320" stroke="rgba(0,240,255,0.15)"/>
-              <line x1="320" y1="0" x2="320" y2="640" stroke="rgba(0,240,255,0.15)"/>
-            </svg>
-
-            <!-- Linhas Laser de Snap Magnético -->
-            <div id="snap-line-v" class="hidden absolute top-0 bottom-0 w-[1.5px] bg-[#b8ff01] shadow-[0_0_8px_#b8ff01]"></div>
-            <div id="snap-line-h" class="hidden absolute left-0 right-0 h-[1.5px] bg-[#b8ff01] shadow-[0_0_8px_#b8ff01]"></div>
-            <div id="snap-label-badge" class="hidden absolute px-1.5 py-0.5 rounded bg-black/90 border border-[#b8ff01] text-[#b8ff01] font-mono text-[9px]"></div>
+          <!-- Camada 4: Guias Visuais e Linhas de Snap Magnético -->
+          <div id="stage-guides-overlay" class="absolute inset-0 pointer-events-none z-50">
+            <div id="stage-safe-zone" class="absolute inset-[28px] rounded-full border border-dashed border-cyan-400/25"></div>
+            <div id="stage-polar-grid" class="absolute inset-0 hidden">
+              <div class="absolute inset-[90px] rounded-full border border-white/10"></div>
+              <div class="absolute inset-[180px] rounded-full border border-white/10"></div>
+              <div class="absolute top-1/2 left-0 w-full h-px bg-white/10"></div>
+              <div class="absolute left-1/2 top-0 h-full w-px bg-white/10"></div>
+            </div>
+            <div id="snap-line-v" class="hidden absolute top-0 bottom-0 w-px bg-[#b8ff01] shadow-[0_0_8px_#b8ff01]"></div>
+            <div id="snap-line-h" class="hidden absolute left-0 right-0 h-px bg-[#b8ff01] shadow-[0_0_8px_#b8ff01]"></div>
+            <div id="snap-label-badge" class="hidden absolute px-1.5 py-0.5 rounded bg-black/90 border border-[#b8ff01] text-[#b8ff01] font-mono text-[9px] font-bold"></div>
           </div>
         </div>
       </div>
 
-      <!-- Barra Inferior de Diagnóstico em Tempo Real -->
-      <div class="studio-ui w-full max-w-[680px] bg-[#0c0c14] border border-[#1e1e2d] rounded-xl px-4 py-2 flex items-center justify-between text-[11px] font-mono z-20">
-        <div class="flex items-center space-x-4">
-          <span>CPU: <strong id="diag-cpu" class="text-[#ff3b00]">48°C</strong></span>
-          <span>GPU: <strong id="diag-gpu" class="text-[#00f0ff]">52°C</strong></span>
-          <span>POTÊNCIA: <strong id="diag-watts" class="text-[#b8ff01]">68W/142W</strong></span>
-          <span>LÍQUIDO: <strong id="diag-liq" class="text-cyan-300">33.4°C</strong></span>
-          <span>RAM: <strong id="diag-ram" class="text-slate-200">14.8GB</strong></span>
-        </div>
-        <button id="btn-stress-test" onclick="toggleThermalStress()" class="px-2.5 py-1 rounded bg-[#ff3b00]/15 hover:bg-[#ff3b00]/30 text-[#ff3b00] border border-[#ff3b00]/40 font-mono text-[10px] transition">
+      <!-- Barra Inferior: Diagnóstico em Tempo Real + Teste de Estresse -->
+      <div class="studio-ui flex items-center space-x-4 bg-black/35 px-4 py-1.5 rounded-full backdrop-blur-md font-mono text-[10px] z-30">
+        <span class="text-slate-400">CPU: <strong id="diag-cpu" class="text-white">48°C</strong></span>
+        <span class="text-slate-400">GPU: <strong id="diag-gpu" class="text-white">52°C</strong></span>
+        <span class="text-slate-400">WATTS: <strong id="diag-watts" class="text-[#b8ff01]">68W/142W</strong></span>
+        <span class="text-slate-400">LIQUID: <strong id="diag-liq" class="text-cyan-300">33.4°C</strong></span>
+        <span class="text-slate-400">RAM: <strong id="diag-ram" class="text-purple-300">14.8GB</strong></span>
+        <button id="btn-stress-test" onclick="toggleThermalStress()" class="px-2.5 py-1 rounded-full bg-[#ff3b00]/15 hover:bg-[#ff3b00]/30 text-[#ff3b00] border border-[#ff3b00]/40 font-mono text-[10px] transition">
           ⚡ SIMULAR CARGA MÁXIMA
         </button>
       </div>
 
-      <!-- Toast de Feedback -->
-      <div id="studio-toast" class="studio-ui fixed bottom-16 left-1/2 -translate-x-1/2 px-4 py-2 rounded-lg bg-[#10101a]/95 border border-[#00f0ff] text-xs font-mono text-white shadow-2xl pointer-events-none opacity-0 transition-opacity duration-200 z-50">
-        AÇÃO REALIZADA
-      </div>
-
-      <!-- Modal de Configuração de Áudio do Desktop -->
-      <div id="audio-config-modal" class="studio-ui fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 hidden">
-        <div class="w-[440px] bg-[#0d0d15] border border-pink-500/50 rounded-xl p-5 shadow-2xl space-y-4">
-          <div class="flex items-center justify-between border-b border-[#1e1e2a] pb-3">
-            <div class="flex items-center space-x-2">
-              <span class="w-2.5 h-2.5 rounded-full bg-pink-500 animate-pulse"></span>
-              <h3 class="font-mono font-bold text-sm text-white">SINCRONIZADOR DE ÁUDIO DESKTOP (FFT)</h3>
-            </div>
-            <button onclick="closeAudioConfigModal()" class="text-slate-400 hover:text-white font-mono text-xs px-2 py-0.5 rounded bg-[#1a1a26]">FECHAR ✕</button>
-          </div>
-
-          <div class="space-y-2.5">
-            <button onclick="startLiveAudioCapture('system');closeAudioConfigModal();" class="w-full p-3 rounded-lg bg-[#151224] hover:bg-[#1f1936] border border-pink-500/50 text-left transition flex items-center justify-between">
-              <div>
-                <div class="font-mono font-bold text-xs text-pink-400">1. CAPTURAR ÁUDIO DO DESKTOP (WINDOWS / ABA)</div>
-                <div class="text-[11px] text-slate-400 mt-0.5">Na janela que abrir, selecione <strong>Tela Inteira</strong> e marque <strong>"Compartilhar áudio do sistema"</strong>.</div>
-              </div>
-              <span class="text-lg ml-3">🔊</span>
-            </button>
-
-            <button onclick="startLiveAudioCapture('mic');closeAudioConfigModal();" class="w-full p-3 rounded-lg bg-[#111824] hover:bg-[#172234] border border-[#00f0ff]/40 text-left transition flex items-center justify-between">
-              <div>
-                <div class="font-mono font-bold text-xs text-[#00f0ff]">2. USAR MIXAGEM ESTÉREO / MICROFONE</div>
-                <div class="text-[11px] text-slate-400 mt-0.5">Funciona direto via entrada de som padrão ou Stereo Mix do Windows.</div>
-              </div>
-              <span class="text-lg ml-3">🎙</span>
-            </button>
-
-            <button onclick="startBuiltinSynthAudioTest();closeAudioConfigModal();" class="w-full p-3 rounded-lg bg-[#131c14] hover:bg-[#1a281c] border border-[#b8ff01]/40 text-left transition flex items-center justify-between">
-              <div>
-                <div class="font-mono font-bold text-xs text-[#b8ff01]">3. TOCAR SYNTHWAVE DE TESTE + ANALISADOR REAL</div>
-                <div class="text-[11px] text-slate-400 mt-0.5">Gera uma batida eletrônica via Web Audio API para testar o espectro na hora.</div>
-              </div>
-              <span class="text-lg ml-3">🎹</span>
-            </button>
-          </div>
-
-          <div class="flex justify-between items-center pt-2 border-t border-[#1e1e2a] text-[11px] font-mono">
-            <span class="text-slate-400">Status: <strong id="modal-audio-status" class="text-white">Simulador Rítmico</strong></span>
-            <button onclick="stopLiveAudioCapture();closeAudioConfigModal();" class="text-rose-400 hover:underline">Desativar Captura</button>
-          </div>
-        </div>
-      </div>
+      <!-- Toast de Notificação -->
+      <div id="studio-toast" class="studio-ui pointer-events-none fixed bottom-6 left-1/2 -translate-x-1/2 px-4 py-2 rounded-full bg-black/90 border border-cyan-400/50 text-cyan-300 font-mono text-xs font-bold opacity-0 transition-opacity duration-200 z-50 shadow-xl"></div>
     </main>
 
     <!-- =================================================================== -->
-    <!-- PAINEL DIREITO: INSPETOR DE PROPRIEDADES CONTEXTUAIS (330PX)        -->
+    <!-- PAINEL DIREITO: INSPETOR DE PROPRIEDADES CONTEXTUAIS (340PX)        -->
     <!-- =================================================================== -->
-    <aside class="studio-ui w-[330px] bg-[#0b0b11] border-l border-[#1c1c28] flex flex-col shrink-0 z-30">
-      <div class="px-4 py-3 border-b border-[#1c1c28] flex items-center justify-between">
+    <aside class="studio-ui w-[340px] rounded-2xl flex flex-col shrink-0 z-30 overflow-hidden">
+      <div class="px-4 py-3 bg-black/20 flex items-center justify-between">
         <div>
           <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// PROPRIEDADES</span>
           <h2 class="text-xs font-bold text-white tracking-wider uppercase">INSPETOR DA CAMADA</h2>
         </div>
-        <span id="inspector-type-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-[#161622] text-slate-400 border border-[#262638]">NENHUM</span>
+        <span id="inspector-type-badge" class="text-[10px] font-mono px-2.5 py-0.5 rounded-full bg-[#161622] text-cyan-300">NENHUM</span>
       </div>
 
       <div id="inspector-content" class="flex-1 overflow-y-auto p-4 space-y-4 text-xs"></div>
@@ -860,13 +899,43 @@
 
   </div>
 
+  <!-- MODAL DE CONFIGURAÇÃO DE ÁUDIO DO DESKTOP -->
+  <div id="audio-config-modal" class="hidden fixed inset-0 bg-black/75 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+    <div class="bg-[#12141f] border border-white/10 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl">
+      <div class="flex items-center justify-between">
+        <div>
+          <span class="text-[10px] font-mono text-pink-400 uppercase">// SINCRONIZADOR WEB AUDIO FFT</span>
+          <h3 class="text-sm font-bold text-white font-mono">CONECTAR ÁUDIO AO ESPECTRO</h3>
+        </div>
+        <button onclick="closeAudioConfigModal()" class="text-slate-400 hover:text-white font-mono text-sm">✕</button>
+      </div>
+      <p class="text-xs text-slate-300 leading-relaxed">
+        Escolha como alimentar os widgets de <strong>Espectro de Áudio</strong> do visor:
+      </p>
+      <div class="space-y-2 font-mono text-xs">
+        <button onclick="startLiveAudioCapture('system');closeAudioConfigModal();" class="w-full p-3 rounded-xl bg-pink-600/20 hover:bg-pink-600/35 border border-pink-500/40 text-left text-pink-200 transition">
+          <div class="font-bold">🔊 1. CAPTURAR SOM DO WINDOWS / DESKTOP</div>
+          <div class="text-[10px] text-slate-300 mt-0.5">Na janela que abrir, selecione a aba/tela e marque <strong>"Compartilhar áudio do sistema"</strong>.</div>
+        </button>
+        <button onclick="startLiveAudioCapture('mic');closeAudioConfigModal();" class="w-full p-3 rounded-xl bg-cyan-600/15 hover:bg-cyan-600/30 border border-cyan-500/35 text-left text-cyan-200 transition">
+          <div class="font-bold">🎙 2. MICROFONE OU MIXAGEM ESTÉREO</div>
+          <div class="text-[10px] text-slate-300 mt-0.5">Captura direta da entrada de áudio padrão ou Stereo Mix.</div>
+        </button>
+        <button onclick="startBuiltinSynthAudioTest();closeAudioConfigModal();" class="w-full p-3 rounded-xl bg-purple-600/15 hover:bg-purple-600/30 border border-purple-500/35 text-left text-purple-200 transition">
+          <div class="font-bold">🎹 3. SINTETIZADOR SYNTHWAVE EMBUTIDO</div>
+          <div class="text-[10px] text-slate-300 mt-0.5">Gera batida eletrônica real para testar o espectro imediatamente.</div>
+        </button>
+        <button onclick="stopLiveAudioCapture();closeAudioConfigModal();" class="w-full p-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-center text-slate-300 text-[11px]">
+          Voltar para Simulador Silencioso
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- ===================================================================== -->
-  <!-- MOTOR JAVASCRIPT COMPLETO — KRAKEN // OS v5.0                         -->
+  <!-- MOTOR JAVASCRIPT COMPLETO — KRAKEN // OS v6.0                         -->
   <!-- ===================================================================== -->
   <script>
-    /*************************************************************************
-     * 0. STICKERS ANIMADOS VETORIAIS EMBUTIDOS (100% COMPATÍVEIS COM CAM)
-     *************************************************************************/
     function svgToDataUri(svgString) {
       return 'data:image/svg+xml;utf8,' + encodeURIComponent(svgString.trim());
     }
@@ -978,6 +1047,258 @@
         </svg>
       `)
     };
+
+    /*************************************************************************
+     * 3. 28 PRESETS AUTORAIS CALIBRADOS (EM ORDEM REORGANIZADA E OTIMIZADA)
+     *************************************************************************/
+    const ARTISANAL_PRESETS = {
+      dl7th_cyber_signature: {
+        name: '01 // DL7TH Cyber Signature',
+        category: 'animated',
+        badge: 'DL7TH 60FPS',
+        desc: 'Preset autoral DL7TH com assinatura, plasma pulsante e arcos 60FPS',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
+        widgets: [
+          { id: 'dl_arc', type: 'tachometer', name: 'Tacômetro DL7TH', x: 320, y: 320, radius: 272, thickness: 16, startAngle: 135, sweepAngle: 270, segments: 24, tachStyle: 'pulse_wave', animSpeed: 120, sensor: 'cpu_load', color: '#00f0ff', secondaryColor: '#ff3b00', trackColor: '#121622', glow: 12 },
+          { id: 'dl_sig', type: 'label', name: 'Marca DL7TH', x: 320, y: 82, text: 'DL7TH // KRAKEN ELITE', fontSize: 16, fontWeight: 900, fontFamily: 'Orbitron', color: '#00f0ff', letterSpacing: 4, glow: 10 },
+          { id: 'dl_core', type: 'plasma_core', name: 'Plasma Core', x: 320, y: 235, size: 100, color: '#00f0ff', secondaryColor: '#b8ff01', glow: 12 },
+          { id: 'dl_cpu', type: 'telemetry_card', name: 'CPU DL7TH', x: 180, y: 320, sensor: 'cpu_temp', title: 'DL7TH CPU', fontSize: 62, labelSize: 14, unitSize: 24, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 8 },
+          { id: 'dl_gpu', type: 'telemetry_card', name: 'GPU DL7TH', x: 460, y: 320, sensor: 'gpu_temp', title: 'DL7TH GPU', fontSize: 62, labelSize: 14, unitSize: 24, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 8 },
+          { id: 'dl_bar', type: 'seg_bar', name: 'Plasma Stream Bar', x: 320, y: 445, width: 320, height: 28, segments: 20, barStyle: 'plasma_stream', animSpeed: 140, showHeader: true, title: 'SYSTEM STREAM LOAD', sensor: 'cpu_load', color: '#00f0ff', secondaryColor: '#b8ff01', trackColor: '#141c2b' },
+          { id: 'dl_pill', type: 'dual_pill', name: 'Watts DL7TH', x: 320, y: 525, sensorA: 'cpu_power', sensorB: 'gpu_power', fontSize: 20, unitSize: 14, color: '#b8ff01', bgColor: '#111822' }
+        ]
+      },
+      dl7th_plasma_overdrive: {
+        name: '02 // DL7TH Plasma Overdrive',
+        category: 'animated',
+        badge: 'DL7TH PLASMA',
+        desc: 'Núcleo plasma central gigantesto com scanner laser e arcos fluidos',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 70, blendMode: 'normal' },
+        widgets: [
+          { id: 'po_rad', type: 'radial', name: 'Arco Energy Flow', x: 320, y: 320, radius: 274, thickness: 18, startAngle: 135, sweepAngle: 270, radialStyle: 'energy_flow', animSpeed: 150, sensor: 'sys_power', color: '#b8ff01', secondaryColor: '#00f0ff', trackColor: '#102219', glow: 14 },
+          { id: 'po_core', type: 'plasma_core', name: 'Plasma Gigante', x: 320, y: 265, size: 130, color: '#b8ff01', secondaryColor: '#00f0ff', glow: 16 },
+          { id: 'po_c1', type: 'telemetry_card', name: 'CPU', x: 175, y: 155, sensor: 'cpu_temp', title: 'CPU TEMP', fontSize: 46, labelSize: 12, unitSize: 18, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#b8ff01' },
+          { id: 'po_c2', type: 'telemetry_card', name: 'GPU', x: 465, y: 155, sensor: 'gpu_temp', title: 'GPU TEMP', fontSize: 46, labelSize: 12, unitSize: 18, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#00f0ff' },
+          { id: 'po_bar', type: 'seg_bar', name: 'Scanner Laser', x: 320, y: 435, width: 330, height: 32, segments: 22, barStyle: 'cyber_scanner', animSpeed: 150, showHeader: true, title: 'DL7TH OVERDRIVE BUS', sensor: 'cpu_load', color: '#b8ff01', secondaryColor: '#00f0ff', trackColor: '#12241b' },
+          { id: 'po_tbl', type: 'sensor_table', name: 'Tabela DL7TH', x: 320, y: 520, width: 320, height: 85, sensorA: 'liquid_temp', sensorB: 'pump_rpm', sensorC: 'cpu_power', sensorD: 'gpu_power', color: '#b8ff01', secondaryColor: '#00f0ff', fontSize: 15 }
+        ]
+      },
+      dl7th_mech_war: {
+        name: '03 // DL7TH Mech War Protocol',
+        category: 'animated',
+        badge: 'DL7TH MECH',
+        desc: 'Protocolo de combate militar vermelho/preto com radar tático 60FPS',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 75, blendMode: 'normal' },
+        widgets: [
+          { id: 'mw_arc', type: 'tachometer', name: 'Turbina Mech', x: 320, y: 320, radius: 272, thickness: 18, startAngle: 135, sweepAngle: 270, segments: 24, tachStyle: 'turbine_spin', animSpeed: 140, sensor: 'cpu_load', color: '#ef4444', secondaryColor: '#f59e0b', trackColor: '#220909', glow: 12 },
+          { id: 'mw_rad', type: 'radar_hud', name: 'Radar Tático', x: 320, y: 235, size: 105, color: '#ef4444', glow: 10 },
+          { id: 'mw_hdr', type: 'label', name: 'DL7TH WAR PROTOCOL', x: 320, y: 84, text: 'DL7TH // MECH PROTOCOL', fontSize: 15, fontWeight: 900, fontFamily: 'Black Ops One', color: '#ef4444', letterSpacing: 3, glow: 8 },
+          { id: 'mw_cpu', type: 'telemetry_card', name: 'CPU Mech', x: 175, y: 345, sensor: 'cpu_temp', title: 'MECH CPU', fontSize: 58, labelSize: 13, unitSize: 22, fontFamily: 'Black Ops One', color: '#ffffff', accentColor: '#ef4444' },
+          { id: 'mw_gpu', type: 'telemetry_card', name: 'GPU Mech', x: 465, y: 345, sensor: 'gpu_temp', title: 'MECH GPU', fontSize: 58, labelSize: 13, unitSize: 22, fontFamily: 'Black Ops One', color: '#ffffff', accentColor: '#f59e0b' },
+          { id: 'mw_bar', type: 'seg_bar', name: 'Reator Pulse Bar', x: 320, y: 465, width: 320, height: 30, segments: 18, barStyle: 'reactor_pulse', animSpeed: 130, showHeader: true, title: 'WAR REACTOR LEVEL', sensor: 'liquid_temp', color: '#ef4444', secondaryColor: '#f59e0b', trackColor: '#260a0a' }
+        ]
+      },
+      dl7th_quantum_core: {
+        name: '04 // DL7TH Quantum Core 60FPS',
+        category: 'animated',
+        badge: 'DL7TH 60FPS',
+        desc: 'Anéis orbitais contra-rotativos fluidos + Ampulheta temporal',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 70, blendMode: 'normal' },
+        widgets: [
+          { id: 'qc_gyro', type: 'radial', name: 'Giroscópio Quantum', x: 320, y: 320, radius: 270, thickness: 16, startAngle: 0, sweepAngle: 359, radialStyle: 'gyro_orbit', animSpeed: 160, sensor: 'cpu_load', color: '#a855f7', secondaryColor: '#00f0ff', tertiaryColor: '#b8ff01', trackColor: '#181229', glow: 14 },
+          { id: 'qc_time', type: 'time_matrix', name: 'Tempo Quantum', x: 320, y: 225, width: 140, height: 50, color: '#00f0ff', glow: 10 },
+          { id: 'qc_cpu', type: 'telemetry_card', name: 'CPU Quantum', x: 180, y: 345, sensor: 'cpu_temp', title: 'QUANTUM CPU', fontSize: 62, labelSize: 14, unitSize: 24, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#a855f7', glow: 10 },
+          { id: 'qc_gpu', type: 'telemetry_card', name: 'GPU Quantum', x: 460, y: 345, sensor: 'gpu_temp', title: 'QUANTUM GPU', fontSize: 62, labelSize: 14, unitSize: 24, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#00f0ff', glow: 10 },
+          { id: 'qc_bar', type: 'seg_bar', name: 'Glitch Matrix Bar', x: 320, y: 470, width: 320, height: 28, segments: 20, barStyle: 'matrix_rain_bar', animSpeed: 150, showHeader: true, title: 'QUANTUM MATRIX STREAM', sensor: 'ram_percent', color: '#a855f7', secondaryColor: '#00f0ff', trackColor: '#201333' }
+        ]
+      },
+      tachometer_pro: {
+        name: '05 // Tachometer Pro XL',
+        category: 'static',
+        badge: 'PADRÃO',
+        desc: 'Arcos duplos CPU/GPU + Watts + Líquido + RAM LED',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 45, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 60, blendMode: 'normal' },
+        widgets: [
+          { id: 'w_ret', type: 'reticle', name: 'Anel Escala Externa', x: 320, y: 320, radius: 292, color: '#262638', style: 'ticks', opacity: 80, locked: true },
+          { id: 'w_tach_cpu', type: 'tachometer', name: 'Tacômetro CPU', x: 320, y: 320, radius: 256, thickness: 16, startAngle: 135, sweepAngle: 125, segments: 20, sensor: 'cpu_load', color: '#ff3b00', trackColor: '#161622', glow: 10 },
+          { id: 'w_tach_gpu', type: 'tachometer', name: 'Tacômetro GPU', x: 320, y: 320, radius: 256, thickness: 16, startAngle: 280, sweepAngle: 125, segments: 20, sensor: 'gpu_load', color: '#00f0ff', trackColor: '#161622', glow: 10 },
+          { id: 'w_arc_liq', type: 'radial', name: 'Arco Líquido Base', x: 320, y: 320, radius: 256, thickness: 10, startAngle: 50, sweepAngle: 80, sensor: 'liquid_temp', color: '#b8ff01', trackColor: '#161622', glow: 8 },
+          { id: 'w_lbl_top', type: 'label', name: 'Tag Topo', x: 320, y: 78, text: 'DL7TH // KRAKEN ELITE', fontSize: 15, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#94a3b8', letterSpacing: 4 },
+          { id: 'w_pill_watts', type: 'dual_pill', name: 'Potência CPU/GPU W', x: 320, y: 142, sensorA: 'cpu_power', sensorB: 'gpu_power', fontSize: 18, unitSize: 13, fontWeight: 800, color: '#b8ff01', bgColor: '#111612' },
+          { id: 'w_card_cpu', type: 'telemetry_card', name: 'Bloco CPU Temp', x: 185, y: 235, sensor: 'cpu_temp', title: 'CPU CORE', fontSize: 68, labelSize: 16, unitSize: 28, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
+          { id: 'w_pill_cpu', type: 'dual_pill', name: 'Pílula CPU GHz/%', x: 185, y: 316, sensorA: 'cpu_freq', sensorB: 'cpu_load', fontSize: 19, unitSize: 14, fontWeight: 800, color: '#ff3b00', bgColor: '#12121c' },
+          { id: 'w_card_gpu', type: 'telemetry_card', name: 'Bloco GPU Temp', x: 455, y: 235, sensor: 'gpu_temp', title: 'GPU CORE', fontSize: 68, labelSize: 16, unitSize: 28, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 0 },
+          { id: 'w_pill_gpu', type: 'dual_pill', name: 'Pílula GPU MHz/%', x: 455, y: 316, sensorA: 'gpu_freq', sensorB: 'gpu_load', fontSize: 19, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#12121c' },
+          { id: 'w_seg_ram', type: 'seg_bar', name: 'Barra RAM Seg', x: 320, y: 392, width: 290, height: 18, segments: 18, barStyle: 'cells', sensor: 'ram_percent', color: '#b8ff01', secondaryColor: '#00f0ff', trackColor: '#181826' },
+          { id: 'w_sens_ram', type: 'sensor', name: 'Texto RAM Usada', x: 320, y: 426, sensor: 'ram_used', prefix: 'RAM ', showUnit: true, fontSize: 24, labelSize: 18, unitSize: 16, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 0 },
+          { id: 'w_card_liq', type: 'telemetry_card', name: 'Bloco Líquido', x: 320, y: 505, sensor: 'liquid_temp', title: 'LIQUID COOLANT', fontSize: 44, labelSize: 14, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#b8ff01', accentColor: '#b8ff01', glow: 6 }
+        ]
+      },
+      nothing_matrix: {
+        name: '06 // Nothing OS Matrix XL',
+        category: 'static',
+        badge: 'MATRIX',
+        desc: 'Estética industrial pontilhada com relógio + Watts',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 40, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 50, blendMode: 'normal' },
+        widgets: [
+          { id: 'n_ret', type: 'reticle', name: 'Grade Técnica', x: 320, y: 320, radius: 286, color: '#242432', style: 'crosshair', opacity: 90, locked: true },
+          { id: 'n_clk', type: 'clock', name: 'Relógio Matriz', x: 320, y: 96, format: 'HH:MM', fontSize: 30, fontWeight: 800, fontFamily: 'Share Tech Mono', color: '#ff3b00', glow: 0 },
+          { id: 'n_cpu_t', type: 'telemetry_card', name: 'CPU Matrix', x: 185, y: 225, sensor: 'cpu_temp', title: 'CPU // TEMP', fontSize: 72, labelSize: 15, unitSize: 28, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
+          { id: 'n_gpu_t', type: 'telemetry_card', name: 'GPU Matrix', x: 455, y: 225, sensor: 'gpu_temp', title: 'GPU // TEMP', fontSize: 72, labelSize: 15, unitSize: 28, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ffffff', glow: 0 },
+          { id: 'n_cpu_p', type: 'dual_pill', name: 'CPU Dados', x: 185, y: 315, sensorA: 'cpu_freq', sensorB: 'cpu_power', fontSize: 19, unitSize: 14, fontWeight: 700, color: '#ff3b00', bgColor: '#14141d' },
+          { id: 'n_gpu_p', type: 'dual_pill', name: 'GPU Dados', x: 455, y: 315, sensorA: 'gpu_freq', sensorB: 'gpu_power', fontSize: 19, unitSize: 14, fontWeight: 700, color: '#ffffff', bgColor: '#14141d' },
+          { id: 'n_bar_ram', type: 'seg_bar', name: 'Barra RAM Dot', x: 320, y: 390, width: 320, height: 16, segments: 20, barStyle: 'chevron', sensor: 'ram_percent', color: '#ff3b00', secondaryColor: '#ffffff', trackColor: '#191924' },
+          { id: 'n_liq', type: 'sensor', name: 'Coolant Leitura', x: 320, y: 458, sensor: 'liquid_temp', prefix: 'COOLANT: ', showUnit: true, fontSize: 32, labelSize: 20, unitSize: 20, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ff3b00', glow: 0 },
+          { id: 'n_pump', type: 'sensor', name: 'Pump Leitura', x: 320, y: 515, sensor: 'pump_rpm', prefix: 'PUMP ', showUnit: true, fontSize: 20, labelSize: 16, unitSize: 15, fontWeight: 700, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0 }
+        ]
+      },
+      cryo_core: {
+        name: '07 // Cryo Liquid Core XL',
+        category: 'animated',
+        badge: 'ANIMADO',
+        desc: 'Foco central na temperatura do líquido + Reator animado',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
+        widgets: [
+          { id: 'c_arc1', type: 'radial', name: 'Anel Cryo Externo', x: 320, y: 320, radius: 272, thickness: 18, startAngle: 135, sweepAngle: 270, radialStyle: 'energy_flow', sensor: 'liquid_temp', color: '#00f0ff', trackColor: '#101824', glow: 14 },
+          { id: 'c_arc2', type: 'tachometer', name: 'Sub-Anel CPU', x: 320, y: 320, radius: 236, thickness: 10, startAngle: 135, sweepAngle: 270, segments: 32, sensor: 'cpu_load', color: '#38bdf8', trackColor: '#0e131d', glow: 6 },
+          { id: 'c_stk', type: 'sticker', name: 'Sticker Reator Central', x: 320, y: 120, width: 95, height: 95, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: false, color: '#00f0ff', glow: 8 },
+          { id: 'c_liq', type: 'telemetry_card', name: 'Temp Líquido Central', x: 320, y: 245, sensor: 'liquid_temp', title: 'LIQUID CORE', fontSize: 82, labelSize: 18, unitSize: 32, fontWeight: 800, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#00f0ff', glow: 14 },
+          { id: 'c_cpu', type: 'dual_pill', name: 'Resumo CPU (°C / W)', x: 185, y: 365, sensorA: 'cpu_temp', sensorB: 'cpu_power', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#00f0ff', bgColor: '#0c1622' },
+          { id: 'c_gpu', type: 'dual_pill', name: 'Resumo GPU (°C / W)', x: 455, y: 365, sensorA: 'gpu_temp', sensorB: 'gpu_power', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#38bdf8', bgColor: '#0c1622' },
+          { id: 'c_ram', type: 'dual_pill', name: 'Resumo RAM (GB / %)', x: 320, y: 435, sensorA: 'ram_used', sensorB: 'ram_percent', fontSize: 20, unitSize: 14, fontWeight: 800, color: '#b8ff01', bgColor: '#0c1622' },
+          { id: 'c_pump', type: 'sensor', name: 'RPM Bomba', x: 320, y: 505, sensor: 'pump_rpm', prefix: 'FLOW ', showUnit: true, fontSize: 22, labelSize: 16, unitSize: 15, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#7dd3fc', glow: 0 }
+        ]
+      },
+      holo_gif: {
+        name: '08 // Holo-GIF + Áudio FFT',
+        category: 'animated',
+        badge: 'GIF + ÁUDIO',
+        desc: 'Fundo Synthwave + Mini GIF central + Espectro de Áudio',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: {
+          mediaType: 'url',
+          mediaUrl: BUILTIN_ANIMATED_STICKERS.synthsun,
+          opacity: 55, scale: 115, posX: 0, posY: 0, blur: 0, brightness: 95, vignette: 75, blendMode: 'normal'
+        },
+        widgets: [
+          { id: 'h_arc_l', type: 'radial', name: 'Arco Esquerdo CPU', x: 320, y: 320, radius: 276, thickness: 14, startAngle: 140, sweepAngle: 85, sensor: 'cpu_temp', color: '#ff3b00', trackColor: '#151520', glow: 12 },
+          { id: 'h_arc_r', type: 'radial', name: 'Arco Direito GPU', x: 320, y: 320, radius: 276, thickness: 14, startAngle: 315, sweepAngle: 85, sensor: 'gpu_temp', color: '#00f0ff', trackColor: '#151520', glow: 12 },
+          { id: 'h_clk', type: 'clock', name: 'Hora Topo', x: 320, y: 78, format: 'HH:MM', fontSize: 34, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', glow: 10 },
+          { id: 'h_mini_gif', type: 'sticker', name: 'Mini GIF Central', x: 320, y: 250, width: 145, height: 145, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: true, color: '#00f0ff', glow: 12 },
+          { id: 'h_cpu', type: 'telemetry_card', name: 'Card CPU Lateral', x: 135, y: 310, sensor: 'cpu_temp', title: 'CPU', fontSize: 56, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 10 },
+          { id: 'h_gpu', type: 'telemetry_card', name: 'Card GPU Lateral', x: 505, y: 310, sensor: 'gpu_temp', title: 'GPU', fontSize: 56, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 10 },
+          { id: 'h_liq', type: 'dual_pill', name: 'Pílula Base Líquido/RAM', x: 320, y: 475, sensorA: 'liquid_temp', sensorB: 'ram_percent', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#b8ff01', bgColor: '#090910' },
+          { id: 'h_spec', type: 'spectrum', name: 'Espectro Base', x: 320, y: 545, width: 220, height: 42, barCount: 18, sensitivity: 140, spectrumStyle: 'bars', color: '#00f0ff', secondaryColor: '#ff3b00', glow: 6 }
+        ]
+      },
+      overclock_bench: {
+        name: '09 // Overclock & Watts XL',
+        category: 'static',
+        badge: 'BENCH',
+        desc: 'Gráficos duplos em tempo real + Consumo em Watts (W)',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 55, blendMode: 'normal' },
+        widgets: [
+          { id: 'o_tach', type: 'tachometer', name: 'Anel Carga Total', x: 320, y: 320, radius: 274, thickness: 14, startAngle: 135, sweepAngle: 270, segments: 36, sensor: 'cpu_load', color: '#b8ff01', trackColor: '#151520', glow: 8 },
+          { id: 'o_c1', type: 'telemetry_card', name: 'CPU Temp', x: 190, y: 175, sensor: 'cpu_temp', title: 'CPU TEMP', fontSize: 58, labelSize: 15, unitSize: 24, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#b8ff01', glow: 0 },
+          { id: 'o_c2', type: 'telemetry_card', name: 'GPU Temp', x: 450, y: 175, sensor: 'gpu_temp', title: 'GPU TEMP', fontSize: 58, labelSize: 15, unitSize: 24, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
+          { id: 'o_p1', type: 'dual_pill', name: 'CPU Clock & Watts', x: 190, y: 255, sensorA: 'cpu_freq', sensorB: 'cpu_power', fontSize: 18, unitSize: 13, fontWeight: 800, color: '#b8ff01', bgColor: '#14141f' },
+          { id: 'o_p2', type: 'dual_pill', name: 'GPU Clock & Watts', x: 450, y: 255, sensorA: 'gpu_freq', sensorB: 'gpu_power', fontSize: 18, unitSize: 13, fontWeight: 800, color: '#ff3b00', bgColor: '#14141f' },
+          { id: 'o_ch1', type: 'chart', name: 'Gráfico CPU Temp', x: 205, y: 345, width: 205, height: 68, sensor: 'cpu_temp', title: 'CPU LOG', labelSize: 13, color: '#b8ff01', showLabel: true },
+          { id: 'o_ch2', type: 'chart', name: 'Gráfico GPU Temp', x: 435, y: 345, width: 205, height: 68, sensor: 'gpu_temp', title: 'GPU LOG', labelSize: 13, color: '#ff3b00', showLabel: true },
+          { id: 'o_ram', type: 'seg_bar', name: 'Barra Potência Sistema W', x: 320, y: 428, width: 320, height: 22, segments: 20, barStyle: 'gradient', sensor: 'sys_power', color: '#00f0ff', secondaryColor: '#ff3b00', trackColor: '#171722' },
+          { id: 'o_liq', type: 'dual_pill', name: 'Líquido + Sistema Watts', x: 320, y: 495, sensorA: 'liquid_temp', sensorB: 'sys_power', fontSize: 21, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#12121c' }
+        ]
+      },
+      cyberpunk_hud: {
+        name: '10 // Cyberpunk Night City',
+        category: 'animated',
+        badge: 'CYBER 2077',
+        desc: 'Arcos chanfrados glitch + Scanner Laser + Equalizador',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
+        widgets: [
+          { id: 'cp_ret', type: 'reticle', name: 'Anel Cyber HUD', x: 320, y: 320, radius: 294, color: '#fcee0a', style: 'cyber_hud', opacity: 85, locked: true },
+          { id: 'cp_arc_cpu', type: 'tachometer', name: 'Cyber Blades CPU', x: 320, y: 320, radius: 258, thickness: 18, startAngle: 135, sweepAngle: 122, segments: 18, tachStyle: 'blades', sensor: 'cpu_load', color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#1b1908', glow: 10 },
+          { id: 'cp_arc_gpu', type: 'tachometer', name: 'Cyber Blades GPU', x: 320, y: 320, radius: 258, thickness: 18, startAngle: 283, sweepAngle: 122, segments: 18, tachStyle: 'blades', sensor: 'gpu_load', color: '#00f0ff', secondaryColor: '#fcee0a', trackColor: '#081a1f', glow: 10 },
+          { id: 'cp_rail_liq', type: 'radial', name: 'Cyber Rail Líquido', x: 320, y: 320, radius: 256, thickness: 12, startAngle: 52, sweepAngle: 76, radialStyle: 'cyber_rail', sensor: 'liquid_temp', color: '#ff0055', secondaryColor: '#fcee0a', trackColor: '#220915', glow: 10 },
+          { id: 'cp_hdr', type: 'label', name: 'Tag Night City', x: 320, y: 76, text: 'NC // BIOMONITOR v2.077', fontSize: 15, fontWeight: 800, fontFamily: 'Orbitron', color: '#fcee0a', letterSpacing: 3, glow: 6 },
+          { id: 'cp_watts', type: 'dual_pill', name: 'Potência Cyber W', x: 320, y: 132, sensorA: 'cpu_power', sensorB: 'gpu_power', fontSize: 19, unitSize: 13, fontWeight: 800, color: '#fcee0a', bgColor: '#181406' },
+          { id: 'cp_cpu', type: 'telemetry_card', name: 'Bloco CPU Cyber', x: 185, y: 218, sensor: 'cpu_temp', title: 'CPU // OVERDRIVE', fontSize: 64, labelSize: 14, unitSize: 26, fontWeight: 800, fontFamily: 'Rajdhani', color: '#fcee0a', accentColor: '#ff0055', glow: 8 },
+          { id: 'cp_gpu', type: 'telemetry_card', name: 'Bloco GPU Cyber', x: 455, y: 218, sensor: 'gpu_temp', title: 'GPU // OPTICS', fontSize: 64, labelSize: 14, unitSize: 26, fontWeight: 800, fontFamily: 'Rajdhani', color: '#00f0ff', accentColor: '#fcee0a', glow: 8 },
+          { id: 'cp_bar_cpu', type: 'seg_bar', name: 'Barra Cyber CPU %', x: 185, y: 304, width: 195, height: 22, segments: 12, barStyle: 'cyber_scanner', sensor: 'cpu_load', title: 'CPU LOAD', showHeader: false, color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#1e1b0a' },
+          { id: 'cp_bar_gpu', type: 'seg_bar', name: 'Barra Cyber GPU %', x: 455, y: 304, width: 195, height: 22, segments: 12, barStyle: 'cyber_scanner', sensor: 'gpu_load', title: 'GPU LOAD', showHeader: false, color: '#00f0ff', secondaryColor: '#ff0055', trackColor: '#091d24' },
+          { id: 'cp_bar_ram', type: 'seg_bar', name: 'Barra Glitch RAM', x: 320, y: 382, width: 330, height: 38, segments: 20, barStyle: 'cyber_glitch', sensor: 'ram_percent', title: 'CYBERDECK RAM', labelSize: 13, showHeader: true, color: '#ff0055', secondaryColor: '#00f0ff', trackColor: '#1f0c18' },
+          { id: 'cp_liq_card', type: 'telemetry_card', name: 'Coolant Core', x: 320, y: 478, sensor: 'liquid_temp', title: 'COOLANT // CRYO', fontSize: 44, labelSize: 13, unitSize: 20, fontWeight: 800, fontFamily: 'Orbitron', color: '#00f0ff', accentColor: '#fcee0a', glow: 8 },
+          { id: 'cp_spec', type: 'spectrum', name: 'Audio Cyberlink', x: 320, y: 552, width: 210, height: 36, barCount: 18, sensitivity: 145, spectrumStyle: 'bars', color: '#fcee0a', secondaryColor: '#ff0055', glow: 6 }
+        ]
+      }
+    };
+
+    let currentPresetFilter = 'all';
+
+    function setStudioTheme(themeName) {
+      document.body.setAttribute('data-studio-theme', themeName);
+      try { localStorage.setItem('kraken_studio_ui_theme', themeName); } catch (e) {}
+    }
+
+    function filterPresetsGallery(filterType) {
+      currentPresetFilter = filterType;
+      ['all', 'animated', 'static'].forEach(k => {
+        const b = document.getElementById(`flt-btn-${k}`);
+        if (b) b.classList.toggle('active', k === filterType);
+      });
+      renderPresetsGalleryList();
+    }
+
+    function renderPresetsGalleryList() {
+      const container = document.getElementById('presets-gallery-container');
+      if (!container) return;
+      const query = (document.getElementById('preset-search-input')?.value || '').toLowerCase().trim();
+
+      const entries = Object.entries(ARTISANAL_PRESETS).filter(([key, p]) => {
+        if (currentPresetFilter !== 'all' && p.category !== currentPresetFilter) return false;
+        if (query && !p.name.toLowerCase().includes(query) && !(p.desc || '').toLowerCase().includes(query) && !(p.badge || '').toLowerCase().includes(query)) {
+          return false;
+        }
+        return true;
+      });
+
+      container.innerHTML = entries.map(([key, p]) => {
+        const isAnim = p.category === 'animated';
+        const badgeStyle = isAnim
+          ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/30'
+          : 'bg-white/10 text-slate-300';
+        return `
+          <button onclick="applyArtisanalPreset('${key}')" class="w-full p-3 rounded-xl bg-[#12121c] hover:bg-[#1b1e2e] text-left transition flex items-center justify-between group">
+            <div class="pr-2">
+              <div class="flex items-center space-x-1.5">
+                <span class="font-mono font-bold text-xs text-white group-hover:text-[#00f0ff] transition">${p.name}</span>
+              </div>
+              <div class="text-[10px] text-slate-400 mt-0.5 line-clamp-1">${p.desc || ''}</div>
+            </div>
+            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full shrink-0 ${badgeStyle}">${isAnim ? '✨ ' : ''}${p.badge || p.category.toUpperCase()}</span>
+          </button>
+        `;
+      }).join('');
+    }
 
     /*************************************************************************
      * 1. BANCO INDEXEDDB LOCAL PARA GIFS, STICKERS E VÍDEOS
@@ -1329,124 +1650,6 @@
       }
       return out;
     }
-
-    /*************************************************************************
-     * 3. 5 PRESETS AUTORAIS CALIBRADOS PARA LEITURA XL NO WATERCOOLER
-     *************************************************************************/
-    const ARTISANAL_PRESETS = {
-      tachometer_pro: {
-        name: 'Tachometer Pro XL',
-        globalZoom: 100,
-        globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 45, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 60, blendMode: 'normal' },
-        widgets: [
-          { id: 'w_ret', type: 'reticle', name: 'Anel Escala Externa', x: 320, y: 320, radius: 292, color: '#262638', style: 'ticks', opacity: 80, locked: true },
-          { id: 'w_tach_cpu', type: 'tachometer', name: 'Tacômetro CPU', x: 320, y: 320, radius: 256, thickness: 16, startAngle: 135, sweepAngle: 125, segments: 20, sensor: 'cpu_load', color: '#ff3b00', trackColor: '#161622', glow: 10 },
-          { id: 'w_tach_gpu', type: 'tachometer', name: 'Tacômetro GPU', x: 320, y: 320, radius: 256, thickness: 16, startAngle: 280, sweepAngle: 125, segments: 20, sensor: 'gpu_load', color: '#00f0ff', trackColor: '#161622', glow: 10 },
-          { id: 'w_arc_liq', type: 'radial', name: 'Arco Líquido Base', x: 320, y: 320, radius: 256, thickness: 10, startAngle: 50, sweepAngle: 80, sensor: 'liquid_temp', color: '#b8ff01', trackColor: '#161622', glow: 8 },
-          { id: 'w_lbl_top', type: 'label', name: 'Tag Topo', x: 320, y: 78, text: 'KRAKEN // TELEMETRY', fontSize: 15, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#94a3b8', letterSpacing: 4 },
-          { id: 'w_pill_watts', type: 'dual_pill', name: 'Potência CPU/GPU W', x: 320, y: 142, sensorA: 'cpu_power', sensorB: 'gpu_power', fontSize: 18, unitSize: 13, fontWeight: 800, color: '#b8ff01', bgColor: '#111612' },
-          { id: 'w_card_cpu', type: 'telemetry_card', name: 'Bloco CPU Temp', x: 185, y: 235, sensor: 'cpu_temp', title: 'CPU CORE', fontSize: 68, labelSize: 16, unitSize: 28, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
-          { id: 'w_pill_cpu', type: 'dual_pill', name: 'Pílula CPU GHz/%', x: 185, y: 316, sensorA: 'cpu_freq', sensorB: 'cpu_load', fontSize: 19, unitSize: 14, fontWeight: 800, color: '#ff3b00', bgColor: '#12121c' },
-          { id: 'w_card_gpu', type: 'telemetry_card', name: 'Bloco GPU Temp', x: 455, y: 235, sensor: 'gpu_temp', title: 'GPU CORE', fontSize: 68, labelSize: 16, unitSize: 28, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 0 },
-          { id: 'w_pill_gpu', type: 'dual_pill', name: 'Pílula GPU MHz/%', x: 455, y: 316, sensorA: 'gpu_freq', sensorB: 'gpu_load', fontSize: 19, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#12121c' },
-          { id: 'w_seg_ram', type: 'seg_bar', name: 'Barra RAM Seg', x: 320, y: 392, width: 290, height: 18, segments: 18, barStyle: 'cells', sensor: 'ram_percent', color: '#b8ff01', secondaryColor: '#00f0ff', trackColor: '#181826' },
-          { id: 'w_sens_ram', type: 'sensor', name: 'Texto RAM Usada', x: 320, y: 426, sensor: 'ram_used', prefix: 'RAM ', showUnit: true, fontSize: 24, labelSize: 18, unitSize: 16, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#e2e8f0', glow: 0 },
-          { id: 'w_card_liq', type: 'telemetry_card', name: 'Bloco Líquido', x: 320, y: 505, sensor: 'liquid_temp', title: 'LIQUID COOLANT', fontSize: 44, labelSize: 14, unitSize: 20, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#b8ff01', accentColor: '#b8ff01', glow: 6 }
-        ]
-      },
-      nothing_matrix: {
-        name: 'Nothing OS Matrix XL',
-        globalZoom: 100,
-        globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 40, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 50, blendMode: 'normal' },
-        widgets: [
-          { id: 'n_ret', type: 'reticle', name: 'Grade Técnica', x: 320, y: 320, radius: 286, color: '#242432', style: 'crosshair', opacity: 90, locked: true },
-          { id: 'n_clk', type: 'clock', name: 'Relógio Matriz', x: 320, y: 96, format: 'HH:MM', fontSize: 30, fontWeight: 800, fontFamily: 'Share Tech Mono', color: '#ff3b00', glow: 0 },
-          { id: 'n_cpu_t', type: 'telemetry_card', name: 'CPU Matrix', x: 185, y: 225, sensor: 'cpu_temp', title: 'CPU // TEMP', fontSize: 72, labelSize: 15, unitSize: 28, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
-          { id: 'n_gpu_t', type: 'telemetry_card', name: 'GPU Matrix', x: 455, y: 225, sensor: 'gpu_temp', title: 'GPU // TEMP', fontSize: 72, labelSize: 15, unitSize: 28, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ffffff', accentColor: '#ffffff', glow: 0 },
-          { id: 'n_cpu_p', type: 'dual_pill', name: 'CPU Dados', x: 185, y: 315, sensorA: 'cpu_freq', sensorB: 'cpu_power', fontSize: 19, unitSize: 14, fontWeight: 700, color: '#ff3b00', bgColor: '#14141d' },
-          { id: 'n_gpu_p', type: 'dual_pill', name: 'GPU Dados', x: 455, y: 315, sensorA: 'gpu_freq', sensorB: 'gpu_power', fontSize: 19, unitSize: 14, fontWeight: 700, color: '#ffffff', bgColor: '#14141d' },
-          { id: 'n_bar_ram', type: 'seg_bar', name: 'Barra RAM Dot', x: 320, y: 390, width: 320, height: 16, segments: 20, barStyle: 'chevron', sensor: 'ram_percent', color: '#ff3b00', secondaryColor: '#ffffff', trackColor: '#191924' },
-          { id: 'n_liq', type: 'sensor', name: 'Coolant Leitura', x: 320, y: 458, sensor: 'liquid_temp', prefix: 'COOLANT: ', showUnit: true, fontSize: 32, labelSize: 20, unitSize: 20, fontWeight: 700, fontFamily: 'Share Tech Mono', color: '#ff3b00', glow: 0 },
-          { id: 'n_pump', type: 'sensor', name: 'Pump Leitura', x: 320, y: 515, sensor: 'pump_rpm', prefix: 'PUMP ', showUnit: true, fontSize: 20, labelSize: 16, unitSize: 15, fontWeight: 700, fontFamily: 'JetBrains Mono', color: '#94a3b8', glow: 0 }
-        ]
-      },
-      cryo_core: {
-        name: 'Cryo Core Liquid XL',
-        globalZoom: 100,
-        globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
-        widgets: [
-          { id: 'c_arc1', type: 'radial', name: 'Anel Cryo Externo', x: 320, y: 320, radius: 272, thickness: 18, startAngle: 135, sweepAngle: 270, sensor: 'liquid_temp', color: '#00f0ff', trackColor: '#101824', glow: 14 },
-          { id: 'c_arc2', type: 'tachometer', name: 'Sub-Anel CPU', x: 320, y: 320, radius: 236, thickness: 10, startAngle: 135, sweepAngle: 270, segments: 32, sensor: 'cpu_load', color: '#38bdf8', trackColor: '#0e131d', glow: 6 },
-          { id: 'c_stk', type: 'sticker', name: 'Sticker Reator Central', x: 320, y: 120, width: 95, height: 95, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: false, color: '#00f0ff', glow: 8 },
-          { id: 'c_liq', type: 'telemetry_card', name: 'Temp Líquido Central', x: 320, y: 245, sensor: 'liquid_temp', title: 'LIQUID CORE', fontSize: 82, labelSize: 18, unitSize: 32, fontWeight: 800, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#00f0ff', glow: 14 },
-          { id: 'c_cpu', type: 'dual_pill', name: 'Resumo CPU (°C / W)', x: 185, y: 365, sensorA: 'cpu_temp', sensorB: 'cpu_power', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#00f0ff', bgColor: '#0c1622' },
-          { id: 'c_gpu', type: 'dual_pill', name: 'Resumo GPU (°C / W)', x: 455, y: 365, sensorA: 'gpu_temp', sensorB: 'gpu_power', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#38bdf8', bgColor: '#0c1622' },
-          { id: 'c_ram', type: 'dual_pill', name: 'Resumo RAM (GB / %)', x: 320, y: 435, sensorA: 'ram_used', sensorB: 'ram_percent', fontSize: 20, unitSize: 14, fontWeight: 800, color: '#b8ff01', bgColor: '#0c1622' },
-          { id: 'c_pump', type: 'sensor', name: 'RPM Bomba', x: 320, y: 505, sensor: 'pump_rpm', prefix: 'FLOW ', showUnit: true, fontSize: 22, labelSize: 16, unitSize: 15, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#7dd3fc', glow: 0 }
-        ]
-      },
-      holo_gif: {
-        name: 'Holo-GIF Visor + Mini GIF',
-        globalZoom: 100,
-        globalFontScale: 105,
-        background: {
-          mediaType: 'url',
-          mediaUrl: BUILTIN_ANIMATED_STICKERS.synthsun,
-          opacity: 55, scale: 115, posX: 0, posY: 0, blur: 0, brightness: 95, vignette: 75, blendMode: 'normal'
-        },
-        widgets: [
-          { id: 'h_arc_l', type: 'radial', name: 'Arco Esquerdo CPU', x: 320, y: 320, radius: 276, thickness: 14, startAngle: 140, sweepAngle: 85, sensor: 'cpu_temp', color: '#ff3b00', trackColor: '#151520', glow: 12 },
-          { id: 'h_arc_r', type: 'radial', name: 'Arco Direito GPU', x: 320, y: 320, radius: 276, thickness: 14, startAngle: 315, sweepAngle: 85, sensor: 'gpu_temp', color: '#00f0ff', trackColor: '#151520', glow: 12 },
-          { id: 'h_clk', type: 'clock', name: 'Hora Topo', x: 320, y: 78, format: 'HH:MM', fontSize: 34, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', glow: 10 },
-          { id: 'h_mini_gif', type: 'sticker', name: 'Mini GIF Central', x: 320, y: 250, width: 145, height: 145, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: true, color: '#00f0ff', glow: 12 },
-          { id: 'h_cpu', type: 'telemetry_card', name: 'Card CPU Lateral', x: 135, y: 310, sensor: 'cpu_temp', title: 'CPU', fontSize: 56, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 10 },
-          { id: 'h_gpu', type: 'telemetry_card', name: 'Card GPU Lateral', x: 505, y: 310, sensor: 'gpu_temp', title: 'GPU', fontSize: 56, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 10 },
-          { id: 'h_liq', type: 'dual_pill', name: 'Pílula Base Líquido/RAM', x: 320, y: 475, sensorA: 'liquid_temp', sensorB: 'ram_percent', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#b8ff01', bgColor: '#090910' },
-          { id: 'h_spec', type: 'spectrum', name: 'Espectro Base', x: 320, y: 545, width: 220, height: 42, barCount: 18, sensitivity: 140, spectrumStyle: 'bars', color: '#00f0ff', secondaryColor: '#ff3b00', glow: 6 }
-        ]
-      },
-      overclock_bench: {
-        name: 'Overclock & Watts XL',
-        globalZoom: 100,
-        globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 55, blendMode: 'normal' },
-        widgets: [
-          { id: 'o_tach', type: 'tachometer', name: 'Anel Carga Total', x: 320, y: 320, radius: 274, thickness: 14, startAngle: 135, sweepAngle: 270, segments: 36, sensor: 'cpu_load', color: '#b8ff01', trackColor: '#151520', glow: 8 },
-          { id: 'o_c1', type: 'telemetry_card', name: 'CPU Temp', x: 190, y: 175, sensor: 'cpu_temp', title: 'CPU TEMP', fontSize: 58, labelSize: 15, unitSize: 24, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#b8ff01', glow: 0 },
-          { id: 'o_c2', type: 'telemetry_card', name: 'GPU Temp', x: 450, y: 175, sensor: 'gpu_temp', title: 'GPU TEMP', fontSize: 58, labelSize: 15, unitSize: 24, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 0 },
-          { id: 'o_p1', type: 'dual_pill', name: 'CPU Clock & Watts', x: 190, y: 255, sensorA: 'cpu_freq', sensorB: 'cpu_power', fontSize: 18, unitSize: 13, fontWeight: 800, color: '#b8ff01', bgColor: '#14141f' },
-          { id: 'o_p2', type: 'dual_pill', name: 'GPU Clock & Watts', x: 450, y: 255, sensorA: 'gpu_freq', sensorB: 'gpu_power', fontSize: 18, unitSize: 13, fontWeight: 800, color: '#ff3b00', bgColor: '#14141f' },
-          { id: 'o_ch1', type: 'chart', name: 'Gráfico CPU Temp', x: 205, y: 345, width: 205, height: 68, sensor: 'cpu_temp', title: 'CPU LOG', labelSize: 13, color: '#b8ff01', showLabel: true },
-          { id: 'o_ch2', type: 'chart', name: 'Gráfico GPU Temp', x: 435, y: 345, width: 205, height: 68, sensor: 'gpu_temp', title: 'GPU LOG', labelSize: 13, color: '#ff3b00', showLabel: true },
-          { id: 'o_ram', type: 'seg_bar', name: 'Barra Potência Sistema W', x: 320, y: 428, width: 320, height: 22, segments: 20, barStyle: 'gradient', sensor: 'sys_power', color: '#00f0ff', secondaryColor: '#ff3b00', trackColor: '#171722' },
-          { id: 'o_liq', type: 'dual_pill', name: 'Líquido + Sistema Watts', x: 320, y: 495, sensorA: 'liquid_temp', sensorB: 'sys_power', fontSize: 21, unitSize: 14, fontWeight: 800, color: '#00f0ff', bgColor: '#12121c' }
-        ]
-      },
-      cyberpunk_hud: {
-        name: 'Cyberpunk Night City HUD',
-        globalZoom: 100,
-        globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
-        widgets: [
-          { id: 'cp_ret', type: 'reticle', name: 'Anel Cyber HUD', x: 320, y: 320, radius: 294, color: '#fcee0a', style: 'cyber_hud', opacity: 85, locked: true },
-          { id: 'cp_arc_cpu', type: 'tachometer', name: 'Cyber Blades CPU', x: 320, y: 320, radius: 258, thickness: 18, startAngle: 135, sweepAngle: 122, segments: 18, tachStyle: 'blades', sensor: 'cpu_load', color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#1b1908', glow: 10 },
-          { id: 'cp_arc_gpu', type: 'tachometer', name: 'Cyber Blades GPU', x: 320, y: 320, radius: 258, thickness: 18, startAngle: 283, sweepAngle: 122, segments: 18, tachStyle: 'blades', sensor: 'gpu_load', color: '#00f0ff', secondaryColor: '#fcee0a', trackColor: '#081a1f', glow: 10 },
-          { id: 'cp_rail_liq', type: 'radial', name: 'Cyber Rail Líquido', x: 320, y: 320, radius: 256, thickness: 12, startAngle: 52, sweepAngle: 76, radialStyle: 'cyber_rail', sensor: 'liquid_temp', color: '#ff0055', secondaryColor: '#fcee0a', trackColor: '#220915', glow: 10 },
-          { id: 'cp_hdr', type: 'label', name: 'Tag Night City', x: 320, y: 76, text: 'NC // BIOMONITOR v2.077', fontSize: 15, fontWeight: 800, fontFamily: 'Orbitron', color: '#fcee0a', letterSpacing: 3, glow: 6 },
-          { id: 'cp_watts', type: 'dual_pill', name: 'Potência Cyber W', x: 320, y: 132, sensorA: 'cpu_power', sensorB: 'gpu_power', fontSize: 19, unitSize: 13, fontWeight: 800, color: '#fcee0a', bgColor: '#181406' },
-          { id: 'cp_cpu', type: 'telemetry_card', name: 'Bloco CPU Cyber', x: 185, y: 218, sensor: 'cpu_temp', title: 'CPU // OVERDRIVE', fontSize: 64, labelSize: 14, unitSize: 26, fontWeight: 800, fontFamily: 'Rajdhani', color: '#fcee0a', accentColor: '#ff0055', glow: 8 },
-          { id: 'cp_gpu', type: 'telemetry_card', name: 'Bloco GPU Cyber', x: 455, y: 218, sensor: 'gpu_temp', title: 'GPU // OPTICS', fontSize: 64, labelSize: 14, unitSize: 26, fontWeight: 800, fontFamily: 'Rajdhani', color: '#00f0ff', accentColor: '#fcee0a', glow: 8 },
-          { id: 'cp_bar_cpu', type: 'seg_bar', name: 'Barra Cyber CPU %', x: 185, y: 304, width: 195, height: 22, segments: 12, barStyle: 'cyber_chamfer', sensor: 'cpu_load', title: 'CPU LOAD', showHeader: false, color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#1e1b0a' },
-          { id: 'cp_bar_gpu', type: 'seg_bar', name: 'Barra Cyber GPU %', x: 455, y: 304, width: 195, height: 22, segments: 12, barStyle: 'cyber_chamfer', sensor: 'gpu_load', title: 'GPU LOAD', showHeader: false, color: '#00f0ff', secondaryColor: '#ff0055', trackColor: '#091d24' },
-          { id: 'cp_bar_ram', type: 'seg_bar', name: 'Barra Glitch RAM', x: 320, y: 382, width: 330, height: 38, segments: 20, barStyle: 'cyber_glitch', sensor: 'ram_percent', title: 'CYBERDECK RAM', labelSize: 13, showHeader: true, color: '#ff0055', secondaryColor: '#00f0ff', trackColor: '#1f0c18' },
-          { id: 'cp_liq_card', type: 'telemetry_card', name: 'Coolant Core', x: 320, y: 478, sensor: 'liquid_temp', title: 'COOLANT // CRYO', fontSize: 44, labelSize: 13, unitSize: 20, fontWeight: 800, fontFamily: 'Orbitron', color: '#00f0ff', accentColor: '#fcee0a', glow: 8 },
-          { id: 'cp_spec', type: 'spectrum', name: 'Audio Cyberlink', x: 320, y: 552, width: 210, height: 36, barCount: 18, sensitivity: 145, spectrumStyle: 'bars', color: '#fcee0a', secondaryColor: '#ff0055', glow: 6 }
-        ]
-      }
-    };
 
     /*************************************************************************
      * 4. ESTADO DO PROJETO + HISTÓRICO UNDO/REDO (CTRL+Z / CTRL+Y)
@@ -2547,226 +2750,203 @@
             let svgInner = `<circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${w.color || '#2a2a3a'}" stroke-width="1.2" stroke-dasharray="4 8"/>`;
             if (w.style === 'ticks') {
               for (let a = 0; a < 360; a += 10) {
-                const rad = a * Math.PI / 180;
-                const len = (a % 30 === 0) ? 9 : 4;
+                const rad = (a * Math.PI) / 180;
+                const len = a % 30 === 0 ? 10 : 5;
                 const x1 = c + (r - len) * Math.cos(rad);
                 const y1 = c + (r - len) * Math.sin(rad);
                 const x2 = c + r * Math.cos(rad);
                 const y2 = c + r * Math.sin(rad);
-                svgInner += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${w.color || '#333348'}" stroke-width="${a % 30 === 0 ? 1.8 : 1}"/>`;
+                svgInner += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${w.color || '#3b3b52'}" stroke-width="${a % 30 === 0 ? 2 : 1}"/>`;
               }
             } else if (w.style === 'crosshair') {
               svgInner += `
-                <circle cx="${c}" cy="${c}" r="${r}" fill="none" stroke="${w.color || '#333344'}" stroke-width="1.5" stroke-dasharray="2 6"/>
-                <line x1="${c - 18}" y1="${c}" x2="${c + 18}" y2="${c}" stroke="${w.color}" stroke-width="1.5"/>
-                <line x1="${c}" y1="${c - 18}" x2="${c}" y2="${c + 18}" stroke="${w.color}" stroke-width="1.5"/>
+                <line x1="${c - r}" y1="${c}" x2="${c + r}" y2="${c}" stroke="${w.color || '#2a2a3a'}" stroke-width="1" stroke-dasharray="4 6"/>
+                <line x1="${c}" y1="${c - r}" x2="${c}" y2="${c + r}" stroke="${w.color || '#2a2a3a'}" stroke-width="1" stroke-dasharray="4 6"/>
               `;
             } else if (w.style === 'cyber_hud') {
               svgInner += `
-                <circle cx="${c}" cy="${c}" r="${r - 6}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="1" stroke-dasharray="24 12 4 12" opacity="0.65"/>
-                <path d="${polarArcPath(c, c, r, 155, 50)}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="4"/>
-                <path d="${polarArcPath(c, c, r, 335, 50)}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="4"/>
+                <circle cx="${c}" cy="${c}" r="${r - 8}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="2" stroke-dasharray="40 20 10 20"/>
+                <circle cx="${c}" cy="${c}" r="${r + 4}" fill="none" stroke="${w.color || '#fcee0a'}" stroke-width="1" stroke-dasharray="12 24"/>
               `;
-              for (let a = 0; a < 360; a += 15) {
-                const rad = a * Math.PI / 180;
-                const len = (a % 45 === 0) ? 11 : 5;
-                const x1 = c + (r - len) * Math.cos(rad);
-                const y1 = c + (r - len) * Math.sin(rad);
-                const x2 = c + r * Math.cos(rad);
-                const y2 = c + r * Math.sin(rad);
-                svgInner += `<line x1="${x1.toFixed(1)}" y1="${y1.toFixed(1)}" x2="${x2.toFixed(1)}" y2="${y2.toFixed(1)}" stroke="${w.color || '#fcee0a'}" stroke-width="${a % 45 === 0 ? 2.2 : 1}"/>`;
-              }
             }
             el.innerHTML = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="${svgFilter}">${svgInner}</svg>`;
           }
         }
 
-        // 7. GRÁFICO SPARKLINE EM TEMPO REAL
+        // 7. GRÁFICO DE HISTÓRICO EM TEMPO REAL (SPARKLINE CHART)
         else if (w.type === 'chart') {
-          const width = w.width || 190;
-          const height = w.height || 60;
-          const meta = SENSORS_CATALOG[w.sensor || 'cpu_temp'] || { short: 'TEMP', unit: '°C' };
-          const val = formatReading(w.sensor || 'cpu_temp');
-          const lblPx = Math.round((w.labelSize || 13) * gFont);
-          const hist = telemetryHistory[w.sensor || 'cpu_temp'] || telemetryHistory.cpu_temp;
+          const width = w.width || 200;
+          const height = w.height || 65;
+          const sKey = w.sensor || 'cpu_temp';
+          const meta = SENSORS_CATALOG[sKey] || { short: 'CPU', unit: '°C', min: 0, max: 100 };
+          const hist = telemetryHistory[sKey] || Array(40).fill(50);
+          const priColor = w.color || '#00f0ff';
+          const lblPx = Math.round((w.labelSize || 12) * gFont);
+
           const pts = hist.map((v, i) => {
-            const px = (i / (hist.length - 1)) * width;
-            const norm = Math.min(Math.max((v - (meta.min || 0)) / ((meta.max || 100) - (meta.min || 0)), 0), 1);
-            const py = height - norm * (height - 14) - 4;
-            return `${px.toFixed(1)},${py.toFixed(1)}`;
+            const x = (i / Math.max(1, hist.length - 1)) * width;
+            const norm = Math.min(Math.max((v - meta.min) / (meta.max - meta.min), 0), 1);
+            const y = height - 4 - norm * (height - 16);
+            return `${x.toFixed(1)},${y.toFixed(1)}`;
           }).join(' ');
-          const poly = `0,${height} ${pts} ${width},${height}`;
-          const svgFilter = buildSvgFilterStyle(w, w.color || '#00f0ff');
+
+          const areaPts = `0,${height} ${pts} ${width},${height}`;
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-          const overlayHeader = (w.showLabel !== false)
-            ? `<div style="position:absolute;top:4px;left:8px;right:8px;display:flex;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:${lblPx}px;font-weight:800;color:${w.color || '#00f0ff'};pointer-events:none;text-shadow:0 1px 4px #000;"><span>${w.title || meta.short}</span><span>${val}${meta.unit}</span></div>`
-            : '';
-          el.innerHTML = `
+          const html = `
             ${coordBadge}${scaleHandle}
-            <div class="relative w-full h-full pointer-events-none" style="${svgFilter}">
-              ${overlayHeader}
-              <svg width="${width}" height="${height}" class="rounded bg-black/65 border border-white/15 overflow-hidden">
-                <polygon points="${poly}" fill="${w.color || '#00f0ff'}" fill-opacity="0.22"/>
-                <polyline points="${pts}" fill="none" stroke="${w.color || '#00f0ff'}" stroke-width="2.2"/>
+            <div class="relative w-full h-full rounded-lg bg-black/55 border border-white/10 overflow-hidden pointer-events-none">
+              ${w.showLabel !== false ? `<div class="absolute top-1 left-2 right-2 flex justify-between font-mono font-bold" style="font-size:${lblPx}px;color:${priColor};"><span>${w.title || meta.short}</span><span>${formatReading(sKey)}${meta.unit}</span></div>` : ''}
+              <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+                <polygon points="${areaPts}" fill="${priColor}" fill-opacity="0.18"/>
+                <polyline points="${pts}" fill="none" stroke="${priColor}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
               </svg>
             </div>
           `;
-        }
-
-        // 8. SENSOR DE TEXTO PURO (COM DEGRADÊ, CONTORNO + NEON E SOMBRA 2ª COR)
-        else if (w.type === 'sensor') {
-          const meta = SENSORS_CATALOG[w.sensor] || { unit: '' };
-          const val = formatReading(w.sensor);
-          const unit = w.showUnit ? meta.unit : '';
-          const mainPx = Math.round((w.fontSize || 38) * gFont);
-          const unitPx = Math.round((w.unitSize || Math.round((w.fontSize || 38) * 0.58)) * gFont);
-          const lblPx = Math.round((w.labelSize || Math.round((w.fontSize || 38) * 0.65)) * gFont);
-          const weight = w.fontWeight || 800;
-          const advCss = buildTextAdvancedCss(w, w.color || '#00f0ff');
-
-          el.style.width = 'auto';
-          el.style.height = 'auto';
-          el.style.fontFamily = `'${w.fontFamily || 'Chakra Petch'}', sans-serif`;
-          el.style.fontWeight = weight;
-          el.style.whiteSpace = 'nowrap';
-
-          const prefixHtml = w.prefix ? `<span style="font-size:${lblPx}px;color:${w.labelColor || w.secondaryColor || w.color};opacity:0.95;margin-right:3px;">${w.prefix}</span>` : '';
-          const unitHtml = unit ? `<span style="font-size:${unitPx}px;margin-left:3px;color:${w.secondaryColor || w.color};opacity:0.95;">${unit}</span>` : '';
-
-          const html = `${coordBadge}${scaleHandle}<div class="pointer-events-none" style="display:flex;align-items:baseline;">${prefixHtml}<span style="font-size:${mainPx}px;line-height:1;${advCss}">${val}</span>${unitHtml}</div>`;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 9. RÓTULO / TEXTO CUSTOMIZADO (COM DEGRADÊ, CONTORNO + NEON E SOMBRA 2ª COR)
+        // 8. LEITURA DIRETA DE SENSOR (SENSOR NUMBER)
+        else if (w.type === 'sensor') {
+          const sKey = w.sensor || 'liquid_temp';
+          const meta = SENSORS_CATALOG[sKey] || { unit: '°C' };
+          const val = formatReading(sKey);
+          const mainPx = Math.round((w.fontSize || 36) * gFont);
+          const lblPx = Math.round((w.labelSize || Math.round(mainPx * 0.6)) * gFont);
+          const unitPx = Math.round((w.unitSize || Math.round(mainPx * 0.6)) * gFont);
+          const textCss = buildTextAdvancedCss(w, w.color || '#00f0ff');
+
+          el.style.width = 'auto';
+          el.style.height = 'auto';
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="flex items-baseline whitespace-nowrap pointer-events-none" style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-weight:${w.fontWeight || 800};">
+              ${w.prefix ? `<span style="font-size:${lblPx}px;color:#94a3b8;margin-right:4px;">${w.prefix}</span>` : ''}
+              <span style="font-size:${mainPx}px;${textCss}">${val}</span>
+              ${w.showUnit !== false ? `<span style="font-size:${unitPx}px;color:${w.secondaryColor || w.color || '#00f0ff'};margin-left:2px;">${meta.unit}</span>` : ''}
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 9. RELÓGIO DIGITAL (CLOCK)
+        else if (w.type === 'clock') {
+          const now = new Date();
+          const hh = String(now.getHours()).padStart(2, '0');
+          const mm = String(now.getMinutes()).padStart(2, '0');
+          const ss = String(now.getSeconds()).padStart(2, '0');
+          const timeStr = w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`;
+          const mainPx = Math.round((w.fontSize || 32) * gFont);
+          const textCss = buildTextAdvancedCss(w, w.color || '#ffffff');
+
+          el.style.width = 'auto';
+          el.style.height = 'auto';
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="whitespace-nowrap pointer-events-none" style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${mainPx}px;font-weight:${w.fontWeight || 800};letter-spacing:0.08em;${textCss}">
+              ${timeStr}
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 10. RÓTULO DE TEXTO LIVRE (LABEL)
         else if (w.type === 'label') {
           const mainPx = Math.round((w.fontSize || 18) * gFont);
-          const advCss = buildTextAdvancedCss(w, w.color || '#ffffff');
+          const textCss = buildTextAdvancedCss(w, w.color || '#ffffff');
+
           el.style.width = 'auto';
           el.style.height = 'auto';
-          el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
-          el.style.fontSize = `${mainPx}px`;
-          el.style.fontWeight = w.fontWeight || '800';
-          el.style.letterSpacing = `${w.letterSpacing ?? 2}px`;
-          el.style.whiteSpace = 'nowrap';
-          const html = `${coordBadge}${scaleHandle}<span class="pointer-events-none" style="${advCss}">${w.text || 'LABEL'}</span>`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="whitespace-nowrap pointer-events-none" style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${mainPx}px;font-weight:${w.fontWeight || 800};letter-spacing:${w.letterSpacing || 2}px;${textCss}">
+              ${w.text || 'KRAKEN'}
+            </div>
+          `;
           if (el.innerHTML !== html) el.innerHTML = html;
         }
 
-        // 10. CRONÔMETRO / RELÓGIO DIGITAL (COM DEGRADÊ, CONTORNO + NEON E SOMBRA 2ª COR)
-        else if (w.type === 'clock') {
-          const d = new Date();
-          const hh = String(d.getHours()).padStart(2, '0');
-          const mm = String(d.getMinutes()).padStart(2, '0');
-          const ss = String(d.getSeconds()).padStart(2, '0');
-          const mainPx = Math.round((w.fontSize || 26) * gFont);
-          const advCss = buildTextAdvancedCss(w, w.color || '#ffffff');
-          el.style.width = 'auto';
-          el.style.height = 'auto';
-          el.style.fontFamily = `'${w.fontFamily || 'JetBrains Mono'}', monospace`;
-          el.style.fontSize = `${mainPx}px`;
-          el.style.fontWeight = w.fontWeight || '800';
-          const html = `${coordBadge}${scaleHandle}<span class="pointer-events-none" style="${advCss}">${w.format === 'HH:MM' ? `${hh}:${mm}` : `${hh}:${mm}:${ss}`}</span>`;
-          if (el.innerHTML !== html) el.innerHTML = html;
-        }
-
-        // 11. ESPECTRO DE ÁUDIO REAL
+        // 11. ESPECTRO DE ÁUDIO (SPECTRUM)
         else if (w.type === 'spectrum') {
           const width = w.width || 240;
-          const height = w.height || 64;
-          const count = w.barCount || 22;
+          const height = w.height || 54;
+          const count = Math.max(6, w.barCount || 20);
           const sens = (w.sensitivity || 135) / 100;
-          const style = w.spectrumStyle || 'bars';
-          const priColor = w.color || '#ff3b00';
-          const secColor = w.secondaryColor || '#00f0ff';
           const bins = sampleAudioSpectrumBins(count, sens);
-          const glowOn = isOutlineGlowEnabled(w);
-          const glowPx = glowOn ? (Number(w.glow) || 0) : 0;
-          const glowCol = getOutlineGlowColor(w, priColor);
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#ff3b00';
+          const style = w.spectrumStyle || 'bars';
+          const gradId = `specgrad_${w.id}`;
+          let svgInner = `<defs><linearGradient id="${gradId}" x1="0" y1="1" x2="0" y2="0"><stop offset="0%" stop-color="${priColor}"/><stop offset="100%" stop-color="${secColor}"/></linearGradient></defs>`;
+
+          if (style === 'wave') {
+            const pts = bins.map((b, i) => {
+              const x = (i / Math.max(1, count - 1)) * width;
+              const y = height - 4 - b * (height - 8);
+              return `${x.toFixed(1)},${y.toFixed(1)}`;
+            }).join(' ');
+            svgInner += `<polyline points="${pts}" fill="none" stroke="url(#${gradId})" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+          } else if (style === 'mirror') {
+            const gap = 3;
+            const bw = Math.max(2, (width - gap * (count - 1)) / count);
+            const cy = height / 2;
+            bins.forEach((b, i) => {
+              const bh = Math.max(4, b * (height - 4));
+              const x = i * (bw + gap);
+              svgInner += `<rect x="${x.toFixed(1)}" y="${(cy - bh / 2).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="1.5" fill="url(#${gradId})"/>`;
+            });
+          } else {
+            const gap = 3;
+            const bw = Math.max(2, (width - gap * (count - 1)) / count);
+            bins.forEach((b, i) => {
+              const bh = Math.max(4, b * (height - 4));
+              const x = i * (bw + gap);
+              const y = height - bh;
+              svgInner += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="1.5" fill="url(#${gradId})"/>`;
+            });
+          }
 
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-
-          if (style === 'wave') {
-            const pts = bins.map((v, i) => {
-              const px = (i / Math.max(count - 1, 1)) * width;
-              const py = height - Math.max(4, v * (height - 8)) - 4;
-              return `${px.toFixed(1)},${py.toFixed(1)}`;
-            }).join(' ');
-            const poly = `0,${height} ${pts} ${width},${height}`;
-            el.innerHTML = `
-              ${coordBadge}${scaleHandle}
-              <svg width="${width}" height="${height}" class="overflow-visible pointer-events-none">
-                <polygon points="${poly}" fill="${priColor}" fill-opacity="0.22"/>
-                <polyline points="${pts}" fill="none" stroke="${priColor}" stroke-width="2.5" style="${glowPx > 0 ? `filter:drop-shadow(0 0 ${glowPx}px ${glowCol});` : ''}"/>
-              </svg>
-            `;
-          } else {
-            let barsHtml = '';
-            const outlineW = Number(w.shapeOutlineWidth) || 0;
-            const outlineCol = w.shapeOutlineColor || secColor;
-            for (let i = 0; i < count; i++) {
-              const bh = Math.max(10, Math.round(bins[i] * 100));
-              const isHigh = bins[i] > 0.72;
-              const barCol = isHigh ? secColor : priColor;
-              const borderCss = outlineW > 0 ? `border:${outlineW}px solid ${outlineCol};` : '';
-              barsHtml += `<div style="flex:1;height:${bh}%;background:${barCol};border-radius:999px;${borderCss}box-shadow:${glowPx > 0 ? `0 0 ${glowPx}px ${glowCol}` : 'none'};"></div>`;
-            }
-            const alignClass = style === 'mirror' ? 'items-center' : 'items-end';
-            el.innerHTML = `${coordBadge}${scaleHandle}<div class="w-full h-full flex ${alignClass} space-x-1 pointer-events-none">${barsHtml}</div>`;
-          }
+          el.innerHTML = `${coordBadge}${scaleHandle}<svg class="pointer-events-none" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}" style="${buildSvgFilterStyle(w, priColor)}">${svgInner}</svg>`;
         }
 
-        // 12. MINI GIF / STICKER ANIMADO FLUTUANTE (COM CONTROLE DE ZOOM, PAN X/Y E MODO SEM CORTE)
+        // 12. MINI GIF / STICKER ANIMADO FLUTUANTE
         else if (w.type === 'sticker') {
           const width = w.width || 140;
           const height = w.height || 140;
-          let mediaSrc = w.embeddedDataUrl || w.url || BUILTIN_ANIMATED_STICKERS.reactor;
+          let mediaSrc = w.url || w.embeddedDataUrl || '';
           let isVideo = /\.(mp4|webm)(\?.*)?$/i.test(mediaSrc);
 
           if (w.assetKey && stickerBlobCache[w.assetKey]) {
             mediaSrc = stickerBlobCache[w.assetKey].dataUrl;
             isVideo = (stickerBlobCache[w.assetKey].mimeType || '').startsWith('video/');
           }
+          if (!mediaSrc) mediaSrc = BUILTIN_ANIMATED_STICKERS.reactor;
 
-          const shapeClass = w.maskShape === 'circle'
-            ? 'mask-shape-circle'
-            : w.maskShape === 'hexagon'
-            ? 'mask-shape-hexagon'
-            : w.maskShape === 'rounded'
-            ? 'mask-shape-rounded'
-            : '';
+          const shapeClass = w.maskShape === 'circle' ? 'rounded-full' : w.maskShape === 'rounded' ? 'rounded-2xl' : '';
+          let customClip = '';
+          if (w.maskShape === 'hexagon') customClip = 'clip-path:polygon(25% 5%, 75% 5%, 100% 50%, 75% 95%, 25% 95%, 0% 50%);';
+          else if (w.maskShape === 'octagon') customClip = 'clip-path:polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);';
+          else if (w.maskShape === 'diamond') customClip = 'clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);';
 
-          const customClip = w.maskShape === 'diamond'
-            ? 'clip-path:polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);'
-            : w.maskShape === 'octagon'
-            ? 'clip-path:polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);'
-            : '';
+          const borderStyle = w.showBorder ? `border:2px solid ${w.color || '#00f0ff'};` : '';
+          const glowStyle = buildSvgFilterStyle(w, w.color || '#00f0ff');
+          const fit = w.mediaFit || 'cover';
+          const mZoom = (w.mediaZoom || 100) / 100;
+          const mPanX = w.mediaPanX || 0;
+          const mPanY = w.mediaPanY || 0;
+          const mediaTransform = `object-fit:${fit};transform:translate(${mPanX}px, ${mPanY}px) scale(${mZoom});transform-origin:center center;`;
 
-          const fitMode = w.mediaFit || 'cover';
-          const mediaZoom = (w.mediaZoom || 100) / 100;
-          const panX = w.mediaPanX || 0;
-          const panY = w.mediaPanY || 0;
-
-          const outlineW = Number(w.shapeOutlineWidth) || (w.showBorder ? 2 : 0);
-          const outlineCol = w.shapeOutlineColor || w.color || '#00f0ff';
-          const borderStyle = outlineW > 0
-            ? `border: ${outlineW}px solid ${outlineCol};`
-            : '';
-          const glowStyle = buildSvgFilterStyle(w, outlineCol);
-          const innerTransform = `object-fit:${fitMode};transform:translate(${panX}px, ${panY}px) scale(${mediaZoom});transform-origin:center center;`;
-
+          const sig = `stk_${width}_${height}_${w.maskShape}_${w.showBorder}_${w.color}_${fit}_${mZoom}_${mPanX}_${mPanY}_${mediaSrc.length}_${mediaSrc.slice(0, 40)}_${isSelected}`;
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
 
-          const stickerSig = `stk_${mediaSrc.length}_${mediaSrc.slice(0, 48)}_${width}_${height}_${shapeClass}_${customClip}_${fitMode}_${mediaZoom}_${panX}_${panY}_${borderStyle}_${glowStyle}_${isSelected}`;
-          if (el.dataset.sig !== stickerSig) {
-            el.dataset.sig = stickerSig;
-            const fallbackAttr = `onerror="this.onerror=null;this.src='${BUILTIN_ANIMATED_STICKERS.reactor}';"`;
+          if (el.dataset.sig !== sig) {
+            el.dataset.sig = sig;
             const mediaTag = isVideo
-              ? `<video src="${mediaSrc}" autoplay loop muted playsinline class="w-full h-full pointer-events-none" style="${innerTransform}"></video>`
-              : `<img src="${mediaSrc}" ${fallbackAttr} class="w-full h-full pointer-events-none" style="${innerTransform}">`;
-
+              ? `<video src="${mediaSrc}" autoplay loop muted playsinline class="w-full h-full pointer-events-none" style="${mediaTransform}"></video>`
+              : `<img src="${mediaSrc}" alt="${w.name || 'GIF'}" class="w-full h-full pointer-events-none" style="${mediaTransform}"/>`;
             el.innerHTML = `${coordBadge}${scaleHandle}<div class="w-full h-full overflow-hidden pointer-events-none ${shapeClass}" style="${borderStyle}${glowStyle}${customClip}">${mediaTag}</div>`;
           } else {
             const tagEl = el.querySelector('.widget-coord-tag');
@@ -2774,6 +2954,317 @@
               tagEl.textContent = `X:${w.x} Y:${w.y} · ${Math.round(wScale * 100)}%`;
             }
           }
+        }
+
+        // 13. VELOCÍMETRO ANALÓGICO COM PONTEIRO / AGULHA (GAUGE NEEDLE)
+        else if (w.type === 'gauge_needle') {
+          const r = w.radius || 110;
+          const size = (r + 24) * 2;
+          const cx = size / 2;
+          const cy = size / 2;
+          const sKey = w.sensor || 'cpu_temp';
+          const meta = SENSORS_CATALOG[sKey] || { short: 'CPU', unit: '°C' };
+          const val = formatReading(sKey);
+          const prog = getNormalizedSensor(sKey);
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#ff3b00';
+          const trkColor = w.trackColor || '#161924';
+          const mainPx = Math.round((w.fontSize || 26) * gFont);
+          const sAngle = 135;
+          const sweep = 270;
+          const needleDeg = sAngle + prog * sweep;
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+
+          const trkPath = polarArcPath(cx, cy, r, sAngle, sweep);
+          const valPath = polarArcPath(cx, cy, r, sAngle, Math.max(1, sweep * prog));
+          let ticksSvg = '';
+          for (let i = 0; i <= 20; i++) {
+            const deg = sAngle + (i / 20) * sweep;
+            const isMajor = i % 5 === 0;
+            const p1 = polarToCartesian(cx, cy, r - 6, deg);
+            const p2 = polarToCartesian(cx, cy, r - (isMajor ? 18 : 11), deg);
+            ticksSvg += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${i / 20 <= prog ? priColor : '#475569'}" stroke-width="${isMajor ? 2.5 : 1.2}"/>`;
+          }
+
+          const tip = polarToCartesian(cx, cy, r - 16, needleDeg);
+          const tail = polarToCartesian(cx, cy, -14, needleDeg);
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex items-center justify-center pointer-events-none" style="width:${size}px;height:${size}px;${svgFilter}">
+              <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
+                <circle cx="${cx}" cy="${cy}" r="${r + 4}" fill="rgba(6,8,14,0.75)" stroke="rgba(255,255,255,0.08)" stroke-width="1.5"/>
+                <path d="${trkPath}" fill="none" stroke="${trkColor}" stroke-width="10" stroke-linecap="round"/>
+                <path d="${valPath}" fill="none" stroke="${priColor}" stroke-width="10" stroke-linecap="round"/>
+                ${ticksSvg}
+                <line x1="${tail.x.toFixed(1)}" y1="${tail.y.toFixed(1)}" x2="${tip.x.toFixed(1)}" y2="${tip.y.toFixed(1)}" stroke="${secColor}" stroke-width="3.5" stroke-linecap="round"/>
+                <circle cx="${cx}" cy="${cy}" r="8" fill="${priColor}" stroke="#050508" stroke-width="3"/>
+              </svg>
+              <div class="absolute flex flex-col items-center" style="bottom:${Math.round(size * 0.16)}px;font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;">
+                <span style="font-size:${Math.max(10, Math.round(mainPx * 0.45))}px;color:#94a3b8;font-weight:800;letter-spacing:0.1em;">${w.title || meta.short}</span>
+                <span style="font-size:${mainPx}px;color:#ffffff;font-weight:800;line-height:1;">${val}<small style="font-size:${Math.round(mainPx * 0.55)}px;color:${priColor};">${meta.unit}</small></span>
+              </div>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 14. ANEL DONUT COMPACTO COM LEITURA CENTRAL (RING STAT)
+        else if (w.type === 'ring_stat') {
+          const r = w.radius || 64;
+          const thick = w.thickness || 10;
+          const size = (r + thick + 14) * 2;
+          const cx = size / 2;
+          const cy = size / 2;
+          const sKey = w.sensor || 'cpu_load';
+          const meta = SENSORS_CATALOG[sKey] || { short: 'CPU', unit: '%' };
+          const val = formatReading(sKey);
+          const prog = getNormalizedSensor(sKey);
+          const priColor = w.color || '#00f0ff';
+          const trkColor = w.trackColor || '#161926';
+          const mainPx = Math.round((w.fontSize || 26) * gFont);
+          const circum = 2 * Math.PI * r;
+          const dashOff = circum * (1 - prog);
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex items-center justify-center pointer-events-none" style="width:${size}px;height:${size}px;${svgFilter}">
+              <svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="transform:rotate(-90deg);">
+                <circle cx="${cx}" cy="${cy}" r="${r}" fill="rgba(8,10,18,0.75)" stroke="${trkColor}" stroke-width="${thick}"/>
+                <circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${priColor}" stroke-width="${thick}" stroke-linecap="round" stroke-dasharray="${circum.toFixed(1)}" stroke-dashoffset="${dashOff.toFixed(1)}"/>
+              </svg>
+              <div class="absolute flex flex-col items-center justify-center text-center leading-none" style="font-family:'${w.fontFamily || 'Chakra Petch'}',sans-serif;">
+                <span style="font-size:${Math.max(9, Math.round(mainPx * 0.42))}px;color:#94a3b8;font-weight:800;letter-spacing:0.08em;margin-bottom:2px;">${w.title || meta.short}</span>
+                <span style="font-size:${mainPx}px;color:#ffffff;font-weight:800;">${val}<small style="font-size:${Math.round(mainPx * 0.52)}px;color:${priColor};">${meta.unit}</small></span>
+              </div>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 15. GRADE 2x2 DE 4 SENSORES SIMULTÂNEOS (QUAD GRID)
+        else if (w.type === 'quad_grid') {
+          const width = w.width || 310;
+          const height = w.height || 105;
+          const keys = [w.sensorA || 'cpu_temp', w.sensorB || 'gpu_temp', w.sensorC || 'liquid_temp', w.sensorD || 'sys_power'];
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#b8ff01';
+          const bgCol = w.bgColor || '#0f121c';
+          const mainPx = Math.round((w.fontSize || 18) * gFont);
+
+          const cellsHtml = keys.map((k, idx) => {
+            const m = SENSORS_CATALOG[k] || { short: 'SENS', unit: '' };
+            const v = formatReading(k);
+            const c = idx % 2 === 0 ? priColor : secColor;
+            return `
+              <div class="flex items-center justify-between px-2.5 py-1 rounded-md" style="background:${bgCol};border:1px solid rgba(255,255,255,0.07);overflow:hidden;">
+                <span style="font-size:10px;color:#94a3b8;font-weight:800;white-space:nowrap;">${m.short}</span>
+                <span style="font-size:${mainPx}px;color:#ffffff;font-weight:800;white-space:nowrap;line-height:1;">${v}<small style="font-size:10px;color:${c};margin-left:1px;">${m.unit}</small></span>
+              </div>
+            `;
+          }).join('');
+
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="w-full h-full grid grid-cols-2 gap-1.5 pointer-events-none" style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;${buildSvgFilterStyle(w, priColor)}">
+              ${cellsHtml}
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+        // 18. TABELA TÉCNICA DE 4 SENSORES (SENSOR TABLE) — GEOMETRIA CORRIGIDA
+        else if (w.type === 'sensor_table') {
+          const width = w.width || 310;
+          const height = w.height || 95;
+          const keys = [w.sensorA || 'cpu_temp', w.sensorB || 'gpu_temp', w.sensorC || 'liquid_temp', w.sensorD || 'pump_rpm'];
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#b8ff01';
+          const mainPx = Math.round((w.fontSize || 14) * gFont);
+
+          const rowsHtml = keys.map((k, idx) => {
+            const m = SENSORS_CATALOG[k] || { label: 'Sensor', unit: '' };
+            const v = formatReading(k);
+            return `
+              <div class="flex items-center justify-between py-0.5 border-b border-white/10 last:border-none" style="overflow:hidden;">
+                <span style="color:#94a3b8;font-size:10px;white-space:nowrap;">0${idx + 1} // ${m.short}</span>
+                <span style="color:${idx % 2 === 0 ? priColor : secColor};font-size:${mainPx}px;font-weight:800;white-space:nowrap;line-height:1;">${v}<small style="font-size:10px;margin-left:1px;">${m.unit}</small></span>
+              </div>
+            `;
+          }).join('');
+
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="w-full h-full px-3 py-1.5 rounded-xl bg-black/75 flex flex-col justify-between pointer-events-none" style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;border:1px solid ${priColor}44;box-sizing:border-box;overflow:hidden;">
+              ${rowsHtml}
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 19. NÚCLEO PLASMA PULSANTE ANIMADO 60 FPS (PLASMA CORE)
+        else if (w.type === 'plasma_core') {
+          const size = w.size || 110;
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#b8ff01';
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+          const cx = size / 2, cy = size / 2;
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex items-center justify-center pointer-events-none" style="width:${size}px;height:${size}px;${svgFilter}">
+              <svg width="${size}" height="${size}" viewBox="0 0 120 120">
+                <defs>
+                  <radialGradient id="pcore_${w.id}" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="${secColor}" stop-opacity="0.95"/>
+                    <stop offset="60%" stop-color="${priColor}" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="60" cy="60" r="56" fill="url(#pcore_${w.id})"/>
+                <circle cx="60" cy="60" r="42" fill="none" stroke="${priColor}" stroke-width="3.5" stroke-dasharray="16 10">
+                  <animateTransform attributeName="transform" type="rotate" from="0 60 60" to="360 60 60" dur="4s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="60" cy="60" r="28" fill="none" stroke="${secColor}" stroke-width="2.5" stroke-dasharray="8 12">
+                  <animateTransform attributeName="transform" type="rotate" from="360 60 60" to="0 60 60" dur="2.5s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="60" cy="60" r="14" fill="${secColor}">
+                  <animate attributeName="r" values="10;18;10" dur="1.2s" repeatCount="indefinite"/>
+                  <animate attributeName="opacity" values="0.4;1;0.4" dur="1.2s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 20. RADAR TÁTICO ORBITAL ANIMADO 60 FPS (RADAR HUD)
+        else if (w.type === 'radar_hud') {
+          const size = w.size || 110;
+          const priColor = w.color || '#ef4444';
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+          const cx = size / 2, cy = size / 2;
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex items-center justify-center pointer-events-none" style="width:${size}px;height:${size}px;${svgFilter}">
+              <svg width="${size}" height="${size}" viewBox="0 0 120 120">
+                <circle cx="60" cy="60" r="54" fill="rgba(10,5,5,0.85)" stroke="${priColor}" stroke-width="2.5"/>
+                <circle cx="60" cy="60" r="36" fill="none" stroke="${priColor}" stroke-width="1" stroke-dasharray="4 4"/>
+                <circle cx="60" cy="60" r="18" fill="none" stroke="${priColor}" stroke-width="1"/>
+                <line x1="6" y1="60" x2="114" y2="60" stroke="${priColor}" stroke-width="1" opacity="0.4"/>
+                <line x1="60" y1="6" x2="60" y2="114" stroke="${priColor}" stroke-width="1" opacity="0.4"/>
+                <g>
+                  <path d="M60,60 L60,6 A54,54 0 0,1 110,36 Z" fill="${priColor}" fill-opacity="0.38"/>
+                  <line x1="60" y1="60" x2="60" y2="6" stroke="#ffffff" stroke-width="2.5"/>
+                  <animateTransform attributeName="transform" type="rotate" from="0 60 60" to="360 60 60" dur="2s" repeatCount="indefinite"/>
+                </g>
+                <circle cx="82" cy="38" r="4" fill="#b8ff01">
+                  <animate attributeName="opacity" values="1;0.1;1" dur="1s" repeatCount="indefinite"/>
+                </circle>
+              </svg>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 21. AMPULHETA TEMPORAL / MATRIZ DE TEMPO ANIMADA 60 FPS (TIME MATRIX)
+        else if (w.type === 'time_matrix') {
+          const width = w.width || 140;
+          const height = w.height || 50;
+          const priColor = w.color || '#00f0ff';
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+          const now = new Date();
+          const timeStr = `${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}:${String(now.getSeconds()).padStart(2,'0')}`;
+
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex flex-col items-center justify-center px-3 py-1.5 rounded-xl bg-black/80 pointer-events-none" style="width:${width}px;height:${height}px;border:1px solid ${priColor}55;${svgFilter}">
+              <span class="font-mono text-[9px] text-slate-400 uppercase tracking-widest mb-0.5">DL7TH // TIME SYNC</span>
+              <span class="font-mono text-sm font-bold text-white tracking-wider" style="color:${priColor};">${timeStr}</span>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 17. HÉLICE / ROTOR ANIMADO DA BOMBA (FAN ROTOR)
+        else if (w.type === 'fan_rotor') {
+          const size = w.size || w.width || 92;
+          const sKey = w.sensor || 'pump_rpm';
+          const prog = getNormalizedSensor(sKey);
+          const spinDur = Math.max(0.28, (2.2 - prog * 1.65)).toFixed(2);
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#ff3b00';
+          const val = formatReading(sKey);
+          const meta = SENSORS_CATALOG[sKey] || { unit: 'RPM' };
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex items-center justify-center pointer-events-none" style="width:${size}px;height:${size}px;${buildSvgFilterStyle(w, priColor)}">
+              <svg width="${size}" height="${size}" viewBox="0 0 100 100">
+                <circle cx="50" cy="50" r="46" fill="rgba(8,10,16,0.8)" stroke="${priColor}" stroke-width="2.5" stroke-dasharray="10 5"/>
+                <g fill="${priColor}" fill-opacity="0.82">
+                  <path d="M50,50 L42,12 C48,8 56,8 58,14 Z"/>
+                  <path d="M50,50 L42,12 C48,8 56,8 58,14 Z" transform="rotate(60 50 50)"/>
+                  <path d="M50,50 L42,12 C48,8 56,8 58,14 Z" transform="rotate(120 50 50)"/>
+                  <path d="M50,50 L42,12 C48,8 56,8 58,14 Z" transform="rotate(180 50 50)"/>
+                  <path d="M50,50 L42,12 C48,8 56,8 58,14 Z" transform="rotate(240 50 50)"/>
+                  <path d="M50,50 L42,12 C48,8 56,8 58,14 Z" transform="rotate(300 50 50)"/>
+                  <animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="${spinDur}s" repeatCount="indefinite"/>
+                </g>
+                <circle cx="50" cy="50" r="16" fill="#070910" stroke="${secColor}" stroke-width="3"/>
+              </svg>
+              <span class="absolute font-mono font-bold text-[10px] text-white">${val}</span>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 18. TABELA TÉCNICA DE 4 SENSORES (SENSOR TABLE)
+        else if (w.type === 'sensor_table') {
+          const width = w.width || 310;
+          const height = w.height || 95;
+          const keys = [w.sensorA || 'cpu_temp', w.sensorB || 'gpu_temp', w.sensorC || 'liquid_temp', w.sensorD || 'pump_rpm'];
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#b8ff01';
+          const mainPx = Math.round((w.fontSize || 15) * gFont);
+
+          const rowsHtml = keys.map((k, idx) => {
+            const m = SENSORS_CATALOG[k] || { label: 'Sensor', unit: '' };
+            const v = formatReading(k);
+            return `
+              <div class="flex items-center justify-between py-0.5 border-b border-white/10 last:border-none">
+                <span style="color:#94a3b8;font-size:${Math.max(10, mainPx - 2)}px;">0${idx + 1} // ${m.short}</span>
+                <span style="color:${idx % 2 === 0 ? priColor : secColor};font-size:${mainPx}px;font-weight:800;">${v}${m.unit}</span>
+              </div>
+            `;
+          }).join('');
+
+          el.style.width = `${width}px`;
+          el.style.height = `${height}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="w-full h-full px-3.5 py-2 rounded-xl bg-black/70 flex flex-col justify-between pointer-events-none" style="font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;border:1px solid ${priColor}44;">
+              ${rowsHtml}
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
         }
       });
 
@@ -3079,7 +3570,33 @@
             </div>
           ` : ''}
 
-          ${(w.type === 'telemetry_card' || w.type === 'chart' || w.type === 'seg_bar') ? `
+          ${(w.type === 'quad_grid' || w.type === 'sensor_table') ? `
+            <div class="pt-2 border-t border-[#1e1e2a] space-y-2">
+              <span class="block text-[10px] font-mono text-cyan-300 font-bold uppercase">// 4 SENSORES DO PAINEL</span>
+              <div class="grid grid-cols-2 gap-1.5">
+                <div>
+                  <label class="block text-[8px] font-mono text-slate-400">SLOT 1</label>
+                  <select onchange="mutateWidget('sensorA', this.value, true)" class="w-full bg-[#12121a] rounded px-1.5 py-1 font-mono text-[10px] text-white">${sensorAOptions}</select>
+                </div>
+                <div>
+                  <label class="block text-[8px] font-mono text-slate-400">SLOT 2</label>
+                  <select onchange="mutateWidget('sensorB', this.value, true)" class="w-full bg-[#12121a] rounded px-1.5 py-1 font-mono text-[10px] text-white">${sensorBOptions}</select>
+                </div>
+                <div>
+                  <label class="block text-[8px] font-mono text-slate-400">SLOT 3</label>
+                  <select onchange="mutateWidget('sensorC', this.value, true)" class="w-full bg-[#12121a] rounded px-1.5 py-1 font-mono text-[10px] text-white">${sensorCOptions}</select>
+                </div>
+                <div>
+                  <label class="block text-[8px] font-mono text-slate-400">SLOT 4</label>
+                  <select onchange="mutateWidget('sensorD', this.value, true)" class="w-full bg-[#12121a] rounded px-1.5 py-1 font-mono text-[10px] text-white">
+                    ${Object.entries(SENSORS_CATALOG).map(([k, m]) => `<option value="${k}" ${w.sensorD === k ? 'selected' : ''}>${m.label}</option>`).join('')}
+                  </select>
+                </div>
+              </div>
+            </div>
+          ` : ''}
+
+          ${(w.type === 'telemetry_card' || w.type === 'chart' || w.type === 'seg_bar' || w.type === 'gauge_needle' || w.type === 'ring_stat') ? `
             <div>
               <label class="block text-[10px] font-mono text-slate-400 mb-1">TÍTULO / RÓTULO SUPERIOR</label>
               <input type="text" value="${w.title || ''}" oninput="mutateWidget('title', this.value, false)" onchange="recordHistory('Editar título')" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-xs text-white">
@@ -4027,6 +4544,18 @@
         w = { ...w, name: 'Mini GIF Animado', width: 140, height: 140, maskShape: 'circle', blendMode: 'normal', showBorder: true, color: '#00f0ff', glow: 8, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor };
       } else if (type === 'label') {
         w = { ...w, name: 'Rótulo Técnico', text: 'KRAKEN // ELITE', fontSize: 20, fontWeight: 800, fontFamily: 'JetBrains Mono', color: '#e2e8f0' };
+      } else if (type === 'gauge_needle') {
+        w = { ...w, name: 'Velocímetro Agulha', sensor: customSensor || 'cpu_temp', title: 'CPU °C', radius: 112, fontSize: 26, color: '#00f0ff', secondaryColor: '#ff3b00', trackColor: '#161924', glow: 8 };
+      } else if (type === 'ring_stat') {
+        w = { ...w, name: 'Anel Donut Sensor', sensor: customSensor || 'cpu_load', title: 'CPU %', radius: 66, thickness: 10, fontSize: 26, color: '#b8ff01', trackColor: '#161926', glow: 8 };
+      } else if (type === 'quad_grid') {
+        w = { ...w, name: 'Grade 2x2 Sensores', width: 310, height: 105, sensorA: 'cpu_temp', sensorB: 'gpu_temp', sensorC: 'liquid_temp', sensorD: 'sys_power', fontSize: 20, color: '#00f0ff', secondaryColor: '#b8ff01', bgColor: '#0f121c' };
+      } else if (type === 'thermal_badge') {
+        w = { ...w, name: 'Status Térmico HUD', sensor: customSensor || 'liquid_temp', fontSize: 16, color: '#00f0ff' };
+      } else if (type === 'fan_rotor') {
+        w = { ...w, name: 'Hélice Bomba RPM', sensor: customSensor || 'pump_rpm', size: 94, color: '#00f0ff', secondaryColor: '#ff3b00', glow: 8 };
+      } else if (type === 'sensor_table') {
+        w = { ...w, name: 'Tabela 4 Sensores', width: 310, height: 95, sensorA: 'cpu_temp', sensorB: 'gpu_temp', sensorC: 'liquid_temp', sensorD: 'pump_rpm', fontSize: 15, color: '#00f0ff', secondaryColor: '#b8ff01' };
       }
 
       project.widgets.push(w);
@@ -4622,6 +5151,13 @@
 
       if (!project.globalZoom) project.globalZoom = 100;
       if (!project.globalFontScale) project.globalFontScale = 105;
+
+      const savedTheme = localStorage.getItem('kraken_studio_ui_theme') || 'obsidian';
+      setStudioTheme(savedTheme);
+      const themeSel = document.getElementById('sel-studio-theme');
+      if (themeSel) themeSel.value = savedTheme;
+
+      renderPresetsGalleryList();
 
       undoStack = [createSnapshot('Estado Inicial')];
       updateUndoRedoUI();
