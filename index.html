@@ -164,6 +164,12 @@
       border-radius: 18px;
     }
 
+    /* Correção do corte superior no visor físico da bomba (Ajuste de margem interna segura) */
+    body.kraken-hardware-mode #stage-widgets-container,
+    #kraken-lcd-stage #stage-widgets-container {
+      padding-top: 16px;
+    }
+
     /* Modo Hardware Puro (?kraken=1 ou Tecla F) */
     body.kraken-hardware-mode {
       background: #000000 !important;
