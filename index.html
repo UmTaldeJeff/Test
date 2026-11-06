@@ -2081,7 +2081,7 @@
             return out;
           };
 
-          if (tachStyle === 'dual_track' || (lineCount === 2 && tachStyle === 'blocks')) {
+          if (tachStyle === 'dual_track' || lineCount === 2) {
             const rOuter = r + thick * 0.42;
             const rInner = Math.max(24, r - thick * 0.55);
             const tSub = Math.max(4, thick * 0.58);
@@ -2116,6 +2116,9 @@
             if (lineCount >= 2) {
               pathsHtml += buildBlockRing(Math.max(24, r - thick * 1.05), Math.max(4, thick * 0.45), activeCountB, secColor);
             }
+            if (lineCount >= 3) {
+              pathsHtml += buildBlockRing(Math.max(20, r - thick * 1.55), Math.max(4, thick * 0.40), activeCountC, terColor);
+            }
           } else if (tachStyle === 'reactor') {
             const guidePath = polarArcPath(cx, cy, r - thick * 0.65, sAngle, sweep);
             pathsHtml += `<path d="${guidePath}" fill="none" stroke="${trkColor}" stroke-width="2"/>`;
@@ -2134,6 +2137,10 @@
             if (lineCount >= 2) {
               const innerValD = polarArcPath(cx, cy, Math.max(24, r - thick * 1.15), sAngle, Math.max(1, sweep * progB));
               pathsHtml += `<path d="${innerValD}" fill="none" stroke="${secColor}" stroke-width="4" stroke-dasharray="8 4"/>`;
+            }
+            if (lineCount >= 3) {
+              const innerValC = polarArcPath(cx, cy, Math.max(20, r - thick * 1.65), sAngle, Math.max(1, sweep * progC));
+              pathsHtml += `<path d="${innerValC}" fill="none" stroke="${terColor}" stroke-width="3" stroke-dasharray="6 4"/>`;
             }
           } else if (tachStyle === 'equalizer_arc') {
             for (let i = 0; i < segs; i++) {
@@ -2166,6 +2173,9 @@
             }
             if (lineCount >= 2) {
               pathsHtml += buildBlockRing(Math.max(24, r - thick * 1.1), Math.max(4, thick * 0.48), activeCountB, secColor);
+            }
+            if (lineCount >= 3) {
+              pathsHtml += buildBlockRing(Math.max(20, r - thick * 1.6), Math.max(4, thick * 0.42), activeCountC, terColor);
             }
           } else if (tachStyle === 'turbine_spin') {
             const spinDur = Math.max(1.2, (8 - progA * 5.5) / ((w.animSpeed || 100) / 100)).toFixed(2);
@@ -2215,7 +2225,7 @@
           const svgFilter = buildSvgFilterStyle(w, priColor);
           const outlineW = Number(w.shapeOutlineWidth) || 0;
           const outlineCol = w.shapeOutlineColor || secColor;
-          const lineCount = Number(w.multiLineCount) || (radialStyle === 'triple_hud' ? 3 : (radialStyle === 'multi_dual' || radialStyle === 'cyber_telemetry') ? 2 : 1);
+          const lineCount = Number(w.multiLineCount) || (radialStyle === 'triple_hud' ? 3 : (radialStyle === 'multi_dual' || radialStyle === 'cyber_telemetry' || radialStyle === 'cyber_rail') ? 2 : 1);
           const speedFactor = (w.animSpeed || 100) / 100;
 
           let svgInner = `<defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>`;
@@ -2239,6 +2249,11 @@
               const rB = Math.max(24, r - thick * 1.15);
               const valB = polarArcPath(cx, cy, rB, sAngle, activeSweepB);
               svgInner += `<path d="${valB}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.65)}" stroke-linecap="round"/>`;
+            }
+            if (lineCount >= 3) {
+              const rC = Math.max(20, r - thick * 2.1);
+              const valC = polarArcPath(cx, cy, rC, sAngle, activeSweepC);
+              svgInner += `<path d="${valC}" fill="none" stroke="${terColor}" stroke-width="${Math.max(3, thick * 0.55)}" stroke-linecap="round"/>`;
             }
           } else if (radialStyle === 'gyro_orbit') {
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
@@ -2270,7 +2285,7 @@
                 <animateTransform attributeName="transform" type="rotate" values="0 ${cx} ${cy};${activeSweepA.toFixed(1)} ${cx} ${cy};0 ${cx} ${cy}" dur="${sweepDur}s" repeatCount="indefinite"/>
               </g>
             `;
-          } else if (radialStyle === 'multi_dual' || (lineCount === 2 && radialStyle === 'solid')) {
+          } else if (radialStyle === 'multi_dual' || lineCount === 2) {
             const gapR = Math.max(10, thick + 5);
             const rA = r + gapR * 0.45;
             const rB = Math.max(24, r - gapR * 0.55);
@@ -2313,7 +2328,7 @@
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const innerTrackD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, sweep);
             const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
-            const innerValD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, lineCount >= 2 ? activeSweepB : activeSweepA);
+            const innerValD = polarArcPath(cx, cy, r - thick * 0.95, sAngle, activeSweepB);
             const tipPos = polarToCartesian(cx, cy, r, sAngle + activeSweepA);
             svgInner += `
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="butt"/>
