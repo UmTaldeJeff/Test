@@ -887,7 +887,7 @@
       <!-- PALCO 640x640 OFICIAL DO KRAKEN ELITE -->
       <div class="flex-1 flex items-center justify-center w-full overflow-hidden">
         <div id="kraken-lcd-stage" onmousedown="deselectAllWidgets(event)">
-          <!-- Camada 1: Mídia de Fundo (GIF / MP4) -->
+          <!-- Camada 1: Mídia de Fundo (GIF / MP4 / Canvas Pixel Engine p/ NZXT CAM) -->
           <div id="stage-bg-layer" class="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"></div>
           <!-- Camada 2: Vinheta Óptica OLED -->
           <div id="stage-vignette-layer" class="absolute inset-0 w-full h-full pointer-events-none"></div>
@@ -4922,8 +4922,17 @@
     }
 
     /*************************************************************************
-     * 10. MOTOR DE PLANO DE FUNDO (GIF / MP4 / VINHETA OLED)
+     * 10. MOTOR DE PLANO DE FUNDO (GIF / MP4 / FILTROS VIA CANVAS PIXEL ENGINE)
      *************************************************************************/
+    let bgCanvasAnimFrame = null;
+
+    function stopBgCanvasEngine() {
+      if (bgCanvasAnimFrame) {
+        cancelAnimationFrame(bgCanvasAnimFrame);
+        bgCanvasAnimFrame = null;
+      }
+    }
+
     async function applyStageBackground() {
       const layer = document.getElementById('stage-bg-layer');
       const vig = document.getElementById('stage-vignette-layer');
@@ -4947,58 +4956,106 @@
       const bgSig = `${bg.mediaType}_${mediaSrc.length}_${mediaSrc.slice(0, 48)}`;
       if (layer.dataset.bgSig !== bgSig) {
         layer.dataset.bgSig = bgSig;
+        stopBgCanvasEngine();
         layer.innerHTML = '';
+
         if (mediaSrc) {
-          const el = document.createElement(isVideo ? 'video' : 'img');
-          el.src = mediaSrc;
+          // Elemento fonte oculto (mantém animação nativa de GIF ou vídeo)
+          const srcEl = document.createElement(isVideo ? 'video' : 'img');
+          srcEl.crossOrigin = 'anonymous';
+          srcEl.src = mediaSrc;
           if (isVideo) {
-            el.autoplay = true;
-            el.loop = true;
-            el.muted = true;
-            el.playsInline = true;
+            srcEl.autoplay = true;
+            srcEl.loop = true;
+            srcEl.muted = true;
+            srcEl.playsInline = true;
           }
-          el.className = 'w-full h-full object-cover pointer-events-none';
-          layer.appendChild(el);
+          srcEl.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0.001;pointer-events:none;';
+          layer.appendChild(srcEl);
+
+          // Canvas 640x640 que renderiza os pixels filtrados diretamente (100% compatível com o painel do NZXT CAM)
+          const canvas = document.createElement('canvas');
+          canvas.width = 640;
+          canvas.height = 640;
+          canvas.className = 'w-full h-full pointer-events-none block';
+          layer.appendChild(canvas);
+
+          const ctx = canvas.getContext('2d', { willReadFrequently: false });
+
+          const renderBgFrame = () => {
+            if (!document.body.contains(canvas)) return;
+            const curBg = project.background || {};
+            const ready = isVideo ? (srcEl.readyState >= 2) : (srcEl.complete && srcEl.naturalWidth > 0);
+
+            if (ready && ctx) {
+              const sw = isVideo ? srcEl.videoWidth : srcEl.naturalWidth;
+              const sh = isVideo ? srcEl.videoHeight : srcEl.naturalHeight;
+
+              if (sw > 0 && sh > 0) {
+                const fBlur = Number(curBg.blur) || 0;
+                const fBright = curBg.brightness !== undefined ? Number(curBg.brightness) : 100;
+                const fContrast = curBg.contrast !== undefined ? Number(curBg.contrast) : 100;
+                const fSaturate = curBg.saturate !== undefined ? Number(curBg.saturate) : 100;
+                const fHue = Number(curBg.hueRotate) || 0;
+                const fGray = Number(curBg.grayscale) || 0;
+                const fSepia = Number(curBg.sepia) || 0;
+                const fInvert = Number(curBg.invert) || 0;
+
+                const filterStr = [
+                  fBlur > 0 ? `blur(${fBlur}px)` : '',
+                  `brightness(${fBright}%)`,
+                  `contrast(${fContrast}%)`,
+                  fSepia > 0 ? `sepia(${fSepia}%)` : '',
+                  `saturate(${fSaturate}%)`,
+                  fHue !== 0 ? `hue-rotate(${fHue}deg)` : '',
+                  fGray > 0 ? `grayscale(${fGray}%)` : '',
+                  fInvert > 0 ? `invert(${fInvert}%)` : ''
+                ].filter(Boolean).join(' ');
+
+                ctx.save();
+                ctx.clearRect(0, 0, 640, 640);
+                ctx.globalAlpha = (curBg.opacity ?? 50) / 100;
+                ctx.filter = filterStr || 'none';
+
+                // Calcula encaixe (cover / contain / fill / none)
+                const fitMode = curBg.fitMode || 'cover';
+                let dw = 640, dh = 640;
+                if (fitMode === 'cover') {
+                  const r = Math.max(640 / sw, 640 / sh);
+                  dw = sw * r;
+                  dh = sh * r;
+                } else if (fitMode === 'contain') {
+                  const r = Math.min(640 / sw, 640 / sh);
+                  dw = sw * r;
+                  dh = sh * r;
+                } else if (fitMode === 'none') {
+                  dw = sw;
+                  dh = sh;
+                }
+
+                const sc = (curBg.scale || 100) / 100;
+                const px = Number(curBg.posX) || 0;
+                const py = Number(curBg.posY) || 0;
+                const rot = ((Number(curBg.rotation) || 0) * Math.PI) / 180;
+
+                ctx.translate(320 + px, 320 + py);
+                if (rot !== 0) ctx.rotate(rot);
+                ctx.scale(sc, sc);
+
+                try {
+                  ctx.drawImage(srcEl, -dw / 2, -dh / 2, dw, dh);
+                } catch (drawErr) {}
+                ctx.restore();
+              }
+            }
+            bgCanvasAnimFrame = requestAnimationFrame(renderBgFrame);
+          };
+
+          bgCanvasAnimFrame = requestAnimationFrame(renderBgFrame);
         }
       }
 
-      const mediaEl = layer.firstElementChild;
-      if (mediaEl) {
-        const fitMode = bg.fitMode || 'cover';
-        mediaEl.style.objectFit = fitMode;
-        mediaEl.style.opacity = (bg.opacity ?? 50) / 100;
-        mediaEl.style.transform = `translate(${bg.posX || 0}px, ${bg.posY || 0}px) rotate(${bg.rotation || 0}deg) scale(${(bg.scale || 100) / 100})`;
-        mediaEl.style.transformOrigin = 'center center';
-        const fBlur = Number(bg.blur) || 0;
-        const fBright = bg.brightness !== undefined ? Number(bg.brightness) : 100;
-        const fContrast = bg.contrast !== undefined ? Number(bg.contrast) : 100;
-        const fSaturate = bg.saturate !== undefined ? Number(bg.saturate) : 100;
-        const fHue = Number(bg.hueRotate) || 0;
-        const fGray = Number(bg.grayscale) || 0;
-        const fSepia = Number(bg.sepia) || 0;
-        const fInvert = Number(bg.invert) || 0;
-
-        const filterChain = [
-          fBlur > 0 ? `blur(${fBlur}px)` : '',
-          `brightness(${fBright}%)`,
-          `contrast(${fContrast}%)`,
-          fSepia > 0 ? `sepia(${fSepia}%)` : '',
-          `saturate(${fSaturate}%)`,
-          fHue !== 0 ? `hue-rotate(${fHue}deg)` : '',
-          fGray > 0 ? `grayscale(${fGray}%)` : '',
-          fInvert > 0 ? `invert(${fInvert}%)` : ''
-        ].filter(Boolean).join(' ');
-
-        // Aplica tanto na camada #stage-bg-layer quanto no elemento interno (img/video) para compatibilidade total com o CEF/Chromium do NZXT CAM
-        layer.style.filter = filterChain;
-        layer.style.webkitFilter = filterChain;
-        mediaEl.style.filter = 'none';
-        mediaEl.style.webkitFilter = 'none';
-        layer.style.mixBlendMode = bg.blendMode || 'normal';
-      } else {
-        layer.style.filter = 'none';
-        layer.style.webkitFilter = 'none';
-      }
+      layer.style.mixBlendMode = bg.blendMode || 'normal';
 
       const vigStrength = (bg.vignette ?? 55) / 100;
       vig.style.background = `radial-gradient(circle, rgba(0,0,0,0) 42%, rgba(0,0,0,${vigStrength}) 100%)`;
