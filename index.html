@@ -7,21 +7,29 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Black+Ops+One&family=Chakra+Petch:wght@500;600;700;800&family=Electrolize&family=Exo+2:wght@600;700;800;900&family=JetBrains+Mono:wght@400;600;700;800&family=Michroma&family=Orbitron:wght@600;700;800;900&family=Oxanium:wght@600;700;800&family=Rajdhani:wght@600;700;800&family=Russo+One&family=Saira+Stencil+One&family=Share+Tech+Mono&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@700&family=Teko:wght@600;700&family=VT323&family=Wallpoet&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Audiowide&family=Black+Ops+One&family=Chakra+Petch:wght@500;600;700;800&family=Electrolize&family=Exo+2:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&family=Michroma&family=Orbitron:wght@600;700;800;900&family=Oxanium:wght@600;700;800&family=Rajdhani:wght@600;700;800&family=Russo+One&family=Saira+Stencil+One&family=Share+Tech+Mono&family=Space+Grotesk:wght@500;700&family=Syncopate:wght@700&family=Teko:wght@600;700&family=VT323&family=Wallpoet&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-dark: #090a0f;
-      --panel-dark: #11131c;
-      --card-dark: #171a26;
-      --border-dark: rgba(255, 255, 255, 0.05);
-      --text-main: #f1f5f9;
-      --text-muted: #94a3b8;
+      --bg-dark: #000000;
+      --panel-dark: #0c0c0e;
+      --card-dark: #131316;
+      --border-dark: rgba(255, 255, 255, 0.065);
+      --text-main: #f4f4f6;
+      --text-muted: #8e929b;
       --accent-orange: #ff3b00;
-      --accent-cyan: #00f0ff;
+      --accent-cyan: #38bdf8;
       --accent-lime: #b8ff01;
     }
 
-    /* 6 Temas Clean para a Interface do Estúdio */
+    /* Tema Padrão Pitch Black Profissional (Estilo Dashboard OLED) */
+    body[data-studio-theme="oled_black"] {
+      --bg-dark: #000000;
+      --panel-dark: #0b0b0d;
+      --card-dark: #141417;
+      --border-dark: rgba(255, 255, 255, 0.07);
+      --accent-cyan: #3b82f6;
+      --accent-orange: #ff3b00;
+    }
     body[data-studio-theme="obsidian"] {
       --bg-dark: #07080d;
       --panel-dark: #0e1017;
@@ -85,13 +93,31 @@
       height: 100%;
       background-color: var(--bg-dark);
       color: var(--text-main);
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
       overflow: hidden;
       transition: background-color 0.25s ease, color 0.25s ease;
     }
 
-    /* Superfícies Clean sem linhas divisórias pesadas */
+    /* Superfícies Pitch Black Profissionais com Bordas Finas de 1px */
     .studio-ui {
+      border-color: var(--border-dark) !important;
+    }
+    header.studio-ui, aside.studio-ui {
+      background-color: var(--panel-dark) !important;
+      border: 1px solid var(--border-dark) !important;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.75);
+    }
+    main#stage-viewport-wrapper {
+      background: radial-gradient(circle at center, rgba(59, 130, 246, 0.04) 0%, var(--bg-dark) 72%);
+      border: 1px solid var(--border-dark);
+    }
+    aside .bg-\[\#12121c\], aside .bg-\[\#13131f\], aside .bg-\[\#11111a\], aside .bg-\[\#111118\], aside .bg-\[\#12121a\] {
+      background-color: var(--card-dark) !important;
+      border: 1px solid var(--border-dark) !important;
+      border-radius: 12px !important;
+      box-shadow: none;
+    }
+    aside .border-t, aside .border-b {
       border-color: var(--border-dark) !important;
     }
     header.studio-ui, aside.studio-ui {
@@ -417,10 +443,11 @@
     <!-- Direita: Seletor de Tema do Estúdio + Áudio Desktop + Simulador + Tela Pura + CAM Link -->
     <div class="flex items-center space-x-2">
       <!-- Seletor de Tema Clean do Menu -->
-      <div class="flex items-center space-x-1.5 bg-[#111118] px-2.5 py-1.5 rounded-xl">
+      <div class="flex items-center space-x-1.5 bg-[#141417] border border-white/10 px-2.5 py-1.5 rounded-xl">
         <span class="text-[10px] font-mono text-slate-400">🎨 UI:</span>
-        <select id="sel-studio-theme" onchange="setStudioTheme(this.value)" class="bg-transparent font-mono text-[10px] text-cyan-300 font-bold outline-none cursor-pointer">
-          <option value="obsidian" class="bg-[#0e1017] text-white">Obsidian Dark</option>
+        <select id="sel-studio-theme" onchange="setStudioTheme(this.value)" class="bg-transparent font-mono text-[10px] text-sky-400 font-bold outline-none cursor-pointer">
+          <option value="oled_black" class="bg-[#0b0b0d] text-white">OLED Pitch Black</option>
+          <option value="obsidian" class="bg-[#0e1017] text-cyan-300">Obsidian Cyber</option>
           <option value="nzxt_purple" class="bg-[#120d22] text-purple-300">NZXT Violet</option>
           <option value="cyber_gold" class="bg-[#14120a] text-yellow-300">Cyber Yellow</option>
           <option value="emerald_os" class="bg-[#091610] text-emerald-300">Emerald Matrix</option>
@@ -471,28 +498,28 @@
       <div class="flex-1 flex flex-col overflow-hidden">
 
         <!-- =============================================================== -->
-        <!-- GUIA [01]: 24 LAYOUTS PRONTOS (ANIMADOS E ESTÁTICOS)            -->
+        <!-- GUIA [01]: LAYOUTS PRONTOS (ANIMADOS E ESTÁTICOS)               -->
         <!-- =============================================================== -->
         <div id="tab-pane-presets" class="flex-1 overflow-y-auto p-4 space-y-3.5 text-xs">
           <div class="flex items-center justify-between">
             <div>
-              <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GALERIA DE LAYOUTS</span>
-              <h2 class="text-sm font-bold text-white">24 TEMAS PRONTOS P/ A BOMBA</h2>
+              <span class="text-[10px] font-mono text-[#38bdf8] uppercase tracking-widest">// GALERIA DE LAYOUTS</span>
+              <h2 class="text-sm font-bold text-white">TEMAS PRONTOS P/ A BOMBA</h2>
             </div>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-cyan-500/15 text-cyan-300 font-bold">100% EDITÁVEIS</span>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-sky-500/15 text-sky-300 font-bold">100% EDITÁVEIS</span>
           </div>
 
           <!-- Filtros Rápidos: Todos / Animados / Estáticos + Busca -->
           <div class="space-y-2">
-            <div class="grid grid-cols-3 gap-1.5 bg-black/25 p-1 rounded-xl font-mono text-[10px]">
-              <button id="flt-btn-all" onclick="filterPresetsGallery('all')" class="preset-filter-pill active py-1.5 rounded-lg text-slate-300 transition">TODOS (24)</button>
-              <button id="flt-btn-animated" onclick="filterPresetsGallery('animated')" class="preset-filter-pill py-1.5 rounded-lg text-slate-300 transition">✨ ANIMADOS (13)</button>
-              <button id="flt-btn-static" onclick="filterPresetsGallery('static')" class="preset-filter-pill py-1.5 rounded-lg text-slate-300 transition">📌 ESTÁTICOS (11)</button>
+            <div class="grid grid-cols-3 gap-1.5 bg-black/40 p-1 rounded-xl font-mono text-[10px] border border-white/5">
+              <button id="flt-btn-all" onclick="filterPresetsGallery('all')" class="preset-filter-pill active py-1.5 rounded-lg text-slate-300 transition">TODOS</button>
+              <button id="flt-btn-animated" onclick="filterPresetsGallery('animated')" class="preset-filter-pill py-1.5 rounded-lg text-slate-300 transition">✨ ANIMADOS</button>
+              <button id="flt-btn-static" onclick="filterPresetsGallery('static')" class="preset-filter-pill py-1.5 rounded-lg text-slate-300 transition">📌 ESTÁTICOS</button>
             </div>
-            <input id="preset-search-input" type="text" oninput="renderPresetsGalleryList()" placeholder="🔍 Buscar layout (ex: NZXT, F1, Anime, ROG, Minimal)..." class="w-full bg-black/25 rounded-xl px-3 py-2 font-mono text-[11px] text-white outline-none focus:ring-1 focus:ring-cyan-400">
+            <input id="preset-search-input" type="text" oninput="renderPresetsGalleryList()" placeholder="🔍 Buscar layout (ex: OLED, Server, Cyber, Plasma)..." class="w-full bg-black/40 border border-white/10 rounded-xl px-3 py-2 font-mono text-[11px] text-white outline-none focus:ring-1 focus:ring-sky-400">
           </div>
 
-          <!-- Lista Dinâmica dos 24 Presets -->
+          <!-- Lista Dinâmica dos Presets -->
           <div id="presets-gallery-container" class="space-y-2 max-h-[370px] overflow-y-auto pr-1"></div>
 
           <!-- Ajuste Rápido de Escala para o Watercooler -->
@@ -527,212 +554,222 @@
         </div>
 
         <!-- =============================================================== -->
-        <!-- GUIA [02]: ADICIONAR WIDGETS, BARRAS, WATTS E MINI GIFS         -->
+        <!-- GUIA [02]: BIBLIOTECA COMPLETA DE WIDGETS, BARRAS, ARCOS & GIFS -->
         <!-- =============================================================== -->
         <div id="tab-pane-widgets" class="flex-1 overflow-y-auto p-4 space-y-4 hidden text-xs">
           <div>
-            <span class="text-[10px] font-mono text-[#b8ff01] uppercase tracking-widest">// GUIA 02</span>
-            <h2 class="text-sm font-bold text-white">ADICIONAR ELEMENTOS NO VISOR</h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">Clique para inserir um novo módulo e arraste livremente:</p>
+            <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GUIA 02</span>
+            <h2 class="text-sm font-bold text-white">ADICIONAR MÓDULOS & WIDGETS</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Clique em qualquer item para inserir no visor 640×640:</p>
           </div>
 
-          <!-- NOVOS WIDGETS DE TELEMETRIA AVANÇADA (v6.0) -->
-          <div class="p-3 rounded-xl bg-gradient-to-br from-cyan-500/10 to-emerald-500/10 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-mono font-bold text-[#b8ff01] uppercase">🚀 NOVOS WIDGETS DE TELEMETRIA PRO</span>
-              <span class="text-[9px] font-mono bg-[#b8ff01]/20 text-[#b8ff01] px-1.5 py-0.5 rounded-full">NOVO</span>
-            </div>
+          <!-- 1. TELEMETRIA & WATTS -->
+          <div class="p-3 rounded-xl bg-[#141417] border border-white/10 space-y-2">
+            <span class="block font-mono font-bold text-[10px] text-[#38bdf8] uppercase">01. TELEMETRIA, TEMPERATURA & WATTS</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="createNewWidget('gauge_needle', 'cpu_temp')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-cyan-300">🧭 Velocímetro Agulha</button>
-              <button onclick="createNewWidget('ring_stat', 'cpu_load')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-[#b8ff01]">🍩 Anel Donut c/ Valor</button>
-              <button onclick="createNewWidget('quad_grid')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-purple-300">⊞ Grade 2×2 Sensores</button>
-              <button onclick="createNewWidget('thermal_badge', 'liquid_temp')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-amber-300">🌡 Status Térmico HUD</button>
-              <button onclick="createNewWidget('fan_rotor', 'pump_rpm')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-pink-300">🌀 Hélice Bomba RPM</button>
-              <button onclick="createNewWidget('sensor_table')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-emerald-300">📋 Tabela 4 Sensores</button>
+              <button onclick="createNewWidget('telemetry_card', 'cpu_temp')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-white">🌡 Bloco CPU (°C)</button>
+              <button onclick="createNewWidget('telemetry_card', 'gpu_temp')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-white">🌡 Bloco GPU (°C)</button>
+              <button onclick="createNewWidget('telemetry_card', 'liquid_temp')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-cyan-300">💧 Bloco Líquido</button>
+              <button onclick="createNewWidget('dual_pill', 'power_dual')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-[#b8ff01]">⚡ Pílula Watts (W)</button>
+              <button onclick="createNewWidget('dual_pill', 'cpu_freq')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-slate-200">⏱ Pílula Clock + %</button>
+              <button onclick="createNewWidget('sensor', 'sys_power')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-amber-300">🔌 Watts Total Sistema</button>
+              <button onclick="createNewWidget('quad_grid')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-sky-300">⊞ Grade 2×2 Sensores</button>
+              <button onclick="createNewWidget('sensor_table')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-emerald-300">📋 Tabela 4 Sensores</button>
             </div>
           </div>
 
-          <!-- Telemetria & Watts -->
-          <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-slate-400 uppercase block">Telemetria Clássica & Consumo (Watts):</span>
-            <p class="text-[11px] text-slate-400 mt-0.5">Clique para inserir um novo módulo e arraste livremente:</p>
-          </div>
-
-          <!-- Telemetria & Watts -->
-          <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-slate-400 uppercase block">Telemetria & Consumo (Watts):</span>
+          <!-- 2. ARCOS RADIAIS & TACÔMETROS -->
+          <div class="p-3 rounded-xl bg-[#141417] border border-white/10 space-y-2">
+            <span class="block font-mono font-bold text-[10px] text-[#fcee0a] uppercase">02. ARCOS RADIAIS, VELOCÍMETROS & TACÔMETROS</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="createNewWidget('telemetry_card', 'cpu_temp')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-white">+ Bloco CPU °C</button>
-              <button onclick="createNewWidget('telemetry_card', 'gpu_temp')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-white">+ Bloco GPU °C</button>
-              <button onclick="createNewWidget('telemetry_card', 'liquid_temp')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-cyan-300">+ Bloco Líquido °C</button>
-              <button onclick="createNewWidget('dual_pill', 'power_dual')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#b8ff01]/40 text-left text-[#b8ff01]">+ Pílula Watts (W)</button>
-              <button onclick="createNewWidget('sensor', 'cpu_power')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-amber-300">+ Sensor CPU Watts</button>
-              <button onclick="createNewWidget('sensor', 'gpu_power')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-amber-300">+ Sensor GPU Watts</button>
-              <button onclick="createNewWidget('dual_pill')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-slate-200">+ Pílula Clock + %</button>
-              <button onclick="createNewWidget('sensor', 'ram_used')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-slate-200">+ Leitura RAM GB</button>
+              <button onclick="createNewWidget('radial', 'chrono_hud')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-cyan-300">◠ Arco Chrono HUD</button>
+              <button onclick="createNewWidget('radial', 'multi_dual')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-amber-300">◎ Arco Duplo (A+B)</button>
+              <button onclick="createNewWidget('radial', 'triple_hud')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-purple-300">◉ Triplo Anel (A+B+C)</button>
+              <button onclick="createNewWidget('radial', 'energy_flow')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-[#b8ff01]">✨ Arco Fluxo 60FPS</button>
+              <button onclick="createNewWidget('radial', 'gyro_orbit')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-pink-300">✨ Giroscópio Orbital</button>
+              <button onclick="createNewWidget('tachometer', 'blades')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-yellow-300">⚡ Tacômetro Cyber</button>
+              <button onclick="createNewWidget('tachometer', 'pulse_wave')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-cyan-300">✨ Tacômetro Pulse</button>
+              <button onclick="createNewWidget('gauge_needle', 'cpu_temp')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-rose-300">🧭 Velocímetro Agulha</button>
+              <button onclick="createNewWidget('ring_stat', 'cpu_load')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-emerald-300">🍩 Anel Donut c/ Valor</button>
+              <button onclick="createNewWidget('reticle')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-slate-300">⌖ Mira / Escala HUD</button>
             </div>
           </div>
 
-          <!-- Medidores Circulares & Gráficos -->
-          <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-slate-400 uppercase block">Arcos, Multi-Arcos (2/3 Linhas) & Animados:</span>
+          <!-- 3. BARRAS LINEARES & GRÁFICOS -->
+          <div class="p-3 rounded-xl bg-[#141417] border border-white/10 space-y-2">
+            <span class="block font-mono font-bold text-[10px] text-[#b8ff01] uppercase">03. BARRAS LINEARES & GRÁFICOS AO VIVO</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="createNewWidget('tachometer', 'blocks')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#ff3b00]">+ Tacômetro Ticks</button>
-              <button onclick="createNewWidget('tachometer', 'blades')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#fcee0a]/40 text-left text-[#fcee0a]">+ Arco Cyber Blades</button>
-              <button onclick="createNewWidget('tachometer', 'reactor')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-cyan-500/40 text-left text-cyan-300">+ Arco Reator Pinos</button>
-              <button onclick="createNewWidget('tachometer', 'dual_track')" class="p-2 rounded bg-[#161326] hover:bg-[#221c3a] border border-purple-500/50 text-left text-purple-300">+ Tacômetro Duplo (2x)</button>
-              <button onclick="createNewWidget('tachometer', 'triple_matrix')" class="p-2 rounded bg-[#142016] hover:bg-[#1c2e20] border border-[#b8ff01]/50 text-left text-[#b8ff01]">+ Tacômetro Triplo (3x)</button>
-              <button onclick="createNewWidget('tachometer', 'pulse_wave')" class="p-2 rounded bg-[#1d1128] hover:bg-[#2a183b] border border-pink-500/50 text-left text-pink-300">✨ Tac. Pulse Wave</button>
-              <button onclick="createNewWidget('tachometer', 'turbine_spin')" class="p-2 rounded bg-[#101e26] hover:bg-[#172d38] border border-cyan-400/50 text-left text-cyan-300">✨ Tac. Turbine Spin</button>
-              <button onclick="createNewWidget('radial', 'solid')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#00f0ff]">+ Arco Contínuo</button>
-              <button onclick="createNewWidget('radial', 'cyber_rail')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#fcee0a]/40 text-left text-[#fcee0a]">+ Arco Cyber Rail</button>
-              <button onclick="createNewWidget('radial', 'triple_hud')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-purple-500/40 text-left text-purple-300">+ Arco Triplo HUD (3x)</button>
-              <button onclick="createNewWidget('radial', 'multi_dual')" class="p-2 rounded bg-[#0d1b22] hover:bg-[#132833] border border-cyan-400/50 text-left text-cyan-300">+ Arco Duplo CPU+GPU</button>
-              <button onclick="createNewWidget('radial', 'cyber_telemetry')" class="p-2 rounded bg-[#1f1608] hover:bg-[#2c200b] border border-[#fcee0a]/50 text-left text-[#fcee0a]">+ Arco Cyber Multi-HUD</button>
-              <button onclick="createNewWidget('radial', 'energy_flow')" class="p-2 rounded bg-[#11241c] hover:bg-[#183529] border border-[#b8ff01]/50 text-left text-[#b8ff01]">✨ Arco Energy Flow</button>
-              <button onclick="createNewWidget('radial', 'gyro_orbit')" class="p-2 rounded bg-[#1a132b] hover:bg-[#251b3d] border border-purple-400/50 text-left text-purple-300">✨ Arco Giroscópio</button>
-              <button onclick="createNewWidget('radial', 'radar_sweep')" class="p-2 rounded bg-[#22140c] hover:bg-[#331e12] border border-orange-400/50 text-left text-orange-300">✨ Arco Radar Sweep</button>
-              <button onclick="createNewWidget('chart')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-emerald-300">+ Gráfico Tempo Real</button>
-              <button onclick="createNewWidget('spectrum')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-pink-500/40 text-left text-pink-400">+ Espectro Áudio PC</button>
-              <button onclick="createNewWidget('clock')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-white">+ Relógio Digital</button>
-              <button onclick="createNewWidget('label')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-white">+ Texto / Rótulo</button>
+              <button onclick="createNewWidget('seg_bar', 'cells')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-white">▮ Células LED</button>
+              <button onclick="createNewWidget('seg_bar', 'gradient')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-cyan-300">▰ Barra Gradiente</button>
+              <button onclick="createNewWidget('seg_bar', 'cyber_chamfer')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-yellow-300">▱ Cyber Chanfrada</button>
+              <button onclick="createNewWidget('seg_bar', 'multi_dual_bar')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-amber-300">═ Multi-Barra Dupla</button>
+              <button onclick="createNewWidget('seg_bar', 'multi_triple_bar')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-purple-300">☰ Multi-Barra Tripla</button>
+              <button onclick="createNewWidget('seg_bar', 'plasma_stream')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-[#b8ff01]">✨ Plasma Stream</button>
+              <button onclick="createNewWidget('seg_bar', 'cyber_scanner')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-pink-300">✨ Cyber Scanner</button>
+              <button onclick="createNewWidget('chart')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-sky-300">📈 Gráfico Histórico</button>
             </div>
           </div>
 
-          <!-- 16 Tipos de Barras Lineares, Cyberpunk, Multi-Linhas & Animadas -->
-          <div class="space-y-1.5">
-            <span class="text-[10px] font-mono text-[#fcee0a] uppercase block">16 Estilos de Barras (Simples, Multi & Animadas 60FPS):</span>
+          <!-- 4. ANIMAÇÕES 60FPS, ÁUDIO, RELÓGIO & FORMAS -->
+          <div class="p-3 rounded-xl bg-[#141417] border border-white/10 space-y-2">
+            <span class="block font-mono font-bold text-[10px] text-pink-400 uppercase">04. WIDGETS ANIMADOS 60FPS, ÁUDIO & FORMAS</span>
             <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="createNewWidget('seg_bar', 'cells')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-[#b8ff01]">+ 01. Células LED</button>
-              <button onclick="createNewWidget('seg_bar', 'gradient')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-cyan-300">+ 02. Laser Gradiente</button>
-              <button onclick="createNewWidget('seg_bar', 'chevron')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-orange-400">+ 03. Chevron ///</button>
-              <button onclick="createNewWidget('seg_bar', 'dual_rail')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-purple-300">+ 04. Plasma Dual-Rail</button>
-              <button onclick="createNewWidget('seg_bar', 'ruler')" class="p-2 rounded bg-[#13131f] hover:bg-[#1c1c2e] border border-[#262639] text-left text-slate-200">+ 05. Régua Tática</button>
-              <button onclick="createNewWidget('seg_bar', 'cyber_chamfer')" class="p-2 rounded bg-[#191608] hover:bg-[#26210c] border border-[#fcee0a]/50 text-left text-[#fcee0a]">+ 06. Cyber Chanfrada</button>
-              <button onclick="createNewWidget('seg_bar', 'cyber_glitch')" class="p-2 rounded bg-[#190d18] hover:bg-[#281326] border border-pink-500/50 text-left text-pink-400">+ 07. Cyber Glitch</button>
-              <button onclick="createNewWidget('seg_bar', 'equalizer')" class="p-2 rounded bg-[#0d191c] hover:bg-[#13262b] border border-cyan-400/50 text-left text-cyan-300">+ 08. Barra Equalizer</button>
-              <button onclick="createNewWidget('seg_bar', 'multi_dual_bar')" class="p-2 rounded bg-[#101e18] hover:bg-[#162b22] border border-[#b8ff01]/50 text-left text-[#b8ff01]">+ 09. Barra Dupla (A+B)</button>
-              <button onclick="createNewWidget('seg_bar', 'multi_triple_bar')" class="p-2 rounded bg-[#161326] hover:bg-[#211c38] border border-purple-400/50 text-left text-purple-300">+ 10. Barra Tripla (3x)</button>
-              <button onclick="createNewWidget('seg_bar', 'dual_cells_matrix')" class="p-2 rounded bg-[#1b140c] hover:bg-[#291e12] border border-amber-400/50 text-left text-amber-300">+ 11. Células Duplas 2x</button>
-              <button onclick="createNewWidget('seg_bar', 'cyber_hud_dual')" class="p-2 rounded bg-[#1f1808] hover:bg-[#2d230b] border border-[#fcee0a]/60 text-left text-[#fcee0a]">+ 12. Cyber HUD Dupla</button>
-              <button onclick="createNewWidget('seg_bar', 'plasma_stream')" class="p-2 rounded bg-[#0d2224] hover:bg-[#133236] border border-cyan-400/60 text-left text-cyan-300">✨ 13. Plasma Stream</button>
-              <button onclick="createNewWidget('seg_bar', 'cyber_scanner')" class="p-2 rounded bg-[#22101c] hover:bg-[#321729] border border-pink-500/60 text-left text-pink-300">✨ 14. Scanner Laser</button>
-              <button onclick="createNewWidget('seg_bar', 'reactor_pulse')" class="p-2 rounded bg-[#142210] hover:bg-[#1d3217] border border-[#b8ff01]/60 text-left text-[#b8ff01]">✨ 15. Reator Pulse</button>
-              <button onclick="createNewWidget('seg_bar', 'matrix_rain_bar')" class="p-2 rounded bg-[#1d1908] hover:bg-[#2d270c] border border-[#fcee0a]/60 text-left text-[#fcee0a]">✨ 16. Glitch Rain</button>
+              <button onclick="createNewWidget('plasma_core')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-cyan-300">⚛ Núcleo Plasma 60FPS</button>
+              <button onclick="createNewWidget('radar_hud')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-rose-300">📡 Radar Tático 60FPS</button>
+              <button onclick="createNewWidget('fan_rotor')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-sky-300">🌀 Hélice Bomba RPM</button>
+              <button onclick="createNewWidget('spectrum')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-pink-300">🎵 Espectro Áudio PC</button>
+              <button onclick="createNewWidget('clock')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-white">🕒 Relógio Digital</button>
+              <button onclick="createNewWidget('label')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-slate-200">Aa Texto / Rótulo</button>
+              <button onclick="createNewWidget('shape', 'cyber_panel')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-amber-300">▱ Placa Cyber HUD</button>
+              <button onclick="createNewWidget('shape', 'rect')" class="p-2 rounded-lg bg-black/50 hover:bg-white/10 border border-white/10 text-left text-slate-300">▭ Forma / Moldura</button>
             </div>
           </div>
 
-          <!-- WIDGETS DE ANIMAÇÃO FLUIDA (60 FPS) -->
-          <div class="p-3 rounded-xl bg-gradient-to-br from-cyan-500/15 to-purple-500/15 space-y-2 border border-cyan-500/30">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-mono font-bold text-[#00f0ff] uppercase">⚡ WIDGETS ANIMADOS 60 FPS (DL7TH)</span>
-              <span class="text-[9px] font-mono bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded-full">FLUIDO</span>
-            </div>
-            <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="createNewWidget('plasma_core')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-cyan-300">⚛ Núcleo Plasma Pulsante</button>
-              <button onclick="createNewWidget('radar_hud')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-[#b8ff01]">📡 Radar Tático Orbital</button>
-              <button onclick="createNewWidget('time_matrix')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-purple-300">⏳ Ampulheta Temporal</button>
-              <button onclick="createNewWidget('fan_rotor', 'pump_rpm')" class="p-2 rounded-lg bg-[#13131f] hover:bg-[#1c1c2e] text-left text-pink-300">🌀 Rotor Bomba 60FPS</button>
-            </div>
-          </div>
-
-          <!-- Formas Básicas de Design Totalmente Editáveis -->
-          <div class="p-3 rounded-lg bg-[#0e1722] border border-cyan-500/40 space-y-2">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-mono font-bold text-cyan-300 uppercase">◆ FORMAS BÁSICAS DE DESIGN (VETORIAIS)</span>
-              <span class="text-[9px] font-mono bg-cyan-500/20 text-cyan-300 px-1.5 py-0.5 rounded">EDITÁVEIS</span>
-            </div>
-            <p class="text-[10px] text-slate-400">Adicione painéis, molduras, linhas e polígonos com borda, preenchimento e neon customizáveis:</p>
-            <div class="grid grid-cols-2 gap-1.5 font-mono text-[10px]">
-              <button onclick="createNewWidget('shape', 'rect')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-cyan-200">▭ Retângulo / Painel</button>
-              <button onclick="createNewWidget('shape', 'circle')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-cyan-200">◯ Círculo / Anel</button>
-              <button onclick="createNewWidget('shape', 'cyber_panel')" class="p-1.5 rounded bg-[#1c1a0d] hover:bg-[#292612] border border-[#fcee0a]/40 text-left text-[#fcee0a]">▱ Placa Cyber 2077</button>
-              <button onclick="createNewWidget('shape', 'hud_brackets')" class="p-1.5 rounded bg-[#1c1a0d] hover:bg-[#292612] border border-[#fcee0a]/40 text-left text-[#fcee0a]">⟦⟧ Colchetes HUD</button>
-              <button onclick="createNewWidget('shape', 'hexagon')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-emerald-300">⬢ Hexágono Tático</button>
-              <button onclick="createNewWidget('shape', 'octagon')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-purple-300">⯃ Octógono Core</button>
-              <button onclick="createNewWidget('shape', 'triangle')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-orange-300">△ Triângulo / Seta</button>
-              <button onclick="createNewWidget('shape', 'diamond')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-pink-300">◇ Losango / Rhombus</button>
-              <button onclick="createNewWidget('shape', 'cross')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-slate-200">✚ Cruz Técnica</button>
-              <button onclick="createNewWidget('shape', 'line')" class="p-1.5 rounded bg-[#121c2b] hover:bg-[#19283d] border border-cyan-500/30 text-left text-slate-200">━ Linha / Divisor</button>
-            </div>
-          </div>
-
-          <!-- Mini GIFs / Stickers Flutuantes -->
-          <div class="p-3 rounded-lg bg-[#141022] border border-purple-500/40 space-y-2.5">
-            <div class="flex items-center justify-between">
-              <span class="text-[10px] font-mono font-bold text-purple-300 uppercase">★ MINI GIFS FLUTUANTES NO LAYOUT</span>
-              <span class="text-[9px] font-mono bg-purple-500/20 text-purple-300 px-1.5 py-0.5 rounded">CAM READY</span>
-            </div>
-
-            <label class="w-full py-2 px-3 rounded bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-[10px] flex items-center justify-center cursor-pointer transition shadow">
-              <span>📁 SUBIR MINI GIF / WEBP / MP4 DO PC</span>
+          <!-- 5. MINI GIFS & STICKERS FLUTUANTES NO LAYOUT -->
+          <div class="p-3 rounded-xl bg-[#141417] border border-purple-500/30 space-y-2.5">
+            <span class="block font-mono font-bold text-[10px] text-purple-300 uppercase">05. MINI GIFS / STICKERS FLUTUANTES</span>
+            <label class="w-full py-2 px-3 rounded-lg bg-purple-600/25 hover:bg-purple-600/40 border border-purple-500/40 text-purple-200 font-mono font-bold text-[10px] flex items-center justify-center cursor-pointer transition">
+              <span>📁 SUBIR MINI GIF / PNG / MP4 DO PC</span>
               <input type="file" accept="image/gif,image/png,image/webp,video/mp4,video/webm" class="hidden" onchange="uploadNewFloatingGifWidget(event)">
             </label>
-
-            <div class="pt-1">
-              <span class="text-[9px] font-mono text-slate-400 uppercase block mb-1.5">Ou adicione um Sticker Animado Embutido:</span>
-              <div class="grid grid-cols-3 gap-1.5 font-mono text-[10px]">
-                <button onclick="spawnPresetSticker('Reator Arc', BUILTIN_ANIMATED_STICKERS.reactor, 135, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-cyan-300 truncate">⚛ Reator</button>
-                <button onclick="spawnPresetSticker('Hex Core', BUILTIN_ANIMATED_STICKERS.hexpulse, 130, 'hexagon')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-emerald-300 truncate">💠 Hex Data</button>
-                <button onclick="spawnPresetSticker('Synth Sun', BUILTIN_ANIMATED_STICKERS.synthsun, 140, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-purple-300 truncate">🌆 Synth</button>
-                <button onclick="spawnPresetSticker('Plasma Orb', BUILTIN_ANIMATED_STICKERS.plasmaorb, 130, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-pink-300 truncate">🔮 Neon Orb</button>
-                <button onclick="spawnPresetSticker('Radar Sweep', BUILTIN_ANIMATED_STICKERS.radar, 135, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-amber-300 truncate">📡 Radar</button>
-                <button onclick="spawnPresetSticker('CyberTurbine', BUILTIN_ANIMATED_STICKERS.turbine, 135, 'circle')" class="p-1.5 rounded bg-[#0d0d14] hover:bg-[#1a1a28] border border-[#262638] text-sky-300 truncate">⚡ Turbina</button>
-              </div>
+            <div class="grid grid-cols-3 gap-1.5 font-mono text-[9px]">
+              <button onclick="spawnPresetSticker('Reator Arc', BUILTIN_ANIMATED_STICKERS.reactor, 130, 'circle')" class="p-1.5 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-cyan-300">⚛ Reator</button>
+              <button onclick="spawnPresetSticker('Hex Pulse', BUILTIN_ANIMATED_STICKERS.hexpulse, 130, 'hexagon')" class="p-1.5 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-[#b8ff01]">⬢ Hex Core</button>
+              <button onclick="spawnPresetSticker('Plasma Orb', BUILTIN_ANIMATED_STICKERS.plasmaorb, 130, 'circle')" class="p-1.5 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-pink-300">🔮 Plasma</button>
+              <button onclick="spawnPresetSticker('Radar Sonar', BUILTIN_ANIMATED_STICKERS.radar, 130, 'circle')" class="p-1.5 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-emerald-300">📡 Radar</button>
+              <button onclick="spawnPresetSticker('Turbina Cryo', BUILTIN_ANIMATED_STICKERS.turbine, 130, 'circle')" class="p-1.5 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-orange-300">🌀 Turbina</button>
+              <button onclick="spawnPresetSticker('Synthwave', BUILTIN_ANIMATED_STICKERS.synthsun, 130, 'circle')" class="p-1.5 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-purple-300">🌆 Synth</button>
             </div>
           </div>
         </div>
 
         <!-- =============================================================== -->
-        <!-- GUIA [03]: GERENCIADOR DE CAMADAS (DRAG & DROP COM O MOUSE)     -->
+        <!-- GUIA [03]: GERENCIADOR DE CAMADAS ARRASTÁVEIS (DRAG & DROP)     -->
         <!-- =============================================================== -->
-        <div id="tab-pane-layers" class="flex-1 flex flex-col overflow-hidden p-4 hidden text-xs">
-          <div class="pb-3 border-b border-[#1c1c28] flex items-center justify-between">
+        <div id="tab-pane-layers" class="flex-1 overflow-y-auto p-4 space-y-3 hidden text-xs">
+          <div class="flex items-center justify-between">
             <div>
-              <span class="text-[10px] font-mono text-[#00f0ff] uppercase tracking-widest">// GUIA 03</span>
-              <h2 class="text-sm font-bold text-white">ORDEM DAS CAMADAS</h2>
+              <span class="text-[10px] font-mono text-[#b8ff01] uppercase tracking-widest">// GUIA 03</span>
+              <h2 class="text-sm font-bold text-white">GERENCIADOR DE CAMADAS</h2>
+              <p class="text-[10px] text-slate-400">Arraste <span class="text-white font-mono">⋮⋮</span> para reordenar sobreposição (topo = frente):</p>
             </div>
-            <span class="text-[9px] font-mono px-2 py-0.5 rounded bg-[#161624] text-slate-400">ARRASTE ⋮⋮</span>
           </div>
-          <p class="text-[10px] text-slate-400 my-2">Arraste as camadas com o mouse para mudar quem fica na frente ou atrás no visor:</p>
-          <div id="layers-tree-list" class="flex-1 overflow-y-auto space-y-1.5 pr-1"></div>
+
+          <div id="layers-tree-list" class="space-y-1.5 pb-4"></div>
         </div>
 
         <!-- =============================================================== -->
-        <!-- GUIA [04]: PLANO DE FUNDO (GIF / VÍDEO / AJUSTE SEM CORTE)      -->
+        <!-- GUIA [04]: PLANO DE FUNDO (GIF / VÍDEO / FILTROS AVANÇADOS)     -->
         <!-- =============================================================== -->
         <div id="tab-pane-background" class="flex-1 overflow-y-auto p-4 space-y-4 hidden text-xs">
           <div>
-            <span class="text-[10px] font-mono text-purple-400 uppercase tracking-widest">// GUIA 04</span>
-            <h2 class="text-sm font-bold text-white">FUNDO GIF / MP4 & ENCAIXE</h2>
-            <p class="text-[11px] text-slate-400 mt-0.5">Carregue um GIF ou vídeo e ajuste posição e zoom sem cortes forçados:</p>
+            <span class="text-[10px] font-mono text-sky-400 uppercase tracking-widest">// GUIA 04</span>
+            <h2 class="text-sm font-bold text-white">FUNDO GIF / MP4 & FILTROS PRO</h2>
+            <p class="text-[11px] text-slate-400 mt-0.5">Carregue sua mídia, ajuste o encaixe sem cortar e aplique filtros visuais:</p>
           </div>
 
           <div class="space-y-2">
-            <label class="w-full py-2.5 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-mono font-bold text-[11px] flex items-center justify-center cursor-pointer transition shadow-lg">
+            <label class="w-full py-2.5 px-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-mono font-bold text-[11px] flex items-center justify-center cursor-pointer transition shadow-lg">
               <span>📁 CARREGAR GIF / MP4 / PNG DO PC</span>
               <input type="file" accept="image/gif,image/png,image/jpeg,image/webp,video/mp4,video/webm" class="hidden" onchange="uploadLocalBgMedia(event)">
             </label>
 
             <div class="flex space-x-1.5">
-              <input id="bg-url-input" type="text" placeholder="Cole link https://... (.gif / .mp4)" class="flex-1 bg-[#12121c] border border-[#262638] rounded px-2.5 py-1.5 font-mono text-[10px] text-white">
-              <button onclick="applyCustomBgUrl()" class="px-3 py-1.5 rounded bg-[#00f0ff] hover:bg-cyan-300 text-black font-mono font-bold text-[10px]">USAR</button>
+              <input id="bg-url-input" type="text" placeholder="Cole link https://... (.gif / .mp4)" class="flex-1 bg-[#141417] border border-white/10 rounded-lg px-2.5 py-1.5 font-mono text-[10px] text-white">
+              <button onclick="applyCustomBgUrl()" class="px-3 py-1.5 rounded-lg bg-[#38bdf8] hover:bg-sky-300 text-black font-mono font-bold text-[10px]">USAR</button>
             </div>
 
             <div class="grid grid-cols-3 gap-1.5 pt-1 font-mono text-[10px]">
-              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.synthsun)" class="p-1.5 rounded bg-[#141420] hover:bg-[#1e1e30] border border-[#262638] text-purple-300">🌆 Synth</button>
-              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.reactor)" class="p-1.5 rounded bg-[#141420] hover:bg-[#1e1e30] border border-[#262638] text-cyan-300">⚛ Reator</button>
-              <button onclick="clearBackgroundMedia()" class="p-1.5 rounded bg-rose-950/40 hover:bg-rose-900/50 border border-rose-700/40 text-rose-300">✕ Preto OLED</button>
+              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.synthsun)" class="p-1.5 rounded-lg bg-[#141417] hover:bg-[#1e1e24] border border-white/10 text-purple-300">🌆 Synth</button>
+              <button onclick="applyCuratedGif(BUILTIN_ANIMATED_STICKERS.reactor)" class="p-1.5 rounded-lg bg-[#141417] hover:bg-[#1e1e24] border border-white/10 text-cyan-300">⚛ Reator</button>
+              <button onclick="clearBackgroundMedia()" class="p-1.5 rounded-lg bg-rose-950/40 hover:bg-rose-900/50 border border-rose-700/40 text-rose-300">✕ Preto OLED</button>
             </div>
           </div>
 
-          <div class="p-3 rounded-lg bg-[#11111a] border border-[#242436] space-y-3">
+          <!-- FILTROS CINEMATOGRÁFICOS PARA A IMAGEM/GIF DE FUNDO -->
+          <div class="p-3 rounded-xl bg-[#141417] border border-white/10 space-y-3">
             <div class="flex items-center justify-between">
-              <span class="font-mono font-bold text-[10px] text-[#00f0ff]">MODO DE ENCAIXE NO VISOR</span>
-              <button onclick="resetBgTransform()" class="text-[9px] font-mono px-2 py-0.5 rounded bg-[#191926] hover:bg-[#252538] text-[#b8ff01]">Centralizar</button>
+              <span class="font-mono font-bold text-[10px] text-[#b8ff01]">🎨 FILTROS DA IMAGEM DE FUNDO</span>
+              <button onclick="resetBgFilters()" class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-slate-300">Resetar Filtros</button>
             </div>
 
-            <select id="sel-bg-fit" onchange="updateBgParam('fitMode', this.value)" class="w-full bg-[#12121c] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
+            <!-- Presets de Filtro em 1 Clique -->
+            <div class="grid grid-cols-4 gap-1 font-mono text-[9px]">
+              <button onclick="applyBgFilterPreset('none')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-slate-200">Original</button>
+              <button onclick="applyBgFilterPreset('cyberpunk')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-pink-500/30 text-pink-300">Cyberpunk</button>
+              <button onclick="applyBgFilterPreset('noir')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-white/10 text-slate-300">Noir P&B</button>
+              <button onclick="applyBgFilterPreset('matrix')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-emerald-500/30 text-emerald-300">Matrix</button>
+              <button onclick="applyBgFilterPreset('vaporwave')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-purple-500/30 text-purple-300">Vapor</button>
+              <button onclick="applyBgFilterPreset('oled_deep')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-sky-500/30 text-sky-300">OLED Deep</button>
+              <button onclick="applyBgFilterPreset('sepia')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-amber-500/30 text-amber-300">Sépia</button>
+              <button onclick="applyBgFilterPreset('invert')" class="py-1.5 px-1 rounded bg-black/50 hover:bg-white/10 border border-cyan-500/30 text-cyan-300">Inverter</button>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5">
+              <div>
+                <div class="flex justify-between items-center text-[9px] font-mono mb-1">
+                  <span class="text-slate-400">BRILHO (%)</span>
+                  <input id="lbl-bg-brightness" type="number" min="0" max="250" value="100" oninput="updateBgParam('brightness', Number(this.value))" class="editable-num-pill !w-11">
+                </div>
+                <input id="rng-bg-brightness" type="range" min="0" max="200" value="100" oninput="updateBgParam('brightness', Number(this.value))" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between items-center text-[9px] font-mono mb-1">
+                  <span class="text-slate-400">CONTRASTE (%)</span>
+                  <input id="lbl-bg-contrast" type="number" min="0" max="300" value="100" oninput="updateBgParam('contrast', Number(this.value))" class="editable-num-pill !w-11">
+                </div>
+                <input id="rng-bg-contrast" type="range" min="20" max="250" value="100" oninput="updateBgParam('contrast', Number(this.value))" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between items-center text-[9px] font-mono mb-1">
+                  <span class="text-slate-400">SATURAÇÃO (%)</span>
+                  <input id="lbl-bg-saturate" type="number" min="0" max="300" value="100" oninput="updateBgParam('saturate', Number(this.value))" class="editable-num-pill !w-11">
+                </div>
+                <input id="rng-bg-saturate" type="range" min="0" max="250" value="100" oninput="updateBgParam('saturate', Number(this.value))" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between items-center text-[9px] font-mono mb-1">
+                  <span class="text-slate-400">MATIZ / HUE (°)</span>
+                  <input id="lbl-bg-hue" type="number" min="0" max="360" value="0" oninput="updateBgParam('hueRotate', Number(this.value))" class="editable-num-pill !w-11 !text-pink-300">
+                </div>
+                <input id="rng-bg-hue" type="range" min="0" max="360" value="0" oninput="updateBgParam('hueRotate', Number(this.value))" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between items-center text-[9px] font-mono mb-1">
+                  <span class="text-slate-400">PRETO & BRANCO</span>
+                  <input id="lbl-bg-gray" type="number" min="0" max="100" value="0" oninput="updateBgParam('grayscale', Number(this.value))" class="editable-num-pill !w-11">
+                </div>
+                <input id="rng-bg-gray" type="range" min="0" max="100" value="0" oninput="updateBgParam('grayscale', Number(this.value))" class="w-full">
+              </div>
+              <div>
+                <div class="flex justify-between items-center text-[9px] font-mono mb-1">
+                  <span class="text-slate-400">SÉPIA / RETRÔ</span>
+                  <input id="lbl-bg-sepia" type="number" min="0" max="100" value="0" oninput="updateBgParam('sepia', Number(this.value))" class="editable-num-pill !w-11">
+                </div>
+                <input id="rng-bg-sepia" type="range" min="0" max="100" value="0" oninput="updateBgParam('sepia', Number(this.value))" class="w-full">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-[9px] font-mono text-slate-400 mb-1">MODO DE MESCLAGEM (BLEND MODE)</label>
+              <select id="sel-bg-blend" onchange="updateBgParam('blendMode', this.value)" class="w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 font-mono text-[10px] text-white">
+                <option value="normal">Normal (Padrão)</option>
+                <option value="screen">Screen (Realça Luzes / Remove Preto)</option>
+                <option value="lighten">Lighten (Clarear)</option>
+                <option value="color-dodge">Color Dodge (Brilho Neon Intenso)</option>
+                <option value="overlay">Overlay (Contraste Cinematográfico)</option>
+                <option value="luminosity">Luminosity (Monocromático)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="p-3 rounded-xl bg-[#141417] border border-white/10 space-y-3">
+            <div class="flex items-center justify-between">
+              <span class="font-mono font-bold text-[10px] text-[#38bdf8]">MODO DE ENCAIXE NO VISOR</span>
+              <button onclick="resetBgTransform()" class="text-[9px] font-mono px-2 py-0.5 rounded bg-white/5 hover:bg-white/10 text-[#b8ff01]">Centralizar</button>
+            </div>
+
+            <select id="sel-bg-fit" onchange="updateBgParam('fitMode', this.value)" class="w-full bg-black/50 border border-white/10 rounded-lg px-2 py-1.5 font-mono text-[11px] text-white">
               <option value="cover">Preencher Visor (Cover)</option>
               <option value="contain">Conter Inteiro (Sem Cortar)</option>
               <option value="fill">Esticar Proporção 100% (Fill)</option>
@@ -948,128 +985,215 @@
 
     const BUILTIN_ANIMATED_STICKERS = {
       reactor: svgToDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
           <defs>
-            <radialGradient id="rg" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#00f0ff" stop-opacity="0.9"/>
-              <stop offset="55%" stop-color="#0066ff" stop-opacity="0.35"/>
+            <radialGradient id="rg_pro" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+              <stop offset="22%" stop-color="#00f0ff" stop-opacity="0.85"/>
+              <stop offset="60%" stop-color="#0284c7" stop-opacity="0.35"/>
               <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
             </radialGradient>
+            <linearGradient id="ring_g" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00f0ff"/>
+              <stop offset="100%" stop-color="#b8ff01"/>
+            </linearGradient>
           </defs>
-          <circle cx="100" cy="100" r="92" fill="url(#rg)"/>
-          <g stroke="#00f0ff" fill="none">
-            <circle cx="100" cy="100" r="78" stroke-width="4" stroke-dasharray="18 10">
-              <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="8s" repeatCount="indefinite"/>
+          <circle cx="120" cy="120" r="110" fill="url(#rg_pro)"/>
+          <g fill="none">
+            <circle cx="120" cy="120" r="102" stroke="#00f0ff" stroke-width="1.5" stroke-opacity="0.4" stroke-dasharray="3 6"/>
+            <g>
+              <circle cx="120" cy="120" r="92" stroke="url(#ring_g)" stroke-width="6" stroke-dasharray="32 14 8 14"/>
+              <circle cx="120" cy="120" r="84" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6" stroke-dasharray="45 35"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="7s" repeatCount="indefinite"/>
+            </g>
+            <g>
+              <circle cx="120" cy="120" r="68" stroke="#b8ff01" stroke-width="4" stroke-dasharray="16 10 4 10"/>
+              <polygon points="120,44 126,56 114,56" fill="#b8ff01"/>
+              <polygon points="120,196 126,184 114,184" fill="#b8ff01"/>
+              <polygon points="44,120 56,114 56,126" fill="#00f0ff"/>
+              <polygon points="196,120 184,114 184,126" fill="#00f0ff"/>
+              <animateTransform attributeName="transform" type="rotate" from="360 120 120" to="0 120 120" dur="4.2s" repeatCount="indefinite"/>
+            </g>
+            <g>
+              <polygon points="120,76 158,98 158,142 120,164 82,142 82,98" stroke="#00f0ff" stroke-width="2" stroke-opacity="0.8"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="10s" repeatCount="indefinite"/>
+            </g>
+            <circle cx="120" cy="120" r="28" fill="#00f0ff" fill-opacity="0.3" stroke="#ffffff" stroke-width="2">
+              <animate attributeName="r" values="23;32;23" dur="1.4s" repeatCount="indefinite"/>
             </circle>
-            <circle cx="100" cy="100" r="56" stroke="#b8ff01" stroke-width="3" stroke-dasharray="10 14">
-              <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="5s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="100" cy="100" r="26" fill="#00f0ff" fill-opacity="0.25" stroke-width="3">
-              <animate attributeName="r" values="22;30;22" dur="1.6s" repeatCount="indefinite"/>
+            <circle cx="120" cy="120" r="12" fill="#ffffff">
+              <animate attributeName="opacity" values="0.7;1;0.7" dur="0.8s" repeatCount="indefinite"/>
             </circle>
           </g>
         </svg>
       `),
       hexpulse: svgToDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-          <g fill="none" stroke="#b8ff01" stroke-width="3.5">
-            <polygon points="100,16 172,58 172,142 100,184 28,142 28,58" stroke-dasharray="14 8">
-              <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="10s" repeatCount="indefinite"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+          <defs>
+            <radialGradient id="hx_g" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#b8ff01" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="120" cy="120" r="105" fill="url(#hx_g)"/>
+          <g fill="none">
+            <g>
+              <polygon points="120,18 208,69 208,171 120,222 32,171 32,69" stroke="#b8ff01" stroke-width="4" stroke-dasharray="26 10"/>
+              <polygon points="120,28 199,74 199,166 120,212 41,166 41,74" stroke="#00f0ff" stroke-width="1.5" stroke-opacity="0.7"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="9s" repeatCount="indefinite"/>
+            </g>
+            <g>
+              <polygon points="120,48 182,84 182,156 120,192 58,156 58,84" stroke="#00f0ff" stroke-width="3.5" stroke-dasharray="14 8"/>
+              <line x1="120" y1="48" x2="120" y2="192" stroke="#b8ff01" stroke-width="1" stroke-opacity="0.35"/>
+              <line x1="58" y1="84" x2="182" y2="156" stroke="#b8ff01" stroke-width="1" stroke-opacity="0.35"/>
+              <line x1="182" y1="84" x2="58" y2="156" stroke="#b8ff01" stroke-width="1" stroke-opacity="0.35"/>
+              <animateTransform attributeName="transform" type="rotate" from="360 120 120" to="0 120 120" dur="5.5s" repeatCount="indefinite"/>
+            </g>
+            <polygon points="120,86 149,103 149,137 120,154 91,137 91,103" fill="#b8ff01" fill-opacity="0.25" stroke="#ffffff" stroke-width="2">
+              <animate attributeName="opacity" values="0.35;1;0.35" dur="1.1s" repeatCount="indefinite"/>
             </polygon>
-            <polygon points="100,42 150,71 150,129 100,158 50,129 50,71" stroke="#00f0ff" stroke-width="2.5">
-              <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="6s" repeatCount="indefinite"/>
-            </polygon>
-            <circle cx="100" cy="100" r="18" fill="#b8ff01">
-              <animate attributeName="opacity" values="0.3;1;0.3" dur="1.2s" repeatCount="indefinite"/>
-            </circle>
+            <circle cx="120" cy="120" r="11" fill="#ffffff"/>
           </g>
         </svg>
       `),
       synthsun: svgToDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
           <defs>
-            <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#ff00aa"/>
-              <stop offset="100%" stop-color="#ffaa00"/>
+            <linearGradient id="sg_pro" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ff007a"/>
+              <stop offset="50%" stop-color="#ff5e00"/>
+              <stop offset="100%" stop-color="#fcee0a"/>
             </linearGradient>
           </defs>
-          <circle cx="100" cy="100" r="76" fill="url(#sg)"/>
-          <g fill="#06060c">
-            <rect x="18" y="112" width="164" height="5"><animate attributeName="y" values="112;118;112" dur="2s" repeatCount="indefinite"/></rect>
-            <rect x="18" y="128" width="164" height="7"><animate attributeName="y" values="128;134;128" dur="2s" repeatCount="indefinite"/></rect>
-            <rect x="18" y="146" width="164" height="10"/>
-            <rect x="18" y="164" width="164" height="14"/>
+          <circle cx="120" cy="120" r="106" fill="none" stroke="#00f0ff" stroke-width="2" stroke-dasharray="6 8">
+            <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="14s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="120" cy="120" r="88" fill="url(#sg_pro)"/>
+          <g fill="#050509">
+            <rect x="24" y="128" width="192" height="5"><animate attributeName="y" values="128;134;128" dur="1.8s" repeatCount="indefinite"/></rect>
+            <rect x="24" y="144" width="192" height="7"><animate attributeName="y" values="144;150;144" dur="1.8s" repeatCount="indefinite"/></rect>
+            <rect x="24" y="162" width="192" height="10"><animate attributeName="y" values="162;168;162" dur="1.8s" repeatCount="indefinite"/></rect>
+            <rect x="24" y="182" width="192" height="15"/>
           </g>
-          <circle cx="100" cy="100" r="86" fill="none" stroke="#00f0ff" stroke-width="3" stroke-dasharray="12 8">
-            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="12s" repeatCount="indefinite"/>
+          <circle cx="120" cy="120" r="96" fill="none" stroke="#ff007a" stroke-width="3.5" stroke-dasharray="28 14">
+            <animateTransform attributeName="transform" type="rotate" from="360 120 120" to="0 120 120" dur="8s" repeatCount="indefinite"/>
           </circle>
         </svg>
       `),
       plasmaorb: svgToDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+          <defs>
+            <radialGradient id="po_g" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="30%" stop-color="#ff0066" stop-opacity="0.8"/>
+              <stop offset="70%" stop-color="#7c3aed" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+          <circle cx="120" cy="120" r="108" fill="url(#po_g)"/>
           <g fill="none" stroke-linecap="round">
-            <circle cx="100" cy="100" r="75" stroke="#ff0066" stroke-width="4" stroke-dasharray="45 25">
-              <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="3.2s" repeatCount="indefinite"/>
+            <g>
+              <ellipse cx="120" cy="120" rx="94" ry="44" stroke="#00f0ff" stroke-width="3" stroke-dasharray="40 20"/>
+              <ellipse cx="120" cy="120" rx="94" ry="44" stroke="#ff0066" stroke-width="3" stroke-dasharray="40 20" transform="rotate(60 120 120)"/>
+              <ellipse cx="120" cy="120" rx="94" ry="44" stroke="#fcee0a" stroke-width="3" stroke-dasharray="40 20" transform="rotate(120 120 120)"/>
+              <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="4s" repeatCount="indefinite"/>
+            </g>
+            <circle cx="120" cy="120" r="36" fill="#ff0066" fill-opacity="0.45" stroke="#ffffff" stroke-width="2.5">
+              <animate attributeName="r" values="28;42;28" dur="1.3s" repeatCount="indefinite"/>
             </circle>
-            <circle cx="100" cy="100" r="58" stroke="#00f0ff" stroke-width="4" stroke-dasharray="30 20">
-              <animateTransform attributeName="transform" type="rotate" from="360 100 100" to="0 100 100" dur="2.4s" repeatCount="indefinite"/>
-            </circle>
-            <circle cx="100" cy="100" r="36" fill="#ff0066" fill-opacity="0.4" stroke="#ffffff" stroke-width="2">
-              <animate attributeName="r" values="28;42;28" dur="1.4s" repeatCount="indefinite"/>
-            </circle>
+            <circle cx="120" cy="120" r="14" fill="#ffffff"/>
           </g>
         </svg>
       `),
       radar: svgToDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="84" fill="#041812" stroke="#00ff88" stroke-width="3"/>
-          <circle cx="100" cy="100" r="56" fill="none" stroke="#00ff88" stroke-width="1" stroke-dasharray="4 4"/>
-          <circle cx="100" cy="100" r="28" fill="none" stroke="#00ff88" stroke-width="1"/>
-          <line x1="16" y1="100" x2="184" y2="100" stroke="#00ff88" stroke-width="1" stroke-opacity="0.5"/>
-          <line x1="100" y1="16" x2="100" y2="184" stroke="#00ff88" stroke-width="1" stroke-opacity="0.5"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+          <defs>
+            <linearGradient id="rad_beam" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#00ff88" stop-opacity="0.65"/>
+              <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <circle cx="120" cy="120" r="104" fill="#03120e" stroke="#00ff88" stroke-width="3.5"/>
+          <circle cx="120" cy="120" r="94" fill="none" stroke="#00ff88" stroke-width="1" stroke-dasharray="2 6"/>
+          <circle cx="120" cy="120" r="70" fill="none" stroke="#00ff88" stroke-width="1.2" stroke-dasharray="6 4"/>
+          <circle cx="120" cy="120" r="42" fill="none" stroke="#00ff88" stroke-width="1.2"/>
+          <line x1="16" y1="120" x2="224" y2="120" stroke="#00ff88" stroke-width="1" stroke-opacity="0.45"/>
+          <line x1="120" y1="16" x2="120" y2="224" stroke="#00ff88" stroke-width="1" stroke-opacity="0.45"/>
           <g>
-            <path d="M100,100 L100,16 A84,84 0 0,1 174,60 Z" fill="#00ff88" fill-opacity="0.35"/>
-            <line x1="100" y1="100" x2="100" y2="16" stroke="#b8ff01" stroke-width="3"/>
-            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="2.6s" repeatCount="indefinite"/>
+            <path d="M120,120 L120,16 A104,104 0 0,1 212,72 Z" fill="url(#rad_beam)"/>
+            <line x1="120" y1="120" x2="120" y2="16" stroke="#b8ff01" stroke-width="3.5"/>
+            <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="2.2s" repeatCount="indefinite"/>
           </g>
-          <circle cx="134" cy="64" r="5" fill="#b8ff01">
-            <animate attributeName="opacity" values="1;0.1;1" dur="1.3s" repeatCount="indefinite"/>
+          <circle cx="164" cy="74" r="6" fill="#b8ff01">
+            <animate attributeName="r" values="3;8;3" dur="1.1s" repeatCount="indefinite"/>
+            <animate attributeName="opacity" values="1;0.15;1" dur="1.1s" repeatCount="indefinite"/>
           </circle>
+          <circle cx="82" cy="158" r="4.5" fill="#00f0ff">
+            <animate attributeName="opacity" values="0.2;1;0.2" dur="1.6s" repeatCount="indefinite"/>
+          </circle>
+          <circle cx="120" cy="120" r="6" fill="#ffffff"/>
         </svg>
       `),
       turbine: svgToDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-          <circle cx="100" cy="100" r="86" fill="#080c14" stroke="#ff3b00" stroke-width="4"/>
-          <g fill="#00f0ff" fill-opacity="0.75" stroke="#ffffff" stroke-width="1">
-            <path d="M100,100 L90,26 L112,26 Z"/>
-            <path d="M100,100 L90,26 L112,26 Z" transform="rotate(60 100 100)"/>
-            <path d="M100,100 L90,26 L112,26 Z" transform="rotate(120 100 100)"/>
-            <path d="M100,100 L90,26 L112,26 Z" transform="rotate(180 100 100)"/>
-            <path d="M100,100 L90,26 L112,26 Z" transform="rotate(240 100 100)"/>
-            <path d="M100,100 L90,26 L112,26 Z" transform="rotate(300 100 100)"/>
-            <animateTransform attributeName="transform" type="rotate" from="0 100 100" to="360 100 100" dur="1.4s" repeatCount="indefinite"/>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240">
+          <circle cx="120" cy="120" r="106" fill="#070a10" stroke="#ff3b00" stroke-width="4.5"/>
+          <circle cx="120" cy="120" r="96" fill="none" stroke="#00f0ff" stroke-width="2" stroke-dasharray="12 8">
+            <animateTransform attributeName="transform" type="rotate" from="360 120 120" to="0 120 120" dur="4s" repeatCount="indefinite"/>
+          </circle>
+          <g fill="#00f0ff" fill-opacity="0.85" stroke="#ffffff" stroke-width="1.2">
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(45 120 120)"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(90 120 120)"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(135 120 120)"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(180 120 120)"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(225 120 120)"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(270 120 120)"/>
+            <path d="M120,120 C104,88 106,52 122,28 C134,54 134,88 120,120 Z" transform="rotate(315 120 120)"/>
+            <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="1.15s" repeatCount="indefinite"/>
           </g>
-          <circle cx="100" cy="100" r="20" fill="#ff3b00" stroke="#000" stroke-width="4"/>
+          <circle cx="120" cy="120" r="26" fill="#11131a" stroke="#ff3b00" stroke-width="4"/>
+          <circle cx="120" cy="120" r="10" fill="#ff3b00"/>
         </svg>
       `)
     };
 
     /*************************************************************************
-     * 3. 28 PRESETS AUTORAIS CALIBRADOS (EM ORDEM REORGANIZADA E OTIMIZADA)
+     * 3. PRESETS AUTORAIS CALIBRADOS (EM ORDEM REORGANIZADA E OTIMIZADA)
      *************************************************************************/
     const ARTISANAL_PRESETS = {
-      dl7th_cyber_signature: {
-        name: '01 // DL7TH Cyber Signature',
-        category: 'animated',
-        badge: 'DL7TH 60FPS',
-        desc: 'Preset autoral DL7TH com assinatura, plasma pulsante e arcos 60FPS',
+      oled_pro_server: {
+        name: '01 // OLED Pro Server Matrix',
+        category: 'static',
+        badge: 'NOVO PRO',
+        desc: 'Visual OLED Pitch Black com 4 gráficos em tempo real e telemetria limpa',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 65, blendMode: 'normal' },
+        widgets: [
+          { id: 'os_arc', type: 'radial', name: 'Arco Chrono Externo', x: 320, y: 320, radius: 274, thickness: 14, startAngle: 135, sweepAngle: 270, radialStyle: 'chrono_hud', sensor: 'cpu_load', color: '#3b82f6', secondaryColor: '#f59e0b', trackColor: '#141418', glow: 8 },
+          { id: 'os_hdr', type: 'label', name: 'Título Stats', x: 320, y: 84, text: 'SYSTEM // TELEMETRY', fontSize: 15, fontWeight: 800, fontFamily: 'Inter', color: '#94a3b8', letterSpacing: 3 },
+          { id: 'os_c1', type: 'telemetry_card', name: 'CPU Temp', x: 185, y: 175, sensor: 'cpu_temp', title: 'CPU', fontSize: 56, labelSize: 14, unitSize: 22, fontFamily: 'Inter', color: '#ffffff', accentColor: '#3b82f6' },
+          { id: 'os_c2', type: 'telemetry_card', name: 'GPU Temp', x: 455, y: 175, sensor: 'gpu_temp', title: 'GPU', fontSize: 56, labelSize: 14, unitSize: 22, fontFamily: 'Inter', color: '#ffffff', accentColor: '#f59e0b' },
+          { id: 'os_ch1', type: 'chart', name: 'Curva CPU', x: 205, y: 278, width: 205, height: 68, sensor: 'cpu_load', title: 'CPU LOAD', labelSize: 12, color: '#f59e0b', showLabel: true },
+          { id: 'os_ch2', type: 'chart', name: 'Curva GPU', x: 435, y: 278, width: 205, height: 68, sensor: 'gpu_load', title: 'GPU LOAD', labelSize: 12, color: '#3b82f6', showLabel: true },
+          { id: 'os_ch3', type: 'chart', name: 'Curva Líquido', x: 205, y: 365, width: 205, height: 68, sensor: 'liquid_temp', title: 'LIQUID °C', labelSize: 12, color: '#10b981', showLabel: true },
+          { id: 'os_ch4', type: 'chart', name: 'Curva Watts', x: 435, y: 365, width: 205, height: 68, sensor: 'sys_power', title: 'SYS WATTS', labelSize: 12, color: '#ef4444', showLabel: true },
+          { id: 'os_pill', type: 'dual_pill', name: 'Líquido & RAM', x: 320, y: 455, sensorA: 'liquid_temp', sensorB: 'ram_used', fontSize: 19, unitSize: 13, color: '#38bdf8', bgColor: '#131316' },
+          { id: 'os_watts', type: 'dual_pill', name: 'CPU/GPU Watts', x: 320, y: 515, sensorA: 'cpu_power', sensorB: 'gpu_power', fontSize: 18, unitSize: 13, color: '#f59e0b', bgColor: '#131316' }
+        ]
+      },
+      dl7th_cyber_signature: {
+        name: '02 // DL7TH Cyber Signature',
+        category: 'animated',
+        badge: 'DL7TH 60FPS',
+        desc: 'Preset autoral DL7TH com plasma pulsante e arcos multi-camadas 60FPS',
+        globalZoom: 100,
+        globalFontScale: 105,
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 65, blendMode: 'normal' },
         widgets: [
           { id: 'dl_arc', type: 'tachometer', name: 'Tacômetro DL7TH', x: 320, y: 320, radius: 272, thickness: 16, startAngle: 135, sweepAngle: 270, segments: 24, tachStyle: 'pulse_wave', animSpeed: 120, sensor: 'cpu_load', color: '#00f0ff', secondaryColor: '#ff3b00', trackColor: '#121622', glow: 12 },
           { id: 'dl_sig', type: 'label', name: 'Marca DL7TH', x: 320, y: 82, text: 'DL7TH // KRAKEN ELITE', fontSize: 16, fontWeight: 900, fontFamily: 'Orbitron', color: '#00f0ff', letterSpacing: 4, glow: 10 },
-          { id: 'dl_core', type: 'plasma_core', name: 'Plasma Core', x: 320, y: 235, size: 100, color: '#00f0ff', secondaryColor: '#b8ff01', glow: 12 },
+          { id: 'dl_core', type: 'plasma_core', name: 'Plasma Core', x: 320, y: 235, size: 105, color: '#00f0ff', secondaryColor: '#b8ff01', glow: 12 },
           { id: 'dl_cpu', type: 'telemetry_card', name: 'CPU DL7TH', x: 180, y: 320, sensor: 'cpu_temp', title: 'DL7TH CPU', fontSize: 62, labelSize: 14, unitSize: 24, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 8 },
           { id: 'dl_gpu', type: 'telemetry_card', name: 'GPU DL7TH', x: 460, y: 320, sensor: 'gpu_temp', title: 'DL7TH GPU', fontSize: 62, labelSize: 14, unitSize: 24, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 8 },
           { id: 'dl_bar', type: 'seg_bar', name: 'Plasma Stream Bar', x: 320, y: 445, width: 320, height: 28, segments: 20, barStyle: 'plasma_stream', animSpeed: 140, showHeader: true, title: 'SYSTEM STREAM LOAD', sensor: 'cpu_load', color: '#00f0ff', secondaryColor: '#b8ff01', trackColor: '#141c2b' },
@@ -1077,13 +1201,13 @@
         ]
       },
       dl7th_plasma_overdrive: {
-        name: '02 // DL7TH Plasma Overdrive',
+        name: '03 // DL7TH Plasma Overdrive',
         category: 'animated',
         badge: 'DL7TH PLASMA',
-        desc: 'Núcleo plasma central gigantesto com scanner laser e arcos fluidos',
+        desc: 'Núcleo plasma central com scanner laser e arcos fluidos',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 70, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 70, blendMode: 'normal' },
         widgets: [
           { id: 'po_rad', type: 'radial', name: 'Arco Energy Flow', x: 320, y: 320, radius: 274, thickness: 18, startAngle: 135, sweepAngle: 270, radialStyle: 'energy_flow', animSpeed: 150, sensor: 'sys_power', color: '#b8ff01', secondaryColor: '#00f0ff', trackColor: '#102219', glow: 14 },
           { id: 'po_core', type: 'plasma_core', name: 'Plasma Gigante', x: 320, y: 265, size: 130, color: '#b8ff01', secondaryColor: '#00f0ff', glow: 16 },
@@ -1094,16 +1218,16 @@
         ]
       },
       dl7th_mech_war: {
-        name: '03 // DL7TH Mech War Protocol',
+        name: '04 // DL7TH Mech War Protocol',
         category: 'animated',
         badge: 'DL7TH MECH',
         desc: 'Protocolo de combate militar vermelho/preto com radar tático 60FPS',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 75, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 75, blendMode: 'normal' },
         widgets: [
           { id: 'mw_arc', type: 'tachometer', name: 'Turbina Mech', x: 320, y: 320, radius: 272, thickness: 18, startAngle: 135, sweepAngle: 270, segments: 24, tachStyle: 'turbine_spin', animSpeed: 140, sensor: 'cpu_load', color: '#ef4444', secondaryColor: '#f59e0b', trackColor: '#220909', glow: 12 },
-          { id: 'mw_rad', type: 'radar_hud', name: 'Radar Tático', x: 320, y: 235, size: 105, color: '#ef4444', glow: 10 },
+          { id: 'mw_rad', type: 'radar_hud', name: 'Radar Tático', x: 320, y: 235, size: 110, color: '#ef4444', glow: 10 },
           { id: 'mw_hdr', type: 'label', name: 'DL7TH WAR PROTOCOL', x: 320, y: 84, text: 'DL7TH // MECH PROTOCOL', fontSize: 15, fontWeight: 900, fontFamily: 'Black Ops One', color: '#ef4444', letterSpacing: 3, glow: 8 },
           { id: 'mw_cpu', type: 'telemetry_card', name: 'CPU Mech', x: 175, y: 345, sensor: 'cpu_temp', title: 'MECH CPU', fontSize: 58, labelSize: 13, unitSize: 22, fontFamily: 'Black Ops One', color: '#ffffff', accentColor: '#ef4444' },
           { id: 'mw_gpu', type: 'telemetry_card', name: 'GPU Mech', x: 465, y: 345, sensor: 'gpu_temp', title: 'MECH GPU', fontSize: 58, labelSize: 13, unitSize: 22, fontFamily: 'Black Ops One', color: '#ffffff', accentColor: '#f59e0b' },
@@ -1111,13 +1235,13 @@
         ]
       },
       dl7th_quantum_core: {
-        name: '04 // DL7TH Quantum Core 60FPS',
+        name: '05 // DL7TH Quantum Core 60FPS',
         category: 'animated',
         badge: 'DL7TH 60FPS',
         desc: 'Anéis orbitais contra-rotativos fluidos + Ampulheta temporal',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 70, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 70, blendMode: 'normal' },
         widgets: [
           { id: 'qc_gyro', type: 'radial', name: 'Giroscópio Quantum', x: 320, y: 320, radius: 270, thickness: 16, startAngle: 0, sweepAngle: 359, radialStyle: 'gyro_orbit', animSpeed: 160, sensor: 'cpu_load', color: '#a855f7', secondaryColor: '#00f0ff', tertiaryColor: '#b8ff01', trackColor: '#181229', glow: 14 },
           { id: 'qc_time', type: 'time_matrix', name: 'Tempo Quantum', x: 320, y: 225, width: 140, height: 50, color: '#00f0ff', glow: 10 },
@@ -1127,13 +1251,13 @@
         ]
       },
       tachometer_pro: {
-        name: '05 // Tachometer Pro XL',
+        name: '06 // Tachometer Pro XL',
         category: 'static',
         badge: 'PADRÃO',
         desc: 'Arcos duplos CPU/GPU + Watts + Líquido + RAM LED',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 45, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 60, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 45, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 60, blendMode: 'normal' },
         widgets: [
           { id: 'w_ret', type: 'reticle', name: 'Anel Escala Externa', x: 320, y: 320, radius: 292, color: '#262638', style: 'ticks', opacity: 80, locked: true },
           { id: 'w_tach_cpu', type: 'tachometer', name: 'Tacômetro CPU', x: 320, y: 320, radius: 256, thickness: 16, startAngle: 135, sweepAngle: 125, segments: 20, sensor: 'cpu_load', color: '#ff3b00', trackColor: '#161622', glow: 10 },
@@ -1151,13 +1275,13 @@
         ]
       },
       nothing_matrix: {
-        name: '06 // Nothing OS Matrix XL',
+        name: '07 // Nothing OS Matrix XL',
         category: 'static',
         badge: 'MATRIX',
         desc: 'Estética industrial pontilhada com relógio + Watts',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 40, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 50, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 40, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 50, blendMode: 'normal' },
         widgets: [
           { id: 'n_ret', type: 'reticle', name: 'Grade Técnica', x: 320, y: 320, radius: 286, color: '#242432', style: 'crosshair', opacity: 90, locked: true },
           { id: 'n_clk', type: 'clock', name: 'Relógio Matriz', x: 320, y: 96, format: 'HH:MM', fontSize: 30, fontWeight: 800, fontFamily: 'Share Tech Mono', color: '#ff3b00', glow: 0 },
@@ -1171,17 +1295,17 @@
         ]
       },
       cryo_core: {
-        name: '07 // Cryo Liquid Core XL',
+        name: '08 // Cryo Liquid Core XL',
         category: 'animated',
         badge: 'ANIMADO',
-        desc: 'Foco central na temperatura do líquido + Reator animado',
+        desc: 'Foco central na temperatura do líquido + Reator animado 60FPS',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 65, blendMode: 'normal' },
         widgets: [
           { id: 'c_arc1', type: 'radial', name: 'Anel Cryo Externo', x: 320, y: 320, radius: 272, thickness: 18, startAngle: 135, sweepAngle: 270, radialStyle: 'energy_flow', sensor: 'liquid_temp', color: '#00f0ff', trackColor: '#101824', glow: 14 },
           { id: 'c_arc2', type: 'tachometer', name: 'Sub-Anel CPU', x: 320, y: 320, radius: 236, thickness: 10, startAngle: 135, sweepAngle: 270, segments: 32, sensor: 'cpu_load', color: '#38bdf8', trackColor: '#0e131d', glow: 6 },
-          { id: 'c_stk', type: 'sticker', name: 'Sticker Reator Central', x: 320, y: 120, width: 95, height: 95, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: false, color: '#00f0ff', glow: 8 },
+          { id: 'c_stk', type: 'sticker', name: 'Sticker Reator Central', x: 320, y: 120, width: 100, height: 100, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: false, color: '#00f0ff', glow: 8 },
           { id: 'c_liq', type: 'telemetry_card', name: 'Temp Líquido Central', x: 320, y: 245, sensor: 'liquid_temp', title: 'LIQUID CORE', fontSize: 82, labelSize: 18, unitSize: 32, fontWeight: 800, fontFamily: 'Orbitron', color: '#ffffff', accentColor: '#00f0ff', glow: 14 },
           { id: 'c_cpu', type: 'dual_pill', name: 'Resumo CPU (°C / W)', x: 185, y: 365, sensorA: 'cpu_temp', sensorB: 'cpu_power', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#00f0ff', bgColor: '#0c1622' },
           { id: 'c_gpu', type: 'dual_pill', name: 'Resumo GPU (°C / W)', x: 455, y: 365, sensorA: 'gpu_temp', sensorB: 'gpu_power', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#38bdf8', bgColor: '#0c1622' },
@@ -1190,7 +1314,7 @@
         ]
       },
       holo_gif: {
-        name: '08 // Holo-GIF + Áudio FFT',
+        name: '09 // Holo-GIF + Áudio FFT',
         category: 'animated',
         badge: 'GIF + ÁUDIO',
         desc: 'Fundo Synthwave + Mini GIF central + Espectro de Áudio',
@@ -1199,13 +1323,13 @@
         background: {
           mediaType: 'url',
           mediaUrl: BUILTIN_ANIMATED_STICKERS.synthsun,
-          opacity: 55, scale: 115, posX: 0, posY: 0, blur: 0, brightness: 95, vignette: 75, blendMode: 'normal'
+          opacity: 55, scale: 115, posX: 0, posY: 0, blur: 0, brightness: 95, contrast: 115, saturate: 120, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 75, blendMode: 'normal'
         },
         widgets: [
           { id: 'h_arc_l', type: 'radial', name: 'Arco Esquerdo CPU', x: 320, y: 320, radius: 276, thickness: 14, startAngle: 140, sweepAngle: 85, sensor: 'cpu_temp', color: '#ff3b00', trackColor: '#151520', glow: 12 },
           { id: 'h_arc_r', type: 'radial', name: 'Arco Direito GPU', x: 320, y: 320, radius: 276, thickness: 14, startAngle: 315, sweepAngle: 85, sensor: 'gpu_temp', color: '#00f0ff', trackColor: '#151520', glow: 12 },
           { id: 'h_clk', type: 'clock', name: 'Hora Topo', x: 320, y: 78, format: 'HH:MM', fontSize: 34, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', glow: 10 },
-          { id: 'h_mini_gif', type: 'sticker', name: 'Mini GIF Central', x: 320, y: 250, width: 145, height: 145, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: true, color: '#00f0ff', glow: 12 },
+          { id: 'h_mini_gif', type: 'sticker', name: 'Mini GIF Central', x: 320, y: 250, width: 150, height: 150, url: BUILTIN_ANIMATED_STICKERS.reactor, embeddedDataUrl: BUILTIN_ANIMATED_STICKERS.reactor, maskShape: 'circle', blendMode: 'screen', showBorder: true, color: '#00f0ff', glow: 12 },
           { id: 'h_cpu', type: 'telemetry_card', name: 'Card CPU Lateral', x: 135, y: 310, sensor: 'cpu_temp', title: 'CPU', fontSize: 56, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#ff3b00', glow: 10 },
           { id: 'h_gpu', type: 'telemetry_card', name: 'Card GPU Lateral', x: 505, y: 310, sensor: 'gpu_temp', title: 'GPU', fontSize: 56, labelSize: 16, unitSize: 22, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#00f0ff', glow: 10 },
           { id: 'h_liq', type: 'dual_pill', name: 'Pílula Base Líquido/RAM', x: 320, y: 475, sensorA: 'liquid_temp', sensorB: 'ram_percent', fontSize: 22, unitSize: 15, fontWeight: 800, color: '#b8ff01', bgColor: '#090910' },
@@ -1213,13 +1337,13 @@
         ]
       },
       overclock_bench: {
-        name: '09 // Overclock & Watts XL',
+        name: '10 // Overclock & Watts XL',
         category: 'static',
         badge: 'BENCH',
         desc: 'Gráficos duplos em tempo real + Consumo em Watts (W)',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 55, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 55, blendMode: 'normal' },
         widgets: [
           { id: 'o_tach', type: 'tachometer', name: 'Anel Carga Total', x: 320, y: 320, radius: 274, thickness: 14, startAngle: 135, sweepAngle: 270, segments: 36, sensor: 'cpu_load', color: '#b8ff01', trackColor: '#151520', glow: 8 },
           { id: 'o_c1', type: 'telemetry_card', name: 'CPU Temp', x: 190, y: 175, sensor: 'cpu_temp', title: 'CPU TEMP', fontSize: 58, labelSize: 15, unitSize: 24, fontWeight: 800, fontFamily: 'Chakra Petch', color: '#ffffff', accentColor: '#b8ff01', glow: 0 },
@@ -1233,13 +1357,13 @@
         ]
       },
       cyberpunk_hud: {
-        name: '10 // Cyberpunk Night City',
+        name: '11 // Cyberpunk Night City',
         category: 'animated',
         badge: 'CYBER 2077',
         desc: 'Arcos chanfrados glitch + Scanner Laser + Equalizador',
         globalZoom: 100,
         globalFontScale: 105,
-        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, vignette: 65, blendMode: 'normal' },
+        background: { mediaType: 'none', mediaUrl: '', opacity: 50, scale: 100, posX: 0, posY: 0, blur: 0, brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, vignette: 65, blendMode: 'normal' },
         widgets: [
           { id: 'cp_ret', type: 'reticle', name: 'Anel Cyber HUD', x: 320, y: 320, radius: 294, color: '#fcee0a', style: 'cyber_hud', opacity: 85, locked: true },
           { id: 'cp_arc_cpu', type: 'tachometer', name: 'Cyber Blades CPU', x: 320, y: 320, radius: 258, thickness: 18, startAngle: 135, sweepAngle: 122, segments: 18, tachStyle: 'blades', sensor: 'cpu_load', color: '#fcee0a', secondaryColor: '#ff0055', trackColor: '#1b1908', glow: 10 },
@@ -2230,31 +2354,40 @@
 
           let svgInner = `<defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>`;
 
-          if (radialStyle === 'energy_flow') {
+          if (radialStyle === 'chrono_hud') {
+            const outerGuide = polarArcPath(cx, cy, r + thick * 0.85, sAngle, sweep);
+            const innerGuide = polarArcPath(cx, cy, r - thick * 0.85, sAngle, sweep);
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
-            const flowDur = Math.max(0.25, (1.4 - progA * 0.85) / speedFactor).toFixed(2);
+            const pStart = polarToCartesian(cx, cy, r, sAngle);
+            const pEnd = polarToCartesian(cx, cy, r, sAngle + activeSweepA);
+            svgInner += `
+              <path d="${outerGuide}" fill="none" stroke="${trkColor}" stroke-width="1.5"/>
+              <path d="${innerGuide}" fill="none" stroke="${trkColor}" stroke-width="1.5" stroke-dasharray="3 5"/>
+              <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="butt"/>
+              ${outlineW > 0 ? `<path d="${valD}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="butt"/>` : ''}
+              <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="butt"/>
+              <circle cx="${pStart.x.toFixed(1)}" cy="${pStart.y.toFixed(1)}" r="${thick * 0.35}" fill="${secColor}"/>
+              <circle cx="${pEnd.x.toFixed(1)}" cy="${pEnd.y.toFixed(1)}" r="${thick * 0.65}" fill="#ffffff" stroke="${priColor}" stroke-width="3"/>
+            `;
+            for (let i = 0; i <= 24; i++) {
+              const deg = sAngle + (i / 24) * sweep;
+              const isMaj = i % 6 === 0;
+              const t1 = polarToCartesian(cx, cy, r - thick * 0.55, deg);
+              const t2 = polarToCartesian(cx, cy, r - thick * (isMaj ? 1.15 : 0.85), deg);
+              svgInner += `<line x1="${t1.x.toFixed(1)}" y1="${t1.y.toFixed(1)}" x2="${t2.x.toFixed(1)}" y2="${t2.y.toFixed(1)}" stroke="${i <= progA * 24 ? secColor : '#334155'}" stroke-width="${isMaj ? 2.2 : 1}"/>`;
+            }
+          } else if (radialStyle === 'energy_flow') {
+            const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
+            const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
+            const flowDur = Math.max(0.35, (1.5 - progA * 0.8) / speedFactor).toFixed(2);
             svgInner += `
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round"/>
-              ${outlineW > 0 ? `<path d="${valD}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="round"/>` : ''}
               <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round" opacity="0.45"/>
-              <path d="${valD}" fill="none" stroke="${ paintA }" stroke-width="${thick}" stroke-linecap="round" stroke-dasharray="18 14">
-                <animate attributeName="stroke-dashoffset" from="64" to="0" dur="${flowDur}s" repeatCount="indefinite"/>
-              </path>
-              <path d="${valD}" fill="none" stroke="#ffffff" stroke-width="${Math.max(2, thick * 0.28)}" stroke-linecap="round" stroke-dasharray="6 26">
-                <animate attributeName="stroke-dashoffset" from="64" to="0" dur="${flowDur}s" repeatCount="indefinite"/>
+              <path d="${valD}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.65)}" stroke-linecap="round" stroke-dasharray="18 24">
+                <animate attributeName="stroke-dashoffset" from="84" to="0" dur="${flowDur}s" repeatCount="indefinite"/>
               </path>
             `;
-            if (lineCount >= 2) {
-              const rB = Math.max(24, r - thick * 1.15);
-              const valB = polarArcPath(cx, cy, rB, sAngle, activeSweepB);
-              svgInner += `<path d="${valB}" fill="none" stroke="${secColor}" stroke-width="${Math.max(4, thick * 0.65)}" stroke-linecap="round"/>`;
-            }
-            if (lineCount >= 3) {
-              const rC = Math.max(20, r - thick * 2.1);
-              const valC = polarArcPath(cx, cy, rC, sAngle, activeSweepC);
-              svgInner += `<path d="${valC}" fill="none" stroke="${terColor}" stroke-width="${Math.max(3, thick * 0.55)}" stroke-linecap="round"/>`;
-            }
           } else if (radialStyle === 'gyro_orbit') {
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
@@ -2361,11 +2494,27 @@
           } else {
             const trackD = polarArcPath(cx, cy, r, sAngle, sweep);
             const valD = polarArcPath(cx, cy, r, sAngle, activeSweepA);
+            const outerR = r + thick * 0.72;
+            const innerR = Math.max(18, r - thick * 0.72);
+            const outerFrame = polarArcPath(cx, cy, outerR, sAngle, sweep);
+            const innerFrame = polarArcPath(cx, cy, innerR, sAngle, sweep);
+            const tipPos = polarToCartesian(cx, cy, r, sAngle + activeSweepA);
             const dashAttr = (radialStyle === 'dashed' || w.dashed) ? `stroke-dasharray="10 6"` : '';
+            let microTicks = '';
+            for (let i = 0; i <= 16; i++) {
+              const deg = sAngle + (i / 16) * sweep;
+              const p1 = polarToCartesian(cx, cy, innerR, deg);
+              const p2 = polarToCartesian(cx, cy, innerR - (i % 4 === 0 ? 6 : 3), deg);
+              microTicks += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${i / 16 <= progA ? priColor : '#27272a'}" stroke-width="${i % 4 === 0 ? 1.8 : 1}"/>`;
+            }
             svgInner += `
+              <path d="${outerFrame}" fill="none" stroke="${trkColor}" stroke-width="1.5"/>
+              <path d="${innerFrame}" fill="none" stroke="${trkColor}" stroke-width="1"/>
+              ${microTicks}
               <path d="${trackD}" fill="none" stroke="${trkColor}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr}/>
               ${outlineW > 0 ? `<path d="${valD}" fill="none" stroke="${outlineCol}" stroke-width="${thick + outlineW * 2}" stroke-linecap="round" ${dashAttr}/>` : ''}
               <path d="${valD}" fill="none" stroke="${paintA}" stroke-width="${thick}" stroke-linecap="round" ${dashAttr}/>
+              <circle cx="${tipPos.x.toFixed(1)}" cy="${tipPos.y.toFixed(1)}" r="${Math.max(3.5, thick * 0.42)}" fill="#ffffff" stroke="${priColor}" stroke-width="2"/>
             `;
           }
 
@@ -2620,44 +2769,81 @@
               const col = active ? paintPrimary : trkColor;
               const capCol = active ? secColor : trkColor;
               svgBarContent += `
-                <rect x="${x.toFixed(1)}" y="5" width="${cellW.toFixed(1)}" height="${Math.max(3, barSvgH - 6)}" rx="1" fill="${col}" ${active ? cellStrokeAttr : ''}/>
-                <rect x="${x.toFixed(1)}" y="1" width="${cellW.toFixed(1)}" height="3" rx="1" fill="${capCol}"/>
+                <rect x="${x.toFixed(1)}" y="5" width="${cellW.toFixed(1)}" height="${Math.max(3, barSvgH - 6)}" rx="1" fill="${col}"/>
+                <rect x="${x.toFixed(1)}" y="1" width="${cellW.toFixed(1)}" height="2.5" rx="1" fill="${capCol}"/>
               `;
             }
           } else {
             const gap = 3;
-            const cellW = Math.max(3, (width - 6 - gap * (segs - 1)) / segs);
-            svgBarContent += `<rect x="0" y="0" width="${width}" height="${barSvgH}" rx="4" fill="rgba(0,0,0,0.68)" stroke="${outlineW > 0 ? outlineCol : 'rgba(255,255,255,0.16)'}" stroke-width="${outlineW > 0 ? outlineW : 1}"/>`;
+            const cellW = Math.max(3, (width - 4 - gap * (segs - 1)) / segs);
             for (let i = 0; i < segs; i++) {
-              const x = 3 + i * (cellW + gap);
+              const x = 2 + i * (cellW + gap);
               const active = i < litCount;
-              const col = active ? (w.useGradient ? paintPrimary : (i >= segs * 0.85 ? secColor : priColor)) : trkColor;
-              svgBarContent += `<rect x="${x.toFixed(1)}" y="3" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 6)}" rx="1.5" fill="${col}" ${active ? cellStrokeAttr : ''}/>`;
+              const col = active ? (w.useGradient ? paintPrimary : (i >= segs * 0.8 ? secColor : priColor)) : trkColor;
+              svgBarContent += `<rect x="${x.toFixed(1)}" y="2" width="${cellW.toFixed(1)}" height="${Math.max(4, barSvgH - 4)}" rx="1.5" fill="${col}" ${active ? cellStrokeAttr : ''}/>`;
             }
           }
 
-          const isMultiStyle = ['multi_dual_bar', 'multi_triple_bar', 'dual_cells_matrix', 'cyber_hud_dual'].includes(style);
-          const rightHeaderText = style === 'multi_triple_bar'
-            ? `<span style="color:${priColor};">${valStr}</span> <span class="text-slate-500">/</span> <span style="color:${secColor};">${valStrB}</span> <span class="text-slate-500">/</span> <span style="color:${terColor};">${valStrC}</span>`
-            : isMultiStyle
-            ? `<span style="color:${priColor};">${meta.short}:${valStr}</span> <span class="text-slate-500">|</span> <span style="color:${secColor};">${metaB.short}:${valStrB}</span>`
-            : `<span style="color:${priColor};">${valStr} (${pct}%)</span>`;
-
-          const headerCaption = w.showHeader
-            ? `<div style="width:${width}px;display:flex;justify-content:space-between;align-items:center;font-family:'${w.fontFamily || 'JetBrains Mono'}',monospace;font-size:${lblPx}px;font-weight:800;color:#e2e8f0;margin-bottom:3px;line-height:1;"><span>${w.title || meta.short}</span><span>${rightHeaderText}</span></div>`
-            : '';
+          const headerHtml = w.showHeader ? `
+            <div class="w-full flex justify-between items-center font-mono font-bold mb-1" style="font-size:${lblPx}px;color:${priColor};">
+              <span>${w.title || meta.short}</span>
+              <span>${style === 'multi_dual_bar' || style === 'dual_cells_matrix' || style === 'cyber_hud_dual' ? `${valStr} // ${valStrB}` : style === 'multi_triple_bar' ? `${valStr} / ${valStrB} / ${valStrC}` : `${valStr} (${pct}%)`}</span>
+            </div>
+          ` : '';
 
           el.style.width = `${width}px`;
           el.style.height = `${height}px`;
-
-          const svgFilter = buildSvgFilterStyle(w, priColor);
           const html = `
             ${coordBadge}${scaleHandle}
-            <div class="pointer-events-none" style="width:${width}px;height:${height}px;display:flex;flex-direction:column;justify-content:center;">
-              ${headerCaption}
-              <svg width="${width}" height="${barSvgH}" viewBox="0 0 ${width} ${barSvgH}" style="display:block;overflow:visible;${svgFilter}">
+            <div class="w-full h-full flex flex-col justify-center pointer-events-none" style="${buildSvgFilterStyle(w, priColor)}">
+              ${headerHtml}
+              <svg width="${width}" height="${barSvgH}" viewBox="0 0 ${width} ${barSvgH}">
                 <defs>${buildSvgGradientDef(gradId, w, priColor)}</defs>
                 ${svgBarContent}
+              </svg>
+            </div>
+          `;
+          if (el.innerHTML !== html) el.innerHTML = html;
+        }
+
+        // 19. NÚCLEO PLASMA PULSANTE ANIMADO 60 FPS (PLASMA CORE MULTI-CAMADAS)
+        else if (w.type === 'plasma_core') {
+          const size = w.size || 110;
+          const priColor = w.color || '#00f0ff';
+          const secColor = w.secondaryColor || '#b8ff01';
+          const svgFilter = buildSvgFilterStyle(w, priColor);
+
+          el.style.width = `${size}px`;
+          el.style.height = `${size}px`;
+          const html = `
+            ${coordBadge}${scaleHandle}
+            <div class="relative flex items-center justify-center pointer-events-none" style="width:${size}px;height:${size}px;${svgFilter}">
+              <svg width="${size}" height="${size}" viewBox="0 0 140 140">
+                <defs>
+                  <radialGradient id="pcore_${w.id}" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+                    <stop offset="28%" stop-color="${secColor}" stop-opacity="0.85"/>
+                    <stop offset="65%" stop-color="${priColor}" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#000000" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <circle cx="70" cy="70" r="66" fill="url(#pcore_${w.id})"/>
+                <circle cx="70" cy="70" r="60" fill="none" stroke="${priColor}" stroke-width="1.2" stroke-dasharray="3 6" opacity="0.6"/>
+                <g>
+                  <circle cx="70" cy="70" r="52" fill="none" stroke="${priColor}" stroke-width="4" stroke-dasharray="24 10 6 10"/>
+                  <polygon points="70,12 75,21 65,21" fill="${secColor}"/>
+                  <polygon points="70,128 75,119 65,119" fill="${secColor}"/>
+                  <animateTransform attributeName="transform" type="rotate" from="0 70 70" to="360 70 70" dur="4.2s" repeatCount="indefinite"/>
+                </g>
+                <g>
+                  <circle cx="70" cy="70" r="37" fill="none" stroke="${secColor}" stroke-width="3" stroke-dasharray="14 8 4 8"/>
+                  <polygon points="70,42 94,56 94,84 70,98 46,84 46,56" fill="none" stroke="${priColor}" stroke-width="1.5"/>
+                  <animateTransform attributeName="transform" type="rotate" from="360 70 70" to="0 70 70" dur="2.6s" repeatCount="indefinite"/>
+                </g>
+                <circle cx="70" cy="70" r="18" fill="${secColor}" fill-opacity="0.5" stroke="#ffffff" stroke-width="2">
+                  <animate attributeName="r" values="13;22;13" dur="1.2s" repeatCount="indefinite"/>
+                </circle>
+                <circle cx="70" cy="70" r="8" fill="#ffffff"/>
               </svg>
             </div>
           `;
@@ -3908,17 +4094,18 @@
 
               ${w.type === 'radial' ? `
                 <div>
-                  <label class="block text-[9px] font-mono text-[#00f0ff] mb-1">ESTILO DO ARCO RADIAL (9 OPÇÕES)</label>
+                  <label class="block text-[9px] font-mono text-[#00f0ff] mb-1">ESTILO DO ARCO RADIAL (10 OPÇÕES)</label>
                   <select onchange="mutateWidget('radialStyle', this.value, true);renderInspector();" class="w-full bg-[#12121a] border border-[#262638] rounded px-2 py-1.5 font-mono text-[11px] text-white">
-                    <option value="solid" ${(w.radialStyle === 'solid' || !w.radialStyle) ? 'selected' : ''}>01. Arco Neon Contínuo</option>
-                    <option value="dashed" ${w.radialStyle === 'dashed' ? 'selected' : ''}>02. Arco Tracejado Técnico</option>
-                    <option value="cyber_rail" ${w.radialStyle === 'cyber_rail' ? 'selected' : ''}>03. Cyber Rail + Cursor Laser</option>
-                    <option value="triple_hud" ${w.radialStyle === 'triple_hud' ? 'selected' : ''}>04. Triplo Anel Sci-Fi HUD (3 Sensores)</option>
-                    <option value="multi_dual" ${w.radialStyle === 'multi_dual' ? 'selected' : ''}>05. Arco Duplo Paralelo (Sensores A+B)</option>
-                    <option value="cyber_telemetry" ${w.radialStyle === 'cyber_telemetry' ? 'selected' : ''}>06. Cyber Telemetria Multi-HUD</option>
-                    <option value="energy_flow" ${w.radialStyle === 'energy_flow' ? 'selected' : ''}>✨ 07. Fluxo de Energia Laser (Animado)</option>
-                    <option value="gyro_orbit" ${w.radialStyle === 'gyro_orbit' ? 'selected' : ''}>✨ 08. Giroscópio Sci-Fi Orbital (Animado)</option>
-                    <option value="radar_sweep" ${w.radialStyle === 'radar_sweep' ? 'selected' : ''}>✨ 09. Scanner Radar Pulso (Animado)</option>
+                    <option value="solid" ${(w.radialStyle === 'solid' || !w.radialStyle) ? 'selected' : ''}>01. Arco Neon Multi-Camadas</option>
+                    <option value="chrono_hud" ${w.radialStyle === 'chrono_hud' ? 'selected' : ''}>02. Chrono HUD c/ Escala de Precisão</option>
+                    <option value="dashed" ${w.radialStyle === 'dashed' ? 'selected' : ''}>03. Arco Tracejado Técnico</option>
+                    <option value="cyber_rail" ${w.radialStyle === 'cyber_rail' ? 'selected' : ''}>04. Cyber Rail + Cursor Laser</option>
+                    <option value="triple_hud" ${w.radialStyle === 'triple_hud' ? 'selected' : ''}>05. Triplo Anel Sci-Fi HUD (3 Sensores)</option>
+                    <option value="multi_dual" ${w.radialStyle === 'multi_dual' ? 'selected' : ''}>06. Arco Duplo Paralelo (Sensores A+B)</option>
+                    <option value="cyber_telemetry" ${w.radialStyle === 'cyber_telemetry' ? 'selected' : ''}>07. Cyber Telemetria Multi-HUD</option>
+                    <option value="energy_flow" ${w.radialStyle === 'energy_flow' ? 'selected' : ''}>✨ 08. Fluxo de Energia Laser (Animado)</option>
+                    <option value="gyro_orbit" ${w.radialStyle === 'gyro_orbit' ? 'selected' : ''}>✨ 09. Giroscópio Sci-Fi Orbital (Animado)</option>
+                    <option value="radar_sweep" ${w.radialStyle === 'radar_sweep' ? 'selected' : ''}>✨ 10. Scanner Radar Pulso (Animado)</option>
                   </select>
                 </div>
               ` : ''}
@@ -4757,7 +4944,15 @@
         mediaEl.style.opacity = (bg.opacity ?? 50) / 100;
         mediaEl.style.transform = `translate(${bg.posX || 0}px, ${bg.posY || 0}px) rotate(${bg.rotation || 0}deg) scale(${(bg.scale || 100) / 100})`;
         mediaEl.style.transformOrigin = 'center center';
-        mediaEl.style.filter = `blur(${bg.blur || 0}px) brightness(${bg.brightness ?? 100}%)`;
+        const fBlur = bg.blur || 0;
+        const fBright = bg.brightness ?? 100;
+        const fContrast = bg.contrast ?? 100;
+        const fSaturate = bg.saturate ?? 100;
+        const fHue = bg.hueRotate ?? 0;
+        const fGray = bg.grayscale ?? 0;
+        const fSepia = bg.sepia ?? 0;
+        const fInvert = bg.invert ?? 0;
+        mediaEl.style.filter = `blur(${fBlur}px) brightness(${fBright}%) contrast(${fContrast}%) saturate(${fSaturate}%) hue-rotate(${fHue}deg) grayscale(${fGray}%) sepia(${fSepia}%) invert(${fInvert}%)`;
         layer.style.mixBlendMode = bg.blendMode || 'normal';
       }
 
@@ -4772,7 +4967,14 @@
       setVal('lbl-bg-rot', bg.rotation || 0);
       setVal('lbl-bg-blur', bg.blur ?? 0);
       setVal('lbl-bg-vignette', bg.vignette ?? 55);
+      setVal('lbl-bg-brightness', bg.brightness ?? 100);
+      setVal('lbl-bg-contrast', bg.contrast ?? 100);
+      setVal('lbl-bg-saturate', bg.saturate ?? 100);
+      setVal('lbl-bg-hue', bg.hueRotate ?? 0);
+      setVal('lbl-bg-gray', bg.grayscale ?? 0);
+      setVal('lbl-bg-sepia', bg.sepia ?? 0);
       setVal('sel-bg-fit', bg.fitMode || 'cover');
+      setVal('sel-bg-blend', bg.blendMode || 'normal');
       setVal('rng-bg-scale', bg.scale ?? 100);
       setVal('rng-bg-posx', bg.posX || 0);
       setVal('rng-bg-posy', bg.posY || 0);
@@ -4780,6 +4982,34 @@
       setVal('rng-bg-opacity', bg.opacity ?? 50);
       setVal('rng-bg-blur', bg.blur ?? 0);
       setVal('rng-bg-vignette', bg.vignette ?? 55);
+      setVal('rng-bg-brightness', bg.brightness ?? 100);
+      setVal('rng-bg-contrast', bg.contrast ?? 100);
+      setVal('rng-bg-saturate', bg.saturate ?? 100);
+      setVal('rng-bg-hue', bg.hueRotate ?? 0);
+      setVal('rng-bg-gray', bg.grayscale ?? 0);
+      setVal('rng-bg-sepia', bg.sepia ?? 0);
+    }
+
+    function applyBgFilterPreset(preset) {
+      const presets = {
+        none: { brightness: 100, contrast: 100, saturate: 100, hueRotate: 0, grayscale: 0, sepia: 0, invert: 0, blendMode: 'normal' },
+        cyberpunk: { brightness: 105, contrast: 145, saturate: 185, hueRotate: 290, grayscale: 0, sepia: 0, invert: 0, blendMode: 'normal' },
+        noir: { brightness: 95, contrast: 155, saturate: 0, hueRotate: 0, grayscale: 100, sepia: 0, invert: 0, blendMode: 'normal' },
+        matrix: { brightness: 95, contrast: 145, saturate: 200, hueRotate: 95, grayscale: 0, sepia: 30, invert: 0, blendMode: 'normal' },
+        vaporwave: { brightness: 105, contrast: 130, saturate: 190, hueRotate: 245, grayscale: 0, sepia: 15, invert: 0, blendMode: 'screen' },
+        oled_deep: { brightness: 75, contrast: 175, saturate: 125, hueRotate: 0, grayscale: 0, sepia: 0, invert: 0, blendMode: 'normal' },
+        sepia: { brightness: 95, contrast: 120, saturate: 110, hueRotate: 0, grayscale: 0, sepia: 90, invert: 0, blendMode: 'normal' },
+        invert: { brightness: 100, contrast: 125, saturate: 120, hueRotate: 180, grayscale: 0, sepia: 0, invert: 100, blendMode: 'normal' }
+      };
+      const cfg = presets[preset] || presets.none;
+      Object.assign(project.background, cfg);
+      applyStageBackground();
+      recordHistory(`Filtro de fundo: ${preset}`);
+      showToast(`🎨 FILTRO APLICADO: ${preset.toUpperCase()}`);
+    }
+
+    function resetBgFilters() {
+      applyBgFilterPreset('none');
     }
 
     function resetBgTransform() {
@@ -5173,7 +5403,7 @@
       if (!project.globalZoom) project.globalZoom = 100;
       if (!project.globalFontScale) project.globalFontScale = 105;
 
-      const savedTheme = localStorage.getItem('kraken_studio_ui_theme') || 'obsidian';
+      const savedTheme = localStorage.getItem('kraken_studio_ui_theme') || 'oled_black';
       setStudioTheme(savedTheme);
       const themeSel = document.getElementById('sel-studio-theme');
       if (themeSel) themeSel.value = savedTheme;
