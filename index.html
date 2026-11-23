@@ -723,9 +723,9 @@
               <div>
                 <div class="flex justify-between items-center text-[9px] font-mono mb-1">
                   <span class="text-slate-400">SATURAÇÃO (%)</span>
-                  <input id="lbl-bg-saturate" type="number" min="0" max="300" value="100" oninput="updateBgParam('saturate', Number(this.value))" class="editable-num-pill !w-11">
+                  <input id="lbl-bg-saturate" type="number" min="0" max="500" value="100" oninput="updateBgParam('saturate', Number(this.value))" class="editable-num-pill !w-11">
                 </div>
-                <input id="rng-bg-saturate" type="range" min="0" max="250" value="100" oninput="updateBgParam('saturate', Number(this.value))" class="w-full">
+                <input id="rng-bg-saturate" type="range" min="0" max="400" value="100" oninput="updateBgParam('saturate', Number(this.value))" class="w-full">
               </div>
               <div>
                 <div class="flex justify-between items-center text-[9px] font-mono mb-1">
@@ -1902,6 +1902,31 @@
       const base = window.location.href.split('?')[0].split('#')[0];
       try {
         const lightProject = JSON.parse(JSON.stringify(project));
+        // Garante que todos os filtros e ajustes da mídia de fundo sejam preservados no hash da URL do CAM
+        if (project.background) {
+          lightProject.background = {
+            ...project.background,
+            brightness: project.background.brightness ?? 100,
+            contrast: project.background.contrast ?? 100,
+            saturate: project.background.saturate ?? 100,
+            hueRotate: project.background.hueRotate ?? 0,
+            grayscale: project.background.grayscale ?? 0,
+            sepia: project.background.sepia ?? 0,
+            invert: project.background.invert ?? 0,
+            blur: project.background.blur ?? 0,
+            opacity: project.background.opacity ?? 50,
+            scale: project.background.scale ?? 100,
+            posX: project.background.posX ?? 0,
+            posY: project.background.posY ?? 0,
+            rotation: project.background.rotation ?? 0,
+            fitMode: project.background.fitMode || 'cover',
+            blendMode: project.background.blendMode || 'normal',
+            vignette: project.background.vignette ?? 55
+          };
+          if (lightProject.background.mediaUrl && lightProject.background.mediaUrl.length > 6000) {
+            lightProject.background.mediaUrl = '';
+          }
+        }
         lightProject.widgets.forEach(w => {
           if (w.embeddedDataUrl && w.embeddedDataUrl.length > 4000) {
             delete w.embeddedDataUrl;
@@ -4944,16 +4969,35 @@
         mediaEl.style.opacity = (bg.opacity ?? 50) / 100;
         mediaEl.style.transform = `translate(${bg.posX || 0}px, ${bg.posY || 0}px) rotate(${bg.rotation || 0}deg) scale(${(bg.scale || 100) / 100})`;
         mediaEl.style.transformOrigin = 'center center';
-        const fBlur = bg.blur || 0;
-        const fBright = bg.brightness ?? 100;
-        const fContrast = bg.contrast ?? 100;
-        const fSaturate = bg.saturate ?? 100;
-        const fHue = bg.hueRotate ?? 0;
-        const fGray = bg.grayscale ?? 0;
-        const fSepia = bg.sepia ?? 0;
-        const fInvert = bg.invert ?? 0;
-        mediaEl.style.filter = `blur(${fBlur}px) brightness(${fBright}%) contrast(${fContrast}%) saturate(${fSaturate}%) hue-rotate(${fHue}deg) grayscale(${fGray}%) sepia(${fSepia}%) invert(${fInvert}%)`;
+        const fBlur = Number(bg.blur) || 0;
+        const fBright = bg.brightness !== undefined ? Number(bg.brightness) : 100;
+        const fContrast = bg.contrast !== undefined ? Number(bg.contrast) : 100;
+        const fSaturate = bg.saturate !== undefined ? Number(bg.saturate) : 100;
+        const fHue = Number(bg.hueRotate) || 0;
+        const fGray = Number(bg.grayscale) || 0;
+        const fSepia = Number(bg.sepia) || 0;
+        const fInvert = Number(bg.invert) || 0;
+
+        const filterChain = [
+          fBlur > 0 ? `blur(${fBlur}px)` : '',
+          `brightness(${fBright}%)`,
+          `contrast(${fContrast}%)`,
+          fSepia > 0 ? `sepia(${fSepia}%)` : '',
+          `saturate(${fSaturate}%)`,
+          fHue !== 0 ? `hue-rotate(${fHue}deg)` : '',
+          fGray > 0 ? `grayscale(${fGray}%)` : '',
+          fInvert > 0 ? `invert(${fInvert}%)` : ''
+        ].filter(Boolean).join(' ');
+
+        // Aplica tanto na camada #stage-bg-layer quanto no elemento interno (img/video) para compatibilidade total com o CEF/Chromium do NZXT CAM
+        layer.style.filter = filterChain;
+        layer.style.webkitFilter = filterChain;
+        mediaEl.style.filter = 'none';
+        mediaEl.style.webkitFilter = 'none';
         layer.style.mixBlendMode = bg.blendMode || 'normal';
+      } else {
+        layer.style.filter = 'none';
+        layer.style.webkitFilter = 'none';
       }
 
       const vigStrength = (bg.vignette ?? 55) / 100;
@@ -5024,7 +5068,12 @@
     }
 
     function updateBgParam(key, val) {
+      if (!project.background) project.background = {};
       project.background[key] = val;
+      // Se o usuário ajustar Matiz ou Saturação após ter usado Noir P&B (grayscale 100%), zera o grayscale automaticamente para a cor aparecer
+      if ((key === 'hueRotate' || key === 'saturate') && Number(project.background.grayscale) > 0) {
+        project.background.grayscale = 0;
+      }
       applyStageBackground();
       persistAndSyncProject();
     }
@@ -5140,6 +5189,18 @@
 
     async function exportStandaloneCamHTML() {
       const exportProj = JSON.parse(JSON.stringify(project));
+      // Garante que todos os filtros (Matiz, Saturação, Contraste, Brilho, etc.) sejam gravados no HTML exportado
+      exportProj.background = {
+        ...project.background,
+        brightness: project.background?.brightness ?? 100,
+        contrast: project.background?.contrast ?? 100,
+        saturate: project.background?.saturate ?? 100,
+        hueRotate: project.background?.hueRotate ?? 0,
+        grayscale: project.background?.grayscale ?? 0,
+        sepia: project.background?.sepia ?? 0,
+        invert: project.background?.invert ?? 0,
+        blur: project.background?.blur ?? 0
+      };
       if (exportProj.background.mediaType === 'indexeddb') {
         const bgAsset = await getMediaAsset('stage_bg_media');
         if (bgAsset && bgAsset.dataUrl) {
@@ -5154,6 +5215,8 @@
       }
 
       let fullHtml = document.documentElement.outerHTML;
+      // Remove qualquer projeto embutido anterior antes de injetar o atualizado
+      fullHtml = fullHtml.replace(/<script>window\.__EMBEDDED_KRAKEN_PROJECT__\s*=[\s\S]*?<\/script>/g, '');
       const injectScript = `<script>window.__EMBEDDED_KRAKEN_PROJECT__ = ${JSON.stringify(exportProj)};<\/script></head>`;
       fullHtml = fullHtml.replace('</head>', injectScript);
 
